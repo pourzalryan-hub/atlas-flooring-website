@@ -1,7 +1,7 @@
 # PAGE: Contact Us
 **URL:** atlasrugflooring.com/contact  
 **Page Title:** Contact Atlas Rug & Design Centre | Toronto Flooring Showroom  
-**Meta Description:** Visit Atlas Rug & Design Centre in Toronto, call us at (416) XXX-XXXX, or book a free consultation online. Serving Toronto & the GTA.  
+**Meta Description:** Visit Atlas Rug & Design Centre in Toronto, call us at (416) 533-3366, or book a free consultation online. Serving Toronto & the GTA.  
 **Schema:** LocalBusiness + ContactPage  
 
 ---
@@ -43,7 +43,7 @@
 | First Name | Text | Yes | First Name |
 | Last Name | Text | Yes | Last Name |
 | Email Address | Email | Yes | email@example.com |
-| Phone Number | Tel | Yes | (416) XXX-XXXX |
+| Phone Number | Tel | Yes | (416) 533-3366 |
 | What Are You Looking For? | Dropdown | Yes | Select a product... |
 | Project Type | Radio buttons | No | — |
 | Approximate Square Footage | Text | No | e.g. 500 sq ft |
@@ -85,7 +85,7 @@
 
 **Form confirmation message (shown after submission):**  
 > **Thank you — we've received your request!**  
-> A member of our team will contact you within one business day to discuss your project. In the meantime, feel free to browse our [product gallery →] or [call us directly →] at (416) XXX-XXXX.
+> A member of our team will contact you within one business day to discuss your project. In the meantime, feel free to call us directly at (416) 533-3366.
 
 **Wix Studio notes:**
 - Use Wix Forms (built-in)
@@ -104,14 +104,13 @@
 ---
 
 **📍 Address**  
-[Street Number and Name]  
-Toronto, ON [Postal Code]  
-*(Exact match your Google Business Profile — letter for letter)*
+978 Bathurst St  
+Toronto, ON M5R 3G6
 
 ---
 
 **📞 Phone**  
-[(416) XXX-XXXX](tel:4161234567)  
+[(416) 533-3366](tel:4165333366)  
 *Mon–Fri: 9am–6pm · Sat: 10am–5pm*
 
 ---
@@ -163,7 +162,7 @@ Instagram · Facebook · Houzz · Pinterest
 **Map pin label:** Atlas Rug & Design Centre  
 
 Below map (centered, Lato 15px, grey):  
-> Can't find us? Call [(416) XXX-XXXX](tel:4161234567) and we'll help you navigate.
+> Can't find us? Call [(416) 533-3366](tel:4165333366) and we'll help you navigate.
 
 ---
 
@@ -221,7 +220,7 @@ Toronto · North York · Etobicoke · Scarborough · East York · Midtown · Tho
 **Accordion (compact):**
 
 **Q: How quickly do you respond to inquiries?**  
-A: Within one business day — usually same day during business hours. For urgent requests, please call us directly at (416) XXX-XXXX.
+A: Within one business day — usually same day during business hours. For urgent requests, please call us directly at (416) 533-3366.
 
 **Q: Do I need an appointment to visit the showroom?**  
 A: No — walk-ins are welcome during all business hours. Booking ahead is recommended if you'd like dedicated one-on-one time with a design consultant.
@@ -248,7 +247,7 @@ Book a consultation, visit our showroom, or give us a call — we make the first
 
 **CTAs:**
 - `Fill Out the Form Above ↑` (charcoal button — scrolls to form)
-- `Call (416) XXX-XXXX` (outlined charcoal, tel: link)
+- `Call (416) 533-3366` (outlined charcoal, tel: link)
 
 ---
 
@@ -279,7 +278,7 @@ Book a consultation, visit our showroom, or give us a call — we make the first
 
 ```
 Page Title:     Contact Atlas Rug & Design Centre | Toronto Flooring Showroom
-Meta Desc:      Visit our Toronto showroom, call (416) XXX-XXXX, or book a free consultation.
+Meta Desc:      Visit our Toronto showroom, call (416) 533-3366, or book a free consultation.
                 Atlas Rug & Design Centre serves Toronto & the GTA. Respond within 1 business day.
 H1:             Let's Start Your Project
 H2s:            Book a Free Consultation / Visit Our Toronto Showroom /

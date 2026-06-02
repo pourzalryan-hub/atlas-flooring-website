@@ -230,7 +230,7 @@ A: Quality LVP with a 12mil+ wear layer should last 20–25 years with normal re
 
 **Sub:** Come feel the quality difference in our showroom — or book a free in-home consultation and we'll bring the samples to you.
 
-**CTAs:** `Get a Free Quote` + `Call (416) XXX-XXXX`
+**CTAs:** `Get a Free Quote` + `Call (416) 533-3366`
 
 ---
 

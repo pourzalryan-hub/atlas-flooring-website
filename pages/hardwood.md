@@ -35,7 +35,7 @@
 **Body (Lato, 17px, warm grey, line-height 1.8):**
 > Hardwood flooring is one of the most enduring investments you can make in your home. It adds warmth, character, and genuine value — and with the right species and finish, it only gets better with age.
 >
-> At Atlas, we've been helping Toronto homeowners find and install the perfect hardwood for over [X] years. Our showroom carries hundreds of options across solid, engineered, and wide-plank formats, and our in-house installation team ensures every plank is laid to perfection.
+> At Atlas, we've been helping Toronto homeowners find and install the perfect hardwood for over 65 years. Our showroom carries hundreds of options across solid, engineered, and wide-plank formats, and our in-house installation team ensures every plank is laid to perfection.
 
 ---
 
@@ -188,7 +188,7 @@ Logo strip: **Mirage · Preverco · Lauzon · Shaw · Kahrs · Mercier · Coswic
 
 **Sub:** Visit our Toronto showroom to see and feel the difference in person — or book a free in-home consultation.
 
-**CTAs:** `Get a Free Quote` (charcoal button) + `Call (416) XXX-XXXX` (outlined charcoal)
+**CTAs:** `Get a Free Quote` (charcoal button) + `Call (416) 533-3366` (outlined charcoal)
 
 ---
 

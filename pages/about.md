@@ -1,6 +1,6 @@
 # PAGE: About Us
 **URL:** atlasrugflooring.com/about  
-**Page Title:** About Atlas Rug & Design Centre | Toronto's Flooring Experts Since [Year]  
+**Page Title:** About Atlas Rug & Design Centre | Toronto's Flooring Experts Since 1959  
 **Meta Description:** Meet the team behind Atlas Rug & Design Centre — Toronto's trusted flooring and area rug specialists. Family business, expert staff, in-house installation.  
 **Schema:** LocalBusiness + AboutPage  
 
@@ -14,7 +14,7 @@
 **Breadcrumb:** Home › About Us
 
 **H1 (Playfair Display, 56px / 34px mobile, white):**
-> Toronto's Flooring Family Since [Year]
+> Toronto's Flooring Family Since 1959
 
 **Subheadline (Lato, 20px, #E8E4DC):**
 > We're not just a flooring store. We're your design partners — from first visit to final walkthrough.
@@ -35,13 +35,13 @@
 **H2 (Playfair Display, 42px, charcoal):** More Than Floors — A Family Commitment to Your Home
 
 **Body (Lato, 17px, warm grey, 1.8 line-height):**
-> Atlas Rug & Design Centre was founded in [year] with a simple belief: that every Toronto homeowner deserves access to premium flooring and genuine expertise — without the intimidating big-box experience.
+> Atlas Rug & Design Centre was founded in 1959 with a simple belief: that every Toronto homeowner deserves access to premium flooring and genuine expertise — without the intimidating big-box experience.
 >
 > What started as a small showroom has grown into one of Toronto's most trusted flooring destinations, carrying hundreds of hardwood, carpet, vinyl, laminate, and area rug options from the world's leading brands. But what hasn't changed is our approach: listen first, recommend honestly, and install with pride.
 >
-> We're [family-owned / locally-owned — adjust to your reality]. Our staff aren't salespeople chasing commission — they're flooring professionals who genuinely love what they do and take personal pride in every room they transform.
+> We're a family-owned business. Our staff aren't salespeople chasing commission — they're flooring professionals who genuinely love what they do and take personal pride in every room they transform.
 >
-> [Your name or founders' names] and the Atlas team look forward to welcoming you to our showroom.
+> The Atlas team looks forward to welcoming you to our Bathurst Street showroom.
 
 ---
 
@@ -52,13 +52,13 @@
 **Padding:** 80px top/bottom
 
 **Section label (gold, small caps):** ATLAS BY THE NUMBERS  
-**H2 (Playfair Display, 38px, white):** [X] Years of Transforming Toronto Homes
+**H2 (Playfair Display, 38px, white):** 65+ Years of Transforming Toronto Homes
 
 **4 stats (large gold number + white label):**
 
 | Stat | Label |
 |------|-------|
-| [X]+ | Years in Business |
+| 65+ | Years in Business |
 | 5,000+ | Homes Installed |
 | 500+ | Products in Showroom |
 | 4.9 ⭐ | Google Rating |
@@ -76,7 +76,7 @@
 
 **Card 1 — Honest Advice**  
 *Icon: speech bubble or handshake, gold*  
-We'll always recommend the right product for your situation — not the most expensive one. If hardwood isn't right for your basement, we'll tell you. That's how we've earned 5-star reviews for [X] years.
+We'll always recommend the right product for your situation — not the most expensive one. If hardwood isn't right for your basement, we'll tell you. That's how we've earned 5-star reviews for over 65 years.
 
 **Card 2 — Quality Without Compromise**  
 *Icon: star or diamond, gold*  
@@ -88,42 +88,7 @@ We never subcontract. Our installation team is part of the Atlas family — trai
 
 ---
 
-## SECTION 5 — MEET THE TEAM
-
-**Background:** White  
-**H2 (Playfair Display, 42px, charcoal):** The People Behind Your Floors
-
-**Subheadline (Lato, 18px, grey):** A team that genuinely cares about the work — and the people they do it for.
-
-**Team grid (3–4 columns of staff cards):**
-
-**Card format:**
-- Headshot (warm, professional — not stiff corporate)
-- Name (Playfair Display, 20px, bold)
-- Title (Lato, 14px, gold)
-- 1–2 sentence bio (Lato, 15px, grey)
-
-**Sample team cards (replace with real team):**
-
-**[Your Name]**  
-*Founder & Owner*  
-> [Your name] founded Atlas with a vision to bring genuine expertise and premium products to Toronto homeowners. [He/She/They] is hands-on in every aspect of the business and still personally consults on many projects.
-
-**[Team Member Name]**  
-*Senior Design Consultant*  
-> With [X] years in residential flooring, [name] has an instinct for pairing the right product with the right space. Ask for [name] when you come in — you'll leave with perfect recommendations.
-
-**[Team Member Name]**  
-*Lead Installer*  
-> [Name] leads our installation crew and holds [certification]. With over [X] years in the trade, there isn't a subfloor situation or tricky transition [he/she/they] hasn't tackled.
-
-**[Team Member Name]**  
-*Showroom Manager*  
-> [Name] keeps the showroom running smoothly and makes sure every visit is a great experience. If you've called or emailed us, chances are you've already spoken with [name].
-
----
-
-## SECTION 6 — OUR SHOWROOM
+## SECTION 5 — OUR SHOWROOM
 
 **Background:** `#FAF8F3`  
 **Layout:** Two-column — left: content, right: showroom image(s) (use 2-photo collage)
@@ -136,7 +101,7 @@ We never subcontract. Our installation team is part of the Atlas family — trai
 > Bring your paint swatches, photos of your space, and any inspiration images you've collected. Our design consultants will take it from there.
 
 **Showroom details (icon + text list):**
-- 📍 [Full address], Toronto, ON
+- 📍 978 Bathurst St, Toronto, ON M5R 3G6
 - ⏰ Mon–Fri: 9am–6pm | Sat: 10am–5pm | Sun: Closed
 - 🚗 Free parking on-site
 - ♿ Accessible entrance
@@ -151,12 +116,12 @@ We never subcontract. Our installation team is part of the Atlas family — trai
 ## SECTION 7 — COMMUNITY & COMMITMENT
 
 **Background:** `#1C1C1C`  
-**H2 (Playfair Display, 38px, white):** Proudly Serving Toronto Since [Year]
+**H2 (Playfair Display, 38px, white):** Proudly Serving Toronto Since 1959
 
 **Body (Lato, 17px, #C8C8C8):**
 > We've had the privilege of transforming homes across North York, Etobicoke, Scarborough, Leaside, Forest Hill, Rosedale, The Annex, Midtown, East York, and beyond. Toronto is our home too — and we take that seriously.
 >
-> [Optional: Add any community involvement, charity work, local partnerships, or sustainability initiatives here. E.g.: "We're proud supporters of [local charity/cause]" or "We recycle all installation off-cuts and old flooring responsibly."]
+> We recycle installation off-cuts and old flooring responsibly, and we're proud to be a Bathurst Street institution that's been part of this community for over six decades.
 
 **Two-column neighbourhood list:**
 
@@ -178,7 +143,7 @@ North York · Etobicoke · Scarborough · Midtown Toronto · The Annex · Forest
 > "We've used Atlas twice now — once for hardwood and once for carpet in the basement. Both times the experience was excellent. Honest pricing, quality products, and installers who take real pride in their work. We won't go anywhere else."
 > — **Robert & Anna D., North York** ⭐⭐⭐⭐⭐
 
-**Google link:** `See all [X] reviews on Google →`
+**Google link:** `See all our reviews on Google →` → links to https://share.google/TtoPhOHEuJI6WQigD
 
 ---
 
@@ -197,15 +162,14 @@ North York · Etobicoke · Scarborough · Midtown Toronto · The Annex · Forest
 ## SEO NOTES
 
 ```
-Page Title:     About Atlas Rug & Design Centre | Toronto's Flooring Experts Since [Year]
+Page Title:     About Atlas Rug & Design Centre | Toronto's Flooring Experts Since 1959
 Meta Desc:      Meet the team behind Atlas Rug & Design Centre — Toronto's trusted flooring
-                and area rug specialists. Family business, in-house installation,
-                5-star rated since [year].
-H1:             Toronto's Flooring Family Since [Year]
+                and area rug specialists. Family-owned since 1959, in-house installation,
+                5-star rated. Located at 978 Bathurst St, Toronto.
+H1:             Toronto's Flooring Family Since 1959
 H2s:            More Than Floors — A Family Commitment /
-                [X] Years of Transforming Toronto Homes /
-                What We Stand For / The People Behind Your Floors /
-                Visit Our Toronto Showroom / Proudly Serving Toronto
+                65+ Years of Transforming Toronto Homes /
+                What We Stand For / Visit Our Toronto Showroom / Proudly Serving Toronto
 Keywords:       flooring company Toronto, flooring store Toronto, Atlas Rug Design Centre,
                 local flooring Toronto, about Atlas flooring
 Internal links: → /hardwood, → /carpet, → /contact, → /gallery

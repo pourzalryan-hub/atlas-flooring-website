@@ -199,7 +199,7 @@ A: Vacuum weekly. Treat spills immediately with a clean cloth and appropriate fi
 
 **Sub:** Bring a photo of your stairs to our showroom — or we'll come to you for a free in-home measurement and consultation.
 
-**CTAs:** `Book a Free Measurement` + `Call (416) XXX-XXXX`
+**CTAs:** `Book a Free Measurement` + `Call (416) 533-3366`
 
 ---
 

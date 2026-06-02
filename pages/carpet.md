@@ -211,7 +211,7 @@ A: Yes — we offer professional stain guard treatment at installation, which si
 
 **Sub:** Visit our Toronto showroom — bring your paint swatches, photos, and ideas. We'll do the rest.
 
-**CTAs:** `Get a Free Quote` + `Call (416) XXX-XXXX`
+**CTAs:** `Get a Free Quote` + `Call (416) 533-3366`
 
 ---
 

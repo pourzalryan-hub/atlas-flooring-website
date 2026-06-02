@@ -208,7 +208,7 @@ A: Yes — laminate should acclimate in the installation room for 48 hours befor
 
 **Sub:** Visit our Toronto showroom and feel the quality difference between budget and premium laminate — it's something you can only appreciate in person.
 
-**CTAs:** `Get a Free Quote` + `Call (416) XXX-XXXX`
+**CTAs:** `Get a Free Quote` + `Call (416) 533-3366`
 
 ---
 

@@ -14,7 +14,7 @@
 **Left:** Atlas Rug & Design Centre logo (gold version on dark, dark version on light)  
 **Center links:** Home | Products ▾ | Gallery | About | Contact  
 **Products dropdown:** Hardwood · Carpet · Stair Runners · Laminate · Vinyl · Area Rugs  
-**Right:** `(416) XXX-XXXX` (tel: link, white) + `Get a Free Quote` button (gold `#C9A84C`, white text, 4px radius)  
+**Right:** `(416) 533-3366` (tel: link, white) + `Get a Free Quote` button (gold `#C9A84C`, white text, 4px radius)  
 **Mobile:** Hamburger → full-screen slide-in menu. Phone number + CTA always visible as sticky bottom bar on mobile.
 
 ### Footer
@@ -33,8 +33,8 @@ Home · About · Gallery · Blog · Contact · Get a Quote · Careers
 Hardwood Flooring · Carpet & Broadloom · Stair Runners · Laminate Flooring · Luxury Vinyl · Area Rugs
 
 **Col 4 — Contact**
-[Street Address], Toronto, ON [Postal Code]  
-Tel: (416) XXX-XXXX  
+978 Bathurst St, Toronto, ON M5R 3G6  
+Tel: (416) 533-3366  
 Email: info@atlasrugflooring.com  
 Mon–Fri: 9am–6pm · Sat: 10am–5pm · Sun: Closed  
 [Embedded Google Map — small widget]
@@ -53,7 +53,7 @@ Mon–Fri: 9am–6pm · Sat: 10am–5pm · Sun: Closed
 > Toronto's Trusted Source for Premium Flooring & Area Rugs
 
 **Subheadline (Lato, 21px desktop / 16px mobile, #E8E4DC):**
-> Hardwood, carpet, vinyl, laminate & custom rugs — expert installation across Toronto and the GTA since [year].
+> Hardwood, carpet, vinyl, laminate & custom rugs — expert installation across Toronto and the GTA since 1959.
 
 **CTA Row:**
 - `Explore Our Products` — solid gold `#C9A84C`, white text, 18px, 52px height
@@ -61,7 +61,7 @@ Mon–Fri: 9am–6pm · Sat: 10am–5pm · Sun: Closed
 
 **Trust Bar** (below CTAs, small icons + white text, 14px Lato, horizontal row with dividers):
 - ⭐ 4.9 Google Rating
-- 🏆 [X]+ Years in Business
+- 🏆 65+ Years in Business
 - 🏠 5,000+ Homes Transformed
 - 📍 Toronto & GTA
 
@@ -190,7 +190,7 @@ Mon–Fri: 9am–6pm · Sat: 10am–5pm · Sun: Closed
 > "Came in just to browse for an area rug and left with the perfect custom piece. The staff knew exactly what would work with our space. Incredible knowledge."
 > — **Jennifer R., Midtown Toronto** ⭐⭐⭐⭐⭐
 
-**Below cards:** Google logo + `"See all [X] reviews on Google"` → links to Google Business Profile
+**Below cards:** Google logo + `"See all our reviews on Google"` → links to https://share.google/TtoPhOHEuJI6WQigD
 
 **Wix Studio notes:**
 - Build with Repeater: 3 cols, white card, `box-shadow: 0 4px 24px rgba(0,0,0,0.07)`
@@ -233,10 +233,10 @@ Visit our Toronto showroom or book a free in-home consultation — we come to yo
 
 **CTA Row:**
 - `Book a Free Consultation` — charcoal `#1C1C1C` fill, white text
-- `Call Us: (416) XXX-XXXX` — charcoal outlined, charcoal text, tel: link
+- `Call Us: (416) 533-3366` — charcoal outlined, charcoal text, tel: link
 
 **Info line below buttons (Lato, 14px, `#1C1C1C`, 70% opacity):**
-📍 [Address], Toronto, ON · ⏰ Mon–Fri 9–6, Sat 10–5 · 🚗 Free Parking
+📍 978 Bathurst St, Toronto, ON · ⏰ Mon–Fri 9–6, Sat 10–5 · 🚗 Free Parking
 
 ---
 
