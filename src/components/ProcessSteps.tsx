@@ -5,13 +5,18 @@ interface Step {
 
 interface ProcessStepsProps {
   steps: Step[];
+  dark?: boolean;
 }
 
-export default function ProcessSteps({ steps }: ProcessStepsProps) {
+export default function ProcessSteps({ steps, dark = false }: ProcessStepsProps) {
+  const titleColor = dark ? "text-white" : "text-[#1f2937]";
+  const descColor = dark ? "text-white/70" : "text-[#4b5563]";
+  const lineColor = dark ? "bg-gold/30" : "bg-gold/40";
+
   return (
     <div className="relative">
       {/* Connector line — desktop */}
-      <div className="hidden md:block absolute top-8 left-0 right-0 h-0.5 bg-gold/30" />
+      <div className={`hidden md:block absolute top-8 left-0 right-0 h-0.5 ${lineColor}`} />
 
       <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
         {steps.map((step, i) => (
@@ -22,8 +27,8 @@ export default function ProcessSteps({ steps }: ProcessStepsProps) {
                 {i + 1}
               </span>
             </div>
-            <h3 className="font-playfair text-lg text-white mb-2">{step.title}</h3>
-            <p className="font-lato text-sm text-white/70 leading-relaxed">
+            <h3 className={`font-playfair text-lg mb-2 ${titleColor}`}>{step.title}</h3>
+            <p className={`font-lato text-sm leading-relaxed ${descColor}`}>
               {step.description}
             </p>
           </div>
