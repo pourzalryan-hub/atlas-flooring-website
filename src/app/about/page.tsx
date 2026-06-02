@@ -154,9 +154,9 @@ export default function AboutPage() {
                     (416) 533-3366
                   </a>
                 </li>
-                <li>🕐 Mon–Fri: 9am – 6pm</li>
-                <li>🕐 Sat: 10am – 5pm</li>
+                <li>🕐 Mon–Sat: 10am – 4pm</li>
                 <li>🕐 Sun: Closed</li>
+                <li>🕐 Other times by appointment</li>
                 <li>✅ Free in-home estimates</li>
                 <li>♿ Accessible entrance</li>
               </ul>
@@ -244,7 +244,7 @@ export default function AboutPage() {
       {/* 8. CTA Banner */}
       <CTABanner
         title="Come Meet Us in Person"
-        subtitle="Our showroom is open Monday through Saturday. No appointment needed to browse."
+        subtitle="Our showroom is open Monday through Saturday, 10am to 4pm. Other times available by appointment."
         primaryCta={{ label: 'Get Directions', href: 'https://www.google.com/maps/search/?api=1&query=978+Bathurst+St+Toronto+ON+M5R+3G6' }}
         secondaryCta={{ label: 'Book a Consultation', href: '/contact' }}
       />

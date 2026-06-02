@@ -102,7 +102,7 @@ We never subcontract. Our installation team is part of the Atlas family — trai
 
 **Showroom details (icon + text list):**
 - 📍 978 Bathurst St, Toronto, ON M5R 3G6
-- ⏰ Mon–Fri: 9am–6pm | Sat: 10am–5pm | Sun: Closed
+- ⏰ Mon–Sat: 10am–4pm | Sun: Closed | Other times by appt
 - ✅ Free in-home estimates
 - ♿ Accessible entrance
 - 🐾 Dog-friendly showroom
@@ -153,7 +153,7 @@ North York · Etobicoke · Scarborough · Midtown Toronto · The Annex · Forest
 
 **H2:** Come Meet Us in Person
 
-**Sub:** Our showroom is open Monday through Saturday. No appointment needed to browse — or book a consultation for a more guided experience.
+**Sub:** Our showroom is open Monday through Saturday. Open Mon–Sat 10am–4pm. Other times available by appointment.
 
 **CTAs:** `Book a Consultation` + `Get Directions`
 

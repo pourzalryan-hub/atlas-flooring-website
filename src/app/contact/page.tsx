@@ -15,7 +15,7 @@ const faqItems = [
   },
   {
     q: 'Do I need an appointment to visit the showroom?',
-    a: 'No appointment is necessary to browse our showroom. We welcome walk-ins Monday through Saturday. If you\'d like dedicated time with one of our design consultants, booking ahead ensures we can give you our full attention.',
+    a: 'We\'re open Monday through Saturday, 10am to 4pm. Walk-ins are welcome during these hours. Outside of regular hours, visits are available by appointment — call us at (416) 533-3366 to arrange a time.',
   },
   {
     q: 'Do you offer free estimates?',
@@ -353,16 +353,16 @@ export default function ContactPage() {
                   <table className="w-full font-lato text-warm-grey text-sm">
                     <tbody>
                       <tr className="border-b border-stone-100">
-                        <td className="py-2">Mon – Fri</td>
-                        <td className="py-2 text-right font-medium text-charcoal">9am – 6pm</td>
+                        <td className="py-2">Mon – Sat</td>
+                        <td className="py-2 text-right font-medium text-charcoal">10am – 4pm</td>
                       </tr>
                       <tr className="border-b border-stone-100">
-                        <td className="py-2">Saturday</td>
-                        <td className="py-2 text-right font-medium text-charcoal">10am – 5pm</td>
-                      </tr>
-                      <tr>
                         <td className="py-2">Sunday</td>
                         <td className="py-2 text-right text-stone-400">Closed</td>
+                      </tr>
+                      <tr>
+                        <td className="py-2 text-stone-400 italic">Other times</td>
+                        <td className="py-2 text-right text-stone-400 italic">By appointment</td>
                       </tr>
                     </tbody>
                   </table>

@@ -36,7 +36,7 @@ Hardwood Flooring · Carpet & Broadloom · Stair Runners · Laminate Flooring ·
 978 Bathurst St, Toronto, ON M5R 3G6  
 Tel: (416) 533-3366  
 Email: info@atlasrugflooring.com  
-Mon–Fri: 9am–6pm · Sat: 10am–5pm · Sun: Closed  
+Mon–Sat: 10am–4pm · Sun: Closed · Other times by appt  
 [Embedded Google Map — small widget]
 
 **Bottom bar:** © 2025 Atlas Rug & Design Centre. All rights reserved. | Privacy Policy | Sitemap
@@ -235,7 +235,7 @@ Visit our Toronto showroom or book a free in-home consultation — we come to yo
 - `Call Us: (416) 533-3366` — charcoal outlined, charcoal text, tel: link
 
 **Info line below buttons (Lato, 14px, `#1C1C1C`, 70% opacity):**
-📍 978 Bathurst St, Toronto, ON · ⏰ Mon–Fri 9–6, Sat 10–5 · ✅ Free In-Home Estimates
+📍 978 Bathurst St, Toronto, ON · ⏰ Mon–Sat 10–4 · By appt other times · ✅ Free In-Home Estimates
 
 ---
 

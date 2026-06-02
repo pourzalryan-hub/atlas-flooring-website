@@ -107,9 +107,9 @@ export default function Footer() {
                 </a>
               </p>
               <div className="font-lato text-sm text-white/60 space-y-1">
-                <p>Mon–Fri: 9am – 6pm</p>
-                <p>Sat: 10am – 5pm</p>
+                <p>Mon–Sat: 10am – 4pm</p>
                 <p>Sun: Closed</p>
+                <p>Other times by appointment</p>
               </div>
             </address>
           </div>

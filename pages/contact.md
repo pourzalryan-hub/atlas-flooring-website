@@ -110,7 +110,7 @@ Toronto, ON M5R 3G6
 
 **📞 Phone**  
 [(416) 533-3366](tel:4165333366)  
-*Mon–Fri: 9am–6pm · Sat: 10am–5pm*
+*Mon–Sat: 10am–4pm · Other times by appt*
 
 ---
 
@@ -123,12 +123,12 @@ Toronto, ON M5R 3G6
 
 | Day | Hours |
 |-----|-------|
-| Monday | 9:00am – 6:00pm |
-| Tuesday | 9:00am – 6:00pm |
-| Wednesday | 9:00am – 6:00pm |
-| Thursday | 9:00am – 6:00pm |
-| Friday | 9:00am – 6:00pm |
-| Saturday | 10:00am – 5:00pm |
+| Monday | 10:00am – 4:00pm |
+| Tuesday | 10:00am – 4:00pm |
+| Wednesday | 10:00am – 4:00pm |
+| Thursday | 10:00am – 4:00pm |
+| Friday | 10:00am – 4:00pm |
+| Saturday | 10:00am – 4:00pm |
 | Sunday | Closed |
 
 ---
@@ -170,7 +170,7 @@ Below map (centered, Lato 15px, grey):
 **H2 (Playfair Display, 36px):** What to Expect at Your Visit
 
 **Body (Lato, 17px, 1.8):**
-> No appointment needed to browse our showroom — walk in any time during business hours. However, if you'd like one-on-one attention from a design consultant, we recommend booking ahead so we can give your project the time it deserves.
+> We are open Monday–Saturday, 10am–4pm. Walk-ins are welcome during these hours. For visits outside regular hours, we are available by appointment — call (416) 533-3366 to arrange a time.
 >
 > **Bring along:**
 > - Photos of your space (even phone photos are great)
@@ -220,7 +220,7 @@ Toronto · North York · Etobicoke · Scarborough · East York · Midtown · Tho
 A: Within one business day — usually same day during business hours. For urgent requests, please call us directly at (416) 533-3366.
 
 **Q: Do I need an appointment to visit the showroom?**  
-A: No — walk-ins are welcome during all business hours. Booking ahead is recommended if you'd like dedicated one-on-one time with a design consultant.
+A: No — walk-ins are welcome Monday–Saturday, 10am–4pm. For visits outside these hours, call us to arrange an appointment.
 
 **Q: Do you offer free estimates?**  
 A: Yes — all quotes are free, whether in-showroom or in-home. There's no fee and no obligation.

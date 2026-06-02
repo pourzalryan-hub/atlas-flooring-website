@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 
 const products = [
@@ -23,11 +23,24 @@ export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openProducts = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setProductsOpen(true);
+  };
+
+  const closeProducts = () => {
+    closeTimer.current = setTimeout(() => setProductsOpen(false), 120);
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+    };
   }, []);
 
   return (
@@ -60,10 +73,10 @@ export default function Navigation() {
             {/* Products dropdown */}
             <div
               className="relative"
-              onMouseEnter={() => setProductsOpen(true)}
-              onMouseLeave={() => setProductsOpen(false)}
+              onMouseEnter={openProducts}
+              onMouseLeave={closeProducts}
             >
-              <button className="font-lato text-sm text-white/80 hover:text-gold transition-colors flex items-center gap-1">
+              <button className="font-lato text-sm text-white/80 hover:text-gold transition-colors flex items-center gap-1 py-2">
                 Products
                 <svg
                   className={`w-4 h-4 transition-transform ${productsOpen ? "rotate-180" : ""}`}
@@ -76,7 +89,13 @@ export default function Navigation() {
               </button>
 
               {productsOpen && (
-                <div className="absolute top-full left-0 mt-2 w-52 bg-charcoal border border-white/10 rounded-lg shadow-xl overflow-hidden">
+                <div
+                  className="absolute top-full left-0 w-52 bg-charcoal border border-white/10 rounded-lg shadow-xl overflow-hidden"
+                  onMouseEnter={openProducts}
+                  onMouseLeave={closeProducts}
+                >
+                  {/* invisible bridge so mouse can travel from button to panel */}
+                  <div className="absolute -top-2 left-0 right-0 h-2" />
                   {products.map((p) => (
                     <Link
                       key={p.href}

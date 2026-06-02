@@ -33,7 +33,7 @@ export default function CTABanner({
           )}
         </div>
         <p className="mt-6 font-lato text-sm text-charcoal/60">
-          📍 978 Bathurst St, Toronto, ON &nbsp;·&nbsp; ⏰ Mon–Fri 9–6, Sat 10–5 &nbsp;·&nbsp; ✅ Free In-Home Estimates
+          📍 978 Bathurst St, Toronto, ON &nbsp;·&nbsp; ⏰ Mon–Sat 10–4 · By appt. other times &nbsp;·&nbsp; ✅ Free In-Home Estimates
         </p>
       </div>
     </section>
