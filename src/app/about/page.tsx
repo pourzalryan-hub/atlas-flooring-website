@@ -157,7 +157,7 @@ export default function AboutPage() {
                 <li>🕐 Mon–Fri: 9am – 6pm</li>
                 <li>🕐 Sat: 10am – 5pm</li>
                 <li>🕐 Sun: Closed</li>
-                <li>🅿️ Free parking available</li>
+                <li>✅ Free in-home estimates</li>
                 <li>♿ Accessible entrance</li>
               </ul>
               <div className="flex flex-wrap gap-4">

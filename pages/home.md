@@ -236,7 +236,7 @@ Visit our Toronto showroom or book a free in-home consultation — we come to yo
 - `Call Us: (416) 533-3366` — charcoal outlined, charcoal text, tel: link
 
 **Info line below buttons (Lato, 14px, `#1C1C1C`, 70% opacity):**
-📍 978 Bathurst St, Toronto, ON · ⏰ Mon–Fri 9–6, Sat 10–5 · 🚗 Free Parking
+📍 978 Bathurst St, Toronto, ON · ⏰ Mon–Fri 9–6, Sat 10–5 · ✅ Free In-Home Estimates
 
 ---
 

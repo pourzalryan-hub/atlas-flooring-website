@@ -371,7 +371,9 @@ export default function ContactPage() {
 
                 {/* Notes */}
                 <div className="mb-6 space-y-1">
-                  <p className="font-lato text-sm text-warm-grey">🅿️ Free parking available</p>
+                  <p className="font-lato text-sm text-warm-grey">🏠 Family-owned since 1959</p>
+                  <p className="font-lato text-sm text-warm-grey">🔨 Expert installation services</p>
+                  <p className="font-lato text-sm text-warm-grey">✅ Free in-home estimates</p>
                   <p className="font-lato text-sm text-warm-grey">♿ Accessible entrance</p>
                 </div>
 

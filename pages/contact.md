@@ -134,8 +134,6 @@ Toronto, ON M5R 3G6
 
 ---
 
-**🚗 Parking**  
-Free parking available on-site.
 
 **♿ Accessibility**  
 Accessible entrance. Elevator available.
