@@ -21,7 +21,7 @@ const featuredPost = {
   title: 'Hardwood vs. Engineered Hardwood: Which is Right for Your Toronto Home?',
   excerpt:
     'Solid hardwood and engineered hardwood are both beautiful options — but the right choice depends on your subfloor, humidity, and lifestyle. ' +
-    'Here's how Toronto homeowners can decide with confidence.',
+    'Here&#39;s how Toronto homeowners can decide with confidence.',
   date: 'Coming Soon',
 }
 
@@ -218,7 +218,7 @@ export default function BlogPage() {
       {/* 5. CTA Banner */}
       <CTABanner
         title="Ready to Put These Tips to Use?"
-        subtitle="Visit our showroom or book a free consultation — we'll help you choose with confidence."
+        subtitle="Visit our showroom or book a free consultation — we&#39;ll help you choose with confidence."
         primaryCta={{ label: 'Book a Consultation', href: '/contact' }}
         secondaryCta={{ label: 'Visit the Showroom', href: '/contact#directions' }}
       />
