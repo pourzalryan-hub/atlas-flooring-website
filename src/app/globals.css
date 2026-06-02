@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-lato text-charcoal bg-white;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-playfair;
+  }
+}
+
+@layer components {
+  .btn-gold {
+    @apply inline-flex items-center gap-2 px-8 py-4 bg-gold text-white font-lato font-semibold rounded hover:bg-gold-dark transition-colors duration-200;
+  }
+
+  .btn-outline-white {
+    @apply inline-flex items-center gap-2 px-8 py-4 border-2 border-white text-white font-lato font-semibold rounded hover:bg-white hover:text-charcoal transition-colors duration-200;
+  }
+
+  .btn-outline-charcoal {
+    @apply inline-flex items-center gap-2 px-8 py-4 border-2 border-charcoal text-charcoal font-lato font-semibold rounded hover:bg-charcoal hover:text-white transition-colors duration-200;
+  }
+
+  .btn-charcoal {
+    @apply inline-flex items-center gap-2 px-8 py-4 bg-charcoal text-white font-lato font-semibold rounded hover:bg-neutral-800 transition-colors duration-200;
+  }
+
+  .section-label {
+    @apply text-xs font-lato font-semibold tracking-widest text-gold uppercase mb-3 block;
+  }
+
+  .section-label-white {
+    @apply text-xs font-lato font-semibold tracking-widest text-gold uppercase mb-3 block;
+  }
+
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200;
+  }
+}

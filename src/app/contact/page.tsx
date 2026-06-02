@@ -1,0 +1,501 @@
+'use client'
+
+import { useState } from 'react'
+import FAQAccordion from '@/components/FAQAccordion'
+import CTABanner from '@/components/CTABanner'
+
+// SEO metadata cannot be exported from a client component.
+// Add this to a separate layout.tsx or use a parent server component if needed.
+// Suggested title: "Contact Us | Atlas Rug & Design Centre Toronto"
+
+const faqItems = [
+  {
+    q: 'How quickly do you respond to inquiries?',
+    a: 'We aim to respond to all inquiries within one business day. For urgent matters, call us directly at (416) 533-3366 during showroom hours.',
+  },
+  {
+    q: 'Do I need an appointment to visit the showroom?',
+    a: 'No appointment is necessary to browse our showroom. We welcome walk-ins Monday through Saturday. If you\'d like dedicated time with one of our design consultants, booking ahead ensures we can give you our full attention.',
+  },
+  {
+    q: 'Do you offer free estimates?',
+    a: 'Yes — all estimates and consultations are completely free, whether in-showroom or at your home. We\'ll measure your space, help you choose the right product, and provide a detailed written quote with no obligation.',
+  },
+  {
+    q: 'Do you serve areas outside Toronto?',
+    a: 'Absolutely. We serve all of the GTA including North York, Etobicoke, Scarborough, Mississauga, Oakville, Vaughan, Brampton, Markham, Richmond Hill, and Thornhill.',
+  },
+  {
+    q: 'Do you handle commercial flooring projects?',
+    a: 'Yes, we work with builders, developers, designers, and business owners on commercial projects. Contact us to discuss your requirements and timeline.',
+  },
+]
+
+const productOptions = [
+  'Hardwood Flooring',
+  'Carpet & Broadloom',
+  'Stair Runners',
+  'Luxury Vinyl',
+  'Laminate Flooring',
+  'Area Rugs',
+  'Multiple Products',
+  'Not Sure',
+]
+
+const referralOptions = [
+  'Google Search',
+  'Google Maps',
+  'Friend/Family Referral',
+  'Instagram',
+  'Facebook',
+  'Houzz',
+  'Drive By/Signage',
+  'Returning Customer',
+  'Other',
+]
+
+const serviceAreaChips = [
+  'Toronto', 'North York', 'Etobicoke', 'Scarborough', 'Mississauga',
+  'Oakville', 'Vaughan', 'Brampton', 'Markham', 'Richmond Hill', 'Thornhill',
+]
+
+const fieldClass =
+  'w-full bg-white border border-stone-300 rounded-lg px-4 py-3 font-lato text-charcoal focus:outline-none focus:ring-2 focus:ring-gold'
+
+interface FormState {
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  product: string
+  projectType: string
+  sqft: string
+  contactMethod: string
+  referral: string
+  message: string
+}
+
+const initialForm: FormState = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+  product: '',
+  projectType: '',
+  sqft: '',
+  contactMethod: '',
+  referral: '',
+  message: '',
+}
+
+export default function ContactPage() {
+  const [form, setForm] = useState<FormState>(initialForm)
+  const [submitted, setSubmitted] = useState(false)
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // TODO: wire up form submission (e.g. Formspree, server action, API route)
+    setSubmitted(true)
+  }
+
+  return (
+    <main>
+      {/* 1. Compact Hero */}
+      <section className="flex items-center justify-center bg-charcoal" style={{ minHeight: '40vh' }}>
+        <div className="text-center px-4">
+          <h1 className="font-playfair text-4xl md:text-6xl text-white mb-4">Let's Start Your Project</h1>
+          <p className="font-lato text-lg text-stone-300 max-w-xl mx-auto">
+            Visit our showroom, give us a call, or fill out the form below.
+          </p>
+        </div>
+      </section>
+
+      {/* 2. Main 2-Column Section */}
+      <section className="py-20 bg-off-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-16">
+
+            {/* LEFT — Contact Form (60%) */}
+            <div className="lg:col-span-3">
+              <p className="text-xs font-lato font-semibold tracking-widest text-gold uppercase mb-3">SEND US A MESSAGE</p>
+              <h2 className="font-playfair text-4xl text-charcoal mb-8">Tell Us About Your Project</h2>
+
+              {submitted ? (
+                <div className="bg-white rounded-2xl shadow-sm p-10 text-center">
+                  <div className="text-gold text-5xl mb-4">✓</div>
+                  <h3 className="font-playfair text-3xl text-charcoal mb-4">Thank You!</h3>
+                  <p className="font-lato text-lg text-warm-grey">
+                    We've received your request and will be in touch within one business day. If you need
+                    immediate help, call us at{' '}
+                    <a href="tel:4165333366" className="text-gold hover:underline">
+                      (416) 533-3366
+                    </a>
+                    .
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Name Row */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block font-lato text-sm font-semibold text-charcoal mb-1">
+                        First Name <span className="text-gold">*</span>
+                      </label>
+                      <input
+                        required
+                        type="text"
+                        name="firstName"
+                        value={form.firstName}
+                        onChange={handleChange}
+                        className={fieldClass}
+                        placeholder="Jane"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-lato text-sm font-semibold text-charcoal mb-1">
+                        Last Name <span className="text-gold">*</span>
+                      </label>
+                      <input
+                        required
+                        type="text"
+                        name="lastName"
+                        value={form.lastName}
+                        onChange={handleChange}
+                        className={fieldClass}
+                        placeholder="Smith"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Email */}
+                  <div>
+                    <label className="block font-lato text-sm font-semibold text-charcoal mb-1">
+                      Email Address <span className="text-gold">*</span>
+                    </label>
+                    <input
+                      required
+                      type="email"
+                      name="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      className={fieldClass}
+                      placeholder="jane@example.com"
+                    />
+                  </div>
+
+                  {/* Phone */}
+                  <div>
+                    <label className="block font-lato text-sm font-semibold text-charcoal mb-1">
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={form.phone}
+                      onChange={handleChange}
+                      className={fieldClass}
+                      placeholder="(416) 555-0100"
+                    />
+                  </div>
+
+                  {/* Product */}
+                  <div>
+                    <label className="block font-lato text-sm font-semibold text-charcoal mb-1">
+                      What Are You Looking For?
+                    </label>
+                    <select
+                      name="product"
+                      value={form.product}
+                      onChange={handleChange}
+                      className={fieldClass}
+                    >
+                      <option value="">Select a product type</option>
+                      {productOptions.map((o) => (
+                        <option key={o} value={o}>{o}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Project Type */}
+                  <div>
+                    <label className="block font-lato text-sm font-semibold text-charcoal mb-2">
+                      Project Type
+                    </label>
+                    <div className="flex flex-wrap gap-4">
+                      {['New Install', 'Replacement/Renovation', 'Builder/Developer', 'Commercial'].map((type) => (
+                        <label key={type} className="flex items-center gap-2 font-lato text-warm-grey cursor-pointer">
+                          <input
+                            type="radio"
+                            name="projectType"
+                            value={type}
+                            checked={form.projectType === type}
+                            onChange={handleChange}
+                            className="accent-gold"
+                          />
+                          {type}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Square Footage */}
+                  <div>
+                    <label className="block font-lato text-sm font-semibold text-charcoal mb-1">
+                      Approximate Square Footage
+                    </label>
+                    <input
+                      type="text"
+                      name="sqft"
+                      value={form.sqft}
+                      onChange={handleChange}
+                      className={fieldClass}
+                      placeholder="e.g. 800 sq ft"
+                    />
+                  </div>
+
+                  {/* Preferred Contact Method */}
+                  <div>
+                    <label className="block font-lato text-sm font-semibold text-charcoal mb-2">
+                      Preferred Contact Method
+                    </label>
+                    <div className="flex gap-6">
+                      {['Phone', 'Email'].map((method) => (
+                        <label key={method} className="flex items-center gap-2 font-lato text-warm-grey cursor-pointer">
+                          <input
+                            type="radio"
+                            name="contactMethod"
+                            value={method}
+                            checked={form.contactMethod === method}
+                            onChange={handleChange}
+                            className="accent-gold"
+                          />
+                          {method}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Referral */}
+                  <div>
+                    <label className="block font-lato text-sm font-semibold text-charcoal mb-1">
+                      How Did You Hear About Us?
+                    </label>
+                    <select
+                      name="referral"
+                      value={form.referral}
+                      onChange={handleChange}
+                      className={fieldClass}
+                    >
+                      <option value="">Select an option</option>
+                      {referralOptions.map((o) => (
+                        <option key={o} value={o}>{o}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Message */}
+                  <div>
+                    <label className="block font-lato text-sm font-semibold text-charcoal mb-1">
+                      Tell Us About Your Project
+                    </label>
+                    <textarea
+                      name="message"
+                      value={form.message}
+                      onChange={handleChange}
+                      rows={5}
+                      className={fieldClass}
+                      placeholder="Room type, timeline, any specific concerns or questions..."
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full bg-gold text-white font-lato font-semibold text-lg py-4 rounded hover:bg-gold-dark transition-colors"
+                  >
+                    Send My Request →
+                  </button>
+                </form>
+              )}
+            </div>
+
+            {/* RIGHT — Contact Details (40%) */}
+            <div className="lg:col-span-2">
+              <div className="bg-white rounded-2xl shadow-sm p-8 sticky top-8">
+                <h3 className="font-playfair text-2xl text-charcoal mb-6">Visit Our Toronto Showroom</h3>
+
+                <div className="space-y-4 mb-8">
+                  <div>
+                    <p className="font-lato text-sm font-semibold text-charcoal uppercase tracking-wide mb-1">Address</p>
+                    <p className="font-lato text-warm-grey">978 Bathurst St<br />Toronto, ON M5R 3G6</p>
+                  </div>
+                  <div>
+                    <p className="font-lato text-sm font-semibold text-charcoal uppercase tracking-wide mb-1">Phone</p>
+                    <a href="tel:4165333366" className="font-lato text-gold hover:underline text-lg">
+                      (416) 533-3366
+                    </a>
+                  </div>
+                  <div>
+                    <p className="font-lato text-sm font-semibold text-charcoal uppercase tracking-wide mb-1">Email</p>
+                    <a href="mailto:info@atlasrugflooring.com" className="font-lato text-gold hover:underline">
+                      info@atlasrugflooring.com
+                    </a>
+                  </div>
+                </div>
+
+                {/* Hours Table */}
+                <div className="mb-6">
+                  <p className="font-lato text-sm font-semibold text-charcoal uppercase tracking-wide mb-3">Showroom Hours</p>
+                  <table className="w-full font-lato text-warm-grey text-sm">
+                    <tbody>
+                      <tr className="border-b border-stone-100">
+                        <td className="py-2">Mon – Fri</td>
+                        <td className="py-2 text-right font-medium text-charcoal">9am – 6pm</td>
+                      </tr>
+                      <tr className="border-b border-stone-100">
+                        <td className="py-2">Saturday</td>
+                        <td className="py-2 text-right font-medium text-charcoal">10am – 5pm</td>
+                      </tr>
+                      <tr>
+                        <td className="py-2">Sunday</td>
+                        <td className="py-2 text-right text-stone-400">Closed</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Notes */}
+                <div className="mb-6 space-y-1">
+                  <p className="font-lato text-sm text-warm-grey">🅿️ Free parking available</p>
+                  <p className="font-lato text-sm text-warm-grey">♿ Accessible entrance</p>
+                </div>
+
+                {/* Social Links */}
+                <div>
+                  <p className="font-lato text-sm font-semibold text-charcoal uppercase tracking-wide mb-3">Follow Us</p>
+                  <div className="flex flex-wrap gap-4">
+                    {[
+                      { label: 'Instagram', href: '#' },
+                      { label: 'Facebook', href: '#' },
+                      { label: 'Houzz', href: '#' },
+                      { label: 'Pinterest', href: '#' },
+                    ].map((s) => (
+                      <a key={s.label} href={s.href} className="font-lato text-gold hover:underline text-sm">
+                        {s.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Map Placeholder */}
+      <section className="w-full h-96 bg-stone-200 flex items-center justify-center">
+        <p className="font-lato text-stone-500 text-sm text-center px-4">
+          Google Map — Embed your map here from Google Maps &gt; Share &gt; Embed
+        </p>
+      </section>
+
+      {/* 4. In-Home Consultation */}
+      <section className="py-24 bg-off-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Content */}
+            <div>
+              <p className="text-xs font-lato font-semibold tracking-widest text-gold uppercase mb-3">FREE SERVICE</p>
+              <h2 className="font-playfair text-4xl md:text-5xl text-charcoal mb-6">
+                We Come to You —<br />Free In-Home Consultations
+              </h2>
+              <p className="font-lato text-lg text-warm-grey leading-relaxed mb-6">
+                Can't make it to the showroom? Our design consultants will come to you. We'll assess your
+                space, bring product samples, and provide a written quote — all at no cost and no obligation.
+              </p>
+              <ul className="space-y-3 mb-8">
+                {[
+                  'Free in-home measurement',
+                  'Product samples brought to you',
+                  'Lighting and space assessment',
+                  'Detailed written quote',
+                  'No obligation, no pressure',
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-3 font-lato text-warm-grey">
+                    <span className="text-gold font-bold">✓</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <div className="flex flex-wrap gap-2 mb-8">
+                {serviceAreaChips.map((chip) => (
+                  <span
+                    key={chip}
+                    className="px-3 py-1 bg-white border border-stone-200 text-warm-grey font-lato text-sm rounded-full"
+                  >
+                    {chip}
+                  </span>
+                ))}
+              </div>
+              <a
+                href="#contact-form"
+                className="inline-flex items-center px-8 py-4 bg-gold text-white font-lato font-semibold rounded hover:bg-gold-dark transition-colors"
+              >
+                Book a Free In-Home Consultation →
+              </a>
+            </div>
+            {/* Image */}
+            <div className="aspect-[4/3] rounded-2xl overflow-hidden">
+              <div className="w-full h-full bg-stone-300 flex items-center justify-center">
+                <span className="text-stone-500 text-sm font-lato">Image: Consultant visiting a client home</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. FAQ */}
+      <section className="py-24 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <p className="text-xs font-lato font-semibold tracking-widest text-gold uppercase mb-3">FAQ</p>
+            <h2 className="font-playfair text-4xl md:text-5xl text-charcoal">Common Questions</h2>
+          </div>
+          <FAQAccordion items={faqItems} />
+        </div>
+      </section>
+
+      {/* 6. Bottom CTA */}
+      <section className="py-20 bg-gold">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="font-playfair text-4xl md:text-5xl text-white mb-4">Ready to Get Started?</h2>
+          <p className="font-lato text-lg text-white/80 mb-8 max-w-xl mx-auto">
+            Visit us at 978 Bathurst St or give us a call — we'd love to help.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <a
+              href="tel:4165333366"
+              className="inline-flex items-center px-8 py-4 border-2 border-charcoal text-charcoal font-lato font-semibold rounded hover:bg-charcoal hover:text-white transition-colors"
+            >
+              Call (416) 533-3366
+            </a>
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=978+Bathurst+St+Toronto+ON+M5R+3G6"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-8 py-4 border-2 border-charcoal text-charcoal font-lato font-semibold rounded hover:bg-charcoal hover:text-white transition-colors"
+            >
+              Get Directions
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+  )
+}
