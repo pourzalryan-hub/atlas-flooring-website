@@ -3,9 +3,9 @@ import Link from "next/link";
 import CTABanner from "@/components/CTABanner";
 
 export const metadata: Metadata = {
-  title: "Atlas Rug & Design Centre | Flooring & Area Rugs Toronto",
+  title: "Atlas Rug & Design Centre | Premium Flooring Toronto",
   description:
-    "Premium hardwood, carpet, luxury vinyl, laminate & custom area rugs in Toronto. Expert installation across the GTA since 1959. Visit our showroom at 978 Bathurst St or book a free consultation.",
+    "Premium hardwood, carpet, luxury vinyl, laminate & stair runners in Toronto. Expert installation across the GTA since 1959. Visit our showroom at 978 Bathurst St or book a free consultation.",
 };
 
 const products = [
@@ -40,8 +40,8 @@ const products = [
     bg: "bg-stone-300",
   },
   {
-    label: "Area Rugs",
-    hook: "Custom pieces that anchor any space",
+    label: "Floor Refinishing",
+    hook: "Restore your floors to like-new condition",
     href: "/contact",
     bg: "bg-zinc-300",
   },
@@ -89,7 +89,7 @@ const testimonials = [
   },
   {
     quote:
-      "Came in just to browse for an area rug and left with the perfect custom piece. The staff knew exactly what would work with our space. Incredible knowledge.",
+      "We had our entire main floor done in hardwood and it turned out beautifully. The team was knowledgeable, professional, and the quality of the installation is outstanding. Highly recommend Atlas.",
     name: "Jennifer R.",
     location: "Midtown Toronto",
   },
@@ -112,10 +112,10 @@ export default function HomePage() {
         <div className="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto">
           <h1 className="font-playfair text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-tight mb-6">
             Toronto&apos;s Trusted Source for{" "}
-            <span className="text-gold">Premium Flooring</span> &amp; Area Rugs
+            <span className="text-gold">Premium Flooring</span> &amp; Expert Installation
           </h1>
           <p className="font-lato text-lg sm:text-xl text-white/75 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Hardwood, carpet, vinyl, laminate &amp; custom rugs — expert installation
+            Hardwood, carpet, vinyl, laminate &amp; stair runners — expert installation
             across Toronto and the GTA since 1959.
           </p>
 
@@ -167,7 +167,7 @@ export default function HomePage() {
             </h2>
             <p className="font-lato text-lg text-warm-grey max-w-xl mx-auto">
               We carry and install the full range — from rustic hardwood to plush
-              carpet and custom area rugs.
+              carpet, stair runners, and luxury vinyl.
             </p>
           </div>
 

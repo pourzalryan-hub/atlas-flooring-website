@@ -37,7 +37,6 @@ const productOptions = [
   'Stair Runners',
   'Luxury Vinyl',
   'Laminate Flooring',
-  'Area Rugs',
   'Multiple Products',
   'Not Sure',
 ]

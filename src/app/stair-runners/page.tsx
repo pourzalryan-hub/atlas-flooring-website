@@ -112,10 +112,10 @@ const faqItems = [
 
 const crossSellItems = [
   {
-    label: "Area Rugs",
+    label: "Carpet & Broadloom",
     description:
-      "Complete the look with a custom or ready-made area rug. We carry hundreds of styles — from traditional Persian to modern abstract.",
-    href: "/area-rugs",
+      "Extend the warmth of your stair runner throughout your home. We carry a wide range of carpet styles, textures, and colours for every room.",
+    href: "/carpet",
     image: "/images/placeholder.jpg",
   },
   {

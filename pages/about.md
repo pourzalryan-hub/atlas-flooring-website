@@ -1,7 +1,7 @@
 # PAGE: About Us
 **URL:** atlasrugflooring.com/about  
 **Page Title:** About Atlas Rug & Design Centre | Toronto's Flooring Experts Since 1959  
-**Meta Description:** Meet the team behind Atlas Rug & Design Centre — Toronto's trusted flooring and area rug specialists. Family business, expert staff, in-house installation.  
+**Meta Description:** Meet the team behind Atlas Rug & Design Centre — Toronto's trusted flooring specialists. Family business, expert staff, in-house installation.  
 **Schema:** LocalBusiness + AboutPage  
 
 ---
@@ -37,7 +37,7 @@
 **Body (Lato, 17px, warm grey, 1.8 line-height):**
 > Atlas Rug & Design Centre was founded in 1959 with a simple belief: that every Toronto homeowner deserves access to premium flooring and genuine expertise — without the intimidating big-box experience.
 >
-> What started as a small showroom has grown into one of Toronto's most trusted flooring destinations, carrying hundreds of hardwood, carpet, vinyl, laminate, and area rug options from the world's leading brands. But what hasn't changed is our approach: listen first, recommend honestly, and install with pride.
+> What started as a small showroom has grown into one of Toronto's most trusted flooring destinations, carrying hundreds of hardwood, carpet, vinyl, laminate from the world's leading brands. But what hasn't changed is our approach: listen first, recommend honestly, and install with pride.
 >
 > We're a family-owned business. Our staff aren't salespeople chasing commission — they're flooring professionals who genuinely love what they do and take personal pride in every room they transform.
 >
@@ -96,7 +96,7 @@ We never subcontract. Our installation team is part of the Atlas family — trai
 **H2 (Playfair Display, 40px, charcoal):** Visit Our Toronto Showroom
 
 **Body (Lato, 17px):**
-> Our showroom is designed to be experienced — not just browsed. We have full room vignettes showing hardwood, carpet, vinyl, and area rugs in real room settings, so you can visualize exactly how products will look in your home.
+> Our showroom is designed to be experienced — not just browsed. We have full room vignettes showing hardwood, carpet, vinyl, and stair runners in real room settings, so you can visualize exactly how products will look in your home.
 >
 > Bring your paint swatches, photos of your space, and any inspiration images you've collected. Our design consultants will take it from there.
 

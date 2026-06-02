@@ -179,10 +179,10 @@ A: Vacuum weekly. Treat spills immediately with a clean cloth and appropriate fi
 
 **Two-card horizontal row:**
 
-**Card A — Area Rugs**  
-*Image: Area rug in a living room*  
-> Anchor your living room, dining room, or bedroom with the perfect area rug to complement your new runner.  
-`Explore Area Rugs →`
+**Card A — Carpet & Broadloom**  
+*Image: Carpet in a living room*  
+> Extend the warmth of your stair runner throughout your home with beautiful carpet and broadloom.  
+`Explore Carpet & Broadloom →`
 
 **Card B — Hardwood Flooring**  
 *Image: Hardwood floor in hallway adjacent to staircase*  
@@ -215,5 +215,5 @@ H2s:            Your Staircase Deserves More Than an Afterthought
 Keywords:       stair runner Toronto, custom stair runner Toronto, stair carpet Toronto,
                 patterned stair runner Toronto, stair runner installation Toronto,
                 carpet runner stairs GTA
-Internal links: → /carpet, → /area-rugs, → /hardwood, → /contact
+Internal links: → /carpet,  → /hardwood, → /contact
 ```

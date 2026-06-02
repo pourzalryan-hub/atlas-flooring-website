@@ -1,7 +1,7 @@
 # PAGE: Home
 **URL:** atlasrugflooring.com  
-**Page Title:** Atlas Rug & Design Centre | Flooring & Area Rugs Toronto  
-**Meta Description:** Premium hardwood, carpet, luxury vinyl, laminate & custom area rugs in Toronto. Expert installation across the GTA. Visit our showroom or book a free consultation today.  
+**Page Title:** Atlas Rug & Design Centre | Premium Flooring Toronto  
+**Meta Description:** Premium hardwood, carpet, luxury vinyl, laminate & stair runners in Toronto. Expert installation across the GTA. Visit our showroom or book a free consultation today.  
 **Schema:** LocalBusiness + WebSite  
 
 ---
@@ -13,7 +13,7 @@
 **Background:** Transparent over hero → `#1C1C1C` at 95% opacity on scroll  
 **Left:** Atlas Rug & Design Centre logo (gold version on dark, dark version on light)  
 **Center links:** Home | Products ▾ | Gallery | About | Contact  
-**Products dropdown:** Hardwood · Carpet · Stair Runners · Laminate · Vinyl · Area Rugs  
+**Products dropdown: Hardwood · Carpet · Stair Runners · Laminate · Vinyl
 **Right:** `(416) 533-3366` (tel: link, white) + `Get a Free Quote` button (gold `#C9A84C`, white text, 4px radius)  
 **Mobile:** Hamburger → full-screen slide-in menu. Phone number + CTA always visible as sticky bottom bar on mobile.
 
@@ -23,14 +23,14 @@
 
 **Col 1 — Brand**
 - White/gold logo
-- Tagline: *Toronto's Destination for Premium Flooring & Custom Rugs*
+- Tagline: *Toronto's Destination for Premium Flooring*
 - Social icons: Instagram · Facebook · Houzz · Pinterest (grey → gold on hover)
 
 **Col 2 — Quick Links**
 Home · About · Gallery · Blog · Contact · Get a Quote · Careers
 
 **Col 3 — Products**
-Hardwood Flooring · Carpet & Broadloom · Stair Runners · Laminate Flooring · Luxury Vinyl · Area Rugs
+Hardwood Flooring · Carpet & Broadloom · Stair Runners · Laminate Flooring · Luxury Vinyl
 
 **Col 4 — Contact**
 978 Bathurst St, Toronto, ON M5R 3G6  
@@ -50,10 +50,10 @@ Mon–Fri: 9am–6pm · Sat: 10am–5pm · Sun: Closed
 **Overlay:** `linear-gradient(rgba(28,28,28,0.55), rgba(28,28,28,0.30))`
 
 **H1 (Playfair Display, 64px desktop / 36px mobile, white):**
-> Toronto's Trusted Source for Premium Flooring & Area Rugs
+> Toronto's Trusted Source for Premium Flooring
 
 **Subheadline (Lato, 21px desktop / 16px mobile, #E8E4DC):**
-> Hardwood, carpet, vinyl, laminate & custom rugs — expert installation across Toronto and the GTA since 1959.
+> Hardwood, carpet, vinyl, laminate & stair runners — expert installation across Toronto and the GTA since 1959.
 
 **CTA Row:**
 - `Explore Our Products` — solid gold `#C9A84C`, white text, 18px, 52px height
@@ -80,7 +80,7 @@ Mon–Fri: 9am–6pm · Sat: 10am–5pm · Sun: Closed
 
 **Section label (small caps, gold, 13px Lato):** WHAT WE OFFER  
 **H2 (Playfair Display, 44px, charcoal):** Every Floor, Every Style  
-**Subheadline (Lato, 18px, warm grey):** We carry and install the full range — from rustic hardwood to plush carpet and custom area rugs.
+**Subheadline (Lato, 18px, warm grey):** We carry and install the full range — from rustic hardwood to plush carpet and luxury vinyl.
 
 **Grid: 3 columns × 2 rows**
 
@@ -91,7 +91,6 @@ Mon–Fri: 9am–6pm · Sat: 10am–5pm · Sun: Closed
 | 3 | Grey LVP in an open-plan kitchen/living room | Luxury Vinyl | 100% waterproof, endlessly durable | /vinyl |
 | 4 | Patterned stair runner on white-painted stairs | Stair Runners | Complete the look, top to bottom | /stair-runners |
 | 5 | Warm laminate in a family room with kids | Laminate Flooring | Beautiful looks, real-world performance | /laminate |
-| 6 | Ornate area rug in a living room with sectional | Area Rugs | Custom pieces that anchor any space | /area-rugs |
 
 **Card design:**
 - Square (1:1), image fills card
@@ -187,7 +186,7 @@ Mon–Fri: 9am–6pm · Sat: 10am–5pm · Sun: Closed
 > — **David & Lisa K., Etobicoke** ⭐⭐⭐⭐⭐
 
 **Card 3:**
-> "Came in just to browse for an area rug and left with the perfect custom piece. The staff knew exactly what would work with our space. Incredible knowledge."
+> "We had our entire main floor done in hardwood and the results are stunning. Knowledgeable staff, clean installation, and a result we're proud to show off."
 > — **Jennifer R., Midtown Toronto** ⭐⭐⭐⭐⭐
 
 **Below cards:** Google logo + `"See all our reviews on Google"` → links to https://share.google/TtoPhOHEuJI6WQigD
@@ -243,11 +242,11 @@ Visit our Toronto showroom or book a free in-home consultation — we come to yo
 ## SEO NOTES — HOME PAGE
 
 ```
-Page Title:     Atlas Rug & Design Centre | Flooring & Area Rugs Toronto
-Meta Desc:      Premium hardwood, carpet, luxury vinyl, laminate & custom area rugs
+Page Title:     Atlas Rug & Design Centre | Premium Flooring Toronto
+Meta Desc:      Premium hardwood, carpet, luxury vinyl, laminate & stair runners
                 in Toronto. Expert installation across the GTA by Atlas Rug & Design
                 Centre. Visit our showroom or book a free consultation today.
-H1:             Toronto's Trusted Source for Premium Flooring & Area Rugs
+H1:             Toronto's Trusted Source for Premium Flooring
 H2s:            Every Floor, Every Style
                 Why Toronto Homeowners Choose Us
                 Our Work Speaks for Itself
@@ -255,7 +254,7 @@ H2s:            Every Floor, Every Style
                 Trusted Brands, Trusted Results
                 Ready to Transform Your Space?
 Keywords:       flooring Toronto, hardwood floor installation Toronto,
-                carpet Toronto, area rugs Toronto, luxury vinyl Toronto,
+                carpet Toronto,  luxury vinyl Toronto,
                 flooring store Toronto, GTA flooring
 Schema:         LocalBusiness — include name, address, phone, url, openingHours,
                 aggregateRating, geo coordinates

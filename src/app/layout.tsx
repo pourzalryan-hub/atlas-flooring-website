@@ -19,11 +19,11 @@ const lato = Lato({
 
 export const metadata: Metadata = {
   title: {
-    default: "Atlas Rug & Design Centre | Flooring & Area Rugs Toronto",
+    default: "Atlas Rug & Design Centre | Premium Flooring Toronto",
     template: "%s | Atlas Rug & Design Centre",
   },
   description:
-    "Premium hardwood, carpet, luxury vinyl, laminate & custom area rugs in Toronto. Expert installation across the GTA by Atlas Rug & Design Centre since 1959. Visit our showroom at 978 Bathurst St or book a free consultation.",
+    "Premium hardwood, carpet, luxury vinyl, laminate & stair runners in Toronto. Expert installation across the GTA by Atlas Rug & Design Centre since 1959. Visit our showroom at 978 Bathurst St or book a free consultation.",
   keywords: [
     "flooring Toronto",
     "hardwood floor installation Toronto",
@@ -31,17 +31,17 @@ export const metadata: Metadata = {
     "luxury vinyl Toronto",
     "flooring store Toronto",
     "GTA flooring",
-    "area rugs Toronto",
-    "Atlas Rug Design Centre",
+    "stair runners Toronto",
+    "Atlas flooring Toronto",
   ],
   openGraph: {
     type: "website",
     locale: "en_CA",
     url: "https://www.atlasrugflooring.com",
     siteName: "Atlas Rug & Design Centre",
-    title: "Atlas Rug & Design Centre | Flooring & Area Rugs Toronto",
+    title: "Atlas Rug & Design Centre | Premium Flooring Toronto",
     description:
-      "Premium flooring and area rugs in Toronto since 1959. Hardwood, carpet, vinyl, laminate & custom rugs. Expert installation across the GTA.",
+      "Premium flooring in Toronto since 1959. Hardwood, carpet, vinyl, laminate & stair runners. Expert installation across the GTA.",
   },
   other: {
     "geo.region": "CA-ON",

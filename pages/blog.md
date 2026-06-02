@@ -108,7 +108,6 @@ Do NOT include: generic filler phrases, made-up statistics, competitor mentions
 | 3 | Basement Flooring Toronto: Your Best Options for Below Grade | basement flooring Toronto |
 | 3 | How to Care for Hardwood Floors: A Seasonal Guide | hardwood floor care Toronto |
 | 4 | The Best Flooring for Kitchens (That Isn't Tile) | kitchen flooring Toronto |
-| 4 | Area Rug Sizing Guide: How to Get It Right Every Time | area rug size guide |
 | 5 | Flooring Trends in Toronto Homes for 2026 | flooring trends Toronto 2026 |
 | 5 | Laminate vs. Luxury Vinyl: Which Should You Choose? | laminate vs luxury vinyl |
 | 6 | Pet-Friendly Flooring: The Best Options for Dog & Cat Owners | pet friendly flooring Toronto |

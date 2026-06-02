@@ -57,7 +57,6 @@
 - Stair Runners
 - Luxury Vinyl (LVP/LVT)
 - Laminate Flooring
-- Area Rugs
 - Multiple Products
 - Not Sure — Need Advice
 

@@ -30,7 +30,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="mt-4 font-lato text-sm text-white/60 leading-relaxed">
-              Toronto&apos;s destination for premium flooring &amp; custom rugs. Serving
+              Toronto&apos;s destination for premium flooring. Serving
               the GTA since 1959.
             </p>
             {/* Social icons */}
