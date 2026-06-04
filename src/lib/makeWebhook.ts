@@ -20,6 +20,7 @@ export async function sendToMakeWebhook(data: {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   })
+  console.log(`[makeWebhook] response status: ${res.status}`)
   if (!res.ok) {
     throw new Error(`Make webhook responded with ${res.status}`)
   }

@@ -48,6 +48,8 @@ function formatEmailHtml(data: Record<string, string>, date: string) {
 }
 
 export async function POST(req: NextRequest) {
+  console.log('[contact] POST /api/contact received')
+
   let body: Record<string, string>
   try {
     body = await req.json()
@@ -75,10 +77,13 @@ export async function POST(req: NextRequest) {
   const emailData = { name, email, phone, product, projectType, sqft, contactMethod, referral, message }
 
   // ── Make.com webhook (Google Sheets) — runs first, always ─────
+  const webhookSet = !!process.env.MAKE_WEBHOOK_URL
+  console.log(`[contact] MAKE_WEBHOOK_URL set: ${webhookSet}`)
   try {
     await sendToMakeWebhook({ date, name, phone, email, product, projectType, sqft, contactMethod, referral, message })
+    console.log('[contact] Make webhook: success')
   } catch (err) {
-    console.error('Make webhook error:', err)
+    console.error('[contact] Make webhook error:', err instanceof Error ? err.message : err)
     // Non-fatal — continue to email
   }
 
