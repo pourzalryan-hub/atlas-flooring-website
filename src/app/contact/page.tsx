@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import FAQAccordion from '@/components/FAQAccordion'
 import CTABanner from '@/components/CTABanner'
+import { trackFormSubmit } from '@/lib/gtm'
 
 // SEO metadata cannot be exported from a client component.
 // Add this to a separate layout.tsx or use a parent server component if needed.
@@ -90,6 +91,8 @@ const initialForm: FormState = {
 export default function ContactPage() {
   const [form, setForm] = useState<FormState>(initialForm)
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -97,10 +100,32 @@ export default function ContactPage() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: wire up form submission (e.g. Formspree, server action, API route)
-    setSubmitted(true)
+    setSubmitting(true)
+    setError('')
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+
+      if (!res.ok) throw new Error('Submission failed')
+
+      trackFormSubmit({
+        product: form.product,
+        projectType: form.projectType,
+        referral: form.referral,
+      })
+
+      setSubmitted(true)
+    } catch {
+      setError('Something went wrong. Please call us directly at (416) 533-3366.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -313,11 +338,18 @@ export default function ContactPage() {
                     />
                   </div>
 
+                  {error && (
+                    <p className="font-lato text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+                      {error}
+                    </p>
+                  )}
+
                   <button
                     type="submit"
-                    className="w-full bg-gold text-white font-lato font-semibold text-lg py-4 rounded hover:bg-gold-dark transition-colors"
+                    disabled={submitting}
+                    className="w-full bg-gold text-white font-lato font-semibold text-lg py-4 rounded hover:bg-gold-dark transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    Send My Request →
+                    {submitting ? 'Sending…' : 'Send My Request →'}
                   </button>
                 </form>
               )}
