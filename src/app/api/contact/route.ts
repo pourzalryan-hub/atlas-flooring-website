@@ -74,26 +74,30 @@ export async function POST(req: NextRequest) {
 
   const emailData = { name, email, phone, product, projectType, sqft, contactMethod, referral, message }
 
-  // ── Email notification (Resend) ───────────────────────────────
-  const resend = new Resend(process.env.RESEND_API_KEY)
-  const emailResult = await resend.emails.send({
-    from: 'Atlas Website <noreply@atlasrugflooring.com>',
-    to: 'info@atlasrugflooring.com',
-    replyTo: email,
-    subject: `New Lead: ${name}${product ? ` — ${product}` : ''}`,
-    html: formatEmailHtml(emailData, date),
-  })
-
-  if (emailResult.error) {
-    console.error('Resend error:', emailResult.error)
-  }
-
-  // ── Google Sheets via Make.com webhook ────────────────────────
+  // ── Make.com webhook (Google Sheets) — runs first, always ─────
   try {
     await sendToMakeWebhook({ date, name, phone, email, product, projectType, sqft, contactMethod, referral, message })
   } catch (err) {
     console.error('Make webhook error:', err)
-    // Non-fatal — email already sent
+    // Non-fatal — continue to email
+  }
+
+  // ── Email notification (Resend) ───────────────────────────────
+  try {
+    const resend = new Resend(process.env.RESEND_API_KEY)
+    const emailResult = await resend.emails.send({
+      from: 'Atlas Website <noreply@atlasrugflooring.com>',
+      to: 'info@atlasrugflooring.com',
+      replyTo: email,
+      subject: `New Lead: ${name}${product ? ` — ${product}` : ''}`,
+      html: formatEmailHtml(emailData, date),
+    })
+    if (emailResult.error) {
+      console.error('Resend error:', emailResult.error)
+    }
+  } catch (err) {
+    console.error('Resend threw:', err)
+    // Non-fatal — webhook already fired
   }
 
   return NextResponse.json({ ok: true })
