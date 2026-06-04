@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
-import { appendLeadToSheet } from '@/lib/googleSheets'
+import { sendToMakeWebhook } from '@/lib/makeWebhook'
 
 function formatEmailHtml(data: Record<string, string>, date: string) {
   const field = (label: string, value: string) =>
@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
 
   const emailData = { name, email, phone, product, projectType, sqft, contactMethod, referral, message }
 
-  // ── Email notification ────────────────────────────────────────
+  // ── Email notification (Resend) ───────────────────────────────
   const resend = new Resend(process.env.RESEND_API_KEY)
   const emailResult = await resend.emails.send({
     from: 'Atlas Website <noreply@atlasrugflooring.com>',
@@ -86,15 +86,13 @@ export async function POST(req: NextRequest) {
 
   if (emailResult.error) {
     console.error('Resend error:', emailResult.error)
-    // Don't block the response — still try the sheet
   }
 
-  // ── Google Sheets append ──────────────────────────────────────
-  // Sheet columns: Date | Name | Phone | Email | Product Interest | Message
+  // ── Google Sheets via Make.com webhook ────────────────────────
   try {
-    await appendLeadToSheet([date, name, phone, email, product, message])
+    await sendToMakeWebhook({ date, name, phone, email, product, projectType, sqft, contactMethod, referral, message })
   } catch (err) {
-    console.error('Sheets error:', err)
+    console.error('Make webhook error:', err)
     // Non-fatal — email already sent
   }
 
