@@ -105,14 +105,36 @@ export default function ContactPage() {
     setSubmitting(true)
     setError('')
 
+    const endpoint = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT
+    if (!endpoint) {
+      setError('Form is not configured. Please call us at (416) 533-3366.')
+      setSubmitting(false)
+      return
+    }
+
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch(endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          firstName: form.firstName,
+          lastName: form.lastName,
+          email: form.email,
+          phone: form.phone,
+          product: form.product,
+          projectType: form.projectType,
+          sqft: form.sqft,
+          contactMethod: form.contactMethod,
+          referral: form.referral,
+          message: form.message,
+        }),
       })
 
-      if (!res.ok) throw new Error('Submission failed')
+      const json = await res.json()
+      if (!res.ok) {
+        const msg = json?.errors?.[0]?.message ?? 'Submission failed'
+        throw new Error(msg)
+      }
 
       trackFormSubmit({
         product: form.product,
@@ -121,8 +143,12 @@ export default function ContactPage() {
       })
 
       setSubmitted(true)
-    } catch {
-      setError('Something went wrong. Please call us directly at (416) 533-3366.')
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Something went wrong. Please call us directly at (416) 533-3366.'
+      )
     } finally {
       setSubmitting(false)
     }
