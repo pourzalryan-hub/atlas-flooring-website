@@ -161,7 +161,7 @@ export default function LaminatePage() {
         title="Laminate Flooring Toronto"
         subtitle="Beautiful, durable, and budget-smart — laminate flooring installed by Toronto's most trusted flooring experts."
         breadcrumb="Laminate"
-        imageSrc="/images/placeholder.jpg"
+        imageSrc="/images/laminate-hero.png"
       />
 
       {/* 2. Intro */}

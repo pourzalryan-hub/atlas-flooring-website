@@ -77,16 +77,19 @@ const bestRooms = [
     room: "Kitchen",
     reason: "100% waterproof and easy underfoot during long cooking sessions. Stands up to spills, dropped items, and heavy foot traffic.",
     icon: "🍳",
+    image: "/images/vinyl-kitchen.jpg",
   },
   {
     room: "Bathroom",
     reason: "The only floating floor we comfortably recommend for full bathrooms. No moisture concerns, no warping, no swelling.",
     icon: "🚿",
+    image: "/images/vinyl-bathroom.jpg",
   },
   {
     room: "Basement",
     reason: "Basements are prone to humidity and occasional moisture. LVP handles both with ease — and adds warmth that cold tile can't match.",
     icon: "🏠",
+    image: "/images/vinyl-basement.jpg",
   },
 ];
 
@@ -121,7 +124,7 @@ export default function VinylPage() {
         title="Luxury Vinyl Flooring Toronto"
         subtitle="LVP and LVT flooring that's 100% waterproof, beautifully realistic, and built for real life — supplied and installed by Toronto's flooring experts."
         breadcrumb="Luxury Vinyl"
-        imageSrc="/images/placeholder.jpg"
+        imageSrc="/images/vinyl-hero.jpg"
       />
 
       {/* 2. Intro */}
@@ -168,7 +171,7 @@ export default function VinylPage() {
             <div className="rounded-2xl border-2 border-gold bg-white p-8 shadow-sm">
               <div className="bg-stone-200 aspect-video w-full relative rounded-xl mb-6 overflow-hidden">
                 <Image
-                  src="/images/placeholder.jpg"
+                  src="/images/vinyl-lvp.jpg"
                   alt="Luxury Vinyl Plank (LVP)"
                   fill
                   className="object-cover"
@@ -194,7 +197,7 @@ export default function VinylPage() {
             <div className="rounded-2xl border border-stone-200 bg-white p-8 shadow-sm">
               <div className="bg-stone-200 aspect-video w-full relative rounded-xl mb-6 overflow-hidden">
                 <Image
-                  src="/images/placeholder.jpg"
+                  src="/images/vinyl-lvt.jpg"
                   alt="Luxury Vinyl Tile (LVT)"
                   fill
                   className="object-cover"
@@ -393,7 +396,7 @@ export default function VinylPage() {
               >
                 <div className="bg-stone-200 aspect-video w-full relative">
                   <Image
-                    src="/images/placeholder.jpg"
+                    src={room.image}
                     alt={room.room}
                     fill
                     className="object-cover"
