@@ -9,6 +9,7 @@ const products = [
   { label: "Stair Runners", href: "/stair-runners" },
   { label: "Luxury Vinyl", href: "/vinyl" },
   { label: "Laminate Flooring", href: "/laminate" },
+  { label: "Floor Refinishing", href: "/refinishing" },
 ];
 
 const navLinks = [

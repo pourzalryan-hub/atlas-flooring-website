@@ -13,37 +13,37 @@ const products = [
     label: "Hardwood Flooring",
     hook: "Timeless beauty, built to last a lifetime",
     href: "/hardwood",
-    bg: "bg-amber-100",
+    image: "/images/hardwood-hero.jpg",
   },
   {
     label: "Carpet & Broadloom",
     hook: "Comfort underfoot in every room",
     href: "/carpet",
-    bg: "bg-stone-200",
+    image: "/images/carpet-hero.jpg",
   },
   {
     label: "Luxury Vinyl",
     hook: "100% waterproof, endlessly durable",
     href: "/vinyl",
-    bg: "bg-neutral-300",
+    image: "/images/vinyl-hero.jpg",
   },
   {
     label: "Stair Runners",
     hook: "Complete the look, top to bottom",
     href: "/stair-runners",
-    bg: "bg-amber-200",
+    image: "/images/stair-runners-hero.jpg",
   },
   {
     label: "Laminate Flooring",
     hook: "Beautiful looks, real-world performance",
     href: "/laminate",
-    bg: "bg-stone-300",
+    image: "/images/laminate-hero.png",
   },
   {
     label: "Floor Refinishing",
     hook: "Restore your floors to like-new condition",
-    href: "/contact",
-    bg: "bg-zinc-300",
+    href: "/refinishing",
+    image: "/images/hardwood-hero.jpg",
   },
 ];
 
@@ -180,7 +180,8 @@ export default function HomePage() {
               >
                 <div className="relative aspect-square overflow-hidden">
                   <div
-                    className={`w-full h-full ${product.bg} flex items-end justify-start p-6 group-hover:scale-105 transition-transform duration-500`}
+                    className="w-full h-full bg-cover bg-center flex items-end justify-start p-6 group-hover:scale-105 transition-transform duration-500"
+                    style={{ backgroundImage: `url('${product.image}')` }}
                   >
                     <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-charcoal/20 to-transparent" />
                     <div className="relative z-10">
