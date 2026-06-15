@@ -90,12 +90,6 @@
 - **Dimensions:** Square 800 × 800px
 - **Recommendation:** 🟢 **Use existing Atlas photo** OR supplier photography (Mirage/Preverco have excellent press kits)
 
-### hardwood-wide-plank.jpg — Product card: Wide Plank
-- **Used in:** `/hardwood` — product types grid (card 3 of 3)
-- **What it shows:** Wide-plank floor (5"+ planks) — modern aesthetic, contemporary home
-- **Dimensions:** Square 800 × 800px
-- **Recommendation:** 📷 **Take a new photo** of a recent wide-plank install — this is your most photogenic product and worth a fresh shot
-
 ---
 
 ## 5. STAIR RUNNERS PAGE

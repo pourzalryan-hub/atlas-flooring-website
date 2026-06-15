@@ -8,7 +8,7 @@ import ProcessSteps from "@/components/ProcessSteps";
 export const metadata: Metadata = {
   title: "Hardwood Flooring Toronto | Atlas Rug & Design Centre",
   description:
-    "Premium hardwood flooring supply and installation in Toronto. Solid, engineered, and wide-plank hardwood from Atlas Rug & Design Centre — serving Toronto since 1959. Get a free in-home quote today.",
+    "Premium hardwood flooring supply and installation in Toronto. Solid and engineered hardwood from Atlas Rug & Design Centre — serving Toronto since 1959. Get a free in-home quote today.",
 };
 
 const productTypes = [
@@ -25,13 +25,6 @@ const productTypes = [
     tagColor: "bg-charcoal",
     description:
       "A real hardwood veneer over a dimensionally-stable plywood core. Engineered hardwood handles humidity swings and radiant heat systems far better than solid wood, opening up rooms and climates that were previously off-limits.",
-  },
-  {
-    label: "Wide Plank",
-    tag: "Contemporary Favourite",
-    tagColor: "bg-gold",
-    description:
-      "Planks 5 inches and wider deliver a dramatic, open feel that has become the defining look of modern Toronto interiors. Wide plank is available in both solid and engineered constructions and showcases the natural grain of each species beautifully.",
   },
 ];
 
@@ -162,7 +155,7 @@ export default function HardwoodPage() {
       {/* 1. Hero */}
       <PageHero
         title="Hardwood Flooring Toronto"
-        subtitle="Solid, engineered & wide-plank hardwood — supplied and installed by Toronto's flooring experts."
+        subtitle="Solid and engineered hardwood — supplied and installed by Toronto's flooring experts."
         breadcrumb="Hardwood"
         imageSrc="/images/placeholder.jpg"
       />
@@ -179,10 +172,10 @@ export default function HardwoodPage() {
           <p className="text-warm-grey text-lg leading-relaxed mb-5">
             Since 1959, Atlas Rug &amp; Design Centre has been helping Toronto
             homeowners choose and install hardwood floors they'll be proud of for
-            generations. From a classic red oak strip floor to a dramatic
-            wide-plank white oak in a custom stain, we've seen — and delivered —
-            every combination imaginable. Our showroom at 978 Bathurst Street
-            carries hundreds of hardwood options across species, grades, widths,
+            generations. From a classic red oak strip floor to a rich engineered
+            walnut in a custom stain, we've seen — and delivered — every
+            combination imaginable. Our showroom at 978 Bathurst Street carries
+            hundreds of hardwood options across species, grades, widths,
             and finishes.
           </p>
           <p className="text-warm-grey text-lg leading-relaxed">
