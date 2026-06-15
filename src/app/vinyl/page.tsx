@@ -88,11 +88,6 @@ const bestRooms = [
     reason: "Basements are prone to humidity and occasional moisture. LVP handles both with ease — and adds warmth that cold tile can't match.",
     icon: "🏠",
   },
-  {
-    room: "Open-Plan Main Floor",
-    reason: "LVP runs continuously through open-concept kitchen/dining/living areas with no transitions required — a clean, unified look.",
-    icon: "🛋️",
-  },
 ];
 
 const faqItems = [
