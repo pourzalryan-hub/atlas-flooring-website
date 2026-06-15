@@ -62,9 +62,9 @@
 - **Dimensions:** Square 800 × 800px
 - **Recommendation:** 🤖 **AI-enhanced version** — supplier sample photos work well here
 
-### carpet-frieze.jpg — Product card: Frieze & Textured
+### carpet-wool.jpg — Product card: Wool Carpet
 - **Used in:** `/carpet` — product types grid (card 3 of 3)
-- **What it shows:** Frieze or textured carpet — twisted fibres, casual look, family room setting
+- **What it shows:** Wool carpet — natural texture, rich tone, luxurious room setting
 - **Dimensions:** Square 800 × 800px
 - **Recommendation:** 🤖 **AI-enhanced version** — supplier photography or AI upscale of a swatch
 
@@ -222,7 +222,7 @@ Place all photos in: `/public/images/`
 | `carpet-hero.jpg` | Carpet hero (update imageSrc in carpet/page.tsx) |
 | `carpet-cut-pile.jpg` | Carpet — Cut Pile card |
 | `carpet-berber.jpg` | Carpet — Berber card |
-| `carpet-frieze.jpg` | Carpet — Frieze card |
+| `carpet-wool.jpg` | Carpet — Frieze card |
 | `hardwood-hero.jpg` | Hardwood hero (update imageSrc in hardwood/page.tsx) |
 | `hardwood-solid.jpg` | Hardwood — Solid card |
 | `hardwood-engineered.jpg` | Hardwood — Engineered card |

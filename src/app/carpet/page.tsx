@@ -27,11 +27,11 @@ const carpetTypes = [
       "Loops of fibre are left uncut, creating a firm, durable surface that stands up to heavy foot traffic. Berber (with its flecked pattern) and other loop styles are ideal for stairs, hallways, basements, and family rooms. They resist crushing and show less wear over time.",
   },
   {
-    label: "Frieze & Textured",
-    tag: "Great for Families",
+    label: "Wool Carpet",
+    tag: "Premium & Sustainable",
     tagColor: "bg-gold",
     description:
-      "Tightly twisted fibres that curl at the tips create a casual, textured look that hides footprints and vacuum marks far better than plush styles. Frieze and textured carpets are extremely popular for family rooms, kids' rooms, and multi-use spaces — style without the maintenance stress.",
+      "Natural wool carpet is the pinnacle of quality — warm, resilient, naturally flame-retardant, and biodegradable. It regulates humidity, maintains its look for decades, and gets better with age. Available in luxurious textures and an array of natural tones. An investment that lasts a lifetime.",
   },
 ];
 
