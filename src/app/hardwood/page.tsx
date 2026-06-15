@@ -200,7 +200,7 @@ export default function HardwoodPage() {
               Hardwood Types We Carry
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
             {productTypes.map((product) => (
               <div
                 key={product.label}
