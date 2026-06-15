@@ -153,7 +153,7 @@ export default function CarpetPage() {
         title="Carpet & Broadloom Toronto"
         subtitle="Premium carpet and broadloom for every room — supplied and professionally installed by Toronto's flooring experts."
         breadcrumb="Carpet & Broadloom"
-        imageSrc="/images/placeholder.jpg"
+        imageSrc="/images/carpet-hero.jpg"
       />
 
       {/* 2. Intro */}

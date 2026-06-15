@@ -159,7 +159,7 @@ export default function HardwoodPage() {
         title="Hardwood Flooring Toronto"
         subtitle="Solid and engineered hardwood — supplied and installed by Toronto's flooring experts."
         breadcrumb="Hardwood"
-        imageSrc="/images/placeholder.jpg"
+        imageSrc="/images/hardwood-hero.jpg"
       />
 
       {/* 2. Intro */}
