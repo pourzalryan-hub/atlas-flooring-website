@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import PageHero from "@/components/PageHero";
 import CTABanner from "@/components/CTABanner";
 import FAQAccordion from "@/components/FAQAccordion";
@@ -74,33 +73,6 @@ const thicknessRows = [
   { thickness: "14–15mm", notes: "Premium — closest feel to hardwood, maximum sound dampening" },
 ];
 
-const popularLooks = [
-  {
-    style: "Light Oak / Nordic",
-    description:
-      "Blonde and whitewashed oak tones that open up a room. The most popular laminate look in contemporary Toronto interiors.",
-  },
-  {
-    style: "Warm Walnut",
-    description:
-      "Deep honey-brown tones that add richness and warmth. Suits transitional and traditional interiors beautifully.",
-  },
-  {
-    style: "Cool Grey",
-    description:
-      "Greige and cool grey-toned planks for a modern, understated palette. Pairs well with white and charcoal interiors.",
-  },
-  {
-    style: "Rustic Barnwood",
-    description:
-      "Wire-brushed textures, knots, and hand-scraped embossing recreate a farmhouse aesthetic with all the durability of laminate.",
-  },
-  {
-    style: "Stone Look",
-    description:
-      "Concrete and stone-effect laminates for a truly unique floor. Large-format planks with a tile-like pattern and a cool, industrial feel.",
-  },
-];
 
 const installationSteps = [
   {
@@ -336,42 +308,57 @@ export default function LaminatePage() {
         </div>
       </section>
 
-      {/* 5. Popular Looks */}
+      {/* 5. Is Laminate Right For You */}
       <section className="bg-off-white py-20 px-4">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gold mb-3 font-lato">
-              Style Inspiration
+              Quick Guide
             </p>
             <h2 className="font-playfair text-4xl text-charcoal">
-              Popular Laminate Looks
+              Is Laminate Right For You?
             </h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-            {popularLooks.map((look) => (
-              <div
-                key={look.style}
-                className="rounded-2xl shadow-sm overflow-hidden border border-stone-100 bg-white flex flex-col"
-              >
-                <div className="bg-stone-200 aspect-square w-full relative">
-                  <Image
-                    src="/images/placeholder.jpg"
-                    alt={look.style}
-                    fill
-                    className="object-cover"
-                    unoptimized
-                  />
-                </div>
-                <div className="p-4 flex flex-col flex-1">
-                  <h3 className="font-playfair text-base text-charcoal mb-1">
-                    {look.style}
-                  </h3>
-                  <p className="text-warm-grey text-xs leading-relaxed flex-1">
-                    {look.description}
-                  </p>
-                </div>
-              </div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="rounded-2xl bg-white border border-stone-100 shadow-sm p-8">
+              <h3 className="font-playfair text-2xl text-charcoal mb-5">
+                ✅ Laminate is a great fit if…
+              </h3>
+              <ul className="space-y-3">
+                {[
+                  "You want the look of hardwood on a tighter budget",
+                  "You're renovating a rental property or investment unit",
+                  "You need a fast, low-disruption installation",
+                  "The room gets moderate foot traffic (living room, bedroom, home office)",
+                  "You want a consistent, uniform look across a large open area",
+                  "You'll be replacing floors again in 15–20 years",
+                ].map((point) => (
+                  <li key={point} className="flex gap-3 text-sm text-warm-grey">
+                    <span className="text-gold font-bold flex-shrink-0">→</span>
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-2xl bg-white border border-stone-100 shadow-sm p-8">
+              <h3 className="font-playfair text-2xl text-charcoal mb-5">
+                ⚠️ Consider another option if…
+              </h3>
+              <ul className="space-y-3">
+                {[
+                  "The room has moisture — bathrooms, laundry rooms, or wet basements (choose LVP instead)",
+                  "You want a floor you can refinish and keep for 50+ years (choose solid hardwood)",
+                  "You have pets that track in a lot of water or have accidents (choose LVP or triexta carpet)",
+                  "You're installing over radiant in-floor heating (laminate and heat don't mix well)",
+                  "Resale value is a top priority — hardwood adds more to a home's appraisal",
+                ].map((point) => (
+                  <li key={point} className="flex gap-3 text-sm text-warm-grey">
+                    <span className="text-charcoal font-bold flex-shrink-0">→</span>
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>
