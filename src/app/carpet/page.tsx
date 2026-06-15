@@ -16,6 +16,7 @@ const carpetTypes = [
     label: "Cut Pile / Plush",
     tag: "Most Luxurious",
     tagColor: "bg-gold",
+    image: "/images/carpet-cut-pile.jpg",
     description:
       "The classic carpet style — fibres are cut to an even height, creating a dense, velvety surface. Plush carpet feels incredible underfoot and adds warmth and elegance to master bedrooms, living rooms, and formal spaces. Best in lower-traffic rooms where that pristine look can be maintained.",
   },
@@ -23,6 +24,7 @@ const carpetTypes = [
     label: "Berber & Loop",
     tag: "Best for High Traffic",
     tagColor: "bg-charcoal",
+    image: "/images/carpet-berber.jpg",
     description:
       "Loops of fibre are left uncut, creating a firm, durable surface that stands up to heavy foot traffic. Berber (with its flecked pattern) and other loop styles are ideal for stairs, hallways, basements, and family rooms. They resist crushing and show less wear over time.",
   },
@@ -30,6 +32,7 @@ const carpetTypes = [
     label: "Wool Carpet",
     tag: "Premium & Sustainable",
     tagColor: "bg-gold",
+    image: "/images/carpet-wool.jpg",
     description:
       "Natural wool carpet is the pinnacle of quality — warm, resilient, naturally flame-retardant, and biodegradable. It regulates humidity, maintains its look for decades, and gets better with age. Available in luxurious textures and an array of natural tones. An investment that lasts a lifetime.",
   },
@@ -198,7 +201,7 @@ export default function CarpetPage() {
               >
                 <div className="bg-stone-200 aspect-square w-full relative">
                   <Image
-                    src="/images/placeholder.jpg"
+                    src={type.image}
                     alt={type.label}
                     fill
                     className="object-cover"

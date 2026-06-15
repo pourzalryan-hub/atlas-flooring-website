@@ -16,6 +16,7 @@ const productTypes = [
     label: "Solid Hardwood",
     tag: "Most Popular",
     tagColor: "bg-gold",
+    image: "/images/hardwood-solid.jpg",
     description:
       "Milled from a single piece of wood, solid hardwood is the gold standard of flooring. It can be sanded and refinished multiple times over decades, making it a true lifetime investment. Best for above-grade living areas.",
   },
@@ -23,6 +24,7 @@ const productTypes = [
     label: "Engineered Hardwood",
     tag: "Best for Basements & Radiant Heat",
     tagColor: "bg-charcoal",
+    image: "/images/hardwood-engineered.jpg",
     description:
       "A real hardwood veneer over a dimensionally-stable plywood core. Engineered hardwood handles humidity swings and radiant heat systems far better than solid wood, opening up rooms and climates that were previously off-limits.",
   },
@@ -206,7 +208,7 @@ export default function HardwoodPage() {
               >
                 <div className="bg-stone-200 aspect-square w-full relative">
                   <Image
-                    src="/images/placeholder.jpg"
+                    src={product.image}
                     alt={product.label}
                     fill
                     className="object-cover"

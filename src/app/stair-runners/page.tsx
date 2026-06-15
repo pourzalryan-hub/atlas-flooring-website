@@ -16,6 +16,7 @@ const runnerStyles = [
     label: "Patterned Runners",
     tag: "Most Popular",
     tagColor: "bg-gold",
+    image: "/images/runner-patterned.jpg",
     description:
       "A patterned stair runner transforms your staircase into a design feature. From classic Persian-inspired motifs to bold geometric prints and subtle stripes, patterned runners add personality and draw the eye upward. They're the number one request in our showroom — and with good reason.",
   },
@@ -23,6 +24,7 @@ const runnerStyles = [
     label: "Solid & Textured",
     tag: "Clean & Timeless",
     tagColor: "bg-charcoal",
+    image: "/images/runner-solid.jpg",
     description:
       "A solid-colour runner in a rich tone — deep navy, warm charcoal, sage green, or cream — delivers a refined, architectural look that never goes out of style. Textured weaves like herringbone or ribbed loops add tactile interest while remaining understated. Pairs beautifully with hardwood and natural wood stairs.",
   },
@@ -30,6 +32,7 @@ const runnerStyles = [
     label: "Fully Carpeted Stairs",
     tag: "Best for Families",
     tagColor: "bg-gold",
+    image: "/images/runner-fully-carpeted.jpg",
     description:
       "For households with young children or elderly family members, fully carpeted stairs — wall to wall — provide maximum grip, comfort, and noise reduction. We install broadloom stair carpet with the same care as a runner, using proper tack strips and professional stretching for a smooth, wrinkle-free finish.",
   },
@@ -116,14 +119,14 @@ const crossSellItems = [
     description:
       "Extend the warmth of your stair runner throughout your home. We carry a wide range of carpet styles, textures, and colours for every room.",
     href: "/carpet",
-    image: "/images/placeholder.jpg",
+    image: "/images/runner-cross-sell-carpet.jpg",
   },
   {
     label: "Hardwood Flooring",
     description:
       "A stair runner pairs beautifully with new hardwood. Explore our full range of solid, engineered, and wide-plank hardwood options.",
     href: "/hardwood",
-    image: "/images/placeholder.jpg",
+    image: "/images/runner-cross-sell-hardwood.jpg",
   },
 ];
 
@@ -135,7 +138,7 @@ export default function StairRunnersPage() {
         title="Custom Stair Runners Toronto"
         subtitle="The perfect finishing touch for your staircase — custom-measured, expertly installed stair runners in hundreds of styles."
         breadcrumb="Stair Runners"
-        imageSrc="/images/placeholder.jpg"
+        imageSrc="/images/stair-runners-hero.jpg"
       />
 
       {/* 2. Intro */}
@@ -184,7 +187,7 @@ export default function StairRunnersPage() {
               >
                 <div className="bg-stone-200 aspect-square w-full relative">
                   <Image
-                    src="/images/placeholder.jpg"
+                    src={style.image}
                     alt={style.label}
                     fill
                     className="object-cover"

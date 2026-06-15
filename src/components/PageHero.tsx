@@ -7,12 +7,12 @@ interface PageHeroProps {
   imageSrc?: string;
 }
 
-export default function PageHero({ title, subtitle, breadcrumb }: PageHeroProps) {
+export default function PageHero({ title, subtitle, breadcrumb, imageSrc }: PageHeroProps) {
+  const bg = imageSrc ?? '/images/placeholder.jpg';
   return (
     <section className="relative h-[60vh] min-h-[420px] flex items-center bg-charcoal overflow-hidden">
-      {/* Background placeholder — replace with next/image when real photos available */}
       <div className="absolute inset-0 bg-gradient-to-br from-stone-800 to-charcoal opacity-90" />
-      <div className="absolute inset-0 bg-[url('/images/placeholder.jpg')] bg-cover bg-center opacity-20" />
+      <div className="absolute inset-0 bg-cover bg-center opacity-30" style={{ backgroundImage: `url('${bg}')` }} />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         {/* Breadcrumb */}
