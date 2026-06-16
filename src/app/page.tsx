@@ -43,7 +43,7 @@ const products = [
     label: "Floor Refinishing",
     hook: "Restore your floors to like-new condition",
     href: "/refinishing",
-    image: "/images/hardwood-hero.jpg",
+    image: "/images/refinishing-hero.jpg",
   },
 ];
 

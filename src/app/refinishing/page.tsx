@@ -149,7 +149,7 @@ export default function RefinishingPage() {
         title="Hardwood Floor Refinishing Toronto"
         subtitle="Restore your existing hardwood to like-new beauty — a fraction of the cost of replacement."
         breadcrumb="Floor Refinishing"
-        imageSrc="/images/hardwood-hero.jpg"
+        imageSrc="/images/refinishing-hero.jpg"
       />
 
       {/* 2. Intro */}
