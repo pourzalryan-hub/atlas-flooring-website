@@ -21,6 +21,7 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://atlasrugflooring.com"),
   title: {
     default: "Atlas Rug & Design Centre | Premium Flooring Toronto",
     template: "%s | Atlas Rug & Design Centre",
@@ -37,18 +38,114 @@ export const metadata: Metadata = {
     "stair runners Toronto",
     "Atlas flooring Toronto",
   ],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     locale: "en_CA",
-    url: "https://www.atlasrugflooring.com",
+    url: "https://atlasrugflooring.com",
     siteName: "Atlas Rug & Design Centre",
     title: "Atlas Rug & Design Centre | Premium Flooring Toronto",
     description:
       "Premium flooring in Toronto since 1959. Hardwood, carpet, vinyl, laminate & stair runners. Expert installation across the GTA.",
+    images: [
+      {
+        url: "/images/hero.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Atlas Rug & Design Centre — Premium Flooring Toronto",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Atlas Rug & Design Centre | Premium Flooring Toronto",
+    description:
+      "Premium flooring in Toronto since 1959. Hardwood, carpet, vinyl, laminate & stair runners. Expert installation across the GTA.",
+    images: ["/images/hero.jpg"],
   },
   other: {
     "geo.region": "CA-ON",
     "geo.placename": "Toronto",
+  },
+};
+
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": ["LocalBusiness", "FlooringContractor"],
+  name: "Atlas Rug & Design Centre",
+  image: "https://atlasrugflooring.com/images/hero.jpg",
+  url: "https://atlasrugflooring.com",
+  telephone: "+1-416-533-3366",
+  priceRange: "$$",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "978 Bathurst St",
+    addressLocality: "Toronto",
+    addressRegion: "ON",
+    postalCode: "M5R 3G6",
+    addressCountry: "CA",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 43.6677,
+    longitude: -79.4115,
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ],
+      opens: "10:00",
+      closes: "16:00",
+    },
+  ],
+  openingHours: "Mo-Sa 10:00-16:00",
+  foundingDate: "1959",
+  areaServed: [
+    "Toronto",
+    "North York",
+    "Etobicoke",
+    "Scarborough",
+    "East York",
+    "York",
+    "Midtown Toronto",
+    "The Annex",
+    "Forest Hill",
+    "Leaside",
+    "Rosedale",
+    "High Park",
+    "The Beaches",
+    "Leslieville",
+    "Riverdale",
+    "Downtown Toronto",
+  ].map((name) => ({ "@type": "City", name })),
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Flooring Services",
+    itemListElement: [
+      "Hardwood Flooring",
+      "Engineered Hardwood Flooring",
+      "Carpet & Broadloom",
+      "Luxury Vinyl Flooring",
+      "Laminate Flooring",
+      "Stair Runners",
+      "Floor Refinishing",
+      "Custom Area Rugs",
+      "Commercial Flooring",
+      "Condo Flooring",
+      "Basement Flooring",
+    ].map((service) => ({
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name: service },
+    })),
   },
 };
 
@@ -60,6 +157,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${playfair.variable} ${lato.variable}`}>
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessSchema),
+          }}
+        />
         {GTM_ID && (
           <Script id="gtm-head" strategy="afterInteractive">
             {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

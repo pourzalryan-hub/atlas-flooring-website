@@ -8,6 +8,21 @@ export const metadata: Metadata = {
   title: "Laminate Flooring Toronto | Atlas Rug & Design Centre",
   description:
     "Premium laminate flooring supply and installation in Toronto. Scratch-resistant, budget-friendly, and beautiful — supplied and installed by Atlas Rug & Design Centre since 1959. Free quotes available.",
+  alternates: { canonical: "/laminate" },
+  openGraph: {
+    title: "Laminate Flooring Toronto | Atlas Rug & Design Centre",
+    description:
+      "Scratch-resistant, budget-friendly laminate flooring supply and installation in Toronto.",
+    url: "https://atlasrugflooring.com/laminate",
+    siteName: "Atlas Rug & Design Centre",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Laminate Flooring Toronto | Atlas Rug & Design Centre",
+    description:
+      "Scratch-resistant, budget-friendly laminate flooring in Toronto.",
+  },
 };
 
 const whyLaminateItems = [

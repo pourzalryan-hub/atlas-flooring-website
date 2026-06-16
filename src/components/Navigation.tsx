@@ -5,15 +5,21 @@ import Link from "next/link";
 
 const products = [
   { label: "Hardwood Flooring", href: "/hardwood" },
+  { label: "Engineered Hardwood", href: "/engineered-hardwood" },
   { label: "Carpet & Broadloom", href: "/carpet" },
   { label: "Stair Runners", href: "/stair-runners" },
   { label: "Luxury Vinyl", href: "/vinyl" },
   { label: "Laminate Flooring", href: "/laminate" },
   { label: "Floor Refinishing", href: "/refinishing" },
+  { label: "Area Rugs", href: "/area-rugs" },
+  { label: "Condo Flooring", href: "/condo-flooring" },
+  { label: "Basement Flooring", href: "/basement-flooring" },
+  { label: "Commercial Flooring", href: "/commercial" },
 ];
 
 const navLinks = [
   { label: "Home", href: "/" },
+  { label: "Locations", href: "/locations" },
   { label: "Gallery", href: "/gallery" },
   { label: "About", href: "/about" },
   { label: "Blog", href: "/blog" },

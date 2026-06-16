@@ -9,6 +9,21 @@ export const metadata: Metadata = {
   title: "Hardwood Flooring Toronto | Atlas Rug & Design Centre",
   description:
     "Premium hardwood flooring supply and installation in Toronto. Solid and engineered hardwood from Atlas Rug & Design Centre — serving Toronto since 1959. Get a free in-home quote today.",
+  alternates: { canonical: "/hardwood" },
+  openGraph: {
+    title: "Hardwood Flooring Toronto | Atlas Rug & Design Centre",
+    description:
+      "Premium solid and engineered hardwood supply and installation in Toronto since 1959.",
+    url: "https://atlasrugflooring.com/hardwood",
+    siteName: "Atlas Rug & Design Centre",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Hardwood Flooring Toronto | Atlas Rug & Design Centre",
+    description:
+      "Premium solid and engineered hardwood supply and installation in Toronto.",
+  },
 };
 
 const productTypes = [

@@ -9,6 +9,21 @@ export const metadata: Metadata = {
   title: "Carpet & Broadloom Toronto | Atlas Rug & Design Centre",
   description:
     "Premium carpet and broadloom flooring supply and installation in Toronto. Hundreds of styles, fibres, and colours in stock. Family-owned since 1959. Free in-home consultations available.",
+  alternates: { canonical: "/carpet" },
+  openGraph: {
+    title: "Carpet & Broadloom Toronto | Atlas Rug & Design Centre",
+    description:
+      "Premium carpet and broadloom supply and installation in Toronto. Family-owned since 1959.",
+    url: "https://atlasrugflooring.com/carpet",
+    siteName: "Atlas Rug & Design Centre",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Carpet & Broadloom Toronto | Atlas Rug & Design Centre",
+    description:
+      "Premium carpet and broadloom supply and installation in Toronto.",
+  },
 };
 
 const carpetTypes = [

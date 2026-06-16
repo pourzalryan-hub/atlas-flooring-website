@@ -9,6 +9,21 @@ export const metadata: Metadata = {
   title: "Stair Runners Toronto | Atlas Rug & Design Centre",
   description:
     "Custom stair runners designed and installed in Toronto. Patterned, solid, and natural fibre runners professionally fitted for beauty and safety. Atlas Rug & Design Centre — since 1959.",
+  alternates: { canonical: "/stair-runners" },
+  openGraph: {
+    title: "Stair Runners Toronto | Atlas Rug & Design Centre",
+    description:
+      "Custom stair runners designed and installed in Toronto for beauty and safety.",
+    url: "https://atlasrugflooring.com/stair-runners",
+    siteName: "Atlas Rug & Design Centre",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Stair Runners Toronto | Atlas Rug & Design Centre",
+    description:
+      "Custom stair runners designed and installed in Toronto.",
+  },
 };
 
 const runnerStyles = [

@@ -8,6 +8,21 @@ export const metadata: Metadata = {
   title: "Luxury Vinyl Flooring Toronto | LVP & LVT | Atlas Rug & Design Centre",
   description:
     "Luxury vinyl plank and tile (LVP & LVT) supply and installation in Toronto. 100% waterproof, pet-friendly, and beautifully realistic. Atlas Rug & Design Centre — Toronto's flooring experts since 1959.",
+  alternates: { canonical: "/vinyl" },
+  openGraph: {
+    title: "Luxury Vinyl Flooring Toronto | LVP & LVT | Atlas Rug & Design Centre",
+    description:
+      "Luxury vinyl plank and tile in Toronto. 100% waterproof, pet-friendly, and realistic.",
+    url: "https://atlasrugflooring.com/vinyl",
+    siteName: "Atlas Rug & Design Centre",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Luxury Vinyl Flooring Toronto | LVP & LVT | Atlas Rug & Design Centre",
+    description:
+      "Luxury vinyl plank and tile in Toronto. 100% waterproof and pet-friendly.",
+  },
 };
 
 const keyFeatures = [

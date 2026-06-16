@@ -8,6 +8,21 @@ export const metadata: Metadata = {
   title: "Hardwood Floor Refinishing Toronto | Atlas Rug & Design Centre",
   description:
     "Professional hardwood floor refinishing and restoration in Toronto. Sand, stain, and refinish your existing floors to like-new condition. Atlas Rug & Design Centre — since 1959. Free quotes available.",
+  alternates: { canonical: "/refinishing" },
+  openGraph: {
+    title: "Hardwood Floor Refinishing Toronto | Atlas Rug & Design Centre",
+    description:
+      "Professional hardwood floor refinishing and restoration in Toronto since 1959.",
+    url: "https://atlasrugflooring.com/refinishing",
+    siteName: "Atlas Rug & Design Centre",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Hardwood Floor Refinishing Toronto | Atlas Rug & Design Centre",
+    description:
+      "Professional hardwood floor refinishing and restoration in Toronto.",
+  },
 };
 
 const benefits = [

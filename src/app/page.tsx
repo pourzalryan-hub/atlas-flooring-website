@@ -386,6 +386,101 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── RECENT PROJECTS ─────────────────────────────────────── */}
+      <section className="py-24 bg-off-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14">
+            <span className="section-label">RECENT PROJECTS</span>
+            <h2 className="font-playfair text-4xl md:text-5xl text-charcoal mb-4">
+              Recently Completed Around Toronto
+            </h2>
+            <p className="font-lato text-lg text-warm-grey">
+              A few of the floors we&apos;ve installed for Toronto homeowners and businesses.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { slug: "stair-runner-forest-hill", title: "Patterned Stair Runner — Forest Hill", type: "Stair Runners" },
+              { slug: "hardwood-leaside", title: "White Oak Hardwood — Leaside", type: "Hardwood" },
+              { slug: "vinyl-condo-downtown", title: "LVP Throughout — Downtown Condo", type: "Luxury Vinyl" },
+              { slug: "refinishing-annex", title: "Floor Refinishing — The Annex", type: "Refinishing" },
+            ].map((p) => (
+              <Link
+                key={p.slug}
+                href={`/projects/${p.slug}`}
+                className="group rounded-2xl shadow-sm overflow-hidden border border-stone-100 bg-white hover:shadow-md transition-shadow flex flex-col"
+              >
+                <div className="aspect-video bg-stone-200" />
+                <div className="p-5">
+                  <span className="text-gold font-lato text-xs font-semibold uppercase tracking-wide">
+                    {p.type}
+                  </span>
+                  <h3 className="font-playfair text-lg text-charcoal mt-2 group-hover:text-gold transition-colors">
+                    {p.title}
+                  </h3>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          <div className="text-center mt-10">
+            <Link
+              href="/projects"
+              className="font-lato text-gold font-semibold hover:text-gold-dark transition-colors text-lg"
+            >
+              View All Projects →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SERVICE AREAS ───────────────────────────────────────── */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14">
+            <span className="section-label">SERVICE AREAS</span>
+            <h2 className="font-playfair text-4xl md:text-5xl text-charcoal mb-4">
+              Proudly Serving Toronto &amp; the GTA
+            </h2>
+            <p className="font-lato text-lg text-warm-grey max-w-xl mx-auto">
+              From our Bathurst Street showroom we install flooring across the
+              city. Find your neighbourhood below.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {[
+              { name: "Toronto", slug: "toronto" },
+              { name: "North York", slug: "north-york" },
+              { name: "Etobicoke", slug: "etobicoke" },
+              { name: "Scarborough", slug: "scarborough" },
+              { name: "Forest Hill", slug: "forest-hill" },
+              { name: "Rosedale", slug: "rosedale" },
+              { name: "Leaside", slug: "leaside" },
+              { name: "The Annex", slug: "the-annex" },
+            ].map((loc) => (
+              <Link
+                key={loc.slug}
+                href={`/locations/${loc.slug}`}
+                className="rounded-xl border border-stone-100 shadow-sm bg-off-white px-4 py-5 text-center font-lato font-semibold text-charcoal hover:text-gold hover:shadow-md transition-all"
+              >
+                {loc.name}
+              </Link>
+            ))}
+          </div>
+
+          <div className="text-center mt-10">
+            <Link
+              href="/locations"
+              className="font-lato text-gold font-semibold hover:text-gold-dark transition-colors text-lg"
+            >
+              See All Service Areas →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ── CTA BANNER ──────────────────────────────────────────── */}
       <CTABanner
         title="Ready to Transform Your Space?"
