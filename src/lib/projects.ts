@@ -84,7 +84,7 @@ export const projects: Project[] = [
     ],
     results:
       "The main floor now feels brighter, larger, and thoroughly modern. The matte finish hides everyday wear from a busy family, and the engineered planks perform beautifully over the radiant-heated kitchen.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-hardwood-leaside.jpg",
     relatedService: "/engineered-hardwood",
     relatedLocation: "/locations/leaside",
   },
@@ -108,7 +108,7 @@ export const projects: Project[] = [
     ],
     results:
       "The home now has a cohesive, luxurious dark floor that looks far more expensive than its red oak base. The even stain and satin finish give it depth and warmth across every room.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-hardwood-north-york.jpg",
     relatedService: "/hardwood",
     relatedLocation: "/locations/north-york",
   },
@@ -492,7 +492,7 @@ export const projects: Project[] = [
     ],
     results:
       "A year of dog traffic in and the runner still springs back instead of matting like the last one. The taupe hides hair between vacuums, and stains wipe up before they set.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-hardwood-yorkville-condo.png",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/north-york",
   },
@@ -516,7 +516,7 @@ export const projects: Project[] = [
     ],
     results:
       "The unit went from generic laminate to a warm, flat oak floor that meets every building rule. The matte finish hides the dust that a downtown condo collects, and the neighbour below has had no complaints.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-hardwood-forest-hill-full-home.png",
     relatedService: "/engineered-hardwood",
     relatedLocation: "/locations/midtown-toronto",
   },
@@ -540,7 +540,7 @@ export const projects: Project[] = [
     ],
     results:
       "The grey came out even and warm across every room, with none of the blue cast that ruins a lot of grey floors. The matte finish keeps it looking like raw, weathered oak rather than painted.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-hardwood-annex-refinish-new.jpg",
     relatedService: "/hardwood",
     relatedLocation: "/locations/forest-hill",
   },
@@ -564,7 +564,7 @@ export const projects: Project[] = [
     ],
     results:
       "The fir went from a patchwork of paint and carpet to a rich, even Jacobean that now flows with the main floor. The patched grate areas are invisible, and the deep colour suits the home's age.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-hardwood-midtown-herringbone.jpg",
     relatedService: "/refinishing",
     relatedLocation: "/locations/the-annex",
   },
@@ -588,7 +588,7 @@ export const projects: Project[] = [
     ],
     results:
       "The herringbone runs true to the room with crisp, even points and no lippage underfoot. The natural finish keeps it timeless, and the pattern makes the modest-sized rooms feel considered and high-end.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-hardwood-etobicoke-basement.png",
     relatedService: "/engineered-hardwood",
     relatedLocation: "/locations/midtown-toronto",
   },
@@ -612,7 +612,7 @@ export const projects: Project[] = [
     ],
     results:
       "The basement got the warm, real-wood feel the family wanted, and the moisture barrier has handled the seasonal damp without a single buckled board. Hickory's hardness shrugs off the kids' toys and chairs.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-hardwood-beaches-maple.png",
     relatedService: "/engineered-hardwood",
     relatedLocation: "/locations/etobicoke",
   },
@@ -636,7 +636,7 @@ export const projects: Project[] = [
     ],
     results:
       "The maple stayed bright and pale instead of yellowing, which genuinely lifts the small, low-light main floor. The narrow strip suits the age of the house and the natural finish keeps it feeling airy.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-hardwood-high-park-walnut.png",
     relatedService: "/hardwood",
     relatedLocation: "/locations/the-beaches",
   },
@@ -660,7 +660,7 @@ export const projects: Project[] = [
     ],
     results:
       "The living room got the dramatic, dark floor they wanted, and the wire-brushed texture has hidden the dog's claw marks completely. The threshold reads as intentional rather than a patch.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-hardwood-rosedale-full.png",
     relatedService: "/engineered-hardwood",
     relatedLocation: "/locations/high-park",
   },
@@ -684,7 +684,7 @@ export const projects: Project[] = [
     ],
     results:
       "Two winters in, the wide ash planks have stayed flat with no cupping or gapping — exactly why we steered them off solid. The blonde ash brightens the formal rooms and the satin finish reads refined without glare.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-hardwood-east-york-oak.jpeg",
     relatedService: "/engineered-hardwood",
     relatedLocation: "/locations/rosedale",
   },
@@ -708,7 +708,7 @@ export const projects: Project[] = [
     ],
     results:
       "The floor lost its dated orange cast and reads as a warm, even Early American with no blotching. The owners got the classic look they wanted out of the oak they already had, for a fraction of replacement cost.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-hardwood-scarborough-engineered.jpeg",
     relatedService: "/refinishing",
     relatedLocation: "/locations/east-york",
   },
