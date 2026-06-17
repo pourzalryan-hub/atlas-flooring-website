@@ -70,9 +70,9 @@ const materials = [
     traits: ["Outstanding durability", "Wide style range", "Excellent colour retention"],
   },
   {
-    label: "Polypropylene",
+    label: "Polyester",
     description:
-      "A budget-friendly, inherently stain-resistant fibre that performs well in lower-traffic stair applications. Polypropylene doesn't absorb liquid, making it a practical choice for mudroom stairs or basement steps. Limited in softness compared to nylon or wool.",
+      "A budget-friendly, inherently stain-resistant fibre that performs well in lower-traffic stair applications. Polyester doesn't absorb liquid, making it a practical choice for mudroom stairs or basement steps. Limited in softness compared to nylon or wool.",
     traits: ["Stain & moisture resistant", "Budget-friendly", "Easy to clean"],
   },
   {
@@ -107,7 +107,7 @@ const installationMethods = [
 const faqItems = [
   {
     q: "How wide should a stair runner be?",
-    a: "The most common stair runner widths are 27 inches, 32 inches, and 36 inches. Leaving 2 to 4 inches of exposed tread on each side is the traditional standard — it frames the runner and showcases the wood beneath. We'll recommend the best width for your specific stair tread dimensions during your consultation.",
+    a: "The most common stair runner widths are 24 inches, 32 inches, and 36 inches. Leaving 2 to 4 inches of exposed tread on each side is the traditional standard — it frames the runner and showcases the wood beneath. We'll recommend the best width for your specific stair tread dimensions during your consultation.",
   },
   {
     q: "Can you install a runner on curved or winder stairs?",
@@ -299,14 +299,6 @@ export default function StairRunnersPage() {
               </div>
             ))}
           </div>
-          <div className="rounded-2xl bg-gold/10 border border-gold/30 p-6 text-center">
-            <p className="text-stone-200 text-sm">
-              <span className="font-semibold text-gold">Safety Note:</span>{" "}
-              All our stair runner installations use properly placed and nailed tack
-              strips, ensuring the runner stays firmly in place under daily use.
-              We never use adhesive-only methods that can fail over time.
-            </p>
-          </div>
         </div>
       </section>
 
@@ -321,9 +313,9 @@ export default function StairRunnersPage() {
               Stair Runner Sizing
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 max-w-2xl mx-auto">
             {[
-              { width: '27"', note: "Narrow or powder room stairs" },
+              { width: '24"', note: "Narrow or powder room stairs" },
               { width: '32"', note: "Standard residential stairs" },
               { width: '36"', note: "Wide or grand staircases" },
             ].map((item) => (
@@ -337,11 +329,11 @@ export default function StairRunnersPage() {
             ))}
           </div>
           <p className="text-warm-grey text-lg leading-relaxed mb-4">
-            Standard stair runners come in 27-inch, 32-inch, and 36-inch widths.
+            Standard stair runners come in 24-inch, 32-inch, and 36-inch widths.
             The traditional rule is to leave 2–4 inches of bare tread exposed on
             each side of the runner, which frames it and shows off the wood
-            beneath. For a standard 36-inch-wide stair, a 27-inch runner leaves
-            approximately 4.5 inches on each side — a clean, classic proportion.
+            beneath. For a standard 36-inch-wide stair, a 24-inch runner leaves
+            approximately 6 inches on each side — a clean, classic proportion.
           </p>
           <p className="text-warm-grey text-lg leading-relaxed">
             We always measure your stairs in person before cutting any carpet. Tread

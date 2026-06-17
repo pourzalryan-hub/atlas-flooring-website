@@ -89,14 +89,14 @@ const finishOptions = [
 ];
 
 const stainColours = [
-  { name: "Natural / Unstained", note: "Let the wood's true colour show" },
-  { name: "Early American", note: "Warm honey-brown, the classic Toronto choice" },
-  { name: "Jacobean", note: "Rich dark espresso" },
-  { name: "Special Walnut", note: "Mid-brown with warm undertones" },
-  { name: "Ebony", note: "Near-black for a dramatic statement" },
-  { name: "Whitewash / Bleach", note: "Light, Scandinavian, airy" },
-  { name: "Grey Tones", note: "Cool greige or warm taupe grey" },
-  { name: "Custom Blend", note: "We mix to match your exact vision" },
+  { name: "Natural / Unstained", note: "Let the wood's true colour show", swatch: "#C8A96E" },
+  { name: "Early American", note: "Warm honey-brown, the classic Toronto choice", swatch: "#A0703A" },
+  { name: "Jacobean", note: "Rich dark espresso", swatch: "#3D1F0D" },
+  { name: "Special Walnut", note: "Mid-brown with warm undertones", swatch: "#7B4A2D" },
+  { name: "Ebony", note: "Near-black for a dramatic statement", swatch: "#1A0A00" },
+  { name: "Whitewash / Bleach", note: "Light, Scandinavian, airy", swatch: "#F0EDE6" },
+  { name: "Grey Tones", note: "Cool greige or warm taupe grey", swatch: "#9E9E8E" },
+  { name: "Custom Blend", note: "We mix to match your exact vision", swatch: "linear-gradient(135deg, #A0703A 0%, #3D1F0D 50%, #9E9E8E 100%)" },
 ];
 
 const refinishingSteps = [
@@ -256,13 +256,17 @@ export default function RefinishingPage() {
             </h2>
             <p className="text-warm-grey mt-4 max-w-xl mx-auto">
               Refinishing is your chance to completely transform the tone of your
-              floors. We carry a full range of Bona and RBM stains and can custom-blend to match your vision.
+              floors. We carry a wide range of stains and can custom-blend to match your exact vision.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {stainColours.map((s) => (
-              <div key={s.name} className="flex items-center gap-4 bg-white rounded-xl border border-stone-100 px-6 py-4 shadow-sm">
-                <span className="w-2 h-2 rounded-full bg-gold flex-shrink-0" />
+              <div key={s.name} className="flex items-center gap-4 bg-white rounded-xl border border-stone-100 px-5 py-4 shadow-sm">
+                <div
+                  className="w-12 h-12 rounded-lg flex-shrink-0 border border-stone-200"
+                  style={{ background: s.swatch }}
+                  aria-hidden="true"
+                />
                 <div>
                   <p className="font-semibold text-charcoal text-sm">{s.name}</p>
                   <p className="text-warm-grey text-xs">{s.note}</p>
