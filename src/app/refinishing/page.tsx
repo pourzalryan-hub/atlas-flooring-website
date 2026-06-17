@@ -106,11 +106,6 @@ const refinishingSteps = [
       "We inspect your floors to confirm they have enough thickness for sanding, check for loose boards, protruding nails, or subfloor issues that need addressing first. We'll tell you honestly if your floors are good candidates.",
   },
   {
-    title: "Furniture & Prep",
-    description:
-      "You remove furniture from the rooms. We protect adjacent areas with dust barriers and ensure good ventilation. We confirm your chosen stain colour and finish before we begin.",
-  },
-  {
     title: "Sanding",
     description:
       "We sand the floor in multiple passes — coarse to remove the old finish and level the surface, followed by medium and fine grits for a smooth, even result. Edges and corners are hand-sanded for a uniform look.",
