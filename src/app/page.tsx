@@ -50,27 +50,27 @@ const products = [
 const whyUs = [
   {
     icon: "◆",
-    title: "Expert Design Consultations",
+    title: "65 Years on Bathurst Street",
     description:
-      "Our team listens first. We help you choose the perfect product for your space, lifestyle, and budget — no pressure, no guessing.",
+      "We opened in 1959 and we're still here. That kind of longevity doesn't happen by accident — it happens because Toronto homeowners keep coming back, and keep sending their neighbours.",
   },
   {
     icon: "◆",
-    title: "Premium Brand Selection",
+    title: "We'll Tell You When Not to Replace",
     description:
-      "We carry Shaw, Mohawk, Mirage, Karndean, Beaulieu, Preverco, and more — the brands professional installers trust.",
+      "If your existing hardwood can be refinished for a fraction of the cost of new flooring, we'll tell you that — even if it means a smaller job for us. We'd rather earn your trust than chase a bigger invoice.",
   },
   {
     icon: "◆",
-    title: "In-House Installation",
+    title: "Our Crews, Not Subcontractors",
     description:
-      "Our certified installers are our own team — not subcontractors. That means consistent quality and direct accountability.",
+      "Every installation is done by the same team we've trained and worked with for years. No strangers showing up. No passing the blame. If something's not right, you call us and we fix it.",
   },
   {
     icon: "◆",
-    title: "Satisfaction Guaranteed",
+    title: "Written Quotes, No Surprises",
     description:
-      "We stand behind every project. If something isn't right, we make it right — full stop.",
+      "We measure your rooms, check your subfloor, and give you a written quote that itemises everything — materials, labour, removal, transitions. The number we quote is the number you pay.",
   },
 ];
 
@@ -205,7 +205,7 @@ export default function HomePage() {
               href="/contact"
               className="font-lato text-gold font-semibold hover:text-gold-dark transition-colors text-lg"
             >
-              Browse All Flooring Products →
+              Contact Us →
             </Link>
           </div>
         </div>
@@ -215,19 +215,10 @@ export default function HomePage() {
       <section className="py-24 bg-charcoal">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Image placeholder */}
-            <div className="rounded-2xl overflow-hidden aspect-[4/3] bg-stone-700 flex items-center justify-center order-2 lg:order-1">
-              <div className="text-center p-8">
-                <div className="w-16 h-16 rounded-full bg-gold/20 flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <p className="font-lato text-stone-400 text-sm">
-                  Design consultant with customers
-                </p>
-              </div>
-            </div>
+            {/* Showroom / team photo */}
+            <div className="rounded-2xl overflow-hidden aspect-[4/3] bg-stone-700 order-2 lg:order-1"
+              style={{ backgroundImage: "url('/images/about-showroom.jpg')", backgroundSize: "cover", backgroundPosition: "center" }}
+            />
 
             {/* Content */}
             <div className="order-1 lg:order-2">
