@@ -22,12 +22,12 @@ export function readingTime(html: string): number {
 export const articles: BlogArticle[] = [
   {
     slug: "best-stair-runner-materials",
-    title: "Best Stair Runner Materials: Wool vs Nylon vs Polypropylene",
+    title: "Best Stair Runner Materials: Wool vs Nylon vs Polyester",
     description:
-      "Compare wool, nylon and polypropylene stair runner materials by durability, comfort, cost and look — and learn which is best for your Toronto staircase.",
+      "Compare wool, nylon and polyester stair runner materials by durability, comfort, cost and look — and learn which is best for your Toronto staircase.",
     category: "Stair Runners",
     excerpt:
-      "Wool, nylon, polypropylene — the material you choose decides how your stair runner looks, feels and lasts. Here's an honest comparison from Toronto's flooring experts.",
+      "Wool, nylon, polyester — the material you choose decides how your stair runner looks, feels and lasts. Here's an honest comparison from Toronto's flooring experts.",
     date: "2024-01-15",
     body: `
 <p>The material you choose for a stair runner matters more than almost any other decision. Stairs are one of the highest-traffic surfaces in any home, so the fibre underfoot determines how the runner looks in five years, how it feels barefoot, and how much you'll pay. At <a href="/about">Atlas Rug &amp; Design Centre</a> we've been installing <a href="/stair-runners">stair runners across Toronto</a> since 1959, and these are the three materials we recommend most often.</p>
@@ -46,15 +46,15 @@ export const articles: BlogArticle[] = [
 <h3>Nylon cons</h3>
 <p>It doesn't have wool's natural luxury or environmental story, and lower grades can flatten faster, so quality matters.</p>
 
-<h2>Polypropylene: The Budget Option</h2>
-<p>Polypropylene (also called olefin) is the most affordable of the three. It is highly stain resistant — it won't absorb water-based spills — and it resists fading, which makes it useful in sunny spaces.</p>
-<h3>Polypropylene pros</h3>
+<h2>Polyester: The Budget Option</h2>
+<p>Polyester is the most affordable of the three. It is inherently stain resistant — it won't absorb water-based spills — and it resists fading, which makes it useful in sunny spaces.</p>
+<h3>Polyester pros</h3>
 <p>Very budget-friendly, excellent resistance to moisture and water-based stains, and good fade resistance.</p>
-<h3>Polypropylene cons</h3>
-<p>It is less resilient than wool or nylon, so it crushes and shows traffic patterns sooner on stairs. It can also hold oily stains. For a low-traffic staircase or a rental, it can make sense, but for a main staircase we usually steer homeowners toward nylon or wool.</p>
+<h3>Polyester cons</h3>
+<p>It is less resilient than wool or nylon, so it crushes and shows traffic patterns sooner on stairs. For a low-traffic staircase or a rental it can make sense, but for a main staircase we usually steer homeowners toward nylon or wool.</p>
 
 <h2>Which Should You Choose?</h2>
-<p>If budget allows and you want the best look and longest life, choose wool. If you want a near-premium result with great durability at a friendlier price, choose nylon — it's the right answer for most homes. If you're outfitting a low-traffic stair or working to a tight budget, polypropylene can work. Curious how material affects price? Read our guide on <a href="/blog/stair-runner-cost-toronto">how much stair runners cost in Toronto</a>.</p>
+<p>If budget allows and you want the best look and longest life, choose wool. If you want a near-premium result with great durability at a friendlier price, choose nylon — it's the right answer for most homes. If you're outfitting a low-traffic stair or working to a tight budget, polyester can work. Curious how material affects price? Read our guide on <a href="/blog/stair-runner-cost-toronto">how much stair runners cost in Toronto</a>.</p>
 
 <h2>See the Difference in Person</h2>
 <p>The best way to choose is to feel the fibres and see the colours in your own light. Visit our Bathurst Street showroom or book a free in-home consultation — we serve <a href="/locations/toronto">all of Toronto</a> and bring samples to you.</p>
@@ -74,7 +74,7 @@ export const articles: BlogArticle[] = [
 
 <h2>The Main Cost Factors</h2>
 <h3>1. Material</h3>
-<p>Material is the biggest variable. Polypropylene is the most affordable, nylon sits in the middle, and wool is the premium choice. For a full comparison, see our guide to the <a href="/blog/best-stair-runner-materials">best stair runner materials</a>. A high-grade wool runner can cost two to three times more per linear foot than a basic synthetic.</p>
+<p>Material is the biggest variable. Polyester is the most affordable, nylon sits in the middle, and wool is the premium choice. For a full comparison, see our guide to the <a href="/blog/best-stair-runner-materials">best stair runner materials</a>. A high-grade wool runner can cost two to three times more per linear foot than a basic synthetic.</p>
 <h3>2. Number and size of steps</h3>
 <p>Runners are priced largely by the amount of material and labour required, which scales with your staircase. A standard straight staircase of 12 to 14 steps uses far less material than a long or curved staircase. Our <a href="/projects/stair-runner-rosedale">Rosedale curved staircase project</a> required 16 individually fitted steps, which adds both material and skilled labour.</p>
 <h3>3. Binding and finishing</h3>
