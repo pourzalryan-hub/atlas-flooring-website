@@ -1,87 +1,80 @@
-// Replace placeholder items with real photos — see pages/gallery.md for image sourcing instructions
-
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import CTABanner from '@/components/CTABanner'
 
-// SEO metadata: title "Flooring Gallery Toronto | Our Work | Atlas Rug & Design Centre"
-// (Add to a server layout.tsx since this is a client component)
+type Category = 'All' | 'Hardwood' | 'Carpet' | 'Luxury Vinyl' | 'Laminate' | 'Stair Runners' | 'Refinishing'
 
-type Category = 'All' | 'Hardwood' | 'Carpet' | 'Luxury Vinyl' | 'Laminate' | 'Stair Runners' | 'Before & After'
-
-const TABS: Category[] = ['All', 'Hardwood', 'Carpet', 'Luxury Vinyl', 'Laminate', 'Stair Runners', 'Before & After']
+const TABS: Category[] = ['All', 'Hardwood', 'Carpet', 'Luxury Vinyl', 'Laminate', 'Stair Runners', 'Refinishing']
 
 interface GalleryItem {
   id: number
-  category: Exclude<Category, 'All' | 'Before & After'>
+  category: Exclude<Category, 'All'>
   label: string
-  color: string
+  image: string
 }
 
 const galleryItems: GalleryItem[] = [
-  { id: 1,  category: 'Hardwood',     label: 'Forest Hill — White Oak Hardwood',         color: 'bg-amber-100' },
-  { id: 2,  category: 'Hardwood',     label: 'Rosedale — Dark Walnut Hardwood',           color: 'bg-stone-300' },
-  { id: 3,  category: 'Hardwood',     label: 'Lawrence Park — Natural Maple',             color: 'bg-amber-200' },
-  { id: 4,  category: 'Carpet',       label: 'North York — Plush Broadloom Living Room',  color: 'bg-neutral-300' },
-  { id: 5,  category: 'Carpet',       label: 'Etobicoke — Berber Carpet Basement',        color: 'bg-stone-200' },
-  { id: 6,  category: 'Carpet',       label: 'Mississauga — Cut Pile Bedroom Suite',      color: 'bg-zinc-300' },
-  { id: 7,  category: 'Luxury Vinyl', label: 'The Annex — LVP Open-Plan Kitchen',         color: 'bg-stone-300' },
-  { id: 8,  category: 'Luxury Vinyl', label: 'Scarborough — Waterproof LVP Basement',     color: 'bg-amber-100' },
-  { id: 9,  category: 'Luxury Vinyl', label: 'Vaughan — LVP Throughout Main Floor',       color: 'bg-neutral-200' },
-  { id: 10, category: 'Laminate',     label: 'Markham — Wide-Plank Laminate',             color: 'bg-stone-200' },
-  { id: 11, category: 'Laminate',     label: 'Richmond Hill — Laminate Family Room',      color: 'bg-amber-200' },
-  { id: 12, category: 'Laminate',     label: 'Thornhill — Light Laminate Open Concept',   color: 'bg-zinc-200' },
-  { id: 13, category: 'Stair Runners',label: 'Midtown Toronto — Herringbone Wool Runner', color: 'bg-neutral-300' },
-  { id: 14, category: 'Stair Runners',label: 'Leaside — Classic Pattern Stair Runner',    color: 'bg-stone-300' },
-  { id: 15, category: 'Stair Runners',label: 'Forest Hill — Navy Bordered Runner',        color: 'bg-amber-100' },
-  { id: 16, category: 'Hardwood',     label: 'East York — Chevron White Oak',             color: 'bg-stone-200' },
-  { id: 17, category: 'Carpet',       label: 'Oakville — Luxury Carpet Master Bedroom',   color: 'bg-zinc-300' },
-  { id: 18, category: 'Luxury Vinyl', label: 'Brampton — Commercial-Grade LVP Office',    color: 'bg-amber-200' },
-]
-
-const beforeAfterItems = [
-  {
-    caption: 'Dated carpet replaced with engineered white oak — Midtown Toronto',
-    beforeLabel: 'Before: 1990s Carpet',
-    afterLabel: 'After: White Oak Hardwood',
-  },
-  {
-    caption: 'Vinyl tile upgraded to LVP throughout — Etobicoke bungalow',
-    beforeLabel: 'Before: Vinyl Tile',
-    afterLabel: 'After: Luxury Vinyl Plank',
-  },
-  {
-    caption: 'Pine stairs transformed with a custom wool stair runner — Rosedale',
-    beforeLabel: 'Before: Bare Pine Stairs',
-    afterLabel: 'After: Wool Stair Runner',
-  },
+  // Stair Runners
+  { id: 1,  category: 'Stair Runners', label: 'Patterned Runner — Forest Hill',       image: '/images/project-stair-runner-forest-hill.jpg' },
+  { id: 2,  category: 'Stair Runners', label: 'Classic Runner — Rosedale',             image: '/images/project-stair-runner-rosedale.jpeg' },
+  { id: 3,  category: 'Stair Runners', label: 'Herringbone Wool — Yorkville',          image: '/images/project-stair-runner-yorkville.jpg' },
+  { id: 4,  category: 'Stair Runners', label: 'Striped Wool — High Park',              image: '/images/project-stair-runner-high-park.png' },
+  { id: 5,  category: 'Stair Runners', label: 'Geometric Pattern — The Annex',         image: '/images/project-stair-runner-annex.jpg' },
+  { id: 6,  category: 'Stair Runners', label: 'Solid Nylon — Etobicoke',               image: '/images/project-stair-runner-etobicoke.jpg' },
+  { id: 7,  category: 'Stair Runners', label: 'Persian-Inspired — Midtown',            image: '/images/project-stair-runner-midtown.jpg' },
+  { id: 8,  category: 'Stair Runners', label: 'Natural Sisal — The Beaches',           image: '/images/project-stair-runner-beaches.jpg' },
+  { id: 9,  category: 'Stair Runners', label: 'Cut Pile Carpet Stairs — Leslieville',  image: '/images/project-stair-runner-leslieville.jpeg' },
+  { id: 10, category: 'Stair Runners', label: 'Bordered Wool — Riverdale',             image: '/images/project-stair-runner-riverdale.jpg' },
+  { id: 11, category: 'Stair Runners', label: 'Berber Stair Runner — East York',       image: '/images/project-stair-runner-east-york.jpg' },
+  { id: 12, category: 'Stair Runners', label: 'Semi-Detached Runner — North York',     image: '/images/project-stair-runner-north-york-semi.jpg' },
+  // Hardwood
+  { id: 13, category: 'Hardwood', label: 'White Oak — Leaside',                        image: '/images/project-hardwood-leaside.jpg' },
+  { id: 14, category: 'Hardwood', label: 'Dark Walnut — North York',                   image: '/images/project-hardwood-north-york.jpg' },
+  { id: 15, category: 'Hardwood', label: 'Engineered Oak — Yorkville Condo',           image: '/images/project-hardwood-yorkville-condo.png' },
+  { id: 16, category: 'Hardwood', label: 'Full Home White Oak — Forest Hill',          image: '/images/project-hardwood-forest-hill-full-home.png' },
+  { id: 17, category: 'Hardwood', label: 'Original Fir Restore — The Annex',           image: '/images/project-hardwood-annex-refinish-new.jpg' },
+  { id: 18, category: 'Hardwood', label: 'Herringbone Pattern — Midtown',              image: '/images/project-hardwood-midtown-herringbone.jpg' },
+  { id: 19, category: 'Hardwood', label: 'Engineered Hardwood — Etobicoke',            image: '/images/project-hardwood-etobicoke-basement.png' },
+  { id: 20, category: 'Hardwood', label: 'Light Maple — The Beaches',                  image: '/images/project-hardwood-beaches-maple.png' },
+  { id: 21, category: 'Hardwood', label: 'Dark Walnut Living Room — High Park',        image: '/images/project-hardwood-high-park-walnut.png' },
+  { id: 22, category: 'Hardwood', label: 'Wide-Plank Ash — Rosedale',                  image: '/images/project-hardwood-rosedale-full.png' },
+  { id: 23, category: 'Hardwood', label: 'Red Oak Restain — East York',                image: '/images/project-hardwood-east-york-oak.jpeg' },
+  { id: 24, category: 'Hardwood', label: 'Engineered Oak Throughout — Scarborough',    image: '/images/project-hardwood-scarborough-engineered.jpeg' },
+  // Luxury Vinyl
+  { id: 25, category: 'Luxury Vinyl', label: 'LVP Throughout — Downtown Condo',        image: '/images/project-vinyl-condo-downtown.png' },
+  { id: 26, category: 'Luxury Vinyl', label: 'Waterproof LVP Basement — North York',   image: '/images/project-vinyl-north-york-basement.png' },
+  { id: 27, category: 'Luxury Vinyl', label: 'LVP Kitchen & Bath — Etobicoke',         image: '/images/project-vinyl-etobicoke-kitchen.jpeg' },
+  { id: 28, category: 'Luxury Vinyl', label: 'LVP Full Home — Scarborough',            image: '/images/project-vinyl-scarborough-full-home.jpg' },
+  { id: 29, category: 'Luxury Vinyl', label: 'LVP Condo Upgrade — Midtown',            image: '/images/project-vinyl-midtown-condo.png' },
+  { id: 30, category: 'Luxury Vinyl', label: 'LVP Rental Property — Leslieville',      image: '/images/project-vinyl-leslieville-rental.jpeg' },
+  { id: 31, category: 'Luxury Vinyl', label: 'LVP Heritage Home — The Annex',          image: '/images/project-vinyl-annex-heritage.jpg' },
+  { id: 32, category: 'Luxury Vinyl', label: 'LVP Main Floor — Riverdale',             image: '/images/project-vinyl-riverdale-semi.jpg' },
+  { id: 33, category: 'Luxury Vinyl', label: 'Waterproof LVP — The Beaches',           image: '/images/project-vinyl-beaches-cottage.jpg' },
 ]
 
 export default function GalleryPage() {
   const [activeTab, setActiveTab] = useState<Category>('All')
 
-  const filtered =
-    activeTab === 'All' || activeTab === 'Before & After'
-      ? galleryItems
-      : galleryItems.filter((item) => item.category === activeTab)
-
-  const showBeforeAfter = activeTab === 'All' || activeTab === 'Before & After'
-  const showGrid = activeTab !== 'Before & After'
+  const filtered = activeTab === 'All'
+    ? galleryItems
+    : galleryItems.filter((item) => item.category === activeTab)
 
   return (
     <main>
-      {/* 1. Hero */}
+      {/* Hero */}
       <section className="flex items-center justify-center bg-charcoal" style={{ minHeight: '40vh' }}>
         <div className="text-center px-4">
+          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gold mb-3 font-lato">Our Portfolio</p>
           <h1 className="font-playfair text-4xl md:text-6xl text-white mb-4">Our Work, Your Inspiration</h1>
           <p className="font-lato text-lg text-stone-300 max-w-xl mx-auto">
-            Real installs from real Toronto homes.
+            Real installs from real Toronto homes — since 1959.
           </p>
         </div>
       </section>
 
-      {/* 2. Category Filter Tabs */}
+      {/* Filter Tabs */}
       <section className="bg-white border-b border-stone-100 sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex overflow-x-auto gap-1 py-1">
@@ -102,77 +95,41 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      {/* 3. Gallery Grid */}
-      {showGrid && (
-        <section className="py-20 bg-off-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filtered.map((item) => (
-                <div
-                  key={item.id}
-                  className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow group"
-                >
-                  <div className="aspect-square relative">
-                    <div className={`w-full h-full ${item.color} flex items-end`}>
-                      <span className="text-stone-500 text-xs font-lato p-2">Image: {item.label}</span>
-                    </div>
-                    {/* Category Badge */}
-                    <span className="absolute top-3 left-3 bg-charcoal/80 text-white font-lato text-xs px-3 py-1 rounded-full">
-                      {item.category}
-                    </span>
-                  </div>
-                  <div className="p-5">
-                    <p className="font-lato font-semibold text-charcoal text-sm">{item.label}</p>
-                  </div>
+      {/* Gallery Grid */}
+      <section className="py-20 bg-off-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filtered.map((item) => (
+              <div
+                key={item.id}
+                className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow group"
+              >
+                <div className="aspect-square relative bg-stone-200">
+                  <Image
+                    src={item.image}
+                    alt={item.label}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    unoptimized
+                  />
+                  <span className="absolute top-3 left-3 bg-charcoal/80 text-white font-lato text-xs px-3 py-1 rounded-full">
+                    {item.category}
+                  </span>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 4. Before & After Section */}
-      {showBeforeAfter && (
-        <section className="py-24 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-14">
-              <p className="text-xs font-lato font-semibold tracking-widest text-gold uppercase mb-3">BEFORE & AFTER</p>
-              <h2 className="font-playfair text-4xl md:text-5xl text-charcoal">
-                Transformations That Speak for Themselves
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {beforeAfterItems.map((item) => (
-                <div key={item.caption} className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                  {/* Before / After halves */}
-                  <div className="flex h-56">
-                    <div className="w-1/2 bg-stone-400 flex flex-col items-center justify-end pb-3">
-                      <span className="bg-black/50 text-white font-lato text-xs px-2 py-1 rounded">
-                        {item.beforeLabel}
-                      </span>
-                    </div>
-                    <div className="w-1/2 bg-amber-100 flex flex-col items-center justify-end pb-3">
-                      <span className="bg-gold/80 text-white font-lato text-xs px-2 py-1 rounded">
-                        {item.afterLabel}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="p-5">
-                    <p className="font-lato text-sm text-warm-grey">{item.caption}</p>
-                  </div>
+                <div className="p-5">
+                  <p className="font-lato font-semibold text-charcoal text-sm">{item.label}</p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
-      {/* 5. CTA Banner */}
       <CTABanner
         title="Like What You See?"
         subtitle="Visit our showroom at 978 Bathurst St or book a free in-home consultation."
         primaryCta={{ label: 'Book a Consultation', href: '/contact' }}
-        secondaryCta={{ label: 'Get Directions', href: 'https://www.google.com/maps/search/?api=1&query=978+Bathurst+St+Toronto+ON+M5R+3G6' }}
+        secondaryCta={{ label: 'Call (416) 533-3366', href: 'tel:4165333366' }}
       />
     </main>
   )
