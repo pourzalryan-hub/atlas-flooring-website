@@ -132,7 +132,7 @@ export const projects: Project[] = [
     ],
     results:
       "The condo now has a quiet, waterproof, designer-look floor that meets every building requirement. The fast installation minimized disruption, and the light oak tone makes the compact unit feel more open.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-vinyl-condo-downtown.png",
     relatedService: "/condo-flooring",
     relatedLocation: "/locations/downtown-toronto",
   },
@@ -732,7 +732,7 @@ export const projects: Project[] = [
     ],
     results:
       "The floor warms up evenly and has stayed tight and quiet through full heating seasons. The family gets the comfort of radiant heat with the look of real oak, and no gapping where solid wood would have failed.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-vinyl-north-york-basement.png",
     relatedService: "/engineered-hardwood",
     relatedLocation: "/locations/scarborough",
   },
@@ -756,7 +756,7 @@ export const projects: Project[] = [
     ],
     results:
       "The basement looks like a proper living space instead of a concrete box, and the family stopped worrying about the drain. The 12mil wear layer takes the kids and the treadmill without denting.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-vinyl-etobicoke-kitchen.jpeg",
     relatedService: "/basement-flooring",
     relatedLocation: "/locations/north-york",
   },
@@ -780,7 +780,7 @@ export const projects: Project[] = [
     ],
     results:
       "The kitchen feels warm and the powder room feels crisp, but both will laugh off a dishwasher leak or an overflowing sink. The transition between the two reads as a deliberate design line.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-vinyl-scarborough-full-home.jpg",
     relatedService: "/vinyl",
     relatedLocation: "/locations/etobicoke",
   },
@@ -804,7 +804,7 @@ export const projects: Project[] = [
     ],
     results:
       "The house reads as one bright, continuous space, which makes the modest square footage feel generous. The 20mil wear layer is built for the heavy use the family throws at it and wipes clean in minutes.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-vinyl-midtown-condo.png",
     relatedService: "/vinyl",
     relatedLocation: "/locations/scarborough",
   },
@@ -828,7 +828,7 @@ export const projects: Project[] = [
     ],
     results:
       "The dated tile disappeared under a clean light-oak floor with no demolition, no dust, and a fraction of the cost. The filled grout lines stayed invisible, and the height bump at the door is barely noticeable.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-vinyl-leslieville-rental.jpeg",
     relatedService: "/condo-flooring",
     relatedLocation: "/locations/midtown-toronto",
   },
@@ -852,7 +852,7 @@ export const projects: Project[] = [
     ],
     results:
       "The landlord now has a floor built for the rental cycle — neutral enough for any tenant, tough enough to last, and repairable one plank at a time. The leftover stock means a damaged board is a ten-minute fix, not a re-floor.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-vinyl-annex-heritage.jpg",
     relatedService: "/vinyl",
     relatedLocation: "/locations/leslieville",
   },
@@ -876,7 +876,7 @@ export const projects: Project[] = [
     ],
     results:
       "The new floor takes wet boots and dog traffic without complaint, yet sits comfortably beside the home's original wood instead of fighting it. Guests assume it's just another wood floor.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-vinyl-riverdale-semi.jpg",
     relatedService: "/vinyl",
     relatedLocation: "/locations/the-annex",
   },
@@ -900,7 +900,7 @@ export const projects: Project[] = [
     ],
     results:
       "The main floor got the upscale herringbone look the owners wanted at a fraction of real-wood cost, and it survives juice spills and toy cars without a thought. The centred layout keeps the pattern looking intentional.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-vinyl-beaches-cottage.jpg",
     relatedService: "/vinyl",
     relatedLocation: "/locations/riverdale",
   },
