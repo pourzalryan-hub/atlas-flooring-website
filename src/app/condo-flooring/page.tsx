@@ -4,6 +4,8 @@ import PageHero from "@/components/PageHero";
 import CTABanner from "@/components/CTABanner";
 import FAQAccordion from "@/components/FAQAccordion";
 import ProcessSteps from "@/components/ProcessSteps";
+import ReviewsSection from "@/components/ReviewsSection";
+import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
   title: "Condo Flooring Toronto | Flooring for Condos & Apartments",
@@ -136,6 +138,7 @@ const faqItems = [
 export default function CondoFlooringPage() {
   return (
     <main className="font-lato">
+      <FaqSchema items={faqItems} />
       {/* 1. Hero */}
       <PageHero
         title="Condo Flooring Toronto"
@@ -391,6 +394,8 @@ export default function CondoFlooringPage() {
           </p>
         </div>
       </section>
+
+      <ReviewsSection service="general" />
 
       {/* 8. CTA Banner */}
       <CTABanner

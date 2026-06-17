@@ -3,6 +3,8 @@ import PageHero from "@/components/PageHero";
 import CTABanner from "@/components/CTABanner";
 import FAQAccordion from "@/components/FAQAccordion";
 import ProcessSteps from "@/components/ProcessSteps";
+import ReviewsSection from "@/components/ReviewsSection";
+import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
   title: "Laminate Flooring Toronto | Atlas Rug & Design Centre",
@@ -171,6 +173,7 @@ const faqItems = [
 export default function LaminatePage() {
   return (
     <main className="font-lato">
+      <FaqSchema items={faqItems} />
       {/* 1. Hero */}
       <PageHero
         title="Laminate Flooring Toronto"
@@ -443,6 +446,8 @@ export default function LaminatePage() {
           <FAQAccordion items={faqItems} />
         </div>
       </section>
+
+      <ReviewsSection service="laminate" />
 
       {/* 9. CTA Banner */}
       <CTABanner

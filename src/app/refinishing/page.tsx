@@ -3,6 +3,9 @@ import PageHero from "@/components/PageHero";
 import CTABanner from "@/components/CTABanner";
 import FAQAccordion from "@/components/FAQAccordion";
 import ProcessSteps from "@/components/ProcessSteps";
+import ReviewsSection from "@/components/ReviewsSection";
+import FaqSchema from "@/components/FaqSchema";
+import WhyAtlas from "@/components/WhyAtlas";
 
 export const metadata: Metadata = {
   title: "Hardwood Floor Refinishing Toronto | Atlas Rug & Design Centre",
@@ -159,6 +162,7 @@ const faqItems = [
 export default function RefinishingPage() {
   return (
     <main className="font-lato">
+      <FaqSchema items={faqItems} />
       {/* 1. Hero */}
       <PageHero
         title="Hardwood Floor Refinishing Toronto"
@@ -298,6 +302,10 @@ export default function RefinishingPage() {
           <FAQAccordion items={faqItems} />
         </div>
       </section>
+
+      <WhyAtlas />
+
+      <ReviewsSection service="refinishing" />
 
       {/* 8. CTA */}
       <CTABanner

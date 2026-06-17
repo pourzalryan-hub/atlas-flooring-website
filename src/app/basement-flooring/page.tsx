@@ -4,6 +4,8 @@ import PageHero from "@/components/PageHero";
 import CTABanner from "@/components/CTABanner";
 import FAQAccordion from "@/components/FAQAccordion";
 import ProcessSteps from "@/components/ProcessSteps";
+import ReviewsSection from "@/components/ReviewsSection";
+import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
   title:
@@ -149,6 +151,7 @@ const faqItems = [
 export default function BasementFlooringPage() {
   return (
     <main className="font-lato">
+      <FaqSchema items={faqItems} />
       <PageHero
         title="Basement Flooring Toronto"
         subtitle="Waterproof and moisture-smart floors for below-grade spaces — chosen, tested, and installed right."
@@ -447,6 +450,8 @@ export default function BasementFlooringPage() {
           </p>
         </div>
       </section>
+
+      <ReviewsSection service="general" />
 
       <CTABanner
         title="Ready to Finish Your Basement the Right Way?"

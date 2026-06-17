@@ -4,6 +4,8 @@ import PageHero from "@/components/PageHero";
 import CTABanner from "@/components/CTABanner";
 import FAQAccordion from "@/components/FAQAccordion";
 import ProcessSteps from "@/components/ProcessSteps";
+import ReviewsSection from "@/components/ReviewsSection";
+import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
   title: "Carpet & Broadloom Toronto | Atlas Rug & Design Centre",
@@ -163,6 +165,7 @@ const faqItems = [
 export default function CarpetPage() {
   return (
     <main className="font-lato">
+      <FaqSchema items={faqItems} />
       {/* 1. Hero */}
       <PageHero
         title="Carpet & Broadloom Toronto"
@@ -369,6 +372,8 @@ export default function CarpetPage() {
           <FAQAccordion items={faqItems} />
         </div>
       </section>
+
+      <ReviewsSection service="carpet" />
 
       {/* 8. CTA Banner */}
       <CTABanner

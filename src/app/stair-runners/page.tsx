@@ -4,6 +4,9 @@ import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import CTABanner from "@/components/CTABanner";
 import FAQAccordion from "@/components/FAQAccordion";
+import ReviewsSection from "@/components/ReviewsSection";
+import FaqSchema from "@/components/FaqSchema";
+import WhyAtlas from "@/components/WhyAtlas";
 
 export const metadata: Metadata = {
   title: "Stair Runners Toronto | Atlas Rug & Design Centre",
@@ -148,6 +151,7 @@ const crossSellItems = [
 export default function StairRunnersPage() {
   return (
     <main className="font-lato">
+      <FaqSchema items={faqItems} />
       {/* 1. Hero */}
       <PageHero
         title="Custom Stair Runners Toronto"
@@ -166,12 +170,13 @@ export default function StairRunnersPage() {
             Your Staircase Deserves More Than an Afterthought
           </h2>
           <p className="text-warm-grey text-lg leading-relaxed mb-5">
-            The staircase is one of the most viewed areas in any home — yet it's
-            one of the most commonly overlooked when it comes to design. A
-            custom-fitted stair runner instantly changes that. It adds warmth,
-            pattern, colour, and texture to a space that otherwise sits bare. It
-            reduces noise. It protects your treads. And it quietly signals that
-            the rest of the home was designed with care.
+            The staircase is one of the most seen surfaces in any home, and
+            usually the last thing anyone thinks about. A custom-fitted runner
+            fixes that. It adds warmth, pattern, and texture to treads that
+            otherwise sit bare, takes the slip out of polished wood, and quiets
+            the footsteps that echo through an open stairwell. On Toronto's
+            older homes, where staircases tend to be steep and narrow, it also
+            makes the stairs safer to use every day.
           </p>
           <p className="text-warm-grey text-lg leading-relaxed">
             At Atlas Rug &amp; Design Centre, we've been fitting stair runners
@@ -402,6 +407,10 @@ export default function StairRunnersPage() {
           </div>
         </div>
       </section>
+
+      <WhyAtlas />
+
+      <ReviewsSection service="stair-runners" />
 
       {/* 9. CTA Banner */}
       <CTABanner

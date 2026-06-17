@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import PageHero from '@/components/PageHero'
 import CTABanner from '@/components/CTABanner'
+import WhyAtlas from '@/components/WhyAtlas'
 
 export const metadata: Metadata = {
   title: 'About Atlas Rug & Design Centre | Toronto\'s Flooring Experts Since 1959',
@@ -240,6 +241,8 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      <WhyAtlas />
 
       {/* 8. CTA Banner */}
       <CTABanner

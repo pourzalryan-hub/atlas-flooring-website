@@ -3,6 +3,8 @@ import Image from "next/image";
 import PageHero from "@/components/PageHero";
 import CTABanner from "@/components/CTABanner";
 import FAQAccordion from "@/components/FAQAccordion";
+import ReviewsSection from "@/components/ReviewsSection";
+import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
   title: "Luxury Vinyl Flooring Toronto | LVP & LVT | Atlas Rug & Design Centre",
@@ -134,6 +136,7 @@ const faqItems = [
 export default function VinylPage() {
   return (
     <main className="font-lato">
+      <FaqSchema items={faqItems} />
       {/* 1. Hero */}
       <PageHero
         title="Luxury Vinyl Flooring Toronto"
@@ -449,6 +452,8 @@ export default function VinylPage() {
           <FAQAccordion items={faqItems} />
         </div>
       </section>
+
+      <ReviewsSection service="vinyl" />
 
       {/* 9. CTA Banner */}
       <CTABanner

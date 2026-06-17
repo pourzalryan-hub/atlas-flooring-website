@@ -4,6 +4,8 @@ import PageHero from "@/components/PageHero";
 import CTABanner from "@/components/CTABanner";
 import FAQAccordion from "@/components/FAQAccordion";
 import ProcessSteps from "@/components/ProcessSteps";
+import ReviewsSection from "@/components/ReviewsSection";
+import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
   title: "Commercial Flooring Toronto | Atlas Rug & Design Centre",
@@ -162,6 +164,7 @@ const faqItems = [
 export default function CommercialPage() {
   return (
     <main className="font-lato">
+      <FaqSchema items={faqItems} />
       {/* 1. Hero */}
       <PageHero
         title="Commercial Flooring Toronto"
@@ -375,6 +378,8 @@ export default function CommercialPage() {
           </p>
         </div>
       </section>
+
+      <ReviewsSection service="commercial" />
 
       {/* 7. CTA Banner */}
       <CTABanner

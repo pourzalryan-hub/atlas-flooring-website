@@ -5,6 +5,8 @@ import PageHero from "@/components/PageHero";
 import CTABanner from "@/components/CTABanner";
 import FAQAccordion from "@/components/FAQAccordion";
 import ProcessSteps from "@/components/ProcessSteps";
+import ReviewsSection from "@/components/ReviewsSection";
+import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
   title: "Engineered Hardwood Flooring Toronto | Atlas Rug & Design Centre",
@@ -155,6 +157,7 @@ const faqItems = [
 export default function EngineeredHardwoodPage() {
   return (
     <main className="font-lato">
+      <FaqSchema items={faqItems} />
       {/* 1. Hero */}
       <PageHero
         title="Engineered Hardwood Flooring Toronto"
@@ -457,6 +460,8 @@ export default function EngineeredHardwoodPage() {
           </p>
         </div>
       </section>
+
+      <ReviewsSection service="hardwood" />
 
       {/* 7. CTA Banner */}
       <CTABanner

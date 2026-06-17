@@ -4,6 +4,8 @@ import PageHero from "@/components/PageHero";
 import CTABanner from "@/components/CTABanner";
 import FAQAccordion from "@/components/FAQAccordion";
 import ProcessSteps from "@/components/ProcessSteps";
+import ReviewsSection from "@/components/ReviewsSection";
+import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
   title: "Custom Area Rugs Toronto | Atlas Rug & Design Centre",
@@ -70,6 +72,7 @@ const faqItems = [
 export default function AreaRugsPage() {
   return (
     <main className="font-lato">
+      <FaqSchema items={faqItems} />
       <PageHero
         title="Custom Area Rugs Toronto"
         subtitle="Any size, any shape, expertly bound — custom area rugs made to fit your space and style."
@@ -208,6 +211,8 @@ export default function AreaRugsPage() {
           </p>
         </div>
       </section>
+
+      <ReviewsSection service="general" />
 
       <CTABanner
         title="Ready for a Rug That Fits Perfectly?"

@@ -4,6 +4,9 @@ import PageHero from "@/components/PageHero";
 import CTABanner from "@/components/CTABanner";
 import FAQAccordion from "@/components/FAQAccordion";
 import ProcessSteps from "@/components/ProcessSteps";
+import ReviewsSection from "@/components/ReviewsSection";
+import FaqSchema from "@/components/FaqSchema";
+import WhyAtlas from "@/components/WhyAtlas";
 
 export const metadata: Metadata = {
   title: "Hardwood Flooring Toronto | Atlas Rug & Design Centre",
@@ -169,6 +172,7 @@ const faqItems = [
 export default function HardwoodPage() {
   return (
     <main className="font-lato">
+      <FaqSchema items={faqItems} />
       {/* 1. Hero */}
       <PageHero
         title="Hardwood Flooring Toronto"
@@ -376,6 +380,10 @@ export default function HardwoodPage() {
           <FAQAccordion items={faqItems} />
         </div>
       </section>
+
+      <WhyAtlas />
+
+      <ReviewsSection service="hardwood" />
 
       {/* 7. CTA Banner */}
       <CTABanner
