@@ -15,9 +15,9 @@ const neighbourhoods = [
 
 const stats = [
   { value: '65+', label: 'Years in Business' },
-  { value: '5,000+', label: 'Homes Transformed' },
+  { value: '10,000+', label: 'Homes Transformed' },
   { value: '500+', label: 'Products in Showroom' },
-  { value: '4.9★', label: 'Google Rating' },
+  { value: '100%', label: 'Satisfaction Guaranteed' },
 ]
 
 const values = [

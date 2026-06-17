@@ -128,9 +128,9 @@ export default function HomePage() {
           {/* Trust bar */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
             {[
-              { icon: "⭐", text: "4.9 Google Rating" },
               { icon: "🏆", text: "65+ Years in Business" },
-              { icon: "🏠", text: "5,000+ Homes Transformed" },
+              { icon: "🏠", text: "10,000+ Homes Transformed" },
+              { icon: "✓", text: "100% Satisfaction Guaranteed" },
               { icon: "📍", text: "Toronto & GTA" },
             ].map(({ icon, text }) => (
               <div
