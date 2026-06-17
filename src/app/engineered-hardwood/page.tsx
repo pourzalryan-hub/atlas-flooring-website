@@ -209,10 +209,9 @@ export default function EngineeredHardwoodPage() {
             across the city.
           </p>
           <p className="text-warm-grey text-lg leading-relaxed">
-            We handle everything under one roof — consultation, product supply,
-            subfloor and moisture preparation, and expert installation. No
-            subcontractors, no surprises. Just a real wood floor, installed right
-            the first time.
+            We handle everything — consultation, product supply,
+            subfloor and moisture preparation, and expert installation.
+            Just a real wood floor, installed right the first time.
           </p>
         </div>
       </section>

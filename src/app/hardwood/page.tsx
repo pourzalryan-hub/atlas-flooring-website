@@ -202,7 +202,7 @@ export default function HardwoodPage() {
           <p className="text-warm-grey text-lg leading-relaxed">
             What sets us apart is that we handle everything: consultation,
             product supply, subfloor preparation, and expert installation — all
-            under one roof. No subcontractors, no surprises. Just beautiful
+            under one roof. Just beautiful
             floors, installed right the first time.
           </p>
         </div>

@@ -34,7 +34,7 @@ const values = [
   {
     icon: '⬡',
     title: 'In-House Installation',
-    body: 'We never subcontract. Our installation team is employed by Atlas — accountable, consistent, and proud of the work they deliver.',
+    body: 'Every installation is carried out by experienced, vetted flooring installers. We oversee every job and stand behind the results.',
   },
 ]
 

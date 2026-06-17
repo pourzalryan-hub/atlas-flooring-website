@@ -70,7 +70,7 @@ const steps = [
   {
     title: "Install & Turn",
     description:
-      "Our own crews prep and install quickly so the unit is rent-ready fast, and we keep common areas protected during the work.",
+      "We coordinate scheduling around tenants, keep common areas protected during the work, and have the unit rent-ready fast.",
   },
   {
     title: "Documentation",
@@ -138,7 +138,7 @@ export default function PropertyManagementPage() {
           <p className="text-warm-grey text-lg leading-relaxed">
             We set a standard spec and volume pricing up front so there are no
             decisions to relitigate every time a unit comes available. You call,
-            we schedule, our own crews turn the suite, and you get warranty
+            we schedule, our team turns the suite, and you get warranty
             documentation for your records. When the goal is rent-ready units
             with no surprises, that is the whole job.
           </p>

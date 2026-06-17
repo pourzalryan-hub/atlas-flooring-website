@@ -73,14 +73,6 @@ const fibreCards = [
     traits: ["Inherently stain-resistant", "Budget-friendly", "Vibrant colour range"],
   },
   {
-    label: "SmartStrand / Triexta",
-    tag: "Best for Pets & Kids",
-    highlight: false,
-    description:
-      "SmartStrand (Mohawk's triexta fibre) is the newest generation of carpet technology. The stain resistance is built into the fibre at the molecular level — it doesn't wash off. Exceptionally soft, durable, and eco-friendlier than traditional synthetics. Our top recommendation for active households.",
-    traits: ["Permanent stain protection", "Ultra soft", "Environmentally responsible"],
-  },
-  {
     label: "Wool",
     tag: "Premium & Sustainable",
     highlight: false,
@@ -146,7 +138,7 @@ const faqItems = [
   },
   {
     q: "How do I choose the right carpet for high-traffic areas?",
-    a: "For stairs, hallways, and family rooms, choose a loop or textured pile style in a nylon or triexta fibre. Avoid light colours and plush (velvet) styles in these areas — they crush and show wear quickly. A heavier underpad also extends the life of your carpet significantly.",
+    a: "For stairs, hallways, and family rooms, choose a loop or textured pile style in a nylon fibre. Avoid light colours and plush (velvet) styles in these areas — they crush and show wear quickly. A heavier underpad also extends the life of your carpet significantly.",
   },
   {
     q: "How do I clean carpet stains?",

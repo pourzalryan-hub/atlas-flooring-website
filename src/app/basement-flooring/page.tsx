@@ -112,7 +112,7 @@ const steps = [
   {
     title: "Install the Finished Floor",
     description:
-      "LVP, engineered hardwood, or carpet is installed by our own team — never subcontracted — with proper expansion gaps, transitions, and seams done correctly for a below-grade environment.",
+      "LVP, engineered hardwood, or carpet is installed with proper expansion gaps, transitions, and seams done correctly for a below-grade environment.",
   },
   {
     title: "Walkthrough & Care",

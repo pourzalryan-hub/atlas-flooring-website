@@ -127,7 +127,7 @@ const faqItems = [
   },
   {
     q: "What's the best material for stair runners in a home with pets?",
-    a: "Nylon and SmartStrand (triexta) are our top recommendations for pet-friendly stair runners. They resist staining, clean up easily, and are durable enough to handle claws and heavy daily traffic. We'd steer away from natural fibres like sisal or jute in pet households — they absorb moisture and are harder to clean.",
+    a: "Nylon is our top recommendation for pet-friendly stair runners. It resists staining, cleans up easily, and is durable enough to handle claws and heavy daily traffic. We'd steer away from natural fibres like sisal or jute in pet households — they absorb moisture and are harder to clean.",
   },
 ];
 

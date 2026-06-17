@@ -46,7 +46,7 @@ const trustSignals = [
   {
     title: "Our Own Installers",
     description:
-      "Every project is completed by our certified in-house crews, never subcontractors, for consistent quality.",
+      "Every project is completed by experienced, vetted flooring installers. We oversee every job and stand behind the results.",
   },
   {
     title: "Free In-Home Consultations",

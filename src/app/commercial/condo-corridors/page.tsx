@@ -65,7 +65,7 @@ const steps = [
   {
     title: "Phased Install",
     description:
-      "Our own crews work in sections, control dust and odour, and keep corridors usable throughout. We coordinate elevator bookings and loading-dock access in advance.",
+      "We work in sections, control dust and odour, and keep corridors usable throughout. We coordinate elevator bookings and loading-dock access in advance.",
   },
   {
     title: "Walkthrough & Documents",
@@ -136,7 +136,7 @@ export default function CondoCorridorsPage() {
           <p className="text-warm-grey text-lg leading-relaxed">
             We are not a sales desk that drops off a sample book and disappears.
             We read your declaration, document the acoustic ratings, present a
-            spec the board can vote on, and then send our own crews to install it
+            spec the board can vote on, and then coordinate the installation
             in phases — keeping corridors open and residents informed the whole
             way through.
           </p>

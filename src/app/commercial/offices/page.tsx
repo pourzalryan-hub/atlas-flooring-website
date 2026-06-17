@@ -70,7 +70,7 @@ const steps = [
   {
     title: "After-Hours Install",
     description:
-      "Most office work happens evenings and weekends. Our own crews install to spec, control dust, and have the area ready before the team returns.",
+      "Most office work happens evenings and weekends. Installers work to spec, control dust, and have the area ready before the team returns.",
   },
   {
     title: "Walkthrough & Care",

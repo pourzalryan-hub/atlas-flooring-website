@@ -174,7 +174,7 @@ const reviews: Record<string, Review[]> = {
   general: [
     {
       quote:
-        "Family business that actually acts like one. The same person who quoted us was there on install day. No subcontractors, no surprises on the invoice. You don't get that with the big chains.",
+        "Family business that actually acts like one. The same person who quoted us was there on install day. Honest pricing, no surprises on the invoice. You don't get that with the big chains.",
       name: "Paul K.",
       neighbourhood: "Leaside",
       serviceLabel: "Flooring",

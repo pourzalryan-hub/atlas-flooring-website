@@ -70,7 +70,7 @@ const steps = [
   {
     title: "Installation",
     description:
-      "Our own crews prep the subfloor, control dust, and install entrances, sales floor, and feature zones to spec with clean transitions between them.",
+      "We prep the subfloor, control dust, and install entrances, sales floor, and feature zones to spec with clean transitions between them.",
   },
   {
     title: "Walkthrough & Care",

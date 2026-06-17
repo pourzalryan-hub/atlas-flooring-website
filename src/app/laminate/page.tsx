@@ -366,7 +366,7 @@ export default function LaminatePage() {
                 {[
                   "The room has moisture — bathrooms, laundry rooms, or wet basements (choose LVP instead)",
                   "You want a floor you can refinish and keep for 50+ years (choose solid hardwood)",
-                  "You have pets that track in a lot of water or have accidents (choose LVP or triexta carpet)",
+                  "You have pets that track in a lot of water or have accidents (choose LVP or nylon carpet)",
                   "You're installing over radiant in-floor heating (laminate and heat don't mix well)",
                   "Resale value is a top priority — hardwood adds more to a home's appraisal",
                 ].map((point) => (

@@ -8,8 +8,8 @@ const points = [
     body: "Atlas is not a chain or a franchise. The Porzal family has owned and operated this showroom on Bathurst Street for over six decades. When you call us, you talk to us.",
   },
   {
-    title: "Our Own Install Crews",
-    body: "We don't subcontract. Every installation is done by our own trained crews — the same people we'd trust to floor our own homes. You get consistent quality and direct accountability.",
+    title: "Professional Installation",
+    body: "Every installation is carried out by experienced, vetted flooring installers. We oversee every job from start to finish and stand behind the results — full stop.",
   },
   {
     title: "978 Bathurst St Showroom",

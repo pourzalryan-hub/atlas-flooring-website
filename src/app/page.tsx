@@ -62,9 +62,9 @@ const whyUs = [
   },
   {
     icon: "◆",
-    title: "Our Crews, Not Subcontractors",
+    title: "Fast, Clean Installations",
     description:
-      "Every installation is done by the same team we've trained and worked with for years. No strangers showing up. No passing the blame. If something's not right, you call us and we fix it.",
+      "We schedule around you. Installers work efficiently, protect your home during the job, and leave the space clean. Most residential installs are done in one to two days.",
   },
   {
     icon: "◆",
@@ -95,9 +95,6 @@ const testimonials = [
   },
 ];
 
-const brands = [
-  "Shaw", "Mohawk", "Mirage", "Karndean", "Beaulieu", "Armstrong", "Preverco", "Lauzon",
-];
 
 export default function HomePage() {
   return (
@@ -358,24 +355,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── BRANDS ──────────────────────────────────────────────── */}
-      <section className="py-16 bg-white border-y border-stone-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h3 className="font-playfair text-2xl text-charcoal text-center mb-10">
-            Trusted Brands, Trusted Results
-          </h3>
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-            {brands.map((brand) => (
-              <div
-                key={brand}
-                className="font-lato font-bold text-stone-400 hover:text-gold transition-colors text-lg tracking-wide cursor-default"
-              >
-                {brand}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ── RECENT PROJECTS ─────────────────────────────────────── */}
       <section className="py-24 bg-off-white">
