@@ -478,14 +478,14 @@ export const projects: Project[] = [
     area: "North York",
     locationSlug: "north-york",
     type: "Stair Runners",
-    product: "SmartStrand runner, taupe",
+    product: "Quality nylon runner, taupe",
     scope: "14-step staircase",
     challenge:
       "A North York semi with a dog that sheds heavily needed a runner that could survive both claws and constant vacuuming, and ideally hide hair between cleanings. The owners had been burned by a previous runner that matted within a year.",
     solution:
-      "We specified a taupe SmartStrand runner, which is built-in stain resistant and resists crushing far better than the cheaper polyester they'd had before. SmartStrand holds up to pets and frequent vacuuming without matting down on the high-traffic centre of each step.",
+      "We specified a taupe nylon runner, which is stain resistant and resists crushing far better than the cheaper polyester they'd had before. Quality nylon holds up to pets and frequent vacuuming without matting down on the high-traffic centre of each step.",
     process: [
-      "Diagnosed why the old runner matted and recommended SmartStrand instead.",
+      "Diagnosed why the old runner matted and recommended quality nylon instead.",
       "Measured all 14 treads.",
       "Serged the edges in a matching taupe.",
       "Installed waterfall-style over a firm pad.",
@@ -1150,14 +1150,14 @@ export const projects: Project[] = [
     area: "The Beaches",
     locationSlug: "the-beaches",
     type: "Carpet",
-    product: "SmartStrand, light grey, 2 bedrooms",
+    product: "Quality nylon carpet, light grey, 2 bedrooms",
     scope: "Two bedrooms, 360 sq ft",
     challenge:
       "A Beaches family wanted soft, kid-friendly carpet in two children's bedrooms that could handle juice, markers, and the general chaos of young kids. They'd had a synthetic carpet stain permanently in their last place.",
     solution:
-      "We installed a light-grey SmartStrand in both rooms, chosen for its built-in stain resistance that handles exactly the spills kids produce. SmartStrand's stain protection is engineered into the fibre, so it doesn't wear off the way topical treatments do.",
+      "We installed a light-grey nylon carpet in both rooms, chosen for its excellent stain resistance that handles exactly the spills kids produce. Quality nylon holds up well to family life, maintaining its appearance through years of heavy use.",
     process: [
-      "Recommended SmartStrand for its permanent stain resistance.",
+      "Recommended quality nylon for its excellent stain resistance.",
       "Measured both bedrooms.",
       "Installed a comfortable mid-density underpad.",
       "Power-stretched for a tight, durable fit.",
