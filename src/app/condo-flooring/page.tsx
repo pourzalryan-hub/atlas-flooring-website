@@ -30,11 +30,11 @@ export const metadata: Metadata = {
 
 const materials = [
   {
-    label: "Luxury Vinyl Plank",
+    label: "Laminate",
     tag: "Most Popular for Condos",
     tagColor: "bg-gold",
     description:
-      "Rigid-core LVP and SPC flooring is the go-to for Toronto condos. It installs as a quick floating floor over an acoustic underlay, is fully waterproof, and handles the humidity swings of high-rise living without gapping or cupping. Paired with the right pad it meets most building sound requirements with room to spare.",
+      "Laminate is the most popular flooring choice for Toronto condos. It installs quickly as a floating floor over an acoustic underlay, handles the humidity swings of high-rise living without gapping or cupping, and delivers a hardwood look at a fraction of the cost. Paired with the right pad it easily meets most building sound requirements.",
   },
   {
     label: "Engineered Hardwood",
@@ -123,7 +123,7 @@ const faqItems = [
   },
   {
     q: "Which flooring is best for a condo?",
-    a: "Luxury vinyl plank over an acoustic underlay is the most popular condo choice — it's waterproof, stable in high-rise humidity, fast to install, and easily meets most sound specs. Engineered hardwood is the choice for those who want real wood, and carpet remains the quietest option for bedrooms. The right pick depends on your building's rules and how you use each room.",
+    a: "Laminate over an acoustic underlay is the most popular condo choice — it delivers a hardwood look at an accessible price, installs quickly as a floating floor, and easily meets most building sound requirements. Engineered hardwood is the choice for those who want real wood, and carpet remains the quietest option for bedrooms. The right pick depends on your building's rules and how you use each room.",
   },
   {
     q: "How long does a condo flooring installation take?",
