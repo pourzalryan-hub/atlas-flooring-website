@@ -95,9 +95,9 @@ const steps = [
       "We grind high spots, fill low spots, and bring the slab flat within tolerance. Cracks are addressed and the floor is cleaned, because every finished material relies on a sound, even base underneath it.",
   },
   {
-    title: "Vapour Barrier & Subfloor Membrane",
+    title: "Underlay & Prep",
     description:
-      "We install the right moisture defence for your floor — a vapour barrier and, where it makes sense, a dimpled or insulated subfloor membrane that lifts the floor off the cold, occasionally damp concrete and adds warmth.",
+      "We select and install the right underlay for your floor and basement conditions. The right underlay adds comfort, warmth, and sound insulation — and makes a real difference in how the finished floor feels and performs over time.",
   },
   {
     title: "Install the Finished Floor",
@@ -121,8 +121,8 @@ const faqItems = [
     a: "Solid hardwood is not recommended below grade — it expands and contracts with the slab's natural moisture, leading to cupping, gapping, and warping. For laminate, we recommend quality moisture-resistant options rather than standard entry-level products. LVP remains the safest and most durable choice for any basement with moisture concerns.",
   },
   {
-    q: "What is a subfloor membrane and do I need one?",
-    a: "A dimpled or insulated subfloor membrane is a panel that sits between the slab and your finished floor. The dimples create an air gap that lets any minor moisture dissipate and keeps the floor warmer and more comfortable underfoot. We don't always need one, but in cold Toronto basements it's often the difference between a floor that feels like a basement and one that feels like a room.",
+    q: "Do I need a special underlay for a basement floor?",
+    a: "Yes — the right underlay is important in a basement. It adds warmth, cushion, and sound insulation between your finished floor and the cold concrete slab. The specific product depends on the flooring type: LVP, laminate, and carpet each work best with different underlays. We'll recommend what's right for your job.",
   },
   {
     q: "Is carpet a bad idea in a basement?",
@@ -241,18 +241,16 @@ export default function BasementFlooringPage() {
         <div className="max-w-4xl mx-auto space-y-10 pb-16">
           <div>
             <h2 className="font-playfair text-4xl text-charcoal mb-4">
-              The Subfloor Membrane That Makes the Difference
+              The Right Underlay Makes All the Difference
             </h2>
             <p className="text-warm-grey text-lg leading-relaxed">
-              In many Toronto basements we install a dimpled or insulated
-              subfloor membrane between the slab and the finished floor. The
-              dimples create a small air gap so any minor moisture can dissipate
-              rather than getting trapped against your flooring, and the panel
-              breaks the thermal bridge to the cold concrete. The result is a
-              floor that is warmer, quieter, and far less prone to the clammy
-              feeling people associate with basements. Paired with the right
-              vapour barrier, it&apos;s one of the best upgrades you can make to
-              a below-grade space.
+              The underlay beneath your basement floor is one of the most
+              important decisions in the job. A quality underlay adds cushion,
+              warmth, and sound absorption — and in a basement where the concrete
+              slab is naturally cold, it makes the finished floor feel like a
+              proper room rather than a basement. We recommend the right product
+              for your specific floor type and conditions, so you get the
+              best result underfoot without paying for things you don't need.
             </p>
           </div>
 
