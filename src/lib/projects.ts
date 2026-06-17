@@ -36,7 +36,7 @@ export const projects: Project[] = [
     ],
     results:
       "The finished staircase is safer underfoot, noticeably quieter, and visually warmer. The herringbone pattern ties the front hall together, and the exposed oak borders preserve the home's heritage character. The clients have since asked us to look at a second-floor hallway runner.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-stair-runner-forest-hill.jpg",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/forest-hill",
   },
@@ -60,7 +60,7 @@ export const projects: Project[] = [
     ],
     results:
       "The runner flows seamlessly around the curve with a crisp, continuous border — a result that only careful measurement and skilled installation can achieve. The staircase now reads as a polished focal point of the front hall.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-stair-runner-rosedale.jpeg",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/rosedale",
   },
@@ -252,7 +252,7 @@ export const projects: Project[] = [
     ],
     results:
       "The office now has a clean, professional, hard-wearing floor that is far easier to maintain than the old carpet tile. The phased approach meant the business stayed open throughout, with no lost productivity.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-stair-runner-yorkville.jpg",
     relatedService: "/commercial",
     relatedLocation: "/locations/toronto",
   },
@@ -276,7 +276,7 @@ export const projects: Project[] = [
     ],
     results:
       "The stairs are quiet now and the dogs stopped slipping the day it went in. The charcoal border ties into the home's dark window frames, and the grey hides everyday dirt between cleanings.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-stair-runner-high-park.png",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/midtown-toronto",
   },
@@ -300,7 +300,7 @@ export const projects: Project[] = [
     ],
     results:
       "The stripes run dead straight all the way down, even across the two winders, which is the part most people get wrong. The navy grounds it and the cream keeps the narrow stairwell feeling bright.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-stair-runner-annex.jpg",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/high-park",
   },
@@ -324,7 +324,7 @@ export const projects: Project[] = [
     ],
     results:
       "The runner became exactly the focal point they wanted. Visitors notice it immediately, and the navy sits comfortably against the original dark woodwork instead of fighting it.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-stair-runner-etobicoke.jpg",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/the-annex",
   },
@@ -348,7 +348,7 @@ export const projects: Project[] = [
     ],
     results:
       "The family got a hard-wearing runner that hides scuffs and wipes clean, at a price that made sense for a secondary staircase. Two years of teenager traffic later it still looks sharp.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-stair-runner-midtown.jpg",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/etobicoke",
   },
@@ -372,7 +372,7 @@ export const projects: Project[] = [
     ],
     results:
       "The staircase now reads as a continuation of their rug collection, which is exactly what they were after. The traditional pattern also does a good job hiding the realities of a well-used family stair.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-stair-runner-beaches.jpg",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/midtown-toronto",
   },
@@ -396,7 +396,7 @@ export const projects: Project[] = [
     ],
     results:
       "The sisal gives the entry the breezy, natural feel they wanted, and the brass rods add a touch of polish that suits the house. It's held its shape well, which is the real test with a stiff natural fibre.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-stair-runner-leslieville.jpeg",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/the-beaches",
   },
@@ -420,7 +420,7 @@ export const projects: Project[] = [
     ],
     results:
       "The staircase is warmer and dramatically quieter, which kept the peace with the basement tenant. The cut pile feels secure on a steep flight and the grey hides traffic on the way down.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-stair-runner-riverdale.jpg",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/leslieville",
   },
@@ -444,7 +444,7 @@ export const projects: Project[] = [
     ],
     results:
       "The kids have grip and the stairs are quieter, but the refinished oak still gets to be the star. The charcoal border keeps the light cream from looking precious in a busy household.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-stair-runner-east-york.jpg",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/riverdale",
   },
@@ -468,7 +468,7 @@ export const projects: Project[] = [
     ],
     results:
       "The berber shrugs off the daily trips up and down to the basement and doesn't show footprints, which was the whole point. The neutral oatmeal works with whatever the owners change downstairs.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-stair-runner-north-york-semi.jpg",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/east-york",
   },
