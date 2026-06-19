@@ -400,7 +400,7 @@ export default function HomePage() {
 
           <div className="text-center mt-10">
             <Link
-              href="/projects"
+              href="/gallery"
               className="font-lato text-gold font-semibold hover:text-gold-dark transition-colors text-lg"
             >
               View All Projects →
