@@ -215,7 +215,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Showroom / team photo */}
             <div className="rounded-2xl overflow-hidden aspect-[4/3] bg-stone-700 order-2 lg:order-1"
-              style={{ backgroundImage: "url('/images/about-showroom.jpg')", backgroundSize: "cover", backgroundPosition: "center" }}
+              style={{ backgroundImage: "url('/images/about-showroom.png')", backgroundSize: "cover", backgroundPosition: "center" }}
             />
 
             {/* Content */}
