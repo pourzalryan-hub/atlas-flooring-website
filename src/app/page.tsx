@@ -375,7 +375,7 @@ export default function HomePage() {
             {[
               { slug: "stair-runner-forest-hill", title: "Patterned Stair Runner — Forest Hill", type: "Stair Runners", img: "/images/project-stair-runner-forest-hill.jpg" },
               { slug: "hardwood-leaside", title: "White Oak Hardwood — Leaside", type: "Hardwood", img: "/images/project-hardwood-leaside.jpg" },
-              { slug: "vinyl-condo-downtown", title: "LVP Throughout — Downtown Condo", type: "Luxury Vinyl", img: "/images/project-vinyl-condo-downtown.png" },
+              { slug: "vinyl-condo-downtown", title: "LVP Throughout — Downtown Condo", type: "Luxury Vinyl", img: "/images/project-vinyl-midtown-condo.png" },
               { slug: "refinishing-annex", title: "Floor Refinishing — The Annex", type: "Refinishing", img: "/images/project-refinishing-annex.jpeg" },
             ].map((p) => (
               <Link
