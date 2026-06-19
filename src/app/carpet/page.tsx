@@ -167,7 +167,7 @@ export default function CarpetPage() {
       />
 
       {/* 2. Intro */}
-      <section className="bg-off-white py-20 px-4">
+      <section id="content" className="bg-off-white py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gold mb-3 font-lato">
             Since 1959
