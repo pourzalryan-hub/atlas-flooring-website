@@ -59,6 +59,8 @@ const galleryItems: GalleryItem[] = [
   { id: 37, category: 'Laminate', label: 'Laminate Rental Suite — Scarborough',        image: '/images/project-laminate-scarborough-rental.png' },
   { id: 38, category: 'Laminate', label: 'Laminate Open Concept — East York',          image: '/images/project-laminate-east-york-open-plan.png' },
   { id: 39, category: 'Laminate', label: 'Laminate Playroom & Office — High Park',     image: '/images/project-laminate-high-park-playroom.png' },
+  // Carpet
+  { id: 40, category: 'Carpet', label: 'Plush Broadloom — North York',                 image: '/images/project-carpet-north-york.jpeg' },
 ]
 
 export default function GalleryPage() {

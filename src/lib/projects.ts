@@ -156,7 +156,7 @@ export const projects: Project[] = [
     ],
     results:
       "The upstairs now feels warm and quiet, and the durable nylon stands up easily to kids and pets. The light grey colour brightens the bedrooms and ties the floor together seamlessly.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-carpet-north-york.jpeg",
     relatedService: "/carpet",
     relatedLocation: "/locations/north-york",
   },
