@@ -61,6 +61,13 @@ const galleryItems: GalleryItem[] = [
   { id: 39, category: 'Laminate', label: 'Laminate Playroom & Office — High Park',     image: '/images/project-laminate-high-park-playroom.png' },
   // Carpet
   { id: 40, category: 'Carpet', label: 'Plush Broadloom — North York',                 image: '/images/project-carpet-north-york.jpeg' },
+  { id: 41, category: 'Carpet', label: 'Wool Carpet — Forest Hill',                    image: '/images/project-carpet-forest-hill.jpeg' },
+  { id: 42, category: 'Carpet', label: 'Wool Carpet Master Suite — Rosedale',          image: '/images/project-carpet-rosedale-wool.jpeg' },
+  { id: 43, category: 'Carpet', label: 'Plush Carpet Penthouse — Yorkville',           image: '/images/project-carpet-yorkville-penthouse.jpeg' },
+  { id: 44, category: 'Carpet', label: 'Carpet Stairs & Hallway — Forest Hill',        image: '/images/project-carpet-forest-hill-stairs-hall.jpeg' },
+  { id: 45, category: 'Carpet', label: 'Soft Nylon Bedroom — The Beaches',             image: '/images/project-carpet-beaches-bedroom.jpeg' },
+  { id: 46, category: 'Carpet', label: 'Condo Corridor Carpet — Midtown',              image: '/images/project-carpet-midtown-condo-hall.jpeg' },
+  { id: 47, category: 'Carpet', label: 'Basement Recreation Room — Etobicoke',         image: '/images/project-carpet-etobicoke-basement.jpeg' },
 ]
 
 export default function GalleryPage() {

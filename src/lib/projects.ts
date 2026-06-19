@@ -180,7 +180,7 @@ export const projects: Project[] = [
     ],
     results:
       "The master suite now feels genuinely luxurious — soft, quiet, and naturally beautiful. The wool's subtle texture adds depth, and its natural resilience means it will look excellent for years.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-carpet-forest-hill.jpeg",
     relatedService: "/carpet",
     relatedLocation: "/locations/forest-hill",
   },
@@ -1092,7 +1092,7 @@ export const projects: Project[] = [
     ],
     results:
       "The suite feels genuinely luxurious — soft, quiet, and naturally beautiful. The wool's lanolin has handled day-to-day life better than the owners feared, and the premium pad makes it plush underfoot.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-carpet-rosedale-wool.jpeg",
     relatedService: "/carpet",
     relatedLocation: "/locations/rosedale",
   },
@@ -1116,7 +1116,7 @@ export const projects: Project[] = [
     ],
     results:
       "The taupe plush flows through all four rooms with seams you genuinely can't find, even under the penthouse's strong light. The result is the calm, continuous, hotel-quality feel the owner wanted.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-carpet-yorkville-penthouse.jpeg",
     relatedService: "/carpet",
     relatedLocation: "/locations/midtown-toronto",
   },
@@ -1140,7 +1140,7 @@ export const projects: Project[] = [
     ],
     results:
       "The busiest path in the house now has a tough, neutral floor that resists the daily traffic without snagging. The careful nosing work means the loops have stayed intact where cheaper installs fail first.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-carpet-forest-hill-stairs-hall.jpeg",
     relatedService: "/carpet",
     relatedLocation: "/locations/forest-hill",
   },
@@ -1164,7 +1164,7 @@ export const projects: Project[] = [
     ],
     results:
       "Both bedrooms got a soft, light floor that has already survived the kind of spills that ruined the family's last carpet. The stain resistance is part of the fibre, so it'll keep working for the life of the carpet.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-carpet-beaches-bedroom.jpeg",
     relatedService: "/carpet",
     relatedLocation: "/locations/the-beaches",
   },
@@ -1188,7 +1188,7 @@ export const projects: Project[] = [
     ],
     results:
       "The three corridors look sharp again with a tough charcoal loop that hides the traffic lanes that plagued the old carpet. Doing it floor by floor meant residents always had a way through.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-carpet-midtown-condo-hall.jpeg",
     relatedService: "/commercial",
     relatedLocation: "/locations/midtown-toronto",
   },
@@ -1212,7 +1212,7 @@ export const projects: Project[] = [
     ],
     results:
       "The basement got the warm, cozy rec room the family wanted, with a moisture barrier that protects against the slab dampness that worried them. The oatmeal berber hides traffic and feels soft underfoot.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-carpet-etobicoke-basement.jpeg",
     relatedService: "/carpet",
     relatedLocation: "/locations/etobicoke",
   },
