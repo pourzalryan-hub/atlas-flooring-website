@@ -52,6 +52,13 @@ const galleryItems: GalleryItem[] = [
   { id: 31, category: 'Luxury Vinyl', label: 'LVP Heritage Home — The Annex',          image: '/images/project-vinyl-annex-heritage.jpg' },
   { id: 32, category: 'Luxury Vinyl', label: 'LVP Main Floor — Riverdale',             image: '/images/project-vinyl-riverdale-semi.jpg' },
   { id: 33, category: 'Luxury Vinyl', label: 'Waterproof LVP — The Beaches',           image: '/images/project-vinyl-beaches-cottage.jpg' },
+  // Laminate
+  { id: 34, category: 'Laminate', label: 'Wide-Plank Laminate — Scarborough',          image: '/images/project-laminate-scarborough.png' },
+  { id: 35, category: 'Laminate', label: 'Laminate Basement Rec Room — North York',    image: '/images/project-laminate-north-york-basement.jpeg' },
+  { id: 36, category: 'Laminate', label: 'Laminate Bedroom Suite — Etobicoke',         image: '/images/project-laminate-etobicoke-bedroom.png' },
+  { id: 37, category: 'Laminate', label: 'Laminate Rental Suite — Scarborough',        image: '/images/project-laminate-scarborough-rental.png' },
+  { id: 38, category: 'Laminate', label: 'Laminate Open Concept — East York',          image: '/images/project-laminate-east-york-open-plan.png' },
+  { id: 39, category: 'Laminate', label: 'Laminate Playroom & Office — High Park',     image: '/images/project-laminate-high-park-playroom.png' },
 ]
 
 export default function GalleryPage() {

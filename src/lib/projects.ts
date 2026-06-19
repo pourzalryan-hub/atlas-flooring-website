@@ -924,7 +924,7 @@ export const projects: Project[] = [
     ],
     results:
       "The new floor has ignored a full humid summer that would have buckled the old laminate. The sandy tone suits the cottage's lakeside feel, and tracked-in sand sweeps up without scratching the wear layer.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-laminate-scarborough.png",
     relatedService: "/vinyl",
     relatedLocation: "/locations/the-beaches",
   },
@@ -948,7 +948,7 @@ export const projects: Project[] = [
     ],
     results:
       "The rec room feels warm and solid underfoot rather than cold and hollow, which is the usual basement-laminate complaint. The 12mm thickness and AC4 rating take the kids' play without showing it, all within the budget.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-laminate-north-york-basement.jpeg",
     relatedService: "/laminate",
     relatedLocation: "/locations/north-york",
   },
@@ -972,7 +972,7 @@ export const projects: Project[] = [
     ],
     results:
       "The bedroom got the warm, quiet, solid floor they wanted at well under the cost of real walnut. The 14mm core means it doesn't have the hollow click that put them off laminate in the first place.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-laminate-etobicoke-bedroom.png",
     relatedService: "/laminate",
     relatedLocation: "/locations/etobicoke",
   },
@@ -996,7 +996,7 @@ export const projects: Project[] = [
     ],
     results:
       "All three units got a clean, neutral, hard-wearing floor that shows well to prospective tenants and survives the ones who move in. Doing them one at a time kept the building earning while the work rolled through.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-laminate-scarborough-rental.png",
     relatedService: "/laminate",
     relatedLocation: "/locations/scarborough",
   },
@@ -1044,7 +1044,7 @@ export const projects: Project[] = [
     ],
     results:
       "The main floor flows as one uninterrupted surface, with no transition strips to break the sightline or collect dirt. The open concept finally feels as open underfoot as it looks.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-laminate-east-york-open-plan.png",
     relatedService: "/laminate",
     relatedLocation: "/locations/east-york",
   },
@@ -1068,7 +1068,7 @@ export const projects: Project[] = [
     ],
     results:
       "The two rooms now read as one calm, bright workspace-and-play zone. The light oak keeps both rooms feeling airy, and the AC4 surface has shrugged off the office chair and a daily avalanche of toys.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-laminate-high-park-playroom.png",
     relatedService: "/laminate",
     relatedLocation: "/locations/high-park",
   },
