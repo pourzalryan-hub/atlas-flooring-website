@@ -373,14 +373,14 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { slug: "stair-runner-forest-hill", title: "Patterned Stair Runner — Forest Hill", type: "Stair Runners", img: "/images/project-stair-runner-forest-hill.jpg" },
-              { slug: "hardwood-leaside", title: "White Oak Hardwood — Leaside", type: "Hardwood", img: "/images/project-hardwood-leaside.jpg" },
-              { slug: "vinyl-condo-downtown", title: "LVP Throughout — Downtown Condo", type: "Luxury Vinyl", img: "/images/project-vinyl-midtown-condo.png" },
-              { slug: "refinishing-annex", title: "Floor Refinishing — The Annex", type: "Refinishing", img: "/images/project-refinishing-annex.jpeg" },
+              { title: "Patterned Stair Runner — Forest Hill", type: "Stair Runners", href: "/gallery", img: "/images/project-stair-runner-forest-hill.jpg" },
+              { title: "White Oak Hardwood — Leaside", type: "Hardwood", href: "/gallery", img: "/images/project-hardwood-leaside.jpg" },
+              { title: "LVP Throughout — Downtown Condo", type: "Luxury Vinyl", href: "/gallery", img: "/images/project-vinyl-midtown-condo.png" },
+              { title: "Floor Refinishing — The Annex", type: "Refinishing", href: "/gallery", img: "/images/project-refinishing-annex.jpeg" },
             ].map((p) => (
               <Link
-                key={p.slug}
-                href={`/projects/${p.slug}`}
+                key={p.title}
+                href={p.href}
                 className="group rounded-2xl shadow-sm overflow-hidden border border-stone-100 bg-white hover:shadow-md transition-shadow flex flex-col"
               >
                 <div className="aspect-video bg-stone-200 relative overflow-hidden">
