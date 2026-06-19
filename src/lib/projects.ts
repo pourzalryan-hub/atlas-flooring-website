@@ -204,7 +204,7 @@ export const projects: Project[] = [
     ],
     results:
       "The original fir floors were revived to a warm, natural glow that suits the heritage home perfectly. The low-odour finish let the family stay put, and the restored floors saved them the cost of replacement.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-refinishing-annex.jpeg",
     relatedService: "/refinishing",
     relatedLocation: "/locations/the-annex",
   },
@@ -1236,7 +1236,7 @@ export const projects: Project[] = [
     ],
     results:
       "The pine brightened beautifully without losing the nail holes, knots, and patina that give it soul. The whitewash modernised the rooms while keeping the floor unmistakably old, which is exactly the balance they wanted.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-refinishing-forest-hill.jpeg",
     relatedService: "/refinishing",
     relatedLocation: "/locations/forest-hill",
   },
@@ -1260,7 +1260,7 @@ export const projects: Project[] = [
     ],
     results:
       "The floor transformed from dated orange oak to a rich, even near-black with no visible scratches or swirl. The satin finish keeps the dark floor from becoming a glare-and-dust magnet, which is the usual trap with ebony.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-refinishing-yorkville-condo.jpeg",
     relatedService: "/refinishing",
     relatedLocation: "/locations/rosedale",
   },
@@ -1284,7 +1284,7 @@ export const projects: Project[] = [
     ],
     results:
       "The floor looks new again for a small fraction of the replacement quote the owner had been given. The screen-and-recoat protected the thin veneer and was done in a day, with the owner back to normal that evening.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-refinishing-high-park.jpeg",
     relatedService: "/refinishing",
     relatedLocation: "/locations/midtown-toronto",
   },
@@ -1308,7 +1308,7 @@ export const projects: Project[] = [
     ],
     results:
       "The maple returned to its bright, natural tone, free of the orange cast the old oil finish gave it. The waterborne topcoat will keep it pale for years instead of slowly ambering again.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-refinishing-leaside.jpeg",
     relatedService: "/refinishing",
     relatedLocation: "/locations/high-park",
   },

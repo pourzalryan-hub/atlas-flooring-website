@@ -68,6 +68,12 @@ const galleryItems: GalleryItem[] = [
   { id: 45, category: 'Carpet', label: 'Soft Nylon Bedroom — The Beaches',             image: '/images/project-carpet-beaches-bedroom.jpeg' },
   { id: 46, category: 'Carpet', label: 'Condo Corridor Carpet — Midtown',              image: '/images/project-carpet-midtown-condo-hall.jpeg' },
   { id: 47, category: 'Carpet', label: 'Basement Recreation Room — Etobicoke',         image: '/images/project-carpet-etobicoke-basement.jpeg' },
+  // Refinishing
+  { id: 48, category: 'Refinishing', label: 'Floor Refinishing — The Annex',           image: '/images/project-refinishing-annex.jpeg' },
+  { id: 49, category: 'Refinishing', label: 'Pine Floor Restore — Forest Hill',        image: '/images/project-refinishing-forest-hill.jpeg' },
+  { id: 50, category: 'Refinishing', label: 'Condo Hardwood Refresh — Yorkville',      image: '/images/project-refinishing-yorkville-condo.jpeg' },
+  { id: 51, category: 'Refinishing', label: 'Natural Finish Restore — High Park',      image: '/images/project-refinishing-high-park.jpeg' },
+  { id: 52, category: 'Refinishing', label: 'Red Oak Colour Change — Leaside',         image: '/images/project-refinishing-leaside.jpeg' },
 ]
 
 export default function GalleryPage() {
