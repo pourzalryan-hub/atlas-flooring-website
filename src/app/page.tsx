@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import CTABanner from "@/components/CTABanner";
 
 export const metadata: Metadata = {
@@ -273,17 +274,18 @@ export default function HomePage() {
           {/* Gallery grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10">
             {[
-              { bg: "bg-amber-100", label: "Lawrence Park — White Oak Hardwood" },
-              { bg: "bg-stone-300", label: "Etobicoke — Plush Carpet Bedroom" },
-              { bg: "bg-neutral-300", label: "Midtown — Luxury Vinyl Kitchen" },
-              { bg: "bg-amber-200", label: "Rosedale — Wool Stair Runner" },
-              { bg: "bg-stone-200", label: "Leaside — Engineered Walnut" },
-              { bg: "bg-zinc-300", label: "North York — Before & After" },
-            ].map(({ bg, label }) => (
+              { src: "/images/project-hardwood-leaside.jpg",               label: "White Oak Hardwood — Leaside" },
+              { src: "/images/project-stair-runner-forest-hill.jpg",       label: "Patterned Runner — Forest Hill" },
+              { src: "/images/project-vinyl-condo-downtown.png",           label: "LVP Throughout — Downtown Condo" },
+              { src: "/images/project-carpet-rosedale-wool.jpeg",          label: "Wool Carpet — Rosedale" },
+              { src: "/images/project-refinishing-annex.jpeg",             label: "Floor Refinishing — The Annex" },
+              { src: "/images/project-laminate-scarborough.png",           label: "Wide-Plank Laminate — Scarborough" },
+            ].map(({ src, label }) => (
               <div
                 key={label}
-                className={`group relative ${bg} rounded-xl overflow-hidden aspect-square cursor-pointer`}
+                className="group relative rounded-xl overflow-hidden aspect-square cursor-pointer bg-stone-200"
               >
+                <Image src={src} alt={label} fill className="object-cover group-hover:scale-105 transition-transform duration-500" unoptimized />
                 <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/50 transition-colors duration-300 flex items-end p-4">
                   <p className="font-lato text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 font-semibold">
                     {label}
