@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import PageHero from '@/components/PageHero'
 import CTABanner from '@/components/CTABanner'
 import WhyAtlas from '@/components/WhyAtlas'
@@ -69,10 +70,8 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Image */}
-            <div className="aspect-[3/4] rounded-2xl overflow-hidden w-full">
-              <div className="w-full h-full bg-stone-300 flex items-center justify-center">
-                <span className="text-stone-500 text-sm font-lato">Image: Atlas showroom interior</span>
-              </div>
+            <div className="aspect-[3/4] rounded-2xl overflow-hidden w-full relative">
+              <Image src="/images/about-story.png" alt="Atlas Rug & Design Centre showroom interior" fill className="object-cover" unoptimized />
             </div>
             {/* Copy */}
             <div>
@@ -179,10 +178,8 @@ export default function AboutPage() {
               </div>
             </div>
             {/* Image */}
-            <div className="aspect-[4/3] rounded-2xl overflow-hidden w-full">
-              <div className="w-full h-full bg-stone-300 flex items-center justify-center">
-                <span className="text-stone-500 text-sm font-lato">Image: Atlas showroom exterior / entrance</span>
-              </div>
+            <div className="aspect-[4/3] rounded-2xl overflow-hidden w-full relative">
+              <Image src="/images/about-story.png" alt="Atlas Rug & Design Centre Toronto showroom" fill className="object-cover" unoptimized />
             </div>
           </div>
         </div>
