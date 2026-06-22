@@ -243,11 +243,13 @@ export default function EngineeredHardwoodPage() {
                   />
                 </div>
                 <div className="p-6 flex flex-col flex-1">
-                  <span
-                    className={`inline-block self-start text-xs font-semibold tracking-wide uppercase px-3 py-1 rounded-full mb-3 ${card.tagColor} text-white`}
-                  >
-                    {card.tag}
-                  </span>
+                  {card.tag !== "Best for Basements, Condos & Radiant Heat" && (
+                    <span
+                      className={`inline-block self-start text-xs font-semibold tracking-wide uppercase px-3 py-1 rounded-full mb-3 ${card.tagColor} text-white`}
+                    >
+                      {card.tag}
+                    </span>
+                  )}
                   <h3 className="font-playfair text-xl text-charcoal mb-2">
                     {card.label}
                   </h3>

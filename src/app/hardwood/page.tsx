@@ -235,11 +235,13 @@ export default function HardwoodPage() {
                   />
                 </div>
                 <div className="p-6 flex flex-col flex-1">
-                  <span
-                    className={`inline-block self-start text-xs font-semibold tracking-wide uppercase px-3 py-1 rounded-full mb-3 ${product.tagColor} text-white`}
-                  >
-                    {product.tag}
-                  </span>
+                  {product.tag !== "Best for Basements & Radiant Heat" && (
+                    <span
+                      className={`inline-block self-start text-xs font-semibold tracking-wide uppercase px-3 py-1 rounded-full mb-3 ${product.tagColor} text-white`}
+                    >
+                      {product.tag}
+                    </span>
+                  )}
                   <h3 className="font-playfair text-xl text-charcoal mb-2">
                     {product.label}
                   </h3>
