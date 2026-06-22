@@ -71,7 +71,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Image */}
             <div className="aspect-[3/4] rounded-2xl overflow-hidden w-full relative">
-              <Image src="/images/about-story.png" alt="Atlas Rug & Design Centre showroom interior" fill className="object-cover" unoptimized />
+              <Image src="/images/about-story-interior.png" alt="Atlas Rug & Design Centre showroom interior" fill className="object-cover" unoptimized />
             </div>
             {/* Copy */}
             <div>
