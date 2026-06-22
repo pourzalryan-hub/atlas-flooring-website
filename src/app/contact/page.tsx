@@ -457,11 +457,17 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* 3. Map Placeholder */}
-      <section className="w-full h-96 bg-stone-200 flex items-center justify-center">
-        <p className="font-lato text-stone-500 text-sm text-center px-4">
-          Google Map — Embed your map here from Google Maps &gt; Share &gt; Embed
-        </p>
+      {/* 3. Map */}
+      <section className="w-full h-96">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2848.37895734215!2d-79.41579772382227!3d43.66987417110136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882b3525276a61bd%3A0xd4c0d500baa7bb29!2sAtlas%20Rugs!5e1!3m2!1sen!2sca!4v1782141517162!5m2!1sen!2sca"
+          width="100%"
+          height="100%"
+          style={{ border: 0 }}
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        />
       </section>
 
       {/* 4. In-Home Consultation */}
