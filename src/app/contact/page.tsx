@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import FAQAccordion from '@/components/FAQAccordion'
 import CTABanner from '@/components/CTABanner'
 import { trackFormSubmit } from '@/lib/gtm'
@@ -500,10 +501,8 @@ export default function ContactPage() {
               </a>
             </div>
             {/* Image */}
-            <div className="aspect-[4/3] rounded-2xl overflow-hidden">
-              <div className="w-full h-full bg-stone-300 flex items-center justify-center">
-                <span className="text-stone-500 text-sm font-lato">Image: Consultant visiting a client home</span>
-              </div>
+            <div className="aspect-[4/3] rounded-2xl overflow-hidden relative">
+              <Image src="/images/about-showroom.png" alt="Beautiful hardwood flooring in a Toronto home" fill className="object-cover" unoptimized />
             </div>
           </div>
         </div>
