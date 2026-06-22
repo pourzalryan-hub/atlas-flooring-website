@@ -434,22 +434,6 @@ export default function ContactPage() {
                   <p className="font-lato text-sm text-warm-grey">♿ Accessible entrance</p>
                 </div>
 
-                {/* Social Links */}
-                <div>
-                  <p className="font-lato text-sm font-semibold text-charcoal uppercase tracking-wide mb-3">Follow Us</p>
-                  <div className="flex flex-wrap gap-4">
-                    {[
-                      { label: 'Instagram', href: '#' },
-                      { label: 'Facebook', href: '#' },
-                      { label: 'Houzz', href: '#' },
-                      { label: 'Pinterest', href: '#' },
-                    ].map((s) => (
-                      <a key={s.label} href={s.href} className="font-lato text-gold hover:underline text-sm">
-                        {s.label}
-                      </a>
-                    ))}
-                  </div>
-                </div>
               </div>
             </div>
 
