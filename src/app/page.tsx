@@ -276,7 +276,7 @@ export default function HomePage() {
             {[
               { src: "/images/project-hardwood-leaside.jpg",               label: "White Oak Hardwood — Leaside" },
               { src: "/images/project-stair-runner-forest-hill.jpg",       label: "Patterned Runner — Forest Hill" },
-              { src: "/images/project-vinyl-midtown-condo.png",            label: "LVP Throughout — Midtown Condo" },
+              { src: "/images/project-vinyl-condo-downtown.png",           label: "LVP Throughout — Downtown Condo" },
               { src: "/images/project-carpet-rosedale-wool.jpeg",          label: "Wool Carpet — Rosedale" },
               { src: "/images/project-refinishing-annex.jpeg",             label: "Floor Refinishing — The Annex" },
               { src: "/images/project-laminate-scarborough.png",           label: "Wide-Plank Laminate — Scarborough" },
@@ -375,7 +375,7 @@ export default function HomePage() {
             {[
               { title: "Patterned Stair Runner — Forest Hill", type: "Stair Runners", href: "/gallery", img: "/images/project-stair-runner-forest-hill.jpg" },
               { title: "White Oak Hardwood — Leaside", type: "Hardwood", href: "/gallery", img: "/images/project-hardwood-leaside.jpg" },
-              { title: "LVP Throughout — Downtown Condo", type: "Luxury Vinyl", href: "/gallery", img: "/images/project-vinyl-midtown-condo.png" },
+              { title: "LVP Throughout — Downtown Condo", type: "Luxury Vinyl", href: "/gallery", img: "/images/project-vinyl-condo-downtown.png" },
               { title: "Floor Refinishing — The Annex", type: "Refinishing", href: "/gallery", img: "/images/project-refinishing-annex.jpeg" },
             ].map((p) => (
               <Link
