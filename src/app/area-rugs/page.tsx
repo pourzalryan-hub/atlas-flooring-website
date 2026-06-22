@@ -77,7 +77,7 @@ export default function AreaRugsPage() {
         title="Custom Area Rugs Toronto"
         subtitle="Any size, any shape, expertly bound — custom area rugs made to fit your space and style."
         breadcrumb="Area Rugs"
-        imageSrc="/images/placeholder.jpg"
+        imageSrc="/images/area-rugs-hero.png"
       />
 
       <section id="content" className="bg-off-white py-20 px-4">
