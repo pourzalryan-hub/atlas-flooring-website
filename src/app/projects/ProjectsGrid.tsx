@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import type { Project } from "@/lib/projects";
 
 interface ProjectsGridProps {
@@ -45,7 +46,15 @@ export default function ProjectsGrid({ projects, types }: ProjectsGridProps) {
             href={`/projects/${p.slug}`}
             className="group rounded-2xl shadow-sm overflow-hidden border border-stone-100 bg-white hover:shadow-md transition-shadow flex flex-col"
           >
-            <div className="aspect-video bg-stone-200" />
+            <div className="aspect-video relative bg-stone-200 overflow-hidden">
+              <Image
+                src={p.imageSrc}
+                alt={p.title}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                unoptimized
+              />
+            </div>
             <div className="p-6 flex flex-col flex-1">
               <span className="text-gold font-lato text-xs font-semibold uppercase tracking-wide">
                 {p.type} · {p.area}
