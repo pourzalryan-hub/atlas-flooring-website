@@ -62,9 +62,6 @@ export default function ProjectsGrid({ projects, types }: ProjectsGridProps) {
               <h3 className="font-playfair text-xl text-charcoal mt-2 mb-3 group-hover:text-gold transition-colors">
                 {p.title}
               </h3>
-              <p className="font-lato text-warm-grey text-sm leading-relaxed flex-1">
-                {p.product}.
-              </p>
               <span className="mt-4 text-gold font-semibold text-sm">
                 View project →
               </span>

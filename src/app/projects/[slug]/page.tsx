@@ -127,7 +127,7 @@ export function generateMetadata({
 }): Metadata {
   const project = getProject(params.slug);
   if (!project) return {};
-  const description = `${project.type} in ${project.area}, Toronto — ${project.product}. Premium flooring supply and installation by Atlas Rug & Design Centre since 1959.`;
+  const description = `${project.type} flooring in ${project.area}, Toronto. Premium flooring supply and installation by Atlas Rug & Design Centre since 1959.`;
   return {
     title: `${project.title} | Atlas Rug & Design Centre`,
     description,
@@ -203,11 +203,10 @@ export default function ProjectPage({
       {/* Overview card */}
       <section className="bg-off-white py-16 px-4">
         <div className="max-w-5xl mx-auto">
-          <div className="rounded-2xl shadow-sm overflow-hidden border border-stone-100 bg-white p-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className="rounded-2xl shadow-sm overflow-hidden border border-stone-100 bg-white p-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
             {[
               { label: "Area", value: project.area },
               { label: "Type", value: project.type },
-              { label: "Product", value: project.product },
             ].map((item) => (
               <div key={item.label}>
                 <p className="text-xs font-semibold tracking-[0.15em] uppercase text-gold mb-2 font-lato">
