@@ -228,7 +228,7 @@ export const projects: Project[] = [
     ],
     results:
       "The main floor looks like genuine wide-plank hardwood but shrugs off the wear of a busy household. The family got the high-end look they wanted at a budget-friendly price, with durability to match their lifestyle.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-laminate-scarborough.png",
     relatedService: "/laminate",
     relatedLocation: "/locations/scarborough",
   },
@@ -252,7 +252,7 @@ export const projects: Project[] = [
     ],
     results:
       "The office now has a clean, professional, hard-wearing floor that is far easier to maintain than the old carpet tile. The phased approach meant the business stayed open throughout, with no lost productivity.",
-    imageSrc: "/images/project-stair-runner-yorkville.jpg",
+    imageSrc: "/images/placeholder.jpg",
     relatedService: "/commercial",
     relatedLocation: "/locations/toronto",
   },
@@ -276,7 +276,7 @@ export const projects: Project[] = [
     ],
     results:
       "The stairs are quiet now and the dogs stopped slipping the day it went in. The charcoal border ties into the home's dark window frames, and the grey hides everyday dirt between cleanings.",
-    imageSrc: "/images/project-stair-runner-high-park.png",
+    imageSrc: "/images/project-stair-runner-yorkville.jpg",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/midtown-toronto",
   },
@@ -300,7 +300,7 @@ export const projects: Project[] = [
     ],
     results:
       "The stripes run dead straight all the way down, even across the two winders, which is the part most people get wrong. The navy grounds it and the cream keeps the narrow stairwell feeling bright.",
-    imageSrc: "/images/project-stair-runner-annex.jpg",
+    imageSrc: "/images/project-stair-runner-high-park.png",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/high-park",
   },
@@ -324,7 +324,7 @@ export const projects: Project[] = [
     ],
     results:
       "The runner became exactly the focal point they wanted. Visitors notice it immediately, and the navy sits comfortably against the original dark woodwork instead of fighting it.",
-    imageSrc: "/images/project-stair-runner-etobicoke.jpg",
+    imageSrc: "/images/project-stair-runner-annex.jpg",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/the-annex",
   },
@@ -348,7 +348,7 @@ export const projects: Project[] = [
     ],
     results:
       "The family got a hard-wearing runner that hides scuffs and wipes clean, at a price that made sense for a secondary staircase. Two years of teenager traffic later it still looks sharp.",
-    imageSrc: "/images/project-stair-runner-midtown.jpg",
+    imageSrc: "/images/project-stair-runner-etobicoke.jpg",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/etobicoke",
   },
@@ -372,7 +372,7 @@ export const projects: Project[] = [
     ],
     results:
       "The staircase now reads as a continuation of their rug collection, which is exactly what they were after. The traditional pattern also does a good job hiding the realities of a well-used family stair.",
-    imageSrc: "/images/project-stair-runner-beaches.jpg",
+    imageSrc: "/images/project-stair-runner-midtown.jpg",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/midtown-toronto",
   },
@@ -396,7 +396,7 @@ export const projects: Project[] = [
     ],
     results:
       "The sisal gives the entry the breezy, natural feel they wanted, and the brass rods add a touch of polish that suits the house. It's held its shape well, which is the real test with a stiff natural fibre.",
-    imageSrc: "/images/project-stair-runner-leslieville.jpeg",
+    imageSrc: "/images/project-stair-runner-beaches.jpg",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/the-beaches",
   },
@@ -420,7 +420,7 @@ export const projects: Project[] = [
     ],
     results:
       "The staircase is warmer and dramatically quieter, which kept the peace with the basement tenant. The cut pile feels secure on a steep flight and the grey hides traffic on the way down.",
-    imageSrc: "/images/project-stair-runner-riverdale.jpg",
+    imageSrc: "/images/project-stair-runner-leslieville.jpeg",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/leslieville",
   },
@@ -444,7 +444,7 @@ export const projects: Project[] = [
     ],
     results:
       "The kids have grip and the stairs are quieter, but the refinished oak still gets to be the star. The charcoal border keeps the light cream from looking precious in a busy household.",
-    imageSrc: "/images/project-stair-runner-east-york.jpg",
+    imageSrc: "/images/project-stair-runner-riverdale.jpg",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/riverdale",
   },
@@ -468,7 +468,7 @@ export const projects: Project[] = [
     ],
     results:
       "The berber shrugs off the daily trips up and down to the basement and doesn't show footprints, which was the whole point. The neutral oatmeal works with whatever the owners change downstairs.",
-    imageSrc: "/images/project-stair-runner-north-york-semi.jpg",
+    imageSrc: "/images/project-stair-runner-east-york.jpg",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/east-york",
   },
@@ -492,7 +492,7 @@ export const projects: Project[] = [
     ],
     results:
       "A year of dog traffic in and the runner still springs back instead of matting like the last one. The taupe hides hair between vacuums, and stains wipe up before they set.",
-    imageSrc: "/images/project-hardwood-yorkville-condo.png",
+    imageSrc: "/images/project-stair-runner-north-york-semi.jpg",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/north-york",
   },
@@ -516,7 +516,7 @@ export const projects: Project[] = [
     ],
     results:
       "The unit went from generic laminate to a warm, flat oak floor that meets every building rule. The matte finish hides the dust that a downtown condo collects, and the neighbour below has had no complaints.",
-    imageSrc: "/images/project-hardwood-forest-hill-full-home.png",
+    imageSrc: "/images/project-hardwood-yorkville-condo.png",
     relatedService: "/engineered-hardwood",
     relatedLocation: "/locations/midtown-toronto",
   },
@@ -540,7 +540,7 @@ export const projects: Project[] = [
     ],
     results:
       "The grey came out even and warm across every room, with none of the blue cast that ruins a lot of grey floors. The matte finish keeps it looking like raw, weathered oak rather than painted.",
-    imageSrc: "/images/project-hardwood-annex-refinish-new.jpg",
+    imageSrc: "/images/project-hardwood-forest-hill-full-home.png",
     relatedService: "/hardwood",
     relatedLocation: "/locations/forest-hill",
   },
@@ -564,7 +564,7 @@ export const projects: Project[] = [
     ],
     results:
       "The fir went from a patchwork of paint and carpet to a rich, even Jacobean that now flows with the main floor. The patched grate areas are invisible, and the deep colour suits the home's age.",
-    imageSrc: "/images/project-hardwood-midtown-herringbone.jpg",
+    imageSrc: "/images/project-hardwood-annex-refinish-new.jpg",
     relatedService: "/refinishing",
     relatedLocation: "/locations/the-annex",
   },
@@ -588,7 +588,7 @@ export const projects: Project[] = [
     ],
     results:
       "The herringbone runs true to the room with crisp, even points and no lippage underfoot. The natural finish keeps it timeless, and the pattern makes the modest-sized rooms feel considered and high-end.",
-    imageSrc: "/images/project-hardwood-etobicoke-basement.png",
+    imageSrc: "/images/project-hardwood-midtown-herringbone.jpg",
     relatedService: "/engineered-hardwood",
     relatedLocation: "/locations/midtown-toronto",
   },
@@ -612,7 +612,7 @@ export const projects: Project[] = [
     ],
     results:
       "The basement got the warm, real-wood feel the family wanted, and the moisture barrier has handled the seasonal damp without a single buckled board. Hickory's hardness shrugs off the kids' toys and chairs.",
-    imageSrc: "/images/project-hardwood-beaches-maple.png",
+    imageSrc: "/images/project-hardwood-etobicoke-basement.png",
     relatedService: "/engineered-hardwood",
     relatedLocation: "/locations/etobicoke",
   },
@@ -636,7 +636,7 @@ export const projects: Project[] = [
     ],
     results:
       "The maple stayed bright and pale instead of yellowing, which genuinely lifts the small, low-light main floor. The narrow strip suits the age of the house and the natural finish keeps it feeling airy.",
-    imageSrc: "/images/project-hardwood-high-park-walnut.png",
+    imageSrc: "/images/project-hardwood-beaches-maple.png",
     relatedService: "/hardwood",
     relatedLocation: "/locations/the-beaches",
   },
@@ -660,7 +660,7 @@ export const projects: Project[] = [
     ],
     results:
       "The living room got the dramatic, dark floor they wanted, and the wire-brushed texture has hidden the dog's claw marks completely. The threshold reads as intentional rather than a patch.",
-    imageSrc: "/images/project-hardwood-rosedale-full.png",
+    imageSrc: "/images/project-hardwood-high-park-walnut.png",
     relatedService: "/engineered-hardwood",
     relatedLocation: "/locations/high-park",
   },
@@ -684,7 +684,7 @@ export const projects: Project[] = [
     ],
     results:
       "Two winters in, the wide ash planks have stayed flat with no cupping or gapping — exactly why we steered them off solid. The blonde ash brightens the formal rooms and the satin finish reads refined without glare.",
-    imageSrc: "/images/project-hardwood-east-york-oak.jpeg",
+    imageSrc: "/images/project-hardwood-rosedale-full.png",
     relatedService: "/engineered-hardwood",
     relatedLocation: "/locations/rosedale",
   },
@@ -708,7 +708,7 @@ export const projects: Project[] = [
     ],
     results:
       "The floor lost its dated orange cast and reads as a warm, even Early American with no blotching. The owners got the classic look they wanted out of the oak they already had, for a fraction of replacement cost.",
-    imageSrc: "/images/project-hardwood-scarborough-engineered.jpeg",
+    imageSrc: "/images/project-hardwood-east-york-oak.jpeg",
     relatedService: "/refinishing",
     relatedLocation: "/locations/east-york",
   },
@@ -732,7 +732,7 @@ export const projects: Project[] = [
     ],
     results:
       "The floor warms up evenly and has stayed tight and quiet through full heating seasons. The family gets the comfort of radiant heat with the look of real oak, and no gapping where solid wood would have failed.",
-    imageSrc: "/images/project-vinyl-north-york-basement.png",
+    imageSrc: "/images/project-hardwood-scarborough-engineered.jpeg",
     relatedService: "/engineered-hardwood",
     relatedLocation: "/locations/scarborough",
   },
@@ -756,7 +756,7 @@ export const projects: Project[] = [
     ],
     results:
       "The basement looks like a proper living space instead of a concrete box, and the family stopped worrying about the drain. The 12mil wear layer takes the kids and the treadmill without denting.",
-    imageSrc: "/images/project-vinyl-etobicoke-kitchen.jpeg",
+    imageSrc: "/images/project-vinyl-north-york-basement.png",
     relatedService: "/basement-flooring",
     relatedLocation: "/locations/north-york",
   },
@@ -780,7 +780,7 @@ export const projects: Project[] = [
     ],
     results:
       "The kitchen feels warm and the powder room feels crisp, but both will laugh off a dishwasher leak or an overflowing sink. The transition between the two reads as a deliberate design line.",
-    imageSrc: "/images/project-vinyl-scarborough-full-home.jpg",
+    imageSrc: "/images/project-vinyl-etobicoke-kitchen.jpeg",
     relatedService: "/vinyl",
     relatedLocation: "/locations/etobicoke",
   },
@@ -804,7 +804,7 @@ export const projects: Project[] = [
     ],
     results:
       "The house reads as one bright, continuous space, which makes the modest square footage feel generous. The 20mil wear layer is built for the heavy use the family throws at it and wipes clean in minutes.",
-    imageSrc: "/images/project-vinyl-midtown-condo.png",
+    imageSrc: "/images/project-vinyl-scarborough-full-home.jpg",
     relatedService: "/vinyl",
     relatedLocation: "/locations/scarborough",
   },
@@ -828,7 +828,7 @@ export const projects: Project[] = [
     ],
     results:
       "The dated tile disappeared under a clean light-oak floor with no demolition, no dust, and a fraction of the cost. The filled grout lines stayed invisible, and the height bump at the door is barely noticeable.",
-    imageSrc: "/images/project-vinyl-leslieville-rental.jpeg",
+    imageSrc: "/images/project-vinyl-midtown-condo.png",
     relatedService: "/condo-flooring",
     relatedLocation: "/locations/midtown-toronto",
   },
@@ -852,7 +852,7 @@ export const projects: Project[] = [
     ],
     results:
       "The landlord now has a floor built for the rental cycle — neutral enough for any tenant, tough enough to last, and repairable one plank at a time. The leftover stock means a damaged board is a ten-minute fix, not a re-floor.",
-    imageSrc: "/images/project-vinyl-annex-heritage.jpg",
+    imageSrc: "/images/project-vinyl-leslieville-rental.jpeg",
     relatedService: "/vinyl",
     relatedLocation: "/locations/leslieville",
   },
@@ -876,7 +876,7 @@ export const projects: Project[] = [
     ],
     results:
       "The new floor takes wet boots and dog traffic without complaint, yet sits comfortably beside the home's original wood instead of fighting it. Guests assume it's just another wood floor.",
-    imageSrc: "/images/project-vinyl-riverdale-semi.jpg",
+    imageSrc: "/images/project-vinyl-annex-heritage.jpg",
     relatedService: "/vinyl",
     relatedLocation: "/locations/the-annex",
   },
@@ -900,7 +900,7 @@ export const projects: Project[] = [
     ],
     results:
       "The main floor got the upscale herringbone look the owners wanted at a fraction of real-wood cost, and it survives juice spills and toy cars without a thought. The centred layout keeps the pattern looking intentional.",
-    imageSrc: "/images/project-vinyl-beaches-cottage.jpg",
+    imageSrc: "/images/project-vinyl-riverdale-semi.jpg",
     relatedService: "/vinyl",
     relatedLocation: "/locations/riverdale",
   },
@@ -924,7 +924,7 @@ export const projects: Project[] = [
     ],
     results:
       "The new floor has ignored a full humid summer that would have buckled the old laminate. The sandy tone suits the cottage's lakeside feel, and tracked-in sand sweeps up without scratching the wear layer.",
-    imageSrc: "/images/project-laminate-scarborough.png",
+    imageSrc: "/images/project-vinyl-beaches-cottage.jpg",
     relatedService: "/vinyl",
     relatedLocation: "/locations/the-beaches",
   },
@@ -1260,7 +1260,7 @@ export const projects: Project[] = [
     ],
     results:
       "The floor transformed from dated orange oak to a rich, even near-black with no visible scratches or swirl. The satin finish keeps the dark floor from becoming a glare-and-dust magnet, which is the usual trap with ebony.",
-    imageSrc: "/images/project-refinishing-yorkville-condo.jpeg",
+    imageSrc: "/images/placeholder.jpg",
     relatedService: "/refinishing",
     relatedLocation: "/locations/rosedale",
   },
@@ -1284,7 +1284,7 @@ export const projects: Project[] = [
     ],
     results:
       "The floor looks new again for a small fraction of the replacement quote the owner had been given. The screen-and-recoat protected the thin veneer and was done in a day, with the owner back to normal that evening.",
-    imageSrc: "/images/project-refinishing-high-park.jpeg",
+    imageSrc: "/images/project-refinishing-yorkville-condo.jpeg",
     relatedService: "/refinishing",
     relatedLocation: "/locations/midtown-toronto",
   },
@@ -1308,7 +1308,7 @@ export const projects: Project[] = [
     ],
     results:
       "The maple returned to its bright, natural tone, free of the orange cast the old oil finish gave it. The waterborne topcoat will keep it pale for years instead of slowly ambering again.",
-    imageSrc: "/images/project-refinishing-leaside.jpeg",
+    imageSrc: "/images/project-refinishing-high-park.jpeg",
     relatedService: "/refinishing",
     relatedLocation: "/locations/high-park",
   },
@@ -1332,7 +1332,7 @@ export const projects: Project[] = [
     ],
     results:
       "The floor deepened to a warm, even Special Walnut with no ghosting from the old colour underneath. The family got a noticeably richer floor out of the oak they already had, for far less than replacement.",
-    imageSrc: "/images/placeholder.jpg",
+    imageSrc: "/images/project-refinishing-leaside.jpeg",
     relatedService: "/refinishing",
     relatedLocation: "/locations/leaside",
   },
