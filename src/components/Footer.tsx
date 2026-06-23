@@ -111,9 +111,6 @@ export default function Footer() {
             <a href="/privacy" className="font-lato text-xs text-white/40 hover:text-gold transition-colors">
               Privacy Policy
             </a>
-            <a href="#" className="font-lato text-xs text-white/40 hover:text-gold transition-colors">
-              Sitemap
-            </a>
           </div>
         </div>
       </div>
