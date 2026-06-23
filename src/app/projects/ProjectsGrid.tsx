@@ -63,7 +63,7 @@ export default function ProjectsGrid({ projects, types }: ProjectsGridProps) {
                 {p.title}
               </h3>
               <p className="font-lato text-warm-grey text-sm leading-relaxed flex-1">
-                {p.product} — {p.scope}.
+                {p.product}.
               </p>
               <span className="mt-4 text-gold font-semibold text-sm">
                 View project →
