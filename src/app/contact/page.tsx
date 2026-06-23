@@ -62,7 +62,7 @@ const serviceAreaChips = [
 ]
 
 const fieldClass =
-  'w-full bg-white border border-stone-300 rounded-lg px-4 py-3 font-lato text-charcoal focus:outline-none focus:ring-2 focus:ring-gold'
+  'w-full bg-white border border-stone-300 rounded-lg px-4 py-3 text-base font-lato text-charcoal focus:outline-none focus:ring-2 focus:ring-gold'
 
 interface FormState {
   firstName: string
@@ -385,7 +385,7 @@ export default function ContactPage() {
 
             {/* RIGHT — Contact Details (40%) */}
             <div className="lg:col-span-2">
-              <div className="bg-white rounded-2xl shadow-sm p-8 sticky top-8">
+              <div className="bg-white rounded-2xl shadow-sm p-8 sticky top-24">
                 <h3 className="font-playfair text-2xl text-charcoal mb-6">Visit Our Toronto Showroom</h3>
 
                 <div className="space-y-4 mb-8">

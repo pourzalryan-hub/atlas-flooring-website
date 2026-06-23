@@ -97,7 +97,7 @@ export default function GalleryPage() {
       </section>
 
       {/* Filter Tabs */}
-      <section className="bg-white border-b border-stone-100 sticky top-0 z-20">
+      <section className="bg-white border-b border-stone-100 sticky top-20 z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex overflow-x-auto gap-1 py-1">
             {TABS.map((tab) => (

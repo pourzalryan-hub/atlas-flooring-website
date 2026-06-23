@@ -101,7 +101,7 @@ export default function HomePage() {
   return (
     <>
       {/* ── HERO ────────────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex items-center justify-center bg-charcoal overflow-hidden">
+      <section className="relative min-h-[600px] md:min-h-screen flex items-center justify-center bg-charcoal overflow-hidden">
         {/* Background placeholder */}
         <div className="absolute inset-0 bg-gradient-to-br from-stone-900 via-charcoal to-stone-800" />
         <div className="absolute inset-0 bg-[url('/images/hero.jpg')] bg-cover bg-center opacity-25" />
