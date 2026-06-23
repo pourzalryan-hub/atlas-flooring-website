@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import CTABanner from '@/components/CTABanner'
 import { articles } from '@/lib/blog'
 
@@ -41,8 +42,8 @@ export default function BlogPage() {
             className="block bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow"
           >
             <div className="grid grid-cols-1 lg:grid-cols-2">
-              <div className="aspect-[4/3] lg:aspect-auto lg:min-h-[400px]">
-                <div className="w-full h-full bg-stone-300" />
+              <div className="aspect-[4/3] lg:aspect-auto lg:min-h-[400px] relative">
+                <Image src={featured.image} alt={featured.title} fill className="object-cover" unoptimized />
               </div>
               <div className="p-10 flex flex-col justify-center">
                 <div className="flex items-center gap-3 mb-4">
@@ -78,7 +79,9 @@ export default function BlogPage() {
                 href={`/blog/${post.slug}`}
                 className="group bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow border border-stone-100"
               >
-                <div className="aspect-video w-full bg-stone-200" />
+                <div className="aspect-video w-full relative">
+                  <Image src={post.image} alt={post.title} fill className="object-cover" unoptimized />
+                </div>
                 <div className="p-6">
                   <span className="text-gold font-lato text-xs font-semibold uppercase tracking-wide">
                     {post.category}

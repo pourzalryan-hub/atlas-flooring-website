@@ -5,6 +5,7 @@ export interface BlogArticle {
   category: string;
   excerpt: string;
   date: string;
+  image: string;
   /** HTML body. Internal links use Next-friendly absolute paths. */
   body: string;
 }
@@ -29,6 +30,7 @@ export const articles: BlogArticle[] = [
     excerpt:
       "Wool, nylon, polyester — the material you choose decides how your stair runner looks, feels and lasts. Here's an honest comparison from Toronto's flooring experts.",
     date: "2024-01-15",
+    image: "/images/project-stair-runner-forest-hill.jpg",
     body: `
 <p>The material you choose for a stair runner matters more than almost any other decision. Stairs are one of the highest-traffic surfaces in any home, so the fibre underfoot determines how the runner looks in five years, how it feels barefoot, and how much you'll pay. At <a href="/about">Atlas Rug &amp; Design Centre</a> we've been installing <a href="/stair-runners">stair runners across Toronto</a> since 1959, and these are the three materials we recommend most often.</p>
 
@@ -69,6 +71,7 @@ export const articles: BlogArticle[] = [
     excerpt:
       "Stair runner pricing can be confusing. Here's a transparent 2024 breakdown of what Toronto homeowners actually pay — material, binding and installation.",
     date: "2024-01-22",
+    image: "/images/project-stair-runner-rosedale.jpeg",
     body: `
 <p>One of the first questions we hear from Toronto homeowners is, "What's a stair runner going to cost me?" It's a fair question, and the honest answer is: it depends. Below we break down the real factors so you can budget with confidence before booking a <a href="/stair-runners">stair runner consultation</a>.</p>
 
@@ -104,6 +107,7 @@ export const articles: BlogArticle[] = [
     excerpt:
       "Carpet and hardwood each have a place in a well-designed home. Here's how to decide which belongs in each room of your Toronto house.",
     date: "2024-02-05",
+    image: "/images/project-carpet-rosedale-wool.jpeg",
     body: `
 <p>Carpet versus hardwood is one of the most common dilemmas Toronto homeowners face. The truth is that both are excellent — the right choice depends on the room, your lifestyle, and your priorities. Here's how we help clients decide.</p>
 
@@ -141,6 +145,7 @@ export const articles: BlogArticle[] = [
     excerpt:
       "Luxury vinyl has come a long way — but is it really a match for hardwood? Here's an honest, no-spin comparison from people who install both.",
     date: "2024-02-19",
+    image: "/images/project-hardwood-leaside.jpg",
     body: `
 <p>Luxury vinyl plank (LVP) has improved dramatically, and many homeowners now ask whether it can replace hardwood. As a company that installs both <a href="/hardwood">hardwood</a> and <a href="/vinyl">luxury vinyl</a>, we'll give you the honest answer.</p>
 
@@ -178,6 +183,7 @@ export const articles: BlogArticle[] = [
     excerpt:
       "Toronto basements deal with moisture, cold and concrete. Here's what flooring actually works below grade — and what to avoid at all costs.",
     date: "2024-03-04",
+    image: "/images/project-laminate-north-york-basement.jpeg",
     body: `
 <p>Basements are one of the trickiest spaces to floor, because moisture, cold concrete, and the risk of leaks all come into play. Choosing the wrong material below grade can lead to warping, mould, and an expensive do-over. Here's what works and what to avoid in Toronto basements.</p>
 
@@ -212,6 +218,7 @@ export const articles: BlogArticle[] = [
     excerpt:
       "Condo flooring comes with rules most homeowners never face — sound ratings, board approvals, elevator bookings. Here's your complete Toronto guide.",
     date: "2024-03-18",
+    image: "/images/project-vinyl-condo-downtown.png",
     body: `
 <p>Flooring a condo is different from flooring a house. Between sound-transmission rules, board approvals, and building logistics, there's a lot to navigate. This guide covers what every Toronto condo owner should know before starting a <a href="/condo-flooring">condo flooring project</a>.</p>
 
@@ -251,6 +258,7 @@ export const articles: BlogArticle[] = [
     excerpt:
       "Refinishing brings tired hardwood back to life — but how long will your home be out of commission? Here's a realistic timeline.",
     date: "2024-04-01",
+    image: "/images/project-refinishing-annex.jpeg",
     body: `
 <p>Refinishing is one of the most cost-effective ways to transform a home — it makes old hardwood look brand new for a fraction of replacement cost. But the most common question we hear is, "How long will it take?" Here's a realistic timeline for a typical Toronto <a href="/refinishing">floor refinishing</a> project.</p>
 
@@ -288,6 +296,7 @@ export const articles: BlogArticle[] = [
     excerpt:
       "Both deliver a wood look on a budget — but laminate and vinyl behave very differently. Here's how to pick the right one for your space.",
     date: "2024-04-15",
+    image: "/images/project-laminate-scarborough.png",
     body: `
 <p>Laminate and luxury vinyl are the two most popular budget-friendly, wood-look flooring options — and they're often confused. They look similar but perform quite differently. Here's how to choose between <a href="/laminate">laminate</a> and <a href="/vinyl">luxury vinyl</a>.</p>
 
@@ -325,6 +334,7 @@ export const articles: BlogArticle[] = [
     excerpt:
       "Claws, accidents and shedding put flooring to the test. Here are the pet-friendly floors that actually hold up — and the ones to skip.",
     date: "2024-05-06",
+    image: "/images/project-hardwood-east-york-oak.jpeg",
     body: `
 <p>Pets are family — but they're hard on floors. Between claws, the occasional accident, and constant traffic, pet owners need flooring that's scratch-resistant, easy to clean, and ideally waterproof. Here's what we recommend for Toronto households with dogs and cats.</p>
 
@@ -359,6 +369,7 @@ export const articles: BlogArticle[] = [
     excerpt:
       "From wide-plank white oak to warm-toned vinyl and statement stair runners, here's what Toronto homeowners are choosing in 2024.",
     date: "2024-05-20",
+    image: "/images/project-hardwood-midtown-herringbone.jpg",
     body: `
 <p>Every year we get a front-row seat to what Toronto homeowners are choosing for their floors. Here are the trends we're seeing most across the city in 2024 — useful whether you're renovating now or planning ahead.</p>
 
