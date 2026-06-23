@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <main className="font-lato bg-off-white min-h-screen">
-      <section className="flex items-center justify-center bg-charcoal" style={{ minHeight: '30vh' }}>
+      <section className="flex items-center justify-center bg-charcoal pt-20" style={{ minHeight: '30vh' }}>
         <div className="text-center px-4">
           <h1 className="font-playfair text-4xl md:text-5xl text-white mb-3">Privacy Policy</h1>
           <p className="font-lato text-stone-300 text-lg">Last updated: June 2025</p>

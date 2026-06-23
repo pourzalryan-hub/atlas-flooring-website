@@ -101,14 +101,14 @@ export default function HomePage() {
   return (
     <>
       {/* ── HERO ────────────────────────────────────────────────── */}
-      <section className="relative min-h-[600px] md:min-h-screen flex items-center justify-center bg-charcoal overflow-hidden">
+      <section className="relative min-h-[600px] md:min-h-screen flex items-center justify-center bg-charcoal overflow-hidden pt-28 pb-16 md:py-0">
         {/* Background placeholder */}
         <div className="absolute inset-0 bg-gradient-to-br from-stone-900 via-charcoal to-stone-800" />
         <div className="absolute inset-0 bg-[url('/images/hero.jpg')] bg-cover bg-center opacity-25" />
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 via-transparent to-transparent" />
 
         <div className="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto">
-          <h1 className="font-playfair text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-tight mb-6">
+          <h1 className="font-playfair text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-tight mb-6">
             Toronto&apos;s Trusted Source for{" "}
             <span className="text-gold">Premium Flooring</span> &amp; Expert Installation
           </h1>
@@ -176,7 +176,7 @@ export default function HomePage() {
                 href={product.href}
                 className="group block rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
               >
-                <div className="relative aspect-square overflow-hidden">
+                <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden">
                   <div
                     className="w-full h-full bg-cover bg-center flex items-end justify-start p-6 group-hover:scale-105 transition-transform duration-500"
                     style={{ backgroundImage: `url('${product.image}')` }}
@@ -186,7 +186,7 @@ export default function HomePage() {
                       <h3 className="font-playfair text-2xl text-white mb-1">
                         {product.label}
                       </h3>
-                      <p className="font-lato text-sm text-white/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <p className="font-lato text-sm text-white/70 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
                         {product.hook}
                       </p>
                     </div>

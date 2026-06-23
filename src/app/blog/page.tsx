@@ -22,7 +22,7 @@ export default function BlogPage() {
   return (
     <main>
       {/* 1. Hero */}
-      <section className="flex items-center justify-center bg-charcoal" style={{ minHeight: '40vh' }}>
+      <section className="flex items-center justify-center bg-charcoal pt-20" style={{ minHeight: '40vh' }}>
         <div className="text-center px-4">
           <h1 className="font-playfair text-4xl md:text-6xl text-white mb-4">
             Flooring Tips, Trends & Advice

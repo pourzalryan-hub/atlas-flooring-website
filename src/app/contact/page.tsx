@@ -159,7 +159,7 @@ export default function ContactPage() {
   return (
     <main>
       {/* 1. Compact Hero */}
-      <section className="flex items-center justify-center bg-charcoal" style={{ minHeight: '40vh' }}>
+      <section className="flex items-center justify-center bg-charcoal pt-20" style={{ minHeight: '40vh' }}>
         <div className="text-center px-4">
           <h1 className="font-playfair text-4xl md:text-6xl text-white mb-4">Let's Start Your Project</h1>
           <p className="font-lato text-lg text-stone-300 max-w-xl mx-auto">

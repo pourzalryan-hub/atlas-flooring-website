@@ -86,7 +86,7 @@ export default function GalleryPage() {
   return (
     <main>
       {/* Hero */}
-      <section className="flex items-center justify-center bg-charcoal" style={{ minHeight: '40vh' }}>
+      <section className="flex items-center justify-center bg-charcoal pt-20" style={{ minHeight: '40vh' }}>
         <div className="text-center px-4">
           <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gold mb-3 font-lato">Our Portfolio</p>
           <h1 className="font-playfair text-4xl md:text-6xl text-white mb-4">Our Work, Your Inspiration</h1>
