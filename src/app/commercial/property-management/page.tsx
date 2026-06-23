@@ -115,7 +115,7 @@ export default function PropertyManagementPage() {
         title="Flooring for Property Managers & Multi-Unit Buildings in Toronto"
         subtitle="Volume pricing, fast suite turns, and consistent sourcing — flooring built around how you actually run a portfolio."
         breadcrumb="Property Management"
-        imageSrc="/images/placeholder.jpg"
+        imageSrc="/images/commercial-property-management-hero.jpeg"
       />
 
       {/* 2. Intro */}

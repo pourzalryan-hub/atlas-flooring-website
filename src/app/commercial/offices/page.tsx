@@ -115,7 +115,7 @@ export default function OfficesPage() {
         title="Office Flooring Toronto"
         subtitle="Commercial carpet tile, broadloom and LVP — specified for acoustics and installed without stopping your business."
         breadcrumb="Offices"
-        imageSrc="/images/placeholder.jpg"
+        imageSrc="/images/commercial-offices-hero.jpeg"
       />
 
       {/* 2. Intro */}

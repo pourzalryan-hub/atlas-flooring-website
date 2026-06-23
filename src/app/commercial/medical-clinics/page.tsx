@@ -115,7 +115,7 @@ export default function MedicalClinicsPage() {
         title="Medical Clinic & Healthcare Flooring Toronto"
         subtitle="Seamless, easy-clean flooring built for infection control — installed around your patient hours."
         breadcrumb="Medical & Healthcare"
-        imageSrc="/images/placeholder.jpg"
+        imageSrc="/images/commercial-medical-clinics-hero.jpeg"
       />
 
       {/* 2. Intro */}

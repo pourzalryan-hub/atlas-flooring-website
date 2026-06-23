@@ -115,7 +115,7 @@ export default function RetailPage() {
         title="Retail Store Flooring Toronto"
         subtitle="On-brand, hard-wearing flooring for Toronto stores — hardwood for boutiques, LVP for traffic, tile for entrances, turned around fast."
         breadcrumb="Retail"
-        imageSrc="/images/placeholder.jpg"
+        imageSrc="/images/commercial-retail-hero.jpeg"
       />
 
       {/* 2. Intro */}

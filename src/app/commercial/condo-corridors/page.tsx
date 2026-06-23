@@ -110,7 +110,7 @@ export default function CondoCorridorsPage() {
         title="Condo Corridor & Common Area Flooring Toronto"
         subtitle="Acoustic-rated corridor and common area flooring for Toronto condos — board-approved, installed with minimal resident disruption."
         breadcrumb="Condo Corridors"
-        imageSrc="/images/placeholder.jpg"
+        imageSrc="/images/commercial-condo-corridors-hero.jpeg"
       />
 
       {/* 2. Intro */}
