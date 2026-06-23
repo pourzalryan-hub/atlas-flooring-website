@@ -3,197 +3,86 @@ import Link from "next/link";
 interface Review {
   quote: string;
   name: string;
-  neighbourhood: string;
   serviceLabel: string;
 }
 
-const GOOGLE_REVIEWS_URL = "https://share.google/TtoPhOHEuJI6WQigD";
+const GOOGLE_REVIEWS_URL = "https://share.google/VTLAVBzwnQtKItd0E";
+
+// Real Google reviews for Atlas Rug & Design Centre.
+// First name + last initial only, no photos — as they appear on Google.
+const r: Record<string, Review> = {
+  esra: {
+    quote:
+      "Ryan and David at Atlas were a pleasure to work with. After reaching out to several providers, they quickly stood out through their clear communication, transparency, and honest point of view. They were consistently responsive and easy to deal with. The quality of the work was excellent, and their follow-up reflected a strong commitment to getting everything completed to a high standard. A very professional and reliable team — I would highly recommend them.",
+    name: "Esra T.",
+    serviceLabel: "Google Review",
+  },
+  noba: {
+    quote:
+      "We recently got carpet installed on our stairs and the whole process was smooth from start to finish. The stairs look so much better now and the carpet feels great. Definitely happy with the service.",
+    name: "Noba",
+    serviceLabel: "Carpet — Stairs",
+  },
+  nick: {
+    quote:
+      "Very positive experience. We were exploring options and came across Atlas. They were extremely professional, fair and personable. We will be using them again for our next flooring project.",
+    name: "Nick D.",
+    serviceLabel: "Google Review",
+  },
+  nergis: {
+    quote:
+      "I have used this company for two different carpet installations. They did an excellent job and the work was done in a timely and professional manner.",
+    name: "Nergis K.",
+    serviceLabel: "Carpet Installation",
+  },
+  danielle: {
+    quote:
+      "Ryan helped me with a custom sized area rug. It only took a few days to arrive. Price was reasonable and I'm very happy with it!",
+    name: "Danielle",
+    serviceLabel: "Custom Area Rug",
+  },
+  adriano: {
+    quote:
+      "Big shout out to Ryan and the Atlas team for the installation of wall-to-wall carpet in our home. Installation was done efficiently and expertly. Really appreciate what you have done.",
+    name: "Adriano",
+    serviceLabel: "Wall-to-Wall Carpet",
+  },
+  zoe: {
+    quote:
+      "We have used this business multiple times and most recently Ryan helped me buy the correct mat for my dog so he won't slip when getting off the bed. Highly recommend.",
+    name: "Zoe J.",
+    serviceLabel: "Area Rugs",
+  },
+  bob: {
+    quote:
+      "We originally engaged David at Atlas to look at replacing a basement carpet. When he visited he advised that it wasn't necessary — which impressed us. We then asked about our second floor of our almost 120-year-old house. The original hardwood was in rough shape with lots of squeaks. With David's help we sourced a lovely wool carpet and they installed it, doing a great job securing the old floor to get rid of most of the squeaks. The new carpet looks great! Very happy with David and his team and strongly recommend them.",
+    name: "Bob G.",
+    serviceLabel: "Wool Carpet",
+  },
+  mauricio: {
+    quote:
+      "The team was friendly and showed up on time every day. They worked quickly but carefully, and the floors look amazing now. What I really appreciated was how clean they kept everything and how they explained the process along the way. It made the whole experience easy and stress-free. Definitely recommend them if you're looking to upgrade your floors!",
+    name: "Mauricio A.",
+    serviceLabel: "Google Review",
+  },
+  rebecca: {
+    quote:
+      "We needed new flooring for our office on a tight deadline and Atlas delivered! They had a wide variety of vinyl options in stock and managed to complete the installation ahead of schedule. The workmanship is excellent, and the space looks completely transformed. Very professional and efficient team — we're extremely satisfied!",
+    name: "Rebecca P.",
+    serviceLabel: "Office — Vinyl",
+  },
+};
 
 const reviews: Record<string, Review[]> = {
-  hardwood: [
-    {
-      quote:
-        "We had Atlas put white oak through the main floor of our Leaside semi. They flagged a low spot in the dining room our last contractor missed and levelled it before laying a board. Three years on and there's not a single gap or squeak.",
-      name: "Daniel R.",
-      neighbourhood: "Leaside",
-      serviceLabel: "Hardwood Flooring",
-    },
-    {
-      quote:
-        "Their crew matched new red oak to our existing 1940s floors in the hallway so well you genuinely can't tell where the old stops and the new begins. The stain match took two visits to get right and they didn't charge us for the second.",
-      name: "Priya M.",
-      neighbourhood: "North York",
-      serviceLabel: "Hardwood Flooring",
-    },
-    {
-      quote:
-        "Honest people. We came in wanting solid walnut and they steered us to engineered because of our radiant heat. Saved us from a floor that would've cupped by the first winter. Beautiful result.",
-      name: "Greg T.",
-      neighbourhood: "Midtown Toronto",
-      serviceLabel: "Hardwood Flooring",
-    },
-  ],
-  carpet: [
-    {
-      quote:
-        "Carpeted three bedrooms in our North York house. The installer power-stretched everything properly so there are no ripples, and he put the seam where you'd never see it. Quiet, soft, and it's held up to two kids and a dog.",
-      name: "Melissa K.",
-      neighbourhood: "North York",
-      serviceLabel: "Carpet",
-    },
-    {
-      quote:
-        "We wanted real wool for the master and Atlas had more options than the big box stores combined. They brought samples to the house so we could see them in our own light. The underpad they recommended makes a real difference.",
-      name: "Andrew P.",
-      neighbourhood: "Forest Hill",
-      serviceLabel: "Carpet",
-    },
-    {
-      quote:
-        "Reliable and tidy. They moved the furniture, pulled the old carpet, and had the new broadloom down in an afternoon. Cleaned up after themselves completely. Would use again.",
-      name: "Sophia L.",
-      neighbourhood: "Scarborough",
-      serviceLabel: "Carpet",
-    },
-  ],
-  vinyl: [
-    {
-      quote:
-        "Did our whole basement in waterproof LVP after a small flood scare. They sorted the moisture barrier and the concrete prep first instead of just slapping it down. Looks like real oak and we don't worry about water anymore.",
-      name: "Chris D.",
-      neighbourhood: "Etobicoke",
-      serviceLabel: "Luxury Vinyl",
-    },
-    {
-      quote:
-        "Our condo board has strict sound rules and Atlas knew exactly which underlay would pass. Handled the building paperwork and elevator booking themselves. Floor went in clean in one day.",
-      name: "Nadia H.",
-      neighbourhood: "Downtown Toronto",
-      serviceLabel: "Luxury Vinyl",
-    },
-    {
-      quote:
-        "We have a rental and needed something tough. They put in 20mil commercial LVP and it has survived three tenant turnovers without a mark. Great value for what it costs to maintain.",
-      name: "Robert F.",
-      neighbourhood: "Leslieville",
-      serviceLabel: "Luxury Vinyl",
-    },
-  ],
-  laminate: [
-    {
-      quote:
-        "Got 12mm laminate through our Scarborough main floor. They talked us out of the cheaper 8mm and we're glad they did — it feels solid underfoot and the click-lock joints are still tight. Looks like hardwood for a fraction of the price.",
-      name: "Jason W.",
-      neighbourhood: "Scarborough",
-      serviceLabel: "Laminate",
-    },
-    {
-      quote:
-        "Laminate in the basement rec room and it transformed the space. The installer ran it as one continuous floor with no awkward transitions in the doorways. Clean work.",
-      name: "Emily C.",
-      neighbourhood: "North York",
-      serviceLabel: "Laminate",
-    },
-    {
-      quote:
-        "Practical and fair. We have three kids and needed something that could take a beating. The AC4 laminate they recommended hasn't scratched even with the dog. Quote was exactly what we paid.",
-      name: "Mark B.",
-      neighbourhood: "Etobicoke",
-      serviceLabel: "Laminate",
-    },
-  ],
-  "stair-runners": [
-    {
-      quote:
-        "Our Forest Hill staircase is curved and most places wouldn't touch it. Atlas measured each step individually and the wool runner follows the bend perfectly — the border stays parallel the whole way down. Worth every penny.",
-      name: "Catherine S.",
-      neighbourhood: "Forest Hill",
-      serviceLabel: "Stair Runners",
-    },
-    {
-      quote:
-        "Wanted a runner for safety with my elderly mother visiting. They installed a herringbone wool with a waterfall fold and brass rods. The stairs are quieter and she feels secure on them now. Lovely craftsmanship.",
-      name: "Helen V.",
-      neighbourhood: "The Annex",
-      serviceLabel: "Stair Runners",
-    },
-    {
-      quote:
-        "The bound edges and mitred corners are immaculate. You can tell the installer has done thousands of these. Took the slipperiness out of our oak stairs without hiding the wood. Highly recommend.",
-      name: "Tom A.",
-      neighbourhood: "Riverdale",
-      serviceLabel: "Stair Runners",
-    },
-  ],
-  refinishing: [
-    {
-      quote:
-        "We had original fir under decades of grime in our Annex house. Atlas brought it back to a warm honey colour with the dustless system — barely any mess and we stayed living there the whole time. Saved us from replacing perfectly good wood.",
-      name: "Laura G.",
-      neighbourhood: "The Annex",
-      serviceLabel: "Refinishing",
-    },
-    {
-      quote:
-        "They refinished our red oak and changed it from orange to a deep walnut tone. The colour is even across every room, which I'm told is hard with red oak. Low odour finish meant we were back to normal in a couple of days.",
-      name: "Steven O.",
-      neighbourhood: "Rosedale",
-      serviceLabel: "Refinishing",
-    },
-    {
-      quote:
-        "Screened and recoated our engineered floors in the condo — they looked brand new for a fraction of replacing them. Honest advice; another company tried to sell us a whole new floor.",
-      name: "Yuki N.",
-      neighbourhood: "Yorkville",
-      serviceLabel: "Refinishing",
-    },
-  ],
-  commercial: [
-    {
-      quote:
-        "Atlas redid 2,400 sq ft of our office in commercial LVP while we stayed open. They phased it section by section around our hours so nobody lost a day of work. Professional from quote to finish.",
-      name: "Derek M.",
-      neighbourhood: "Midtown Toronto",
-      serviceLabel: "Commercial",
-    },
-    {
-      quote:
-        "We manage several buildings and Atlas does our suite turns. Consistent product, consistent pricing, and they schedule around tenant move-outs without us having to chase them. Reliable partner.",
-      name: "Angela R.",
-      neighbourhood: "North York",
-      serviceLabel: "Commercial",
-    },
-    {
-      quote:
-        "Hardwood for our boutique on Yorkville Ave. They understood we needed it to look high-end but survive heavy foot traffic. Quick turnaround so we barely closed. Floor still looks great two years in.",
-      name: "Bianca C.",
-      neighbourhood: "Yorkville",
-      serviceLabel: "Commercial",
-    },
-  ],
-  general: [
-    {
-      quote:
-        "Family business that actually acts like one. The same person who quoted us was there on install day. Honest pricing, no surprises on the invoice. You don't get that with the big chains.",
-      name: "Paul K.",
-      neighbourhood: "Leaside",
-      serviceLabel: "Flooring",
-    },
-    {
-      quote:
-        "We've used Atlas three times across two homes — hardwood, then a stair runner, then carpet upstairs. Every job has been clean, on time, and exactly what they quoted. That's why we keep going back.",
-      name: "Diane W.",
-      neighbourhood: "Forest Hill",
-      serviceLabel: "Flooring",
-    },
-    {
-      quote:
-        "The Bathurst Street showroom is worth the visit. Being able to feel the difference between products in person made the decision easy, and nobody pressured us. Genuine, knowledgeable people.",
-      name: "Hassan A.",
-      neighbourhood: "The Annex",
-      serviceLabel: "Flooring",
-    },
-  ],
+  hardwood: [r.mauricio, r.esra, r.nick],
+  carpet: [r.nergis, r.adriano, r.bob],
+  vinyl: [r.rebecca, r.mauricio, r.nick],
+  laminate: [r.mauricio, r.nick, r.esra],
+  "stair-runners": [r.noba, r.esra, r.nick],
+  refinishing: [r.esra, r.mauricio, r.bob],
+  commercial: [r.rebecca, r.mauricio, r.nick],
+  "area-rugs": [r.danielle, r.zoe, r.nick],
+  general: [r.esra, r.nick, r.mauricio, r.nergis, r.danielle, r.rebecca],
 };
 
 function Stars() {
@@ -231,7 +120,7 @@ export default function ReviewsSection({ service }: { service: string }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {list.map((review) => (
             <div
-              key={review.name + review.neighbourhood}
+              key={review.name + review.serviceLabel}
               className="rounded-2xl shadow-sm overflow-hidden border border-stone-100 bg-white p-7 flex flex-col"
             >
               <Stars />
@@ -242,9 +131,7 @@ export default function ReviewsSection({ service }: { service: string }) {
                 <p className="font-playfair text-lg text-charcoal">
                   {review.name}
                 </p>
-                <p className="text-warm-grey text-sm">
-                  {review.neighbourhood} &middot; {review.serviceLabel}
-                </p>
+                <p className="text-warm-grey text-sm">{review.serviceLabel}</p>
                 <span className="inline-flex items-center gap-1.5 mt-3 text-xs font-semibold text-charcoal/70">
                   <svg
                     className="w-4 h-4 text-gold"

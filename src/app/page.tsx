@@ -78,21 +78,21 @@ const whyUs = [
 const testimonials = [
   {
     quote:
-      "Atlas completely transformed our home. The hardwood floors are absolutely stunning and the crew was professional, tidy, and fast. I've already referred three of my neighbours.",
-    name: "Sarah M.",
-    location: "North York",
+      "Ryan and David at Atlas were a pleasure to work with. They stood out through their clear communication, transparency, and honest point of view. The quality of the work was excellent and their follow-up reflected a strong commitment to a high standard. A very professional and reliable team — I would highly recommend them.",
+    name: "Esra T.",
+    location: "Google Review",
   },
   {
     quote:
-      "We had carpet installed on our entire second floor. Competitive pricing, zero mess left behind, and the team was genuinely kind. Five stars without hesitation.",
-    name: "David & Lisa K.",
-    location: "Etobicoke",
+      "The team was friendly and showed up on time every day. They worked quickly but carefully, and the floors look amazing now. I appreciated how clean they kept everything and how they explained the process along the way. Definitely recommend them if you're looking to upgrade your floors!",
+    name: "Mauricio A.",
+    location: "Google Review",
   },
   {
     quote:
-      "We had our entire main floor done in hardwood and it turned out beautifully. The team was knowledgeable, professional, and the quality of the installation is outstanding. Highly recommend Atlas.",
-    name: "Jennifer R.",
-    location: "Midtown Toronto",
+      "We needed new flooring for our office on a tight deadline and Atlas delivered! They had a wide variety of options in stock and completed the installation ahead of schedule. The workmanship is excellent and the space looks completely transformed. We're extremely satisfied!",
+    name: "Rebecca P.",
+    location: "Office — Vinyl",
   },
 ];
 
@@ -340,7 +340,7 @@ export default function HomePage() {
 
           <div className="text-center">
             <a
-              href="https://share.google/TtoPhOHEuJI6WQigD"
+              href="https://share.google/VTLAVBzwnQtKItd0E"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 font-lato text-gold font-semibold hover:text-gold-dark transition-colors"

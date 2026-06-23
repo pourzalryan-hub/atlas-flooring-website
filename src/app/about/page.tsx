@@ -228,7 +228,7 @@ export default function AboutPage() {
           </div>
           <div className="text-center">
             <a
-              href="https://share.google/TtoPhOHEuJI6WQigD"
+              href="https://share.google/VTLAVBzwnQtKItd0E"
               target="_blank"
               rel="noopener noreferrer"
               className="font-lato text-gold hover:underline text-base"
