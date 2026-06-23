@@ -52,8 +52,38 @@ export default function BlogArticlePage({
     .slice(0, 3);
   const relatedArticles = related.length > 0 ? related : fallbackRelated;
 
+  const blogPostingSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: article.title,
+    description: article.description,
+    image: `https://atlasrugflooring.com${article.image}`,
+    datePublished: article.date,
+    author: {
+      "@type": "Organization",
+      name: "Atlas Rug & Design Centre",
+      url: "https://atlasrugflooring.com",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Atlas Rug & Design Centre",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://atlasrugflooring.com/favicon.ico",
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://atlasrugflooring.com/blog/${article.slug}`,
+    },
+  };
+
   return (
     <main className="font-lato">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
+      />
       {/* Hero */}
       <section
         className="flex items-center justify-center bg-charcoal"

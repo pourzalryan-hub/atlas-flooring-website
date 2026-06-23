@@ -27,9 +27,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/refinishing",
     "/area-rugs",
     "/commercial",
+    "/commercial/offices",
+    "/commercial/retail",
+    "/commercial/medical-clinics",
+    "/commercial/condo-corridors",
+    "/commercial/property-management",
     "/engineered-hardwood",
     "/condo-flooring",
     "/basement-flooring",
+    "/compare",
+    "/compare/carpet-vs-hardwood",
+    "/compare/vinyl-vs-laminate",
+    "/compare/engineered-vs-solid-hardwood",
+    "/compare/refinishing-vs-replacement",
   ].map((path) => ({
     url: `${BASE_URL}${path}`,
     lastModified,
@@ -55,7 +65,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${BASE_URL}/blog/${a.slug}`,
     lastModified,
     changeFrequency: "monthly" as const,
-    priority: 0.6,
+    priority: 0.7,
   }));
 
   return [
