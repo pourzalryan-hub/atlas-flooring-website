@@ -44,18 +44,6 @@ const productOptions = [
   'Not Sure',
 ]
 
-const referralOptions = [
-  'Google Search',
-  'Google Maps',
-  'Friend/Family Referral',
-  'Instagram',
-  'Facebook',
-  'Houzz',
-  'Drive By/Signage',
-  'Returning Customer',
-  'Other',
-]
-
 const serviceAreaChips = [
   'Toronto', 'North York', 'Etobicoke', 'Scarborough', 'Mississauga',
   'Oakville', 'Vaughan', 'Brampton', 'Markham', 'Richmond Hill', 'Thornhill',
@@ -65,28 +53,18 @@ const fieldClass =
   'w-full bg-white border border-stone-300 rounded-lg px-4 py-3 text-base font-lato text-charcoal focus:outline-none focus:ring-2 focus:ring-gold'
 
 interface FormState {
-  firstName: string
-  lastName: string
+  name: string
   email: string
   phone: string
   product: string
-  projectType: string
-  sqft: string
-  contactMethod: string
-  referral: string
   message: string
 }
 
 const initialForm: FormState = {
-  firstName: '',
-  lastName: '',
+  name: '',
   email: '',
   phone: '',
   product: '',
-  projectType: '',
-  sqft: '',
-  contactMethod: '',
-  referral: '',
   message: '',
 }
 
@@ -119,15 +97,10 @@ export default function ContactPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          firstName: form.firstName,
-          lastName: form.lastName,
+          name: form.name,
           email: form.email,
           phone: form.phone,
           product: form.product,
-          projectType: form.projectType,
-          sqft: form.sqft,
-          contactMethod: form.contactMethod,
-          referral: form.referral,
           message: form.message,
         }),
       })
@@ -140,8 +113,6 @@ export default function ContactPage() {
 
       trackFormSubmit({
         product: form.product,
-        projectType: form.projectType,
-        referral: form.referral,
       })
 
       setSubmitted(true)
@@ -193,36 +164,20 @@ export default function ContactPage() {
                 </div>
               ) : (
                 <form id="contact-form" onSubmit={handleSubmit} className="space-y-6">
-                  {/* Name Row */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block font-lato text-sm font-semibold text-charcoal mb-1">
-                        First Name <span className="text-gold">*</span>
-                      </label>
-                      <input
-                        required
-                        type="text"
-                        name="firstName"
-                        value={form.firstName}
-                        onChange={handleChange}
-                        className={fieldClass}
-                        placeholder="Jane"
-                      />
-                    </div>
-                    <div>
-                      <label className="block font-lato text-sm font-semibold text-charcoal mb-1">
-                        Last Name <span className="text-gold">*</span>
-                      </label>
-                      <input
-                        required
-                        type="text"
-                        name="lastName"
-                        value={form.lastName}
-                        onChange={handleChange}
-                        className={fieldClass}
-                        placeholder="Smith"
-                      />
-                    </div>
+                  {/* Name */}
+                  <div>
+                    <label className="block font-lato text-sm font-semibold text-charcoal mb-1">
+                      Name <span className="text-gold">*</span>
+                    </label>
+                    <input
+                      required
+                      type="text"
+                      name="name"
+                      value={form.name}
+                      onChange={handleChange}
+                      className={fieldClass}
+                      placeholder="Jane Smith"
+                    />
                   </div>
 
                   {/* Email */}
@@ -244,9 +199,10 @@ export default function ContactPage() {
                   {/* Phone */}
                   <div>
                     <label className="block font-lato text-sm font-semibold text-charcoal mb-1">
-                      Phone Number
+                      Phone Number <span className="text-gold">*</span>
                     </label>
                     <input
+                      required
                       type="tel"
                       name="phone"
                       value={form.phone}
@@ -256,10 +212,10 @@ export default function ContactPage() {
                     />
                   </div>
 
-                  {/* Product */}
+                  {/* Product (optional) */}
                   <div>
                     <label className="block font-lato text-sm font-semibold text-charcoal mb-1">
-                      What Are You Looking For?
+                      What Are You Looking For? <span className="text-warm-grey font-normal">(optional)</span>
                     </label>
                     <select
                       name="product"
@@ -274,95 +230,18 @@ export default function ContactPage() {
                     </select>
                   </div>
 
-                  {/* Project Type */}
-                  <div>
-                    <label className="block font-lato text-sm font-semibold text-charcoal mb-2">
-                      Project Type
-                    </label>
-                    <div className="flex flex-wrap gap-4">
-                      {['New Install', 'Replacement/Renovation', 'Builder/Developer', 'Commercial'].map((type) => (
-                        <label key={type} className="flex items-center gap-2 font-lato text-warm-grey cursor-pointer">
-                          <input
-                            type="radio"
-                            name="projectType"
-                            value={type}
-                            checked={form.projectType === type}
-                            onChange={handleChange}
-                            className="accent-gold"
-                          />
-                          {type}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Square Footage */}
+                  {/* Message (optional) */}
                   <div>
                     <label className="block font-lato text-sm font-semibold text-charcoal mb-1">
-                      Approximate Square Footage
-                    </label>
-                    <input
-                      type="text"
-                      name="sqft"
-                      value={form.sqft}
-                      onChange={handleChange}
-                      className={fieldClass}
-                      placeholder="e.g. 800 sq ft"
-                    />
-                  </div>
-
-                  {/* Preferred Contact Method */}
-                  <div>
-                    <label className="block font-lato text-sm font-semibold text-charcoal mb-2">
-                      Preferred Contact Method
-                    </label>
-                    <div className="flex gap-6">
-                      {['Phone', 'Email'].map((method) => (
-                        <label key={method} className="flex items-center gap-2 font-lato text-warm-grey cursor-pointer">
-                          <input
-                            type="radio"
-                            name="contactMethod"
-                            value={method}
-                            checked={form.contactMethod === method}
-                            onChange={handleChange}
-                            className="accent-gold"
-                          />
-                          {method}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Referral */}
-                  <div>
-                    <label className="block font-lato text-sm font-semibold text-charcoal mb-1">
-                      How Did You Hear About Us?
-                    </label>
-                    <select
-                      name="referral"
-                      value={form.referral}
-                      onChange={handleChange}
-                      className={fieldClass}
-                    >
-                      <option value="">Select an option</option>
-                      {referralOptions.map((o) => (
-                        <option key={o} value={o}>{o}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Message */}
-                  <div>
-                    <label className="block font-lato text-sm font-semibold text-charcoal mb-1">
-                      Tell Us About Your Project
+                      Message <span className="text-warm-grey font-normal">(optional)</span>
                     </label>
                     <textarea
                       name="message"
                       value={form.message}
                       onChange={handleChange}
-                      rows={5}
+                      rows={4}
                       className={fieldClass}
-                      placeholder="Room type, timeline, any specific concerns or questions..."
+                      placeholder="Tell us a bit about your project — room type, timeline, or any questions."
                     />
                   </div>
 

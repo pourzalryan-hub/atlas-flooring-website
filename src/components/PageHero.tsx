@@ -10,7 +10,7 @@ interface PageHeroProps {
 export default function PageHero({ title, subtitle, breadcrumb, imageSrc }: PageHeroProps) {
   const bg = imageSrc ?? '/images/placeholder.jpg';
   return (
-    <section className="relative h-[60vh] min-h-[420px] flex items-center bg-charcoal overflow-hidden pt-20">
+    <section className="relative min-h-[520px] md:h-[60vh] md:min-h-[420px] flex items-center bg-charcoal overflow-hidden pt-32 pb-12 md:pt-20 md:pb-0">
       <div className="absolute inset-0 bg-gradient-to-br from-stone-800 to-charcoal opacity-90" />
       <div className="absolute inset-0 bg-cover bg-center opacity-30" style={{ backgroundImage: `url('${bg}')` }} />
 

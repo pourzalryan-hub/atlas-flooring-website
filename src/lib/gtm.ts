@@ -14,13 +14,9 @@ export function pushEvent(event: string, params: Record<string, unknown> = {}) {
 
 export function trackFormSubmit(data: {
   product: string
-  projectType: string
-  referral: string
 }) {
   pushEvent('contact_form_submit', {
     product_interest: data.product,
-    project_type: data.projectType,
-    referral_source: data.referral,
     // Google Ads conversion event — map this to a GTM trigger
     conversion_event: 'generate_lead',
   })
