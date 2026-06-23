@@ -121,7 +121,7 @@ export default function Footer() {
             © {new Date().getFullYear()} Atlas Rug &amp; Design Centre. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <a href="#" className="font-lato text-xs text-white/40 hover:text-gold transition-colors">
+            <a href="/privacy" className="font-lato text-xs text-white/40 hover:text-gold transition-colors">
               Privacy Policy
             </a>
             <a href="#" className="font-lato text-xs text-white/40 hover:text-gold transition-colors">
