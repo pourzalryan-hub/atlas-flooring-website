@@ -187,6 +187,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <Navigation />
         <main>{children}</main>
         <Footer />
+        {/* Mobile sticky CTA bar */}
+        <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-charcoal border-t border-white/10 px-4 py-3 flex gap-3 safe-area-inset-bottom">
+          <a
+            href="tel:4165333366"
+            className="flex-1 bg-gold text-white font-lato font-semibold text-center py-3 rounded text-sm"
+          >
+            Call Now
+          </a>
+          <a
+            href="/contact"
+            className="flex-1 border border-white/30 text-white font-lato font-semibold text-center py-3 rounded text-sm"
+          >
+            Get a Quote
+          </a>
+        </div>
       </body>
     </html>
   );

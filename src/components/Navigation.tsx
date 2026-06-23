@@ -30,6 +30,7 @@ export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
+  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const openProducts = () => {
@@ -143,7 +144,7 @@ export default function Navigation() {
           {/* Mobile hamburger */}
           <button
             className="lg:hidden p-3 -mr-1 text-white"
-            onClick={() => setMobileOpen(!mobileOpen)}
+            onClick={() => { setMobileOpen(!mobileOpen); if (mobileOpen) setMobileProductsOpen(false); }}
             aria-label="Toggle menu"
           >
             <div className="w-6 flex flex-col gap-1.5">
@@ -174,10 +175,21 @@ export default function Navigation() {
             </Link>
 
             <div className="border-b border-white/10">
-              <p className="py-3 font-lato text-xs tracking-widest text-gold uppercase">
-                Products
-              </p>
-              {products.map((p) => (
+              <button
+                onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
+                className="w-full flex items-center justify-between py-3 font-lato text-white/80 hover:text-gold"
+              >
+                <span>Products</span>
+                <svg
+                  className={`w-4 h-4 transition-transform ${mobileProductsOpen ? "rotate-180" : ""}`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {mobileProductsOpen && products.map((p) => (
                 <Link
                   key={p.href}
                   href={p.href}
