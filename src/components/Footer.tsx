@@ -33,19 +33,6 @@ export default function Footer() {
               Toronto&apos;s destination for premium flooring. Serving
               the GTA since 1959.
             </p>
-            {/* Social icons */}
-            <div className="flex gap-4 mt-5">
-              {["Instagram", "Facebook", "Houzz", "Pinterest"].map((s) => (
-                <a
-                  key={s}
-                  href="#"
-                  aria-label={s}
-                  className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white/50 hover:text-gold hover:border-gold transition-colors text-xs font-lato"
-                >
-                  {s[0]}
-                </a>
-              ))}
-            </div>
           </div>
 
           {/* Col 2 — Quick Links */}
