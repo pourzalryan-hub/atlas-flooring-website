@@ -18,7 +18,7 @@ export interface Project {
 export const projects: Project[] = [
   {
     slug: "stair-runner-forest-hill",
-    title: "Patterned Stair Runner — Forest Hill",
+    title: "Stair Runner — Forest Hill",
     area: "Forest Hill",
     locationSlug: "forest-hill",
     type: "Stair Runners",
@@ -42,7 +42,7 @@ export const projects: Project[] = [
   },
   {
     slug: "stair-runner-rosedale",
-    title: "Classic Stair Runner — Rosedale",
+    title: "Stair Runner — Rosedale",
     area: "Rosedale",
     locationSlug: "rosedale",
     type: "Stair Runners",
@@ -66,7 +66,7 @@ export const projects: Project[] = [
   },
   {
     slug: "hardwood-leaside",
-    title: "White Oak Hardwood — Leaside",
+    title: "Hardwood — Leaside",
     area: "Leaside",
     locationSlug: "leaside",
     type: "Hardwood",
@@ -90,7 +90,7 @@ export const projects: Project[] = [
   },
   {
     slug: "hardwood-north-york",
-    title: "Dark Walnut Hardwood — North York",
+    title: "Hardwood — North York",
     area: "North York",
     locationSlug: "north-york",
     type: "Hardwood",
@@ -114,7 +114,7 @@ export const projects: Project[] = [
   },
   {
     slug: "vinyl-condo-downtown",
-    title: "LVP Throughout — Downtown Condo",
+    title: "Luxury Vinyl — Downtown Toronto",
     area: "Downtown Toronto",
     locationSlug: "downtown-toronto",
     type: "Luxury Vinyl",
@@ -138,7 +138,7 @@ export const projects: Project[] = [
   },
   {
     slug: "carpet-north-york",
-    title: "Plush Broadloom — North York",
+    title: "Carpet — North York",
     area: "North York",
     locationSlug: "north-york",
     type: "Carpet",
@@ -162,7 +162,7 @@ export const projects: Project[] = [
   },
   {
     slug: "carpet-forest-hill",
-    title: "Wool Carpet — Forest Hill",
+    title: "Carpet — Forest Hill",
     area: "Forest Hill",
     locationSlug: "forest-hill",
     type: "Carpet",
@@ -186,7 +186,7 @@ export const projects: Project[] = [
   },
   {
     slug: "refinishing-annex",
-    title: "Floor Refinishing — The Annex",
+    title: "Refinishing — The Annex",
     area: "The Annex",
     locationSlug: "the-annex",
     type: "Refinishing",
@@ -210,7 +210,7 @@ export const projects: Project[] = [
   },
   {
     slug: "laminate-scarborough",
-    title: "Wide-Plank Laminate — Scarborough",
+    title: "Laminate — Scarborough",
     area: "Scarborough",
     locationSlug: "scarborough",
     type: "Laminate",
@@ -234,7 +234,7 @@ export const projects: Project[] = [
   },
   {
     slug: "commercial-toronto",
-    title: "Commercial LVP — Toronto Office",
+    title: "Commercial — Toronto",
     area: "Toronto",
     locationSlug: "toronto",
     type: "Commercial",
@@ -258,7 +258,7 @@ export const projects: Project[] = [
   },
   {
     slug: "stair-runner-yorkville",
-    title: "Herringbone Wool Runner — Yorkville",
+    title: "Stair Runner — Yorkville",
     area: "Yorkville",
     locationSlug: "yorkville",
     type: "Stair Runners",
@@ -282,7 +282,7 @@ export const projects: Project[] = [
   },
   {
     slug: "stair-runner-high-park",
-    title: "Striped Wool Runner — High Park",
+    title: "Stair Runner — High Park",
     area: "High Park",
     locationSlug: "high-park",
     type: "Stair Runners",
@@ -306,7 +306,7 @@ export const projects: Project[] = [
   },
   {
     slug: "stair-runner-annex",
-    title: "Geometric Pattern Runner — The Annex",
+    title: "Stair Runner — The Annex",
     area: "The Annex",
     locationSlug: "the-annex",
     type: "Stair Runners",
@@ -330,7 +330,7 @@ export const projects: Project[] = [
   },
   {
     slug: "stair-runner-etobicoke",
-    title: "Solid Nylon Runner — Etobicoke",
+    title: "Stair Runner — Etobicoke",
     area: "Etobicoke",
     locationSlug: "etobicoke",
     type: "Stair Runners",
@@ -354,7 +354,7 @@ export const projects: Project[] = [
   },
   {
     slug: "stair-runner-midtown",
-    title: "Persian-Inspired Runner — Midtown Toronto",
+    title: "Stair Runner — Midtown Toronto",
     area: "Midtown Toronto",
     locationSlug: "midtown-toronto",
     type: "Stair Runners",
@@ -378,7 +378,7 @@ export const projects: Project[] = [
   },
   {
     slug: "stair-runner-beaches",
-    title: "Natural Sisal Runner — The Beaches",
+    title: "Stair Runner — The Beaches",
     area: "The Beaches",
     locationSlug: "the-beaches",
     type: "Stair Runners",
@@ -402,7 +402,7 @@ export const projects: Project[] = [
   },
   {
     slug: "stair-runner-leslieville",
-    title: "Cut Pile Carpet Stairs — Leslieville",
+    title: "Stair Runner — Leslieville",
     area: "Leslieville",
     locationSlug: "leslieville",
     type: "Stair Runners",
@@ -426,7 +426,7 @@ export const projects: Project[] = [
   },
   {
     slug: "stair-runner-riverdale",
-    title: "Bordered Wool Runner — Riverdale",
+    title: "Stair Runner — Riverdale",
     area: "Riverdale",
     locationSlug: "riverdale",
     type: "Stair Runners",
@@ -450,7 +450,7 @@ export const projects: Project[] = [
   },
   {
     slug: "stair-runner-east-york",
-    title: "Berber Stair Runner — East York",
+    title: "Stair Runner — East York",
     area: "East York",
     locationSlug: "east-york",
     type: "Stair Runners",
@@ -474,7 +474,7 @@ export const projects: Project[] = [
   },
   {
     slug: "stair-runner-north-york-semi",
-    title: "Semi-Detached Stair Runner — North York",
+    title: "Stair Runner — North York",
     area: "North York",
     locationSlug: "north-york",
     type: "Stair Runners",
@@ -498,7 +498,7 @@ export const projects: Project[] = [
   },
   {
     slug: "hardwood-yorkville-condo",
-    title: "Engineered Oak — Yorkville Condo",
+    title: "Hardwood — Yorkville",
     area: "Yorkville",
     locationSlug: "yorkville",
     type: "Hardwood",
@@ -522,7 +522,7 @@ export const projects: Project[] = [
   },
   {
     slug: "hardwood-forest-hill-full-home",
-    title: "Full Home White Oak — Forest Hill",
+    title: "Hardwood — Forest Hill",
     area: "Forest Hill",
     locationSlug: "forest-hill",
     type: "Hardwood",
@@ -546,7 +546,7 @@ export const projects: Project[] = [
   },
   {
     slug: "hardwood-annex-refinish-new",
-    title: "Original Fir Restore & Stain — The Annex",
+    title: "Hardwood — The Annex",
     area: "The Annex",
     locationSlug: "the-annex",
     type: "Hardwood",
@@ -570,7 +570,7 @@ export const projects: Project[] = [
   },
   {
     slug: "hardwood-midtown-herringbone",
-    title: "Herringbone Pattern Hardwood — Midtown",
+    title: "Hardwood — Midtown Toronto",
     area: "Midtown Toronto",
     locationSlug: "midtown-toronto",
     type: "Hardwood",
@@ -594,7 +594,7 @@ export const projects: Project[] = [
   },
   {
     slug: "hardwood-etobicoke-basement",
-    title: "Engineered Hardwood Basement — Etobicoke",
+    title: "Hardwood — Etobicoke",
     area: "Etobicoke",
     locationSlug: "etobicoke",
     type: "Hardwood",
@@ -618,7 +618,7 @@ export const projects: Project[] = [
   },
   {
     slug: "hardwood-beaches-maple",
-    title: "Light Maple Hardwood — The Beaches",
+    title: "Hardwood — The Beaches",
     area: "The Beaches",
     locationSlug: "the-beaches",
     type: "Hardwood",
@@ -642,7 +642,7 @@ export const projects: Project[] = [
   },
   {
     slug: "hardwood-high-park-walnut",
-    title: "Dark Walnut Living Room — High Park",
+    title: "Hardwood — High Park",
     area: "High Park",
     locationSlug: "high-park",
     type: "Hardwood",
@@ -666,7 +666,7 @@ export const projects: Project[] = [
   },
   {
     slug: "hardwood-rosedale-full",
-    title: "Wide-Plank Ash — Rosedale",
+    title: "Hardwood — Rosedale",
     area: "Rosedale",
     locationSlug: "rosedale",
     type: "Hardwood",
@@ -690,7 +690,7 @@ export const projects: Project[] = [
   },
   {
     slug: "hardwood-east-york-oak",
-    title: "Red Oak Refinish & Restain — East York",
+    title: "Hardwood — East York",
     area: "East York",
     locationSlug: "east-york",
     type: "Hardwood",
@@ -714,7 +714,7 @@ export const projects: Project[] = [
   },
   {
     slug: "hardwood-scarborough-engineered",
-    title: "Engineered Oak Throughout — Scarborough",
+    title: "Hardwood — Scarborough",
     area: "Scarborough",
     locationSlug: "scarborough",
     type: "Hardwood",
@@ -738,7 +738,7 @@ export const projects: Project[] = [
   },
   {
     slug: "vinyl-north-york-basement",
-    title: "Waterproof LVP Basement — North York",
+    title: "Luxury Vinyl — North York",
     area: "North York",
     locationSlug: "north-york",
     type: "Luxury Vinyl",
@@ -762,7 +762,7 @@ export const projects: Project[] = [
   },
   {
     slug: "vinyl-etobicoke-kitchen",
-    title: "LVP Kitchen & Bath — Etobicoke",
+    title: "Luxury Vinyl — Etobicoke",
     area: "Etobicoke",
     locationSlug: "etobicoke",
     type: "Luxury Vinyl",
@@ -786,7 +786,7 @@ export const projects: Project[] = [
   },
   {
     slug: "vinyl-scarborough-full-home",
-    title: "LVP Full Home Renovation — Scarborough",
+    title: "Luxury Vinyl — Scarborough",
     area: "Scarborough",
     locationSlug: "scarborough",
     type: "Luxury Vinyl",
@@ -810,7 +810,7 @@ export const projects: Project[] = [
   },
   {
     slug: "vinyl-midtown-condo",
-    title: "LVP Condo Upgrade — Midtown",
+    title: "Luxury Vinyl — Midtown Toronto",
     area: "Midtown Toronto",
     locationSlug: "midtown-toronto",
     type: "Luxury Vinyl",
@@ -834,7 +834,7 @@ export const projects: Project[] = [
   },
   {
     slug: "vinyl-leslieville-rental",
-    title: "LVP Rental Property — Leslieville",
+    title: "Luxury Vinyl — Leslieville",
     area: "Leslieville",
     locationSlug: "leslieville",
     type: "Luxury Vinyl",
@@ -858,7 +858,7 @@ export const projects: Project[] = [
   },
   {
     slug: "vinyl-annex-heritage",
-    title: "LVP Heritage Home — The Annex",
+    title: "Luxury Vinyl — The Annex",
     area: "The Annex",
     locationSlug: "the-annex",
     type: "Luxury Vinyl",
@@ -882,7 +882,7 @@ export const projects: Project[] = [
   },
   {
     slug: "vinyl-riverdale-semi",
-    title: "LVP Main Floor — Riverdale",
+    title: "Luxury Vinyl — Riverdale",
     area: "Riverdale",
     locationSlug: "riverdale",
     type: "Luxury Vinyl",
@@ -906,7 +906,7 @@ export const projects: Project[] = [
   },
   {
     slug: "vinyl-beaches-cottage",
-    title: "Waterproof LVP — The Beaches Cottage",
+    title: "Luxury Vinyl — The Beaches",
     area: "The Beaches",
     locationSlug: "the-beaches",
     type: "Luxury Vinyl",
@@ -930,7 +930,7 @@ export const projects: Project[] = [
   },
   {
     slug: "laminate-north-york-basement",
-    title: "Laminate Basement Rec Room — North York",
+    title: "Laminate — North York",
     area: "North York",
     locationSlug: "north-york",
     type: "Laminate",
@@ -954,7 +954,7 @@ export const projects: Project[] = [
   },
   {
     slug: "laminate-etobicoke-bedroom",
-    title: "Laminate Bedroom Suite — Etobicoke",
+    title: "Laminate — Etobicoke",
     area: "Etobicoke",
     locationSlug: "etobicoke",
     type: "Laminate",
@@ -978,7 +978,7 @@ export const projects: Project[] = [
   },
   {
     slug: "laminate-scarborough-rental",
-    title: "Laminate Rental Suite — Scarborough",
+    title: "Laminate — Scarborough",
     area: "Scarborough",
     locationSlug: "scarborough",
     type: "Laminate",
@@ -1002,7 +1002,7 @@ export const projects: Project[] = [
   },
   {
     slug: "laminate-york-family-room",
-    title: "Laminate Family Room — York",
+    title: "Laminate — York",
     area: "York",
     locationSlug: "york",
     type: "Laminate",
@@ -1026,7 +1026,7 @@ export const projects: Project[] = [
   },
   {
     slug: "laminate-east-york-open-plan",
-    title: "Laminate Open Concept — East York",
+    title: "Laminate — East York",
     area: "East York",
     locationSlug: "east-york",
     type: "Laminate",
@@ -1050,7 +1050,7 @@ export const projects: Project[] = [
   },
   {
     slug: "laminate-high-park-playroom",
-    title: "Laminate Playroom & Office — High Park",
+    title: "Laminate — High Park",
     area: "High Park",
     locationSlug: "high-park",
     type: "Laminate",
@@ -1074,7 +1074,7 @@ export const projects: Project[] = [
   },
   {
     slug: "carpet-rosedale-wool",
-    title: "Wool Carpet Master Suite — Rosedale",
+    title: "Carpet — Rosedale",
     area: "Rosedale",
     locationSlug: "rosedale",
     type: "Carpet",
@@ -1098,7 +1098,7 @@ export const projects: Project[] = [
   },
   {
     slug: "carpet-yorkville-penthouse",
-    title: "Plush Carpet Penthouse — Yorkville",
+    title: "Carpet — Yorkville",
     area: "Yorkville",
     locationSlug: "yorkville",
     type: "Carpet",
@@ -1122,7 +1122,7 @@ export const projects: Project[] = [
   },
   {
     slug: "carpet-forest-hill-stairs-hall",
-    title: "Carpet Stairs & Hallway — Forest Hill",
+    title: "Carpet — Forest Hill",
     area: "Forest Hill",
     locationSlug: "forest-hill",
     type: "Carpet",
@@ -1146,7 +1146,7 @@ export const projects: Project[] = [
   },
   {
     slug: "carpet-beaches-bedroom",
-    title: "Soft Nylon Bedroom — The Beaches",
+    title: "Carpet — The Beaches",
     area: "The Beaches",
     locationSlug: "the-beaches",
     type: "Carpet",
@@ -1170,7 +1170,7 @@ export const projects: Project[] = [
   },
   {
     slug: "carpet-midtown-condo-hall",
-    title: "Condo Corridor Carpet — Midtown",
+    title: "Carpet — Midtown Toronto",
     area: "Midtown Toronto",
     locationSlug: "midtown-toronto",
     type: "Carpet",
@@ -1194,7 +1194,7 @@ export const projects: Project[] = [
   },
   {
     slug: "carpet-etobicoke-basement",
-    title: "Basement Recreation Room — Etobicoke",
+    title: "Carpet — Etobicoke",
     area: "Etobicoke",
     locationSlug: "etobicoke",
     type: "Carpet",
@@ -1218,7 +1218,7 @@ export const projects: Project[] = [
   },
   {
     slug: "refinishing-forest-hill",
-    title: "Pine Floor Restore — Forest Hill",
+    title: "Refinishing — Forest Hill",
     area: "Forest Hill",
     locationSlug: "forest-hill",
     type: "Refinishing",
@@ -1242,7 +1242,7 @@ export const projects: Project[] = [
   },
   {
     slug: "refinishing-rosedale",
-    title: "Dark Stain Transformation — Rosedale",
+    title: "Refinishing — Rosedale",
     area: "Rosedale",
     locationSlug: "rosedale",
     type: "Refinishing",
@@ -1266,7 +1266,7 @@ export const projects: Project[] = [
   },
   {
     slug: "refinishing-yorkville-condo",
-    title: "Condo Hardwood Refresh — Yorkville",
+    title: "Refinishing — Yorkville",
     area: "Yorkville",
     locationSlug: "yorkville",
     type: "Refinishing",
@@ -1290,7 +1290,7 @@ export const projects: Project[] = [
   },
   {
     slug: "refinishing-high-park",
-    title: "Natural Finish Restore — High Park",
+    title: "Refinishing — High Park",
     area: "High Park",
     locationSlug: "high-park",
     type: "Refinishing",
@@ -1314,7 +1314,7 @@ export const projects: Project[] = [
   },
   {
     slug: "refinishing-leaside",
-    title: "Red Oak Colour Change — Leaside",
+    title: "Refinishing — Leaside",
     area: "Leaside",
     locationSlug: "leaside",
     type: "Refinishing",
@@ -1338,7 +1338,7 @@ export const projects: Project[] = [
   },
   {
     slug: "commercial-medical-clinic",
-    title: "Medical Clinic Flooring — Midtown Toronto",
+    title: "Commercial — Midtown Toronto",
     area: "Midtown Toronto",
     locationSlug: "midtown-toronto",
     type: "Commercial",
@@ -1362,7 +1362,7 @@ export const projects: Project[] = [
   },
   {
     slug: "commercial-retail-yorkville",
-    title: "Retail Boutique — Yorkville",
+    title: "Commercial — Yorkville",
     area: "Yorkville",
     locationSlug: "yorkville",
     type: "Commercial",
@@ -1386,7 +1386,7 @@ export const projects: Project[] = [
   },
   {
     slug: "commercial-property-management",
-    title: "Multi-Unit Property — North York",
+    title: "Commercial — North York",
     area: "North York",
     locationSlug: "north-york",
     type: "Commercial",
