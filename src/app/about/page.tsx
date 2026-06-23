@@ -62,7 +62,7 @@ export default function AboutPage() {
         title="Toronto's Flooring Family Since 1959"
         subtitle="We're not just a flooring store. We're your design partners — from first visit to final walkthrough."
         breadcrumb="About"
-        imageSrc="/images/about-hero.jpg"
+        imageSrc="/images/about-hero.png"
       />
 
       {/* 2. Our Story */}
