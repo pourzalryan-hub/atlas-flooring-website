@@ -374,7 +374,7 @@ export const articles: BlogArticle[] = [
 <p>Every year we get a front-row seat to what Toronto homeowners are choosing for their floors. Here are the trends we're seeing most across the city in 2024 — useful whether you're renovating now or planning ahead.</p>
 
 <h2>1. Wide-Plank White Oak</h2>
-<p>Wide-plank <a href="/hardwood">white oak</a> continues to dominate. Its subtle grain and warm-neutral tone suit both modern and transitional interiors, and wider boards make rooms feel larger and more open. Our <a href="/projects/hardwood-leaside">Leaside white oak project</a> is a textbook example of why this look endures, and it's especially popular in <a href="/locations/leaside">Leaside</a> and <a href="/locations/forest-hill">Forest Hill</a>.</p>
+<p>Wide-plank <a href="/hardwood">white oak</a> continues to dominate. Its subtle grain and warm-neutral tone suit both modern and transitional interiors, and wider boards make rooms feel larger and more open.</p>
 
 <h2>2. Warm, Natural Tones Over Grey</h2>
 <p>The cool-grey wave of recent years is giving way to warmer, more natural wood tones — honey, caramel, and natural oak. Homeowners want spaces that feel cozy and timeless rather than cold. This applies to <a href="/vinyl">luxury vinyl</a> too, where warm oak looks are outselling grey.</p>
