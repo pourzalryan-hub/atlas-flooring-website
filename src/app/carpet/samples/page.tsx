@@ -3,16 +3,39 @@
 import { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { carpetSamples } from "@/lib/carpet-samples";
+import {
+  carpetSamples,
+  carpetFamilies,
+  type CarpetFamily,
+} from "@/lib/carpet-samples";
+
+type Filter = "All" | CarpetFamily;
 
 export default function CarpetSamplesPage() {
   const [search, setSearch] = useState("");
+  const [activeFamily, setActiveFamily] = useState<Filter>("All");
 
-  const visible = useMemo(() => {
+  const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
-    if (!q) return carpetSamples;
-    return carpetSamples.filter((s) => s.code.toLowerCase().includes(q));
-  }, [search]);
+    return carpetSamples.filter((s) => {
+      const matchesFamily =
+        activeFamily === "All" || s.family === activeFamily;
+      const matchesSearch = !q || s.code.toLowerCase().includes(q);
+      return matchesFamily && matchesSearch;
+    });
+  }, [search, activeFamily]);
+
+  // Group the filtered results by family, preserving family order.
+  const grouped = useMemo(() => {
+    return carpetFamilies
+      .map((family) => ({
+        family,
+        items: filtered.filter((s) => s.family === family),
+      }))
+      .filter((g) => g.items.length > 0);
+  }, [filtered]);
+
+  const filters: Filter[] = ["All", ...carpetFamilies];
 
   return (
     <main className="font-lato">
@@ -26,9 +49,9 @@ export default function CarpetSamplesPage() {
             Our Carpet Samples
           </h1>
           <p className="font-lato text-lg text-stone-300 max-w-2xl mx-auto mb-6">
-            Browse our in-stock carpet samples. Visit our showroom at 978 Bathurst St
-            to feel the difference in person — texture, weight, and colour all look
-            different under natural light.
+            Browse our in-stock carpet samples by colour. Visit our showroom at 978
+            Bathurst St to feel the difference in person — texture, weight, and
+            colour all look different under natural light.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
@@ -47,62 +70,80 @@ export default function CarpetSamplesPage() {
         </div>
       </section>
 
-      {/* Search + count */}
+      {/* Filter tabs + search */}
       <section className="bg-white border-b border-stone-100 sticky top-20 z-20 px-4 py-4">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center gap-4">
-          <input
-            type="text"
-            placeholder="Search by sample code (e.g. CS57)"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full sm:max-w-sm border border-stone-200 rounded px-4 py-2 font-lato text-sm text-charcoal focus:outline-none focus:border-gold"
-          />
-          <span className="font-lato text-sm text-warm-grey">
-            {visible.length} sample{visible.length !== 1 ? "s" : ""}
-          </span>
+        <div className="max-w-6xl mx-auto flex flex-col gap-4">
+          <div className="flex flex-wrap justify-center gap-2">
+            {filters.map((f) => (
+              <button
+                key={f}
+                onClick={() => setActiveFamily(f)}
+                className={`px-4 py-2 rounded-full font-lato text-sm font-semibold transition-colors border ${
+                  activeFamily === f
+                    ? "bg-gold text-white border-gold"
+                    : "bg-white text-charcoal border-stone-200 hover:border-gold hover:text-gold"
+                }`}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
+          <div className="flex flex-col sm:flex-row items-center gap-4 justify-center">
+            <input
+              type="text"
+              placeholder="Search by sample code (e.g. CS57)"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full sm:max-w-sm border border-stone-200 rounded px-4 py-2 font-lato text-sm text-charcoal focus:outline-none focus:border-gold"
+            />
+            <span className="font-lato text-sm text-warm-grey whitespace-nowrap">
+              {filtered.length} sample{filtered.length !== 1 ? "s" : ""}
+            </span>
+          </div>
         </div>
       </section>
 
-      {/* Grid */}
+      {/* Grouped grid */}
       <section className="bg-off-white py-12 px-4">
         <div className="max-w-6xl mx-auto">
-          {visible.length === 0 ? (
+          {grouped.length === 0 ? (
             <p className="text-center text-warm-grey py-20 font-lato">
-              No samples match &ldquo;{search}&rdquo;
+              No samples match your filters.
             </p>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {visible.map((sample) => (
-                <div
-                  key={sample.slug}
-                  className="bg-white rounded-xl shadow-sm overflow-hidden border border-stone-100 hover:shadow-md transition-shadow group"
-                >
-                  <div className="aspect-square relative bg-stone-100">
-                    <Image
-                      src={sample.imageSrc}
-                      alt={`Carpet sample ${sample.code}`}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      unoptimized
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).style.display = "none";
-                      }}
-                    />
-                    {/* Placeholder shown while image missing */}
-                    <div className="absolute inset-0 flex items-center justify-center text-stone-300 text-xs font-lato select-none pointer-events-none">
-                      <span className="opacity-0 group-[&:not(:has(img[src]))]:opacity-100">
-                        Photo coming
-                      </span>
+            grouped.map(({ family, items }) => (
+              <div key={family} className="mb-12 last:mb-0">
+                <h2 className="font-playfair text-2xl text-charcoal mb-1">
+                  {family}
+                </h2>
+                <p className="font-lato text-sm text-warm-grey mb-5">
+                  {items.length} sample{items.length !== 1 ? "s" : ""}
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                  {items.map((sample) => (
+                    <div
+                      key={sample.slug}
+                      className="bg-white rounded-xl shadow-sm overflow-hidden border border-stone-100 hover:shadow-md transition-shadow group"
+                    >
+                      <div className="aspect-square relative bg-stone-100">
+                        <Image
+                          src={sample.imageSrc}
+                          alt={`Carpet sample ${sample.code} — ${sample.family}`}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          unoptimized
+                        />
+                      </div>
+                      <div className="px-3 py-2 text-center">
+                        <p className="font-lato font-semibold text-charcoal text-sm">
+                          {sample.code}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="px-3 py-2 text-center">
-                    <p className="font-lato font-semibold text-charcoal text-sm">
-                      {sample.code}
-                    </p>
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))
           )}
         </div>
       </section>
