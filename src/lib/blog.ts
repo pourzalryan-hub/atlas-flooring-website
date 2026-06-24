@@ -398,6 +398,47 @@ export const articles: BlogArticle[] = [
 <p>Whatever style speaks to you, we can help you achieve it. We serve homeowners across <a href="/locations/toronto">Toronto and the GTA</a>. Book a free in-home consultation and we'll bring the latest looks right to your door.</p>
 `,
   },
+  {
+    slug: "carpet-store-toronto-guide",
+    title: "How to Choose a Carpet Store in Toronto (And What to Look For)",
+    description:
+      "Looking for a carpet store in Toronto? Here's what to look for — in-stock selection, honest advice, experienced installation and local expertise.",
+    category: "Carpet",
+    excerpt:
+      "Not all carpet stores are equal. Here's what to look for when choosing where to buy and install carpet in Toronto.",
+    date: "2024-06-10",
+    image: "/images/carpet-hero.jpg",
+    body: `
+<p>If you've searched "carpet store near me" or "carpet store Toronto," you already know there's no shortage of options. But carpet is one of those purchases where the store you choose matters as much as the product you pick. Here's what to look for — and what questions to ask before you commit.</p>
+
+<h2>1. Do They Have Samples You Can Actually See and Feel?</h2>
+<p>Photos online don't do carpet justice. Colour, texture, weight, and pile height all read completely differently in person — especially under natural light. A good carpet store should have a wide selection of in-stock samples you can handle, carry home, and compare in your own space. At <a href="/about">Atlas Rug &amp; Design Centre</a>, we have over 60 carpet samples on-site at our 978 Bathurst Street showroom — browse them on our <a href="/carpet/samples">carpet samples page</a> before you visit.</p>
+
+<h2>2. Do They Carry the Right Fibre Options?</h2>
+<p>The fibre your carpet is made from is the single biggest factor in how it performs and lasts. Look for a store that carries <strong>nylon</strong> (the most durable all-rounder), <strong>polyester</strong> (best stain resistance at a lower price), and <strong>wool</strong> (the premium natural choice). Be wary of stores that only carry one or two fibre types — their advice will inevitably be biased toward what they have in stock.</p>
+<p>For a full breakdown, see our <a href="/carpet">carpet fibre guide</a>.</p>
+
+<h2>3. Are They Honest About What You Actually Need?</h2>
+<p>A trustworthy carpet store gives you advice that fits your lifestyle — not the most expensive product they have. If you have young kids and pets, they should be steering you toward durable nylon in a forgiving colour, not a delicate cut-pile in white. Ask how they make their recommendations and whether they'll show you options at multiple price points.</p>
+
+<h2>4. Is Installation Included — and What Does It Cover?</h2>
+<p>The carpet itself is only part of the job. Ask whether installation, underpad, tack strips, and old carpet removal are included in the quote — or whether those are added on afterward. A full written quote with everything itemized is the standard to expect. Any reputable local carpet store should provide this without you having to ask twice.</p>
+
+<h2>5. Do They Have Real Local Experience?</h2>
+<p>There's a meaningful difference between a national chain and a local carpet store that's been doing business in your city for decades. A local store knows Toronto homes — the older subfloors in Annex and Riverdale Victorian semis, the concrete slabs under Etobicoke bungalows, the noise requirements in downtown condos. That local knowledge shapes the advice you get and the quality of the result.</p>
+<p>Atlas has been Toronto's carpet store since 1959. We've carpeted homes in <a href="/locations/forest-hill">Forest Hill</a>, <a href="/locations/rosedale">Rosedale</a>, <a href="/locations/north-york">North York</a>, <a href="/locations/leaside">Leaside</a>, <a href="/locations/etobicoke">Etobicoke</a>, and throughout the GTA — each neighbourhood has its own character, and we know them all.</p>
+
+<h2>6. Can You Get Samples to Take Home?</h2>
+<p>Always ask if you can take carpet samples home before ordering. Light in a showroom and light in your actual room are completely different, and the colour that looks perfect under fluorescent light may read entirely differently in your north-facing bedroom. Any good carpet store will encourage you to take samples — it leads to happier customers and fewer remorse calls.</p>
+
+<h2>7. What Do Their Past Customers Say?</h2>
+<p>Check Google reviews. Look for patterns: do reviewers mention friendly advice, transparent pricing, clean installation, and a team that followed through? A few negative reviews in isolation can happen to any business — what matters is the overall pattern and how the store responds. You can read what our customers say about <a href="https://share.google/VTLAVBzwnQtKItd0E" target="_blank" rel="noopener noreferrer">Atlas on Google</a>.</p>
+
+<h2>Come Visit Toronto's Carpet Store</h2>
+<p>Atlas Rug &amp; Design Centre has been the go-to carpet store for Toronto homeowners for over 65 years. Our showroom at 978 Bathurst Street carries <a href="/carpet/samples">60+ in-stock carpet samples</a> across every colour family, fibre type, and pile style — with honest advice and free in-home consultations across the GTA.</p>
+<p>Open Monday to Saturday, 10am to 4pm. Call <a href="tel:4165333366">(416) 533-3366</a> or <a href="/contact">book a consultation online</a>.</p>
+`,
+  },
 ];
 
 export function getArticle(slug: string): BlogArticle | undefined {

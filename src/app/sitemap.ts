@@ -40,6 +40,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/compare/vinyl-vs-laminate",
     "/compare/engineered-vs-solid-hardwood",
     "/compare/refinishing-vs-replacement",
+    "/carpet/samples",
   ].map((path) => ({
     url: `${BASE_URL}${path}`,
     lastModified,

@@ -73,7 +73,7 @@ export const metadata: Metadata = {
 
 const localBusinessSchema = {
   "@context": "https://schema.org",
-  "@type": ["LocalBusiness", "FlooringContractor"],
+  "@type": ["LocalBusiness", "FlooringContractor", "CarpetStore", "HomeGoodsStore"],
   name: "Atlas Rug & Design Centre",
   image: "https://atlasrugflooring.com/images/hero.jpg",
   url: "https://atlasrugflooring.com",

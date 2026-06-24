@@ -1,12 +1,36 @@
 import type { Metadata } from "next";
+import { carpetSamples } from "@/lib/carpet-samples";
 
 export const metadata: Metadata = {
-  title: "Carpet Samples | Atlas Rug & Design Centre Toronto",
+  title: "Carpet Samples Toronto | In-Stock Broadloom | Atlas Rug & Design Centre",
   description:
-    "Browse our in-stock carpet samples at Atlas Rug & Design Centre. Visit our Toronto showroom at 978 Bathurst St to feel them in person.",
+    "Browse 63+ in-stock carpet samples at Atlas Rug & Design Centre — Toronto's carpet store since 1959. Nylon, wool & polyester in every colour family. Visit 978 Bathurst St or call (416) 533-3366.",
   alternates: { canonical: "/carpet/samples" },
 };
 
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "In-Stock Carpet Samples — Atlas Rug & Design Centre Toronto",
+  description:
+    "63+ carpet and broadloom samples available in-store at 978 Bathurst St, Toronto.",
+  numberOfItems: carpetSamples.length,
+  itemListElement: carpetSamples.map((s, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: `Carpet Sample ${s.code} — ${s.family}`,
+    url: `https://atlasrugflooring.com/carpet/samples`,
+  })),
+};
+
 export default function CarpetSamplesLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+      />
+      {children}
+    </>
+  );
 }

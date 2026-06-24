@@ -8,14 +8,14 @@ import ReviewsSection from "@/components/ReviewsSection";
 import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
-  title: "Carpet & Broadloom Toronto | Atlas Rug & Design Centre",
+  title: "Carpet Store Toronto | Carpet & Broadloom | Atlas Rug & Design Centre",
   description:
-    "Premium carpet and broadloom flooring supply and installation in Toronto. Hundreds of styles, fibres, and colours in stock. Family-owned since 1959. Free in-home consultations available.",
+    "Toronto's carpet store since 1959. Hundreds of carpet and broadloom styles — nylon, wool, polyester — in stock at 978 Bathurst St. Free in-home consultations. Serving Midtown, North York, Forest Hill, Rosedale & all GTA.",
   alternates: { canonical: "/carpet" },
   openGraph: {
-    title: "Carpet & Broadloom Toronto | Atlas Rug & Design Centre",
+    title: "Carpet Store Toronto | Carpet & Broadloom | Atlas Rug & Design Centre",
     description:
-      "Premium carpet and broadloom supply and installation in Toronto. Family-owned since 1959.",
+      "Toronto's carpet store since 1959. Hundreds of carpet and broadloom styles in stock at 978 Bathurst St. Family-owned.",
     url: "https://atlasrugflooring.com/carpet",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
@@ -366,6 +366,41 @@ export default function CarpetPage() {
       </section>
 
       <ReviewsSection service="carpet" />
+
+      {/* Neighbourhood Coverage */}
+      <section className="bg-off-white py-16 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <p className="text-xs font-lato font-semibold tracking-[0.2em] uppercase text-gold mb-3">
+            Serving All of Toronto & the GTA
+          </p>
+          <h2 className="font-playfair text-3xl md:text-4xl text-charcoal mb-5">
+            Your Local Carpet Store Since 1959
+          </h2>
+          <p className="font-lato text-warm-grey text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
+            Atlas Rug &amp; Design Centre at 978 Bathurst Street has been
+            Toronto&apos;s go-to carpet store for over 65 years. We supply and
+            install carpet across Midtown Toronto, The Annex, Forest Hill,
+            Rosedale, North York, Etobicoke, Lawrence Park, Leaside, East York,
+            and throughout the GTA — including Thornhill, Richmond Hill,
+            Markham, Mississauga, Oakville, and Vaughan.
+          </p>
+          <div className="flex flex-wrap justify-center gap-2">
+            {[
+              "Midtown Toronto", "The Annex", "Forest Hill", "Rosedale",
+              "Lawrence Park", "Leaside", "North York", "Etobicoke",
+              "East York", "Thornhill", "Richmond Hill", "Markham",
+              "Mississauga", "Oakville", "Vaughan", "Scarborough",
+            ].map((n) => (
+              <span
+                key={n}
+                className="px-4 py-2 border border-stone-200 text-warm-grey font-lato text-sm rounded-full hover:border-gold hover:text-gold transition-colors"
+              >
+                {n}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* 8. CTA Banner */}
       <CTABanner
