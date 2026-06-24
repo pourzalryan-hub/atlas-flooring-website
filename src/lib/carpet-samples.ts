@@ -29,6 +29,6 @@ export const carpetSamples: CarpetSample[] = SAMPLE_CODES.map((code) => {
   return {
     code,
     slug,
-    imageSrc: `/images/carpet-samples/${slug}.jpg`,
+    imageSrc: `/images/carpet-samples/${slug}.png`,
   };
 });
