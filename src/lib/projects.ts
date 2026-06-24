@@ -800,7 +800,7 @@ export const projects: Project[] = [
       "Surveyed the three existing floor heights across the house.",
       "Levelled and feathered the transitions to one plane.",
       "Installed 20mil LVP continuously through every room.",
-      "Minimised transition strips for a seamless flow.",
+      "Minimized transition strips for a seamless flow.",
     ],
     results:
       "The house reads as one bright, continuous space, which makes the modest square footage feel generous. The 20mil wear layer is built for the heavy use the family throws at it and wipes clean in minutes.",
@@ -1235,7 +1235,7 @@ export const projects: Project[] = [
       "Sealed with a matte waterborne poly.",
     ],
     results:
-      "The pine brightened beautifully without losing the nail holes, knots, and patina that give it soul. The whitewash modernised the rooms while keeping the floor unmistakably old, which is exactly the balance they wanted.",
+      "The pine brightened beautifully without losing the nail holes, knots, and patina that give it soul. The whitewash modernized the rooms while keeping the floor unmistakably old, which is exactly the balance they wanted.",
     imageSrc: "/images/project-refinishing-forest-hill.jpeg",
     relatedService: "/refinishing",
     relatedLocation: "/locations/forest-hill",
@@ -1369,12 +1369,12 @@ export const projects: Project[] = [
     product: "Hardwood, engineered white oak, 1,800 sq ft",
     scope: "Retail boutique, 1,800 sq ft",
     challenge:
-      "A Yorkville boutique wanted real white oak to signal quality to high-end shoppers, but the floor had to survive constant foot traffic, stiletto heels, and rolling stock carts — and be installed fast to minimise closed days on a premium retail strip.",
+      "A Yorkville boutique wanted real white oak to signal quality to high-end shoppers, but the floor had to survive constant foot traffic, stiletto heels, and rolling stock carts — and be installed fast to minimize closed days on a premium retail strip.",
     solution:
       "We installed engineered white oak with a tough commercial-grade finish, completed on an accelerated schedule to keep the store dark for as few days as possible. Real oak in retail works when you pair it with a hardened commercial topcoat that takes heels and carts.",
     process: [
       "Selected engineered white oak with a commercial wear finish.",
-      "Compressed the schedule to minimise closed retail days.",
+      "Compressed the schedule to minimize closed retail days.",
       "Prepped the slab and installed glue-down for stability.",
       "Protected the finished floor through fixture installation.",
     ],
@@ -1395,9 +1395,9 @@ export const projects: Project[] = [
     challenge:
       "A North York property manager needed all 12 suites in a building re-floored on a rolling schedule as units turned over, with one consistent product so the building looked uniform and stock could be reordered for years.",
     solution:
-      "We standardised on a single commercial-grade LVP and worked suite by suite as they vacated, keeping the same product through the whole rollout. For a portfolio, product consistency is everything — one floor across all suites means simple reorders and a uniform look.",
+      "We standardized on a single commercial-grade LVP and worked suite by suite as they vacated, keeping the same product through the whole rollout. For a portfolio, product consistency is everything — one floor across all suites means simple reorders and a uniform look.",
     process: [
-      "Standardised on one commercial LVP for the whole building.",
+      "Standardized on one commercial LVP for the whole building.",
       "Scheduled installs suite by suite around tenant turnovers.",
       "Prepped each suite's subfloor as it came available.",
       "Kept reserve stock for ongoing turns and repairs.",

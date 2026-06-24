@@ -115,12 +115,12 @@ const steps = [
   {
     title: "Specification & Quote",
     description:
-      "We recommend products matched to your wear requirements, budget, and timeline, then provide a detailed written quote — materials, labour, subfloor prep, and removal all itemised with no hidden charges.",
+      "We recommend products matched to your wear requirements, budget, and timeline, then provide a detailed written quote — materials, labour, subfloor prep, and removal all itemized with no hidden charges.",
   },
   {
     title: "Phased Scheduling",
     description:
-      "For occupied buildings we plan the work in phases, after hours, or over weekends so your business keeps running. We coordinate with property management, security, and your team to minimise disruption.",
+      "For occupied buildings we plan the work in phases, after hours, or over weekends so your business keeps running. We coordinate with property management, security, and your team to minimize disruption.",
   },
   {
     title: "Professional Installation",

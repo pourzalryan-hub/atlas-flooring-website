@@ -86,7 +86,7 @@ const faqItems = [
   },
   {
     q: "How fast can you turn a vacant suite?",
-    a: "Quickly — an empty unit is lost rent, and we schedule turns with that in mind. Once you have a standard spec on file we can move fast because there is no product decision to make each time: you call, we slot it in, prep, and install so the suite is rent-ready on a tight timeline. We will give you a realistic per-unit turnaround based on the products you have standardised on.",
+    a: "Quickly — an empty unit is lost rent, and we schedule turns with that in mind. Once you have a standard spec on file we can move fast because there is no product decision to make each time: you call, we slot it in, prep, and install so the suite is rent-ready on a tight timeline. We will give you a realistic per-unit turnaround based on the products you have standardized on.",
   },
   {
     q: "Can you keep flooring consistent across all our units?",

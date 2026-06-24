@@ -60,7 +60,7 @@ const steps = [
   {
     title: "Spec & Quote",
     description:
-      "We recommend carpet tile, broadloom, LVP, or a zoned mix, then itemise materials, prep, removal, and labour in a clear written quote.",
+      "We recommend carpet tile, broadloom, LVP, or a zoned mix, then itemize materials, prep, removal, and labour in a clear written quote.",
   },
   {
     title: "Phasing Plan",

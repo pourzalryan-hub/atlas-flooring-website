@@ -60,7 +60,7 @@ const steps = [
   {
     title: "Specification",
     description:
-      "We spec homogeneous sheet vinyl, flash-cove detailing, or LVT to match infection-control needs, then itemise materials, prep, and welding in a written quote.",
+      "We spec homogeneous sheet vinyl, flash-cove detailing, or LVT to match infection-control needs, then itemize materials, prep, and welding in a written quote.",
   },
   {
     title: "Subfloor Prep",
@@ -90,7 +90,7 @@ const faqItems = [
   },
   {
     q: "Can you reduce seams to limit infection risk?",
-    a: "Yes, and it is one of the most important things we plan for. We lay sheet goods in the widest practical runs to minimise the number of seams, then heat-weld every seam that remains so it becomes a continuous, sealed surface rather than a gap. In high-risk rooms we combine wide-sheet layouts with flash coving so the finished floor reads as one cleanable plane.",
+    a: "Yes, and it is one of the most important things we plan for. We lay sheet goods in the widest practical runs to minimize the number of seams, then heat-weld every seam that remains so it becomes a continuous, sealed surface rather than a gap. In high-risk rooms we combine wide-sheet layouts with flash coving so the finished floor reads as one cleanable plane.",
   },
   {
     q: "Do you offer anti-fatigue flooring for clinical staff?",

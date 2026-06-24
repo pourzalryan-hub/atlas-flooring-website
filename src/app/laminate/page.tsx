@@ -161,8 +161,8 @@ const faqItems = [
     a: "For most residential applications, 12mm is the sweet spot — it has a satisfying underfoot feel, good sound dampening, and is tolerant of minor subfloor imperfections. We only recommend 8mm for bedrooms with very flat subfloors. In areas where feel and acoustics matter most, 14–15mm is a noticeable upgrade.",
   },
   {
-    q: "Does laminate need to acclimatise before installation?",
-    a: "Yes. We recommend letting laminate planks acclimatise in the room where they'll be installed for at least 48 hours before we begin. This allows the planks to adjust to the room's temperature and humidity, reducing the risk of post-installation expansion or gapping.",
+    q: "Does laminate need to acclimatize before installation?",
+    a: "Yes. We recommend letting laminate planks acclimatize in the room where they'll be installed for at least 48 hours before we begin. This allows the planks to adjust to the room's temperature and humidity, reducing the risk of post-installation expansion or gapping.",
   },
   {
     q: "How long does laminate flooring last?",

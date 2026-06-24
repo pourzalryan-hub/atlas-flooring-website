@@ -123,7 +123,7 @@ const installationSteps = [
   {
     title: "Measure & Quote",
     description:
-      "Our team measures every room precisely and provides a detailed, written quote with no hidden charges — materials, labour, and removal of existing flooring all clearly itemised.",
+      "Our team measures every room precisely and provides a detailed, written quote with no hidden charges — materials, labour, and removal of existing flooring all clearly itemized.",
   },
   {
     title: "Product Selection",

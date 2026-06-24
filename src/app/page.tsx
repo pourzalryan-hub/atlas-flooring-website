@@ -71,7 +71,7 @@ const whyUs = [
     icon: "◆",
     title: "Written Quotes, No Surprises",
     description:
-      "We measure your rooms, check your subfloor, and give you a written quote that itemises everything — materials, labour, removal, transitions. The number we quote is the number you pay.",
+      "We measure your rooms, check your subfloor, and give you a written quote that itemizes everything — materials, labour, removal, transitions. The number we quote is the number you pay.",
   },
 ];
 

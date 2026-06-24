@@ -99,7 +99,7 @@ const steps = [
   {
     title: "Efficient Installation",
     description:
-      "Our installers work cleanly and quickly to minimise disruption to you and your neighbours — most condo floors are completed in one to two days, with the rated acoustic underlay installed exactly to spec.",
+      "Our installers work cleanly and quickly to minimize disruption to you and your neighbours — most condo floors are completed in one to two days, with the rated acoustic underlay installed exactly to spec.",
   },
   {
     title: "Final Walkthrough & Documentation",
@@ -287,7 +287,7 @@ export default function CondoFlooringPage() {
           <p className="text-warm-grey text-lg leading-relaxed mt-8">
             Most Toronto condo declarations set a minimum IIC of around 50, and
             some newer or higher-end buildings require more. The number on a
-            product&apos;s box is only meaningful when it comes from a recognised
+            product&apos;s box is only meaningful when it comes from a recognized
             lab test of the same assembly your board specifies — the same plank,
             the same underlay, and a concrete slab. We keep the documentation for
             our underlays on hand precisely so the rating you submit for approval
