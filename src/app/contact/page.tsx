@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import FAQAccordion from '@/components/FAQAccordion'
@@ -69,16 +69,10 @@ const initialForm: FormState = {
   message: '',
 }
 
-export default function ContactPage() {
+function SamplePrefill({ setForm }: { setForm: React.Dispatch<React.SetStateAction<FormState>> }) {
   const searchParams = useSearchParams()
-  const [form, setForm] = useState<FormState>(initialForm)
-  const [submitted, setSubmitted] = useState(false)
-  const [submitting, setSubmitting] = useState(false)
-  const [error, setError] = useState('')
-
-  // Pre-fill form when arriving from carpet samples page
   useEffect(() => {
-    const sample = searchParams.get('sample')
+    const sample = searchParams?.get('sample')
     if (sample) {
       setForm((prev) => ({
         ...prev,
@@ -86,7 +80,15 @@ export default function ContactPage() {
         message: `I'm interested in carpet sample ${sample}. Could you tell me more about availability and pricing?`,
       }))
     }
-  }, [searchParams])
+  }, [searchParams, setForm])
+  return null
+}
+
+export default function ContactPage() {
+  const [form, setForm] = useState<FormState>(initialForm)
+  const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -143,6 +145,9 @@ export default function ContactPage() {
 
   return (
     <main>
+      <Suspense fallback={null}>
+        <SamplePrefill setForm={setForm} />
+      </Suspense>
       {/* 1. Compact Hero */}
       <section className="flex items-center justify-center bg-charcoal pt-20" style={{ minHeight: '40vh' }}>
         <div className="text-center px-4">
