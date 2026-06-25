@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import FAQAccordion from '@/components/FAQAccordion'
 import CTABanner from '@/components/CTABanner'
@@ -69,10 +70,23 @@ const initialForm: FormState = {
 }
 
 export default function ContactPage() {
+  const searchParams = useSearchParams()
   const [form, setForm] = useState<FormState>(initialForm)
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
+
+  // Pre-fill form when arriving from carpet samples page
+  useEffect(() => {
+    const sample = searchParams.get('sample')
+    if (sample) {
+      setForm((prev) => ({
+        ...prev,
+        product: 'Carpet & Broadloom',
+        message: `I'm interested in carpet sample ${sample}. Could you tell me more about availability and pricing?`,
+      }))
+    }
+  }, [searchParams])
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>

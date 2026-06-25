@@ -82,7 +82,7 @@ export default function CarpetSamplesPage() {
               <p className="font-playfair text-xl text-charcoal">{lightbox.code}</p>
               <p className="font-lato text-sm text-warm-grey mt-1">{lightbox.family}</p>
               <Link
-                href="/contact"
+                href={`/contact?sample=${encodeURIComponent(lightbox.code)}`}
                 className="mt-4 inline-block w-full text-center px-6 py-3 bg-gold text-white font-lato font-semibold rounded hover:bg-opacity-90 transition-colors"
                 onClick={() => setLightbox(null)}
               >
