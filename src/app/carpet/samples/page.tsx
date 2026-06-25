@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
   carpetSamples,
   carpetFamilies,
   type CarpetFamily,
+  type CarpetSample,
 } from "@/lib/carpet-samples";
 
 type Filter = "All" | CarpetFamily;
@@ -14,6 +15,17 @@ type Filter = "All" | CarpetFamily;
 export default function CarpetSamplesPage() {
   const [search, setSearch] = useState("");
   const [activeFamily, setActiveFamily] = useState<Filter>("All");
+  const [lightbox, setLightbox] = useState<CarpetSample | null>(null);
+
+  // Close lightbox on Escape key
+  useEffect(() => {
+    if (!lightbox) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [lightbox]);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -39,6 +51,48 @@ export default function CarpetSamplesPage() {
 
   return (
     <main className="font-lato">
+      {/* Lightbox */}
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          onClick={() => setLightbox(null)}
+        >
+          <div
+            className="relative bg-white rounded-2xl overflow-hidden shadow-2xl max-w-lg w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setLightbox(null)}
+              className="absolute top-3 right-3 z-10 w-9 h-9 flex items-center justify-center bg-black/50 hover:bg-black/70 text-white rounded-full transition-colors"
+              aria-label="Close"
+            >
+              ✕
+            </button>
+            <div className="aspect-square relative w-full bg-stone-100">
+              <Image
+                src={lightbox.imageSrc}
+                alt={`Carpet sample ${lightbox.code} — ${lightbox.family}`}
+                fill
+                className="object-cover"
+                unoptimized
+              />
+            </div>
+            <div className="px-6 py-4">
+              <p className="font-playfair text-xl text-charcoal">{lightbox.code}</p>
+              <p className="font-lato text-sm text-warm-grey mt-1">{lightbox.family}</p>
+              <Link
+                href="/contact"
+                className="mt-4 inline-block w-full text-center px-6 py-3 bg-gold text-white font-lato font-semibold rounded hover:bg-opacity-90 transition-colors"
+                onClick={() => setLightbox(null)}
+              >
+                Ask About This Sample
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Hero */}
       <section className="bg-charcoal pt-32 pb-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
@@ -121,9 +175,10 @@ export default function CarpetSamplesPage() {
                 </p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                   {items.map((sample) => (
-                    <div
+                    <button
                       key={sample.slug}
-                      className="bg-white rounded-xl shadow-sm overflow-hidden border border-stone-100 hover:shadow-md transition-shadow group"
+                      onClick={() => setLightbox(sample)}
+                      className="bg-white rounded-xl shadow-sm overflow-hidden border border-stone-100 hover:shadow-md transition-shadow group text-left cursor-pointer"
                     >
                       <div className="aspect-square relative bg-stone-100">
                         <Image
@@ -133,13 +188,18 @@ export default function CarpetSamplesPage() {
                           className="object-cover group-hover:scale-105 transition-transform duration-500"
                           unoptimized
                         />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                          <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 text-charcoal text-xs font-lato font-semibold px-3 py-1 rounded-full">
+                            View
+                          </span>
+                        </div>
                       </div>
                       <div className="px-3 py-2 text-center">
                         <p className="font-lato font-semibold text-charcoal text-sm">
                           {sample.code}
                         </p>
                       </div>
-                    </div>
+                    </button>
                   ))}
                 </div>
               </div>
