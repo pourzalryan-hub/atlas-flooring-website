@@ -5,7 +5,7 @@ import ProjectsGrid from "./ProjectsGrid";
 import { projects, projectTypes } from "@/lib/projects";
 
 export const metadata: Metadata = {
-  title: "Flooring Projects & Portfolio Toronto | Atlas Rug & Design Centre",
+  title: "Flooring Projects & Portfolio Toronto",
   description:
     "Browse real flooring projects by Atlas Rug & Design Centre across Toronto — hardwood, carpet, stair runners, luxury vinyl, laminate, refinishing and commercial.",
   alternates: { canonical: "/projects" },

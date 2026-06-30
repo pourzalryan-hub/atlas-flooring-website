@@ -8,7 +8,7 @@ import ReviewsSection from "@/components/ReviewsSection";
 import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
-  title: "Retail Store Flooring Toronto | Atlas Rug & Design Centre",
+  title: "Retail Store Flooring Toronto",
   description:
     "Retail store flooring in Toronto — hardwood for boutiques, LVP for high-traffic floors, tile for entrances. Brand-right looks, fast turnaround. Atlas Rug & Design Centre, serving Toronto since 1959.",
   alternates: { canonical: "/commercial/retail" },

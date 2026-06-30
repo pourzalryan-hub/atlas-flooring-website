@@ -5,7 +5,7 @@ import CTABanner from "@/components/CTABanner";
 import { locations } from "@/lib/locations";
 
 export const metadata: Metadata = {
-  title: "Flooring Service Areas Across Toronto | Atlas Rug & Design Centre",
+  title: "Flooring Service Areas Across Toronto",
   description:
     "Atlas Rug & Design Centre installs flooring across Toronto and the GTA — from North York and Etobicoke to Forest Hill, Rosedale, Leaside and beyond.",
   alternates: { canonical: "/locations" },

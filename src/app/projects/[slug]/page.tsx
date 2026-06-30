@@ -129,7 +129,7 @@ export function generateMetadata({
   if (!project) return {};
   const description = `${project.type} flooring in ${project.area}, Toronto. Premium flooring supply and installation by Atlas Rug & Design Centre since 1959.`;
   return {
-    title: `${project.title} | Atlas Rug & Design Centre`,
+    title: { absolute: `${project.title} | Atlas Rug & Design Centre` },
     description,
     alternates: { canonical: `/projects/${project.slug}` },
     openGraph: {

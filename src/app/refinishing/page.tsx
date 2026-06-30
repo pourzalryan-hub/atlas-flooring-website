@@ -8,7 +8,7 @@ import FaqSchema from "@/components/FaqSchema";
 import WhyAtlas from "@/components/WhyAtlas";
 
 export const metadata: Metadata = {
-  title: "Hardwood Floor Refinishing Toronto | Atlas Rug & Design Centre",
+  title: "Hardwood Floor Refinishing Toronto",
   description:
     "Professional hardwood floor refinishing and restoration in Toronto. Sand, stain, and refinish your existing floors to like-new condition. Atlas Rug & Design Centre — since 1959. Free quotes available.",
   alternates: { canonical: "/refinishing" },

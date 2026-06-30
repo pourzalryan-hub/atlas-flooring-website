@@ -8,7 +8,7 @@ import ReviewsSection from "@/components/ReviewsSection";
 import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
-  title: "Medical & Healthcare Flooring Toronto | Atlas Rug & Design Centre",
+  title: "Medical & Healthcare Flooring Toronto",
   description:
     "Medical clinic and healthcare flooring in Toronto. Homogeneous sheet vinyl, LVT, low-seam and easy-clean surfaces for infection control. Atlas Rug & Design Centre, serving Toronto since 1959.",
   alternates: { canonical: "/commercial/medical-clinics" },

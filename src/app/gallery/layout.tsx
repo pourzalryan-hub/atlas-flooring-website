@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Project Gallery | Atlas Rug & Design Centre Toronto",
+  title: "Project Gallery",
   description:
     "Browse real flooring installations by Atlas Rug & Design Centre — hardwood, carpet, luxury vinyl, laminate, stair runners, and refinishing projects across Toronto and the GTA since 1959.",
   alternates: { canonical: "/gallery" },

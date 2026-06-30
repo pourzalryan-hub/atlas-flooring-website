@@ -8,7 +8,7 @@ import ReviewsSection from "@/components/ReviewsSection";
 import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
-  title: "Custom Area Rugs Toronto | Atlas Rug & Design Centre",
+  title: "Custom Area Rugs Toronto",
   description:
     "Custom area rugs in Toronto — any size, any shape, expertly bound. Choose from wool, nylon and natural fibres. Atlas Rug & Design Centre, serving Toronto since 1959.",
   alternates: { canonical: "/area-rugs" },

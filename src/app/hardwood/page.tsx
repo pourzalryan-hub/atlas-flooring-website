@@ -9,7 +9,7 @@ import FaqSchema from "@/components/FaqSchema";
 import WhyAtlas from "@/components/WhyAtlas";
 
 export const metadata: Metadata = {
-  title: "Hardwood Flooring Toronto | Atlas Rug & Design Centre",
+  title: "Hardwood Flooring Toronto",
   description:
     "Premium hardwood flooring supply and installation in Toronto. Solid and engineered hardwood from Atlas Rug & Design Centre — serving Toronto since 1959. Get a free in-home quote today.",
   alternates: { canonical: "/hardwood" },

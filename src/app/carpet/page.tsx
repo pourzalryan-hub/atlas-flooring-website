@@ -8,7 +8,7 @@ import ReviewsSection from "@/components/ReviewsSection";
 import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
-  title: "Carpet Store Toronto | Carpet & Broadloom | Atlas Rug & Design Centre",
+  title: "Carpet Store Toronto | Carpet & Broadloom",
   description:
     "Toronto's carpet store since 1959. Hundreds of carpet and broadloom styles — nylon, wool, polyester — in stock at 978 Bathurst St. Free in-home consultations. Serving Midtown, North York, Forest Hill, Rosedale & all GTA.",
   alternates: { canonical: "/carpet" },

@@ -7,7 +7,7 @@ import ReviewsSection from "@/components/ReviewsSection";
 import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
-  title: "Luxury Vinyl Flooring Toronto | LVP & LVT | Atlas Rug & Design Centre",
+  title: "Luxury Vinyl Flooring Toronto | LVP & LVT",
   description:
     "Luxury vinyl plank and tile (LVP & LVT) supply and installation in Toronto. 100% waterproof, pet-friendly, and beautifully realistic. Atlas Rug & Design Centre — Toronto's flooring experts since 1959.",
   alternates: { canonical: "/vinyl" },

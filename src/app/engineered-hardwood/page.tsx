@@ -9,7 +9,7 @@ import ReviewsSection from "@/components/ReviewsSection";
 import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
-  title: "Engineered Hardwood Flooring Toronto | Atlas Rug & Design Centre",
+  title: "Engineered Hardwood Flooring Toronto",
   description:
     "Engineered hardwood flooring supply and installation in Toronto. Real wood over a stable core — perfect for basements, condos, and radiant heat. Atlas Rug & Design Centre, serving Toronto since 1959. Book a free in-home quote.",
   alternates: { canonical: "/engineered-hardwood" },

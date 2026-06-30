@@ -9,7 +9,7 @@ import FaqSchema from "@/components/FaqSchema";
 import WhyAtlas from "@/components/WhyAtlas";
 
 export const metadata: Metadata = {
-  title: "Stair Runners Toronto | Atlas Rug & Design Centre",
+  title: "Stair Runners Toronto",
   description:
     "Custom stair runners designed and installed in Toronto. Patterned, solid, and natural fibre runners professionally fitted for beauty and safety. Atlas Rug & Design Centre — since 1959.",
   alternates: { canonical: "/stair-runners" },

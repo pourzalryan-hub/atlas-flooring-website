@@ -4,7 +4,7 @@ import PageHero from "@/components/PageHero";
 import CTABanner from "@/components/CTABanner";
 
 export const metadata: Metadata = {
-  title: "Flooring Comparison Guides Toronto | Atlas Rug & Design Centre",
+  title: "Flooring Comparison Guides Toronto",
   description:
     "Honest flooring comparison guides for Toronto homeowners — carpet vs hardwood, vinyl vs laminate, engineered vs solid, and refinishing vs replacement. Real pricing and contractor advice since 1959.",
   alternates: { canonical: "/compare" },

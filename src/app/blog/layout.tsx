@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Flooring Tips, Trends & Advice | Atlas Rug & Design Centre",
+  title: "Flooring Tips, Trends & Advice",
   description:
     "Expert flooring guides from Toronto's Atlas Rug & Design Centre. Tips on hardwood, carpet, luxury vinyl, laminate, stair runners, and refinishing — helping you make confident decisions for your home.",
   alternates: { canonical: "/blog" },

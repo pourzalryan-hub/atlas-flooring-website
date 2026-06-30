@@ -8,7 +8,7 @@ import ReviewsSection from "@/components/ReviewsSection";
 import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
-  title: "Commercial Flooring Toronto | Atlas Rug & Design Centre",
+  title: "Commercial Flooring Toronto",
   description:
     "Commercial flooring in Toronto for offices, retail, restaurants, condos and healthcare. Commercial-grade LVP, carpet tile, hardwood and sheet vinyl, installed with minimal downtime. Atlas Rug & Design Centre, serving Toronto since 1959.",
   alternates: { canonical: "/commercial" },

@@ -7,7 +7,7 @@ import ReviewsSection from "@/components/ReviewsSection";
 import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
-  title: "Laminate Flooring Toronto | Atlas Rug & Design Centre",
+  title: "Laminate Flooring Toronto",
   description:
     "Premium laminate flooring supply and installation in Toronto. Scratch-resistant, budget-friendly, and beautiful — supplied and installed by Atlas Rug & Design Centre since 1959. Free quotes available.",
   alternates: { canonical: "/laminate" },

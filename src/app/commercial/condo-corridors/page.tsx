@@ -8,7 +8,7 @@ import ReviewsSection from "@/components/ReviewsSection";
 import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
-  title: "Condo Corridor Flooring Toronto | Atlas Rug & Design Centre",
+  title: "Condo Corridor Flooring Toronto",
   description:
     "Condo corridor and common area flooring in Toronto. Commercial-grade carpet and LVP with IIC/STC sound ratings, board-approval support and low-disruption installs. Atlas Rug & Design Centre, serving Toronto since 1959.",
   alternates: { canonical: "/commercial/condo-corridors" },

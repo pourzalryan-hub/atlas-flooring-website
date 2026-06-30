@@ -9,7 +9,7 @@ import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
   title:
-    "Office Flooring Toronto | Commercial Carpet & LVP | Atlas Rug & Design Centre",
+    "Office Flooring Toronto | Commercial Carpet & LVP",
   description:
     "Office flooring in Toronto — commercial carpet tile, broadloom and LVP with acoustic performance and phased installation in occupied workspaces. Atlas Rug & Design Centre, serving Toronto since 1959.",
   alternates: { canonical: "/commercial/offices" },

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact Us | Atlas Rug & Design Centre Toronto",
+  title: "Contact Us",
   description:
     "Get in touch with Atlas Rug & Design Centre. Visit our showroom at 978 Bathurst St, Toronto, call (416) 533-3366, or fill out our form to book a free in-home flooring consultation.",
   alternates: { canonical: "/contact" },

@@ -5,7 +5,10 @@ import CTABanner from '@/components/CTABanner'
 import WhyAtlas from '@/components/WhyAtlas'
 
 export const metadata: Metadata = {
-  title: 'About Atlas Rug & Design Centre | Toronto\'s Flooring Experts Since 1959',
+  title: 'About Us | Toronto\'s Flooring Family Since 1959',
+  description:
+    'Atlas Rug & Design Centre is a family-owned flooring and carpet store in Toronto, serving the city since 1959. Meet the team behind our 978 Bathurst St showroom and 65+ years of honest flooring advice.',
+  alternates: { canonical: '/about' },
 }
 
 const neighbourhoods = [

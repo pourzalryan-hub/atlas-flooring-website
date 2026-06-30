@@ -19,7 +19,7 @@ export function generateMetadata({
   const loc = getLocation(params.location);
   if (!loc) return {};
   return {
-    title: loc.seoTitle,
+    title: { absolute: loc.seoTitle },
     description: loc.metaDescription,
     alternates: { canonical: `/locations/${loc.slug}` },
     openGraph: {

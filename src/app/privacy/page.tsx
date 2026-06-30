@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Atlas Rug & Design Centre",
+  title: "Privacy Policy",
   description: "Privacy policy for Atlas Rug & Design Centre. Learn how we collect, use, and protect your personal information in compliance with Canadian privacy law (CASL/PIPEDA).",
   alternates: { canonical: "/privacy" },
 };
