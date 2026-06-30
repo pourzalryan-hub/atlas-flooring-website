@@ -52,7 +52,7 @@ export const carpetSamples: CarpetSample[] = carpetFamilies.flatMap((family) =>
       code,
       slug,
       family,
-      imageSrc: `/images/carpet-samples/${slug}.png`,
+      imageSrc: `/images/carpet-samples/${slug}.jpg`,
     };
   })
 );
