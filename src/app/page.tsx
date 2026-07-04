@@ -38,7 +38,7 @@ const products = [
     label: "Laminate Flooring",
     hook: "Beautiful looks, real-world performance",
     href: "/laminate",
-    image: "/images/laminate-hero.png",
+    image: "/images/laminate-hero.jpg",
   },
   {
     label: "Floor Refinishing",
@@ -215,7 +215,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Showroom / team photo */}
             <div className="rounded-2xl overflow-hidden aspect-[4/3] bg-stone-700 order-2 lg:order-1"
-              style={{ backgroundImage: "url('/images/about-showroom.png')", backgroundSize: "cover", backgroundPosition: "center" }}
+              style={{ backgroundImage: "url('/images/about-showroom.jpg')", backgroundSize: "cover", backgroundPosition: "center" }}
             />
 
             {/* Content */}
@@ -276,10 +276,10 @@ export default function HomePage() {
             {[
               { src: "/images/project-hardwood-leaside.jpg",               label: "White Oak Hardwood — Leaside" },
               { src: "/images/project-stair-runner-forest-hill.jpg",       label: "Patterned Runner — Forest Hill" },
-              { src: "/images/project-vinyl-condo-downtown.png",           label: "LVP Throughout — Downtown Condo" },
+              { src: "/images/project-vinyl-condo-downtown.jpg",           label: "LVP Throughout — Downtown Condo" },
               { src: "/images/project-carpet-rosedale-wool.jpeg",          label: "Wool Carpet — Rosedale" },
               { src: "/images/project-refinishing-annex.jpeg",             label: "Floor Refinishing — The Annex" },
-              { src: "/images/project-laminate-scarborough.png",           label: "Wide-Plank Laminate — Scarborough" },
+              { src: "/images/project-laminate-scarborough.jpg",           label: "Wide-Plank Laminate — Scarborough" },
             ].map(({ src, label }) => (
               <div
                 key={label}
@@ -375,7 +375,7 @@ export default function HomePage() {
             {[
               { title: "Patterned Stair Runner — Forest Hill", type: "Stair Runners", href: "/gallery", img: "/images/project-stair-runner-forest-hill.jpg" },
               { title: "White Oak Hardwood — Leaside", type: "Hardwood", href: "/gallery", img: "/images/project-hardwood-leaside.jpg" },
-              { title: "LVP Throughout — Downtown Condo", type: "Luxury Vinyl", href: "/gallery", img: "/images/project-vinyl-condo-downtown.png" },
+              { title: "LVP Throughout — Downtown Condo", type: "Luxury Vinyl", href: "/gallery", img: "/images/project-vinyl-condo-downtown.jpg" },
               { title: "Floor Refinishing — The Annex", type: "Refinishing", href: "/gallery", img: "/images/project-refinishing-annex.jpeg" },
             ].map((p) => (
               <Link

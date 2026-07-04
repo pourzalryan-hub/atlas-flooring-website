@@ -218,7 +218,7 @@ export const articles: BlogArticle[] = [
     excerpt:
       "Condo flooring comes with rules most homeowners never face — sound ratings, board approvals, elevator bookings. Here's your complete Toronto guide.",
     date: "2024-03-18",
-    image: "/images/project-vinyl-condo-downtown.png",
+    image: "/images/project-vinyl-condo-downtown.jpg",
     body: `
 <p>Flooring a condo is different from flooring a house. Between sound-transmission rules, board approvals, and building logistics, there's a lot to navigate. This guide covers what every Toronto condo owner should know before starting a <a href="/condo-flooring">condo flooring project</a>.</p>
 
@@ -296,7 +296,7 @@ export const articles: BlogArticle[] = [
     excerpt:
       "Both deliver a wood look on a budget — but laminate and vinyl behave very differently. Here's how to pick the right one for your space.",
     date: "2024-04-15",
-    image: "/images/project-laminate-scarborough.png",
+    image: "/images/project-laminate-scarborough.jpg",
     body: `
 <p>Laminate and luxury vinyl are the two most popular budget-friendly, wood-look flooring options — and they're often confused. They look similar but perform quite differently. Here's how to choose between <a href="/laminate">laminate</a> and <a href="/vinyl">luxury vinyl</a>.</p>
 

@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import TelClickTracker from "@/components/TelClickTracker";
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID
 
@@ -92,6 +93,8 @@ const localBusinessSchema = {
     latitude: 43.6677,
     longitude: -79.4115,
   },
+  hasMap:
+    "https://www.google.com/maps/search/?api=1&query=978+Bathurst+St+Toronto+ON+M5R+3G6",
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
@@ -149,6 +152,14 @@ const localBusinessSchema = {
   },
 };
 
+const webSiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Atlas Rug & Design Centre",
+  alternateName: "Atlas Rugs",
+  url: "https://atlasrugflooring.com",
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -161,6 +172,12 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(localBusinessSchema),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(webSiteSchema),
           }}
         />
         {GTM_ID && (
@@ -184,6 +201,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             />
           </noscript>
         )}
+        <TelClickTracker />
         <Navigation />
         <main>{children}</main>
         <Footer />

@@ -401,7 +401,7 @@ export default function ContactPage() {
             </div>
             {/* Image */}
             <div className="aspect-[4/3] rounded-2xl overflow-hidden relative">
-              <Image src="/images/about-showroom.png" alt="Beautiful hardwood flooring in a Toronto home" fill className="object-cover" unoptimized />
+              <Image src="/images/about-showroom.jpg" alt="Beautiful hardwood flooring in a Toronto home" fill className="object-cover" unoptimized />
             </div>
           </div>
         </div>

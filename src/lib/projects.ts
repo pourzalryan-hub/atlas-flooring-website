@@ -132,7 +132,7 @@ export const projects: Project[] = [
     ],
     results:
       "The condo now has a quiet, waterproof, designer-look floor that meets every building requirement. The fast installation minimized disruption, and the light oak tone makes the compact unit feel more open.",
-    imageSrc: "/images/project-vinyl-condo-downtown.png",
+    imageSrc: "/images/project-vinyl-condo-downtown.jpg",
     relatedService: "/condo-flooring",
     relatedLocation: "/locations/downtown-toronto",
   },
@@ -228,7 +228,7 @@ export const projects: Project[] = [
     ],
     results:
       "The main floor looks like genuine wide-plank hardwood but shrugs off the wear of a busy household. The family got the high-end look they wanted at a budget-friendly price, with durability to match their lifestyle.",
-    imageSrc: "/images/project-laminate-scarborough.png",
+    imageSrc: "/images/project-laminate-scarborough.jpg",
     relatedService: "/laminate",
     relatedLocation: "/locations/scarborough",
   },
@@ -300,7 +300,7 @@ export const projects: Project[] = [
     ],
     results:
       "The stripes run dead straight all the way down, even across the two winders, which is the part most people get wrong. The navy grounds it and the cream keeps the narrow stairwell feeling bright.",
-    imageSrc: "/images/project-stair-runner-high-park.png",
+    imageSrc: "/images/project-stair-runner-high-park.jpg",
     relatedService: "/stair-runners",
     relatedLocation: "/locations/high-park",
   },
@@ -516,7 +516,7 @@ export const projects: Project[] = [
     ],
     results:
       "The unit went from generic laminate to a warm, flat oak floor that meets every building rule. The matte finish hides the dust that a downtown condo collects, and the neighbour below has had no complaints.",
-    imageSrc: "/images/project-hardwood-yorkville-condo.png",
+    imageSrc: "/images/project-hardwood-yorkville-condo.jpg",
     relatedService: "/engineered-hardwood",
     relatedLocation: "/locations/midtown-toronto",
   },
@@ -540,7 +540,7 @@ export const projects: Project[] = [
     ],
     results:
       "The grey came out even and warm across every room, with none of the blue cast that ruins a lot of grey floors. The matte finish keeps it looking like raw, weathered oak rather than painted.",
-    imageSrc: "/images/project-hardwood-forest-hill-full-home.png",
+    imageSrc: "/images/project-hardwood-forest-hill-full-home.jpg",
     relatedService: "/hardwood",
     relatedLocation: "/locations/forest-hill",
   },
@@ -612,7 +612,7 @@ export const projects: Project[] = [
     ],
     results:
       "The basement got the warm, real-wood feel the family wanted, and the moisture barrier has handled the seasonal damp without a single buckled board. Hickory's hardness shrugs off the kids' toys and chairs.",
-    imageSrc: "/images/project-hardwood-etobicoke-basement.png",
+    imageSrc: "/images/project-hardwood-etobicoke-basement.jpg",
     relatedService: "/engineered-hardwood",
     relatedLocation: "/locations/etobicoke",
   },
@@ -636,7 +636,7 @@ export const projects: Project[] = [
     ],
     results:
       "The maple stayed bright and pale instead of yellowing, which genuinely lifts the small, low-light main floor. The narrow strip suits the age of the house and the natural finish keeps it feeling airy.",
-    imageSrc: "/images/project-hardwood-beaches-maple.png",
+    imageSrc: "/images/project-hardwood-beaches-maple.jpg",
     relatedService: "/hardwood",
     relatedLocation: "/locations/the-beaches",
   },
@@ -660,7 +660,7 @@ export const projects: Project[] = [
     ],
     results:
       "The living room got the dramatic, dark floor they wanted, and the wire-brushed texture has hidden the dog's claw marks completely. The threshold reads as intentional rather than a patch.",
-    imageSrc: "/images/project-hardwood-high-park-walnut.png",
+    imageSrc: "/images/project-hardwood-high-park-walnut.jpg",
     relatedService: "/engineered-hardwood",
     relatedLocation: "/locations/high-park",
   },
@@ -684,7 +684,7 @@ export const projects: Project[] = [
     ],
     results:
       "Two winters in, the wide ash planks have stayed flat with no cupping or gapping — exactly why we steered them off solid. The blonde ash brightens the formal rooms and the satin finish reads refined without glare.",
-    imageSrc: "/images/project-hardwood-rosedale-full.png",
+    imageSrc: "/images/project-hardwood-rosedale-full.jpg",
     relatedService: "/engineered-hardwood",
     relatedLocation: "/locations/rosedale",
   },
@@ -756,7 +756,7 @@ export const projects: Project[] = [
     ],
     results:
       "The basement looks like a proper living space instead of a concrete box, and the family stopped worrying about the drain. The 12mil wear layer takes the kids and the treadmill without denting.",
-    imageSrc: "/images/project-vinyl-north-york-basement.png",
+    imageSrc: "/images/project-vinyl-north-york-basement.jpg",
     relatedService: "/basement-flooring",
     relatedLocation: "/locations/north-york",
   },
@@ -828,7 +828,7 @@ export const projects: Project[] = [
     ],
     results:
       "The dated tile disappeared under a clean light-oak floor with no demolition, no dust, and a fraction of the cost. The filled grout lines stayed invisible, and the height bump at the door is barely noticeable.",
-    imageSrc: "/images/project-vinyl-midtown-condo.png",
+    imageSrc: "/images/project-vinyl-midtown-condo.jpg",
     relatedService: "/condo-flooring",
     relatedLocation: "/locations/midtown-toronto",
   },
@@ -972,7 +972,7 @@ export const projects: Project[] = [
     ],
     results:
       "The bedroom got the warm, quiet, solid floor they wanted at well under the cost of real walnut. The 14mm core means it doesn't have the hollow click that put them off laminate in the first place.",
-    imageSrc: "/images/project-laminate-etobicoke-bedroom.png",
+    imageSrc: "/images/project-laminate-etobicoke-bedroom.jpg",
     relatedService: "/laminate",
     relatedLocation: "/locations/etobicoke",
   },
@@ -996,7 +996,7 @@ export const projects: Project[] = [
     ],
     results:
       "All three units got a clean, neutral, hard-wearing floor that shows well to prospective tenants and survives the ones who move in. Doing them one at a time kept the building earning while the work rolled through.",
-    imageSrc: "/images/project-laminate-scarborough-rental.png",
+    imageSrc: "/images/project-laminate-scarborough-rental.jpg",
     relatedService: "/laminate",
     relatedLocation: "/locations/scarborough",
   },
@@ -1044,7 +1044,7 @@ export const projects: Project[] = [
     ],
     results:
       "The main floor flows as one uninterrupted surface, with no transition strips to break the sightline or collect dirt. The open concept finally feels as open underfoot as it looks.",
-    imageSrc: "/images/project-laminate-east-york-open-plan.png",
+    imageSrc: "/images/project-laminate-east-york-open-plan.jpg",
     relatedService: "/laminate",
     relatedLocation: "/locations/east-york",
   },
@@ -1068,7 +1068,7 @@ export const projects: Project[] = [
     ],
     results:
       "The two rooms now read as one calm, bright workspace-and-play zone. The light oak keeps both rooms feeling airy, and the AC4 surface has shrugged off the office chair and a daily avalanche of toys.",
-    imageSrc: "/images/project-laminate-high-park-playroom.png",
+    imageSrc: "/images/project-laminate-high-park-playroom.jpg",
     relatedService: "/laminate",
     relatedLocation: "/locations/high-park",
   },

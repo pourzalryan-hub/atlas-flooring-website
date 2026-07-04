@@ -3,9 +3,11 @@ import Link from "next/link";
 const productLinks = [
   { label: "Hardwood Flooring", href: "/hardwood" },
   { label: "Carpet & Broadloom", href: "/carpet" },
+  { label: "Carpet Samples", href: "/carpet/samples" },
   { label: "Stair Runners", href: "/stair-runners" },
   { label: "Luxury Vinyl", href: "/vinyl" },
   { label: "Laminate Flooring", href: "/laminate" },
+  { label: "Condo Flooring", href: "/condo-flooring" },
 ];
 
 const quickLinks = [

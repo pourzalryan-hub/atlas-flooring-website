@@ -170,7 +170,7 @@ export default function CommercialPage() {
         title="Commercial Flooring Toronto"
         subtitle="Durable, low-maintenance flooring for offices, retail, restaurants, condos and healthcare — installed with minimal downtime."
         breadcrumb="Commercial"
-        imageSrc="/images/commercial-hero.png"
+        imageSrc="/images/commercial-hero.jpg"
       />
 
       {/* 2. Intro */}
