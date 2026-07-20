@@ -118,6 +118,13 @@ export default function Navigation() {
               )}
             </div>
 
+            <Link
+              href="/carpet/samples"
+              className="font-lato text-sm text-gold font-semibold hover:text-white transition-colors"
+            >
+              Carpet Samples
+            </Link>
+
             {navLinks.slice(1).map((link) => (
               <Link
                 key={link.href}
@@ -173,6 +180,14 @@ export default function Navigation() {
               className="block py-3 font-lato text-white/80 hover:text-gold border-b border-white/10"
             >
               Home
+            </Link>
+
+            <Link
+              href="/carpet/samples"
+              onClick={() => setMobileOpen(false)}
+              className="block py-3 font-lato text-gold font-semibold hover:text-white border-b border-white/10"
+            >
+              Carpet Samples
             </Link>
 
             <div className="border-b border-white/10">
