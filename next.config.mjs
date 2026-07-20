@@ -11,13 +11,10 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // Force www -> non-www so Google consolidates ranking on one domain.
-      {
-        source: "/:path*",
-        has: [{ type: "host", value: "www.atlasrugflooring.com" }],
-        destination: "https://atlasrugflooring.com/:path*",
-        permanent: true,
-      },
+      // NOTE: www <-> non-www canonicalization is handled by Vercel's domain
+      // settings, NOT here. Doing it in code caused a redirect loop with
+      // Vercel's own redirect. Keep domain redirects in the Vercel dashboard.
+
       // Legacy URLs from the previous website (old /post/ blog structure).
       // 301 each to the closest current page so value + old links transfer.
       {
