@@ -109,7 +109,11 @@ export default function Navigation() {
                     <Link
                       key={p.href}
                       href={p.href}
-                      className="block px-5 py-3 font-lato text-sm text-white/80 hover:bg-gold/20 hover:text-gold transition-colors border-b border-white/5 last:border-0"
+                      className={`block px-5 py-3 font-lato text-sm transition-colors border-b border-white/5 last:border-0 hover:bg-gold/20 hover:text-gold ${
+                        p.href === "/carpet/samples"
+                          ? "text-gold font-semibold"
+                          : "text-white/80"
+                      }`}
                     >
                       {p.label}
                     </Link>
@@ -117,13 +121,6 @@ export default function Navigation() {
                 </div>
               )}
             </div>
-
-            <Link
-              href="/carpet/samples"
-              className="font-lato text-sm text-gold font-semibold hover:text-white transition-colors"
-            >
-              Carpet Samples
-            </Link>
 
             {navLinks.slice(1).map((link) => (
               <Link
@@ -182,14 +179,6 @@ export default function Navigation() {
               Home
             </Link>
 
-            <Link
-              href="/carpet/samples"
-              onClick={() => setMobileOpen(false)}
-              className="block py-3 font-lato text-gold font-semibold hover:text-white border-b border-white/10"
-            >
-              Carpet Samples
-            </Link>
-
             <div className="border-b border-white/10">
               <button
                 onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
@@ -210,7 +199,11 @@ export default function Navigation() {
                   key={p.href}
                   href={p.href}
                   onClick={() => setMobileOpen(false)}
-                  className="block pl-4 py-2.5 font-lato text-sm text-white/70 hover:text-gold"
+                  className={`block pl-4 py-2.5 font-lato text-sm hover:text-gold ${
+                    p.href === "/carpet/samples"
+                      ? "text-gold font-semibold"
+                      : "text-white/70"
+                  }`}
                 >
                   {p.label}
                 </Link>
