@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { locations } from "@/lib/locations";
 import { projects } from "@/lib/projects";
 import { articles } from "@/lib/blog";
+import { carpetAreas } from "@/lib/carpet-areas";
 
 const BASE_URL = "https://atlasrugflooring.com";
 
@@ -69,11 +70,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
+  const carpetAreaPages: MetadataRoute.Sitemap = carpetAreas.map((a) => ({
+    url: `${BASE_URL}/carpet/${a.slug}`,
+    lastModified,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
   return [
     ...staticPages,
     ...servicePages,
     ...locationPages,
     ...projectPages,
     ...blogPages,
+    ...carpetAreaPages,
   ];
 }

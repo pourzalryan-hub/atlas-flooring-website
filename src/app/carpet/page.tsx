@@ -7,6 +7,7 @@ import FAQAccordion from "@/components/FAQAccordion";
 import ProcessSteps from "@/components/ProcessSteps";
 import ReviewsSection from "@/components/ReviewsSection";
 import FaqSchema from "@/components/FaqSchema";
+import { carpetAreas } from "@/lib/carpet-areas";
 
 export const metadata: Metadata = {
   title: "Carpet Store Toronto | Carpet & Broadloom",
@@ -434,15 +435,19 @@ export default function CarpetPage() {
             Markham, Mississauga, Oakville, and Vaughan.
           </p>
           <div className="flex flex-wrap justify-center gap-2">
-            {[
-              "Midtown Toronto", "The Annex", "Forest Hill", "Rosedale",
-              "Lawrence Park", "Leaside", "North York", "Etobicoke",
-              "East York", "Thornhill", "Richmond Hill", "Markham",
-              "Mississauga", "Oakville", "Vaughan", "Scarborough",
-            ].map((n) => (
+            {carpetAreas.map((a) => (
+              <Link
+                key={a.slug}
+                href={`/carpet/${a.slug}`}
+                className="px-4 py-2 border border-stone-200 text-charcoal font-lato text-sm rounded-full hover:border-gold hover:text-gold hover:bg-white transition-colors"
+              >
+                {a.name}
+              </Link>
+            ))}
+            {["Lawrence Park", "East York", "Thornhill", "Richmond Hill", "Mississauga", "Oakville"].map((n) => (
               <span
                 key={n}
-                className="px-4 py-2 border border-stone-200 text-warm-grey font-lato text-sm rounded-full hover:border-gold hover:text-gold transition-colors"
+                className="px-4 py-2 border border-stone-200 text-warm-grey font-lato text-sm rounded-full"
               >
                 {n}
               </span>
