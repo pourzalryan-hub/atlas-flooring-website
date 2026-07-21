@@ -274,7 +274,7 @@ export default function HomePage() {
           {/* Gallery grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10">
             {[
-              { src: "/images/project-hardwood-leaside.jpg",               label: "White Oak Hardwood — Leaside" },
+              { src: "/images/project-hardwood-leaside.jpg",               label: "Hardwood — Leaside" },
               { src: "/images/project-stair-runner-forest-hill.jpg",       label: "Patterned Runner — Forest Hill" },
               { src: "/images/project-vinyl-condo-downtown.jpg",           label: "LVP Throughout — Downtown Condo" },
               { src: "/images/project-carpet-rosedale-wool.jpeg",          label: "Wool Carpet — Rosedale" },
@@ -374,7 +374,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { title: "Patterned Stair Runner — Forest Hill", type: "Stair Runners", href: "/gallery", img: "/images/project-stair-runner-forest-hill.jpg" },
-              { title: "White Oak Hardwood — Leaside", type: "Hardwood", href: "/gallery", img: "/images/project-hardwood-leaside.jpg" },
+              { title: "Hardwood — Leaside", type: "Hardwood", href: "/gallery", img: "/images/project-hardwood-leaside.jpg" },
               { title: "LVP Throughout — Downtown Condo", type: "Luxury Vinyl", href: "/gallery", img: "/images/project-vinyl-condo-downtown.jpg" },
               { title: "Floor Refinishing — The Annex", type: "Refinishing", href: "/gallery", img: "/images/project-refinishing-annex.jpeg" },
             ].map((p) => (
