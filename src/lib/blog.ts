@@ -439,6 +439,46 @@ export const articles: BlogArticle[] = [
 <p>Open Monday to Saturday, 10am to 4pm. Call <a href="tel:4165333366">(416) 533-3366</a> or <a href="/contact">book a consultation online</a>.</p>
 `,
   },
+  {
+    slug: "carpet-installation-cost-toronto",
+    title: "How Much Does New Carpet Cost in Toronto? What Affects the Price",
+    description:
+      "A clear breakdown of what carpet installation costs in Toronto — fibre, room size, underpad, removal and labour — so you can budget with confidence.",
+    category: "Carpet",
+    excerpt:
+      "Carpet pricing confuses a lot of homeowners. Here's an honest breakdown of what actually drives the cost of new carpet in Toronto.",
+    date: "2024-07-08",
+    image: "/images/carpet-hero.jpg",
+    body: `
+<p>"What's new carpet going to cost me?" is the first question almost every homeowner asks — and the honest answer is that it depends on a handful of clear factors. Rather than a single number, it helps to understand what actually drives the price, so you can budget with confidence before booking a <a href="/carpet">carpet consultation</a>. Here's how carpet pricing works in Toronto.</p>
+
+<h2>1. The Fibre You Choose</h2>
+<p>Fibre is the biggest single factor. The three we recommend each sit at a different price point:</p>
+<p><strong>Polyester</strong> is the most budget-friendly. It's naturally stain-resistant and comes in vibrant colours — great value for bedrooms and lower-traffic rooms. <strong>Nylon</strong> sits in the middle and is the best all-rounder: durable, resilient, and available in the widest range of styles, which is why it's our most-recommended fibre for busy homes. <strong>Wool</strong> is the premium choice — naturally resilient, luxurious, and long-lasting, at the top of the price range. For a full comparison, see our guide to the <a href="/blog/best-stair-runner-materials">differences between wool, nylon and polyester</a>.</p>
+
+<h2>2. The Size and Number of Rooms</h2>
+<p>Carpet is priced largely by area, so a single bedroom costs far less than a whole upper floor. Larger jobs use more material and more installation labour — though they sometimes come with better per-square-foot value. Measuring accurately matters: a proper in-home measure accounts for pile direction, pattern matching, and seam placement so you're not over- or under-ordering.</p>
+
+<h2>3. The Underpad</h2>
+<p>The cushion under your carpet is easy to overlook, but it affects both comfort and cost. A basic pad is economical and fine for low-traffic bedrooms; a premium or memory-foam pad costs more but adds noticeable comfort and extends the life of the carpet above it. In condos, an acoustic-rated underpad may be required to meet building sound rules — worth factoring in. Our <a href="/carpet">carpet page</a> breaks down the underpad tiers.</p>
+
+<h2>4. Installation and Old Carpet Removal</h2>
+<p>Professional installation — stretching the carpet properly, fitting seams, and finishing edges and transitions — is part of the price, and it's what separates a floor that looks great for years from one that bubbles and wears early. Removal and disposal of your old carpet and underpad is usually included in a proper quote too. Always confirm what's covered so there are no surprises.</p>
+
+<h2>5. Stairs and Complex Areas</h2>
+<p>Stairs cost more per square foot than open rooms because each tread is measured and fitted individually — especially on curved or winding staircases. If you're carpeting stairs or adding a <a href="/stair-runners">stair runner</a>, expect that portion to carry a higher labour rate than a simple bedroom.</p>
+
+<h2>What a Good Quote Includes</h2>
+<p>A trustworthy carpet quote is <em>itemized</em>: it spells out the carpet, the underpad, the installation labour, and the old-carpet removal as separate lines, with one clear total. Vague "all-in" estimates that can't be broken down are a red flag. At <a href="/about">Atlas Rug &amp; Design Centre</a>, every quote is written and itemized — the number we quote is the number you pay.</p>
+
+<h2>How to Get the Best Value</h2>
+<p>Choosing a quality nylon over wool, opting for a standard underpad in low-traffic rooms, and carpeting bedrooms while leaving main floors as hard surface are all sensible ways to control cost without sacrificing a good result. And because we stock our own carpet, you're choosing from in-stock options without paying for long special-order delays.</p>
+
+<h2>Get a Real Number for Your Home</h2>
+<p>The only way to know your exact cost is a free, no-obligation in-home measure. We bring samples so you can see options in your own light, measure precisely, and give you a written itemized quote — usually with installation within one to two weeks. We serve homeowners across <a href="/carpet/north-york">North York</a>, <a href="/carpet/etobicoke">Etobicoke</a>, <a href="/carpet/scarborough">Scarborough</a>, and <a href="/carpet/forest-hill">Forest Hill</a>, and throughout the GTA.</p>
+<p>Call <a href="tel:4165333366">(416) 533-3366</a> or <a href="/contact">book your free consultation online</a>.</p>
+`,
+  },
 ];
 
 export function getArticle(slug: string): BlogArticle | undefined {

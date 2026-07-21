@@ -195,6 +195,82 @@ export const carpetAreas: CarpetArea[] = [
     ],
   },
   {
+    slug: "mississauga",
+    name: "Mississauga",
+    metaTitle: "Carpet Store Mississauga | Carpet & Installation",
+    metaDescription:
+      "Carpet supply and installation in Mississauga. In-stock nylon, wool & polyester carpet, professionally installed with a free in-home measure. Since 1959.",
+    h1: "Carpet in Mississauga",
+    intro: [
+      "From established homes in Port Credit and Lorne Park to the condos of City Centre and family subdivisions in Meadowvale, Mississauga keeps carpet in steady demand. We help Mississauga homeowners carpet bedrooms, stairs, and basements with the right fibre for how each room is used.",
+      "Because we stock our own carpet, Mississauga projects aren't held up waiting on a supplier. Choose from in-stock carpet, get a free precise in-home measure, and we install — typically within one to two weeks — for one written, itemized price covering carpet, underpad, and labour.",
+    ],
+    localAngle:
+      "Whole-floor bedroom carpet and finished basements are the most common Mississauga jobs — durable, comfortable, and consistent across every room.",
+    nearbyAreas: ["Port Credit", "Streetsville", "Meadowvale", "Oakville"],
+    faq: [
+      { q: "Do you install carpet across Mississauga?", a: "Yes — from Port Credit to Meadowvale, we supply and install carpet throughout Mississauga. We bring samples to your home so you can see colours in your own light before deciding." },
+      { q: "Can you carpet a condo in Mississauga City Centre?", a: "Yes — we install carpet in Mississauga condos and can pair it with an acoustic underpad to help meet your building's sound requirements." },
+    ],
+  },
+  {
+    slug: "thornhill",
+    name: "Thornhill",
+    metaTitle: "Carpet Store Thornhill | Carpet & Installation",
+    metaDescription:
+      "Carpet supply and installation in Thornhill. In-stock nylon, wool & polyester carpet, professionally installed. Free in-home measure and written quotes. Since 1959.",
+    h1: "Carpet in Thornhill",
+    intro: [
+      "Thornhill's established family homes — straddling the Vaughan and Markham sides — are prime carpet territory: bedrooms, upstairs hallways, and staircases where comfort and quiet matter. We help Thornhill families choose carpet that's soft underfoot and built to last through years of family life.",
+      "Our own in-stock carpet means no long supplier waits. Pick from carpet that's ready now, get a free in-home measure, and we install — usually within one to two weeks — for one clear, itemized price with no surprise costs.",
+    ],
+    localAngle:
+      "Upstairs bedrooms and staircases are the most-requested Thornhill jobs — plush comfort in bedrooms and durable, textured carpet on the stairs.",
+    nearbyAreas: ["Vaughan", "Markham", "Richmond Hill", "North York"],
+    faq: [
+      { q: "Do you serve both sides of Thornhill?", a: "Yes — we install carpet across all of Thornhill, on both the Vaughan and Markham sides, with a free in-home measure and samples brought to you." },
+      { q: "What carpet suits a busy staircase?", a: "A textured or loop-style nylon holds up best on stairs — it resists crushing and hides everyday wear far better than a soft plush pile." },
+    ],
+  },
+  {
+    slug: "richmond-hill",
+    name: "Richmond Hill",
+    metaTitle: "Carpet Store Richmond Hill | Carpet & Installation",
+    metaDescription:
+      "Carpet supply and installation in Richmond Hill. In-stock nylon, wool & polyester carpet, professionally installed with a free in-home measure. Since 1959.",
+    h1: "Carpet in Richmond Hill",
+    intro: [
+      "Richmond Hill's larger, newer homes often mean bigger carpet projects — multiple bedrooms, upstairs hallways, and finished lower levels. We help Richmond Hill families carpet entire upper floors and basements with consistent, comfortable carpet that suits a busy household.",
+      "Because we warehouse our own carpet, even larger Richmond Hill jobs don't add weeks of waiting. Choose from in-stock carpet, get a free precise measure, and we install — typically within one to two weeks — for one itemized price with no surprise add-ons.",
+    ],
+    localAngle:
+      "Whole upper-floor carpet is common in Richmond Hill's newer homes — the same colour and quality across every bedroom and hallway, installed in one project.",
+    nearbyAreas: ["Oak Ridges", "Thornhill", "Markham", "Vaughan"],
+    faq: [
+      { q: "Can you carpet a whole upper floor in Richmond Hill?", a: "Yes — multi-bedroom and whole-floor carpet is one of our most common Richmond Hill jobs, and our own stock means large orders don't mean long waits." },
+      { q: "Do you offer a free in-home measure in Richmond Hill?", a: "Always — we bring samples to your Richmond Hill home, measure precisely, and provide a written itemized quote at no cost or obligation." },
+    ],
+  },
+  {
+    slug: "east-york",
+    name: "East York",
+    metaTitle: "Carpet Store East York | Carpet & Installation",
+    metaDescription:
+      "Carpet supply and installation in East York. In-stock nylon, wool & polyester carpet, professionally installed. Free in-home measure and written quotes. Since 1959.",
+    h1: "Carpet in East York",
+    intro: [
+      "East York's established bungalows, semis, and family homes near Danforth and Pape are exactly the kind of spaces carpet suits best — cozy bedrooms, comfortable stairs, and warm basement rooms. We help East York homeowners choose durable, good-value carpet that stands up to real family life.",
+      "We stock our own carpet, so East York projects don't wait on supplier timelines. Choose from in-stock carpet, get a free in-home measure, and we install — usually within one to two weeks — for one itemized price covering carpet, underpad, and installation.",
+    ],
+    localAngle:
+      "Bedrooms and basement rec rooms are the most common East York jobs — stain-resistant nylon that stays comfortable and looks good for years.",
+    nearbyAreas: ["Leaside", "Riverdale", "Danforth", "The Beaches"],
+    faq: [
+      { q: "Do you install carpet throughout East York?", a: "Yes — from Pape Village to Woodbine, we supply and install carpet across East York, bringing samples to your home for a free in-home measure." },
+      { q: "What's the best-value carpet for a family home?", a: "A solution-dyed nylon offers the best balance of comfort, durability, and value — soft underfoot but highly resistant to stains and wear in a busy East York home." },
+    ],
+  },
+  {
     slug: "markham",
     name: "Markham",
     metaTitle: "Carpet Store Markham | Carpet & Installation",
