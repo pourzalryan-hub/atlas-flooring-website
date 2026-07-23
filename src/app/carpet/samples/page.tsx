@@ -125,14 +125,14 @@ export default function CarpetSamplesPage() {
       </section>
 
       {/* Filter tabs + search */}
-      <section className="bg-white border-b border-stone-100 sticky top-20 z-20 px-4 py-4">
-        <div className="max-w-6xl mx-auto flex flex-col gap-4">
-          <div className="flex flex-wrap justify-center gap-2">
+      <section className="bg-white border-b border-stone-100 md:sticky md:top-20 z-20 px-4 py-3">
+        <div className="max-w-6xl mx-auto flex flex-col gap-3">
+          <div className="flex gap-2 overflow-x-auto md:flex-wrap md:justify-center md:overflow-visible -mx-4 px-4 md:mx-0 md:px-0 no-scrollbar">
             {filters.map((f) => (
               <button
                 key={f}
                 onClick={() => setActiveFamily(f)}
-                className={`px-4 py-2 rounded-full font-lato text-sm font-semibold transition-colors border ${
+                className={`shrink-0 whitespace-nowrap px-4 py-2 rounded-full font-lato text-sm font-semibold transition-colors border ${
                   activeFamily === f
                     ? "bg-gold text-white border-gold"
                     : "bg-white text-charcoal border-stone-200 hover:border-gold hover:text-gold"

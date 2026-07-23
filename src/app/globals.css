@@ -49,3 +49,12 @@
     @apply bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200;
   }
 }
+
+/* Hide scrollbar for horizontal filter rows (mobile) while keeping scroll */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
