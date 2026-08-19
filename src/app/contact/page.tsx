@@ -108,6 +108,25 @@ export default function ContactPage() {
       return
     }
 
+    // Fire-and-forget: auto-capture the lead into the Google Sheet tracker.
+    // Configured via NEXT_PUBLIC_LEADS_WEBHOOK (a Google Apps Script web app URL).
+    const leadsWebhook = process.env.NEXT_PUBLIC_LEADS_WEBHOOK
+    if (leadsWebhook) {
+      fetch(leadsWebhook, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          product: form.product,
+          message: form.message,
+          source: 'Website',
+        }),
+      }).catch(() => {})
+    }
+
     try {
       const res = await fetch(endpoint, {
         method: 'POST',
