@@ -101,13 +101,6 @@ export default function ContactPage() {
     setSubmitting(true)
     setError('')
 
-    const endpoint = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT
-    if (!endpoint) {
-      setError('Form is not configured. Please call us at (416) 533-3366.')
-      setSubmitting(false)
-      return
-    }
-
     // Fire-and-forget: auto-capture the lead into the Google Sheet tracker.
     // Configured via NEXT_PUBLIC_LEADS_WEBHOOK (a Google Apps Script web app URL).
     const leadsWebhook = process.env.NEXT_PUBLIC_LEADS_WEBHOOK
@@ -128,7 +121,7 @@ export default function ContactPage() {
     }
 
     try {
-      const res = await fetch(endpoint, {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
@@ -141,8 +134,8 @@ export default function ContactPage() {
       })
 
       const json = await res.json()
-      if (!res.ok) {
-        const msg = json?.errors?.[0]?.message ?? 'Submission failed'
+      if (!res.ok || !json?.ok) {
+        const msg = json?.error ?? 'Submission failed'
         throw new Error(msg)
       }
 
