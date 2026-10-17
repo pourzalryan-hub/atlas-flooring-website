@@ -124,6 +124,7 @@ export async function POST(req: Request) {
     await sendEmail(apiKey, {
       from: fromEmail,
       to: [email],
+      reply_to: notifyEmail,
       subject: "Thanks for reaching out — Atlas Rug & Design Centre",
       html: welcomeHtml,
     }).catch(() => {});
