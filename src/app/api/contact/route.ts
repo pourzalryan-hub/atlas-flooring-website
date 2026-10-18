@@ -18,6 +18,12 @@ function esc(s: unknown): string {
     .replace(/"/g, "&quot;");
 }
 
+/** Pull the bare email address out of a "Name <email>" string. */
+function emailAddress(from: string): string {
+  const m = from.match(/<([^>]+)>/);
+  return m ? m[1].trim() : from.trim();
+}
+
 async function sendEmail(apiKey: string, payload: Record<string, unknown>) {
   return fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -105,10 +111,10 @@ export async function POST(req: Request) {
   try {
     // Notification first — this is the critical one
     const notify = await sendEmail(apiKey, {
-      from: fromEmail,
+      from: `🔔 New Lead <${emailAddress(fromEmail)}>`,
       to: [notifyEmail],
       reply_to: email,
-      subject: `New website lead: ${name}${product ? ` — ${product}` : ""}`,
+      subject: `🔔 New lead: ${name}${product ? ` (${product})` : ""}`,
       html: notifyHtml,
     });
 
