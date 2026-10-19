@@ -110,11 +110,19 @@ export async function POST(req: Request) {
 
   try {
     // Notification first — this is the critical one
+    const stamp = new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/Toronto",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+    }).format(new Date());
+
     const notify = await sendEmail(apiKey, {
       from: `🔔 New Lead <${emailAddress(fromEmail)}>`,
       to: [notifyEmail],
       reply_to: email,
-      subject: `🔔 New lead: ${name}${product ? ` (${product})` : ""}`,
+      subject: `🔔 New lead: ${name}${product ? ` (${product})` : ""} · ${stamp}`,
       html: notifyHtml,
     });
 
