@@ -80,14 +80,19 @@ export async function POST(req: Request) {
 
   // 2) Personalized welcome auto-reply to the customer
   const welcomeHtml = `
-    <div style="max-width:600px;margin:0 auto;font-family:Arial,Helvetica,sans-serif;color:#1C1C1C;">
-      <div style="background:#1C1C1C;padding:28px 24px;text-align:center;">
-        <div style="font-family:Georgia,'Times New Roman',serif;font-size:24px;color:#ffffff;letter-spacing:0.5px;">
+    <div style="max-width:600px;margin:0 auto;font-family:Arial,Helvetica,sans-serif;color:#1C1C1C;background:#ffffff;">
+      <div style="background:#1C1C1C;padding:26px 24px 22px;text-align:center;">
+        <img src="https://atlasrugflooring.com/images/atlas-monogram.jpg" width="92" alt="Atlas Rug &amp; Design Centre" style="display:inline-block;width:92px;height:auto;border-radius:8px;border:1px solid #C9A84C;" />
+        <div style="font-family:Georgia,'Times New Roman',serif;font-size:22px;color:#ffffff;letter-spacing:0.5px;margin-top:14px;">
           Atlas Rug <span style="color:#C9A84C;">&amp;</span> Design Centre
         </div>
-        <div style="color:#C9A84C;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-top:6px;">
+        <div style="color:#C9A84C;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-top:5px;">
           Toronto&apos;s Flooring Family Since 1959
         </div>
+      </div>
+      <img src="https://atlasrugflooring.com/images/about-showroom.jpg" width="600" alt="Atlas Rug &amp; Design Centre showroom" style="display:block;width:100%;height:auto;" />
+      <div style="background:#C9A84C;color:#1C1C1C;text-align:center;padding:11px 16px;font-size:13px;font-weight:bold;letter-spacing:0.3px;">
+        Trusted by Toronto homeowners for over 65 years
       </div>
       <div style="padding:28px 24px;font-size:15px;line-height:1.6;">
         <p>Hi ${esc(name)},</p>
@@ -99,7 +104,9 @@ export async function POST(req: Request) {
           <li>We&apos;ll book a free in-home measure and bring samples</li>
           <li>You&apos;ll get a clear, written quote — no pressure</li>
         </ol>
-        <p>In the meantime, explore our full range at <a href="https://atlasrugflooring.com" style="color:#C9A84C;">atlasrugflooring.com</a>.</p>
+        <div style="text-align:center;margin:26px 0 10px;">
+          <a href="https://atlasrugflooring.com/gallery" style="display:inline-block;background:#C9A84C;color:#ffffff;text-decoration:none;font-weight:bold;font-size:15px;padding:14px 34px;border-radius:6px;">See Our Work &rarr;</a>
+        </div>
         <p>Talk soon,<br><strong>The Atlas Team</strong></p>
       </div>
       <div style="background:#FAF8F3;padding:18px 24px;font-size:13px;color:#6B6B6B;border-top:3px solid #C9A84C;">
