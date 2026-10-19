@@ -78,41 +78,28 @@ export async function POST(req: Request) {
       <p style="margin:16px 0 0;color:#6B6B6B;font-size:13px;">Reply to this email to respond directly to ${esc(name)}. Respond fast — speed to lead wins jobs.</p>
     </div>`;
 
-  // 2) Personalized welcome auto-reply to the customer
+  // 2) Personalized welcome auto-reply to the customer.
+  // Kept plain and personal (no images/buttons) so Gmail delivers it to the
+  // Primary inbox instead of the Promotions tab.
+  const welcomeText =
+`Hi ${name},
+
+Thanks for reaching out to Atlas Rug & Design Centre — we've received your request, and someone from our team will call you within one business day to answer your questions and set up a free, no-obligation in-home measure.
+
+A little about us: we're a family-owned flooring store in Toronto, and we've been helping homeowners find the right floors since 1959 — more than 65 years from our showroom at 978 Bathurst Street. From hardwood and carpet to vinyl, laminate and stair runners, we carry hundreds of options, with written, itemized quotes and no surprises.
+
+Talk soon,
+Ryan
+Atlas Rug & Design Centre
+978 Bathurst St, Toronto, ON
+(416) 533-3366`;
+
   const welcomeHtml = `
-    <div style="max-width:600px;margin:0 auto;font-family:Arial,Helvetica,sans-serif;color:#1C1C1C;background:#ffffff;">
-      <div style="background:#1C1C1C;padding:26px 24px 22px;text-align:center;">
-        <img src="https://atlasrugflooring.com/images/atlas-monogram.jpg" width="92" alt="Atlas Rug &amp; Design Centre" style="display:inline-block;width:92px;height:auto;border-radius:8px;border:1px solid #C9A84C;" />
-        <div style="font-family:Georgia,'Times New Roman',serif;font-size:22px;color:#ffffff;letter-spacing:0.5px;margin-top:14px;">
-          Atlas Rug <span style="color:#C9A84C;">&amp;</span> Design Centre
-        </div>
-        <div style="color:#C9A84C;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-top:5px;">
-          Toronto&apos;s Flooring Family Since 1959
-        </div>
-      </div>
-      <img src="https://atlasrugflooring.com/images/about-showroom.jpg" width="600" alt="Atlas Rug &amp; Design Centre showroom" style="display:block;width:100%;height:auto;" />
-      <div style="background:#C9A84C;color:#1C1C1C;text-align:center;padding:11px 16px;font-size:13px;font-weight:bold;letter-spacing:0.3px;">
-        Trusted by Toronto homeowners for over 65 years
-      </div>
-      <div style="padding:28px 24px;font-size:15px;line-height:1.6;">
-        <p>Hi ${esc(name)},</p>
-        <p>Thank you for contacting <strong>Atlas Rug &amp; Design Centre</strong> — we&apos;ve received your request, and a member of our team will reach out within one business day to answer your questions and set up a free, no-obligation in-home consultation.</p>
-        <p>We&apos;re a family-owned flooring store in Toronto, helping homeowners find the right floors since <strong>1959</strong> — more than 65 years from our showroom at <strong>978 Bathurst Street</strong>. From hardwood and engineered hardwood to carpet, luxury vinyl, laminate, and stair runners, we carry hundreds of options in our showroom, with written, itemized quotes and no surprises.</p>
-        <p style="margin:0 0 6px;"><strong>What happens next:</strong></p>
-        <ol style="margin:0 0 16px;padding-left:20px;">
-          <li>We&apos;ll call to understand what you&apos;re looking for</li>
-          <li>We&apos;ll book a free in-home measure and bring samples</li>
-          <li>You&apos;ll get a clear, written quote — no pressure</li>
-        </ol>
-        <div style="text-align:center;margin:26px 0 10px;">
-          <a href="https://atlasrugflooring.com/gallery" style="display:inline-block;background:#C9A84C;color:#ffffff;text-decoration:none;font-weight:bold;font-size:15px;padding:14px 34px;border-radius:6px;">See Our Work &rarr;</a>
-        </div>
-        <p>Talk soon,<br><strong>The Atlas Team</strong></p>
-      </div>
-      <div style="background:#FAF8F3;padding:18px 24px;font-size:13px;color:#6B6B6B;border-top:3px solid #C9A84C;">
-        978 Bathurst St, Toronto, ON &nbsp;·&nbsp; (416) 533-3366<br>
-        Mon&ndash;Sat, 10am&ndash;4pm
-      </div>
+    <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#222222;max-width:560px;">
+      <p>Hi ${esc(name)},</p>
+      <p>Thanks for reaching out to Atlas Rug &amp; Design Centre — we&apos;ve received your request, and someone from our team will call you within one business day to answer your questions and set up a free, no-obligation in-home measure.</p>
+      <p>A little about us: we&apos;re a family-owned flooring store in Toronto, and we&apos;ve been helping homeowners find the right floors since 1959 — more than 65 years from our showroom at 978 Bathurst Street. From hardwood and carpet to vinyl, laminate and stair runners, we carry hundreds of options, with written, itemized quotes and no surprises.</p>
+      <p>Talk soon,<br>Ryan<br>Atlas Rug &amp; Design Centre<br>978 Bathurst St, Toronto, ON<br>(416) 533-3366</p>
     </div>`;
 
   try {
@@ -146,7 +133,8 @@ export async function POST(req: Request) {
       from: fromEmail,
       to: [email],
       reply_to: notifyEmail,
-      subject: "Thanks for reaching out — Atlas Rug & Design Centre",
+      subject: `Thanks for reaching out, ${name}`,
+      text: welcomeText,
       html: welcomeHtml,
     }).catch(() => {});
 
