@@ -119,10 +119,10 @@ export async function POST(req: Request) {
     }).format(new Date());
 
     const notify = await sendEmail(apiKey, {
-      from: `🔔 New Lead <${emailAddress(fromEmail)}>`,
+      from: `🔔 New Lead · ${stamp} <${emailAddress(fromEmail)}>`,
       to: [notifyEmail],
       reply_to: email,
-      subject: `🔔 New lead: ${name}${product ? ` (${product})` : ""} · ${stamp}`,
+      subject: `🔔 New lead: ${name}${product ? ` (${product})` : ""}`,
       html: notifyHtml,
     });
 
