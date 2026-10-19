@@ -84,22 +84,20 @@ export async function POST(req: Request) {
   const welcomeText =
 `Hi ${name},
 
-Thanks for reaching out to Atlas Rug & Design Centre — we've received your request, and someone from our team will call you within one business day to answer your questions and set up a free, no-obligation in-home measure.
+Thanks for reaching out — we've got your request, and someone from Atlas Rug & Design Centre will call you within one business day to set up your in-home visit.
 
-A little about us: we're a family-owned flooring store in Toronto, and we've been helping homeowners find the right floors since 1959 — more than 65 years from our showroom at 978 Bathurst Street. From hardwood and carpet to vinyl, laminate and stair runners, we carry hundreds of options, with written, itemized quotes and no surprises.
+We're a family-owned Toronto flooring store that's been on Bathurst Street since 1959. If you'd like to reach us sooner, just call (416) 533-3366 or reply to this email.
 
 Talk soon,
 Ryan
-Atlas Rug & Design Centre
-978 Bathurst St, Toronto, ON
-(416) 533-3366`;
+Atlas Rug & Design Centre`;
 
   const welcomeHtml = `
     <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#222222;max-width:560px;">
       <p>Hi ${esc(name)},</p>
-      <p>Thanks for reaching out to Atlas Rug &amp; Design Centre — we&apos;ve received your request, and someone from our team will call you within one business day to answer your questions and set up a free, no-obligation in-home measure.</p>
-      <p>A little about us: we&apos;re a family-owned flooring store in Toronto, and we&apos;ve been helping homeowners find the right floors since 1959 — more than 65 years from our showroom at 978 Bathurst Street. From hardwood and carpet to vinyl, laminate and stair runners, we carry hundreds of options, with written, itemized quotes and no surprises.</p>
-      <p>Talk soon,<br>Ryan<br>Atlas Rug &amp; Design Centre<br>978 Bathurst St, Toronto, ON<br>(416) 533-3366</p>
+      <p>Thanks for reaching out — we&apos;ve got your request, and someone from Atlas Rug &amp; Design Centre will call you within one business day to set up your in-home visit.</p>
+      <p>We&apos;re a family-owned Toronto flooring store that&apos;s been on Bathurst Street since 1959. If you&apos;d like to reach us sooner, just call (416) 533-3366 or reply to this email.</p>
+      <p>Talk soon,<br>Ryan<br>Atlas Rug &amp; Design Centre</p>
     </div>`;
 
   try {
