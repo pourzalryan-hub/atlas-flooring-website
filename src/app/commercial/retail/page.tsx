@@ -46,7 +46,7 @@ const zoneRows = [
   },
   {
     zone: "Back of House",
-    product: "Sheet vinyl / sealed concrete",
+    product: "Commercial LVP / sealed concrete",
     why: "Tough, low-cost, easy to clean where customers never look",
   },
 ];

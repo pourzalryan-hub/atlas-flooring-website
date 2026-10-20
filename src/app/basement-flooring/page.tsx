@@ -72,11 +72,6 @@ const materialRows = [
     notes: "Warm and quiet; the underpad must keep it off the concrete",
   },
   {
-    material: "Sheet / Tile Vinyl",
-    suitability: "Good — waterproof surface",
-    notes: "Seams matter; glue-down needs a sound, dry, level slab",
-  },
-  {
     material: "Solid Hardwood",
     suitability: "Avoid below grade",
     notes: "Cups, gaps and warps with the slab's natural moisture",

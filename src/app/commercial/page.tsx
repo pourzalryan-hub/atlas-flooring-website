@@ -10,12 +10,12 @@ import FaqSchema from "@/components/FaqSchema";
 export const metadata: Metadata = {
   title: "Commercial Flooring Toronto",
   description:
-    "Commercial flooring in Toronto for offices, retail, restaurants, condos and healthcare. Commercial-grade LVP, carpet tile, hardwood and sheet vinyl, installed with minimal downtime. Atlas Rug & Design Centre, serving Toronto since 1959.",
+    "Commercial flooring in Toronto for offices, retail, restaurants, condos and healthcare. Commercial-grade LVP, LVT, carpet tile and hardwood, installed with minimal downtime. Atlas Rug & Design Centre, serving Toronto since 1959.",
   alternates: { canonical: "/commercial" },
   openGraph: {
     title: "Commercial Flooring Toronto | Atlas Rug & Design Centre",
     description:
-      "Durable commercial flooring for Toronto offices, retail, restaurants and condos. Commercial-grade LVP, carpet tile, hardwood and sheet vinyl from Atlas Rug & Design Centre.",
+      "Durable commercial flooring for Toronto offices, retail, restaurants and condos. Commercial-grade LVP, LVT, carpet tile and hardwood from Atlas Rug & Design Centre.",
     url: "https://atlasrugflooring.com/commercial",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
@@ -48,7 +48,7 @@ const spaces = [
     tag: "Spill-Ready",
     tagColor: "bg-charcoal",
     description:
-      "Kitchens and dining rooms need slip resistance and easy sanitation. Sheet vinyl with heat-welded seams creates a near-seamless, water-tight surface for back-of-house, while wood-look LVP brings warmth to the dining room without the maintenance headache of real hardwood.",
+      "Kitchens and dining rooms need slip resistance and easy sanitation. Slip-rated, waterproof commercial LVP stands up to spills and constant cleaning in the back of house, while wood-look LVP brings warmth to the dining room without the maintenance headache of real hardwood.",
   },
   {
     label: "Condos & Common Areas",
@@ -62,14 +62,14 @@ const spaces = [
     tag: "Hygienic",
     tagColor: "bg-charcoal",
     description:
-      "Clinics, dental offices, and medical suites need flooring that is seamless, non-porous, and easy to disinfect. Sheet vinyl and homogeneous resilient flooring meet infection-control standards while staying comfortable underfoot for staff on long shifts.",
+      "Clinics, dental offices, and medical suites need flooring that is non-porous, easy to disinfect, and comfortable for staff on long shifts. We spec waterproof commercial luxury vinyl with tight, cleanable seams for waiting rooms, offices, and treatment areas.",
   },
   {
     label: "Showrooms & Light Industrial",
     tag: "Durable",
     tagColor: "bg-charcoal",
     description:
-      "Whether it is a car showroom, a gym, or a warehouse office, we match the product to the load. Thick-wear-layer LVP and high-performance sheet goods stand up to point loads, rolling equipment, and the kind of abuse that destroys residential-grade product.",
+      "Whether it is a car showroom, a gym, or a warehouse office, we match the product to the load. Thick-wear-layer LVP and high-performance resilient flooring stand up to point loads, rolling equipment, and the kind of abuse that destroys residential-grade product.",
   },
 ];
 
@@ -93,9 +93,9 @@ const productRows = [
     maintenance: "Periodic recoat; pH-neutral cleaning",
   },
   {
-    product: "Sheet Vinyl",
-    bestFor: "Healthcare, kitchens, wet areas",
-    durability: "Excellent — seamless, water-tight",
+    product: "Commercial LVT",
+    bestFor: "Healthcare, reception, wet areas",
+    durability: "Excellent — waterproof, tight seams",
     maintenance: "Disinfect easily; minimal upkeep",
   },
   {
@@ -125,7 +125,7 @@ const steps = [
   {
     title: "Professional Installation",
     description:
-      "Our installers prep the subfloor properly, control dust and noise, and install to manufacturer specification — including transitions, moisture barriers, and heat-welded seams where required.",
+      "Our installers prep the subfloor properly, control dust and noise, and install to manufacturer specification — including transitions and moisture barriers where required.",
   },
   {
     title: "Walkthrough & Warranty",
@@ -141,7 +141,7 @@ const faqItems = [
   },
   {
     q: "What is the most durable flooring for high-traffic commercial spaces?",
-    a: "It depends on the use, but commercial-grade luxury vinyl plank with a thick wear layer (typically 20 mil or higher) is our go-to for offices, retail, and restaurants because it is waterproof, scratch-resistant, and needs no refinishing. For wet or clinical environments, heat-welded sheet vinyl is hard to beat. We rate products by commercial wear class, not residential ratings.",
+    a: "It depends on the use, but commercial-grade luxury vinyl plank with a thick wear layer (typically 20 mil or higher) is our go-to for offices, retail, and restaurants because it is waterproof, scratch-resistant, and needs no refinishing. For wet or clinical environments, waterproof commercial luxury vinyl tile with a reinforced wear layer is our pick. We rate products by commercial wear class, not residential ratings.",
   },
   {
     q: "Why choose carpet tile over broadloom for an office?",

@@ -10,12 +10,12 @@ import FaqSchema from "@/components/FaqSchema";
 export const metadata: Metadata = {
   title: "Medical & Healthcare Flooring Toronto",
   description:
-    "Medical clinic and healthcare flooring in Toronto. Homogeneous sheet vinyl, LVT, low-seam and easy-clean surfaces for infection control. Atlas Rug & Design Centre, serving Toronto since 1959.",
+    "Medical clinic and healthcare flooring in Toronto. Commercial luxury vinyl tile (LVT), low-seam and easy-clean surfaces for infection control. Atlas Rug & Design Centre, serving Toronto since 1959.",
   alternates: { canonical: "/commercial/medical-clinics" },
   openGraph: {
     title: "Medical & Healthcare Flooring Toronto | Atlas Rug & Design Centre",
     description:
-      "Infection-control flooring for Toronto clinics, dental and medical suites. Homogeneous sheet vinyl, LVT and seamless, easy-clean surfaces.",
+      "Infection-control flooring for Toronto clinics, dental and medical suites. Commercial LVT and durable, easy-clean surfaces.",
     url: "https://atlasrugflooring.com/commercial/medical-clinics",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
@@ -30,19 +30,19 @@ export const metadata: Metadata = {
 
 const productRows = [
   {
-    product: "Homogeneous Sheet Vinyl",
-    bestFor: "Exam rooms, procedure areas, corridors",
-    why: "Heat-welded seams create a near-seamless, non-porous surface",
-  },
-  {
-    product: "Sheet Vinyl with Flash Cove",
-    bestFor: "Wet areas, sterile rooms, labs",
-    why: "Floor turns up the wall — no dirt-trapping corner to scrub",
-  },
-  {
     product: "Commercial LVT",
-    bestFor: "Waiting rooms, reception, offices",
-    why: "Warmer, residential look with tight seams and easy cleaning",
+    bestFor: "Exam rooms, treatment areas, corridors",
+    why: "Waterproof, non-porous surface that wipes clean",
+  },
+  {
+    product: "Rigid-Core (SPC) Vinyl",
+    bestFor: "Wet areas, labs, high-moisture rooms",
+    why: "Dimensionally stable and fully waterproof underfoot",
+  },
+  {
+    product: "Coved Vinyl Wall Base",
+    bestFor: "Perimeters, washrooms, sterile-adjacent",
+    why: "Curves the floor-to-wall joint so mops reach every edge",
   },
   {
     product: "Anti-Fatigue Resilient",
@@ -55,17 +55,17 @@ const steps = [
   {
     title: "Needs Review",
     description:
-      "We walk the clinic room by room, separating sterile and wet zones from waiting and office areas so each space gets the right surface and seam strategy.",
+      "We walk the clinic room by room, separating sterile and wet zones from waiting and office areas so each space gets the right surface.",
   },
   {
     title: "Specification",
     description:
-      "We spec homogeneous sheet vinyl, flash-cove detailing, or LVT to match infection-control needs, then itemize materials, prep, and welding in a written quote.",
+      "We spec commercial-grade luxury vinyl tile and coved vinyl base to match your infection-control needs, then itemize materials, prep, and installation in a written quote.",
   },
   {
     title: "Subfloor Prep",
     description:
-      "Clean, flat, dry subfloors are non-negotiable in healthcare. We moisture-test and level so seams weld tight and stay watertight for years.",
+      "Clean, flat, dry subfloors are non-negotiable in healthcare. We moisture-test and level so the tiles sit tight and the floor stays watertight for years.",
   },
   {
     title: "Off-Hours Install",
@@ -75,22 +75,22 @@ const steps = [
   {
     title: "Walkthrough & Care Plan",
     description:
-      "We confirm seams and coving meet spec, then hand cleaning staff a maintenance plan matched to the product so the surface keeps performing.",
+      "We confirm the floor and coved base meet spec, then hand cleaning staff a maintenance plan matched to the product so the surface keeps performing.",
   },
 ];
 
 const faqItems = [
   {
-    q: "Why is homogeneous sheet vinyl the standard for medical flooring?",
-    a: "Homogeneous sheet vinyl is a single, consistent material the full thickness of the floor, installed in large sheets with heat-welded seams. That gives you a near-seamless, non-porous surface with almost nowhere for bacteria, fluids, or dirt to lodge — which is exactly what infection control demands in exam and procedure rooms. The colour runs all the way through, so it wears evenly and hides minor scuffs better than a printed product.",
+    q: "What flooring do you recommend for a medical clinic?",
+    a: "For most clinic spaces we recommend commercial-grade luxury vinyl tile (LVT). It is waterproof, non-porous, and stands up to constant disinfecting, so it stays easy to keep clean in exam rooms, treatment areas, and corridors. We choose products with a reinforced wear layer rated for healthcare traffic, lay them with tight seams, and finish the perimeter with a coved vinyl base so the floor-to-wall joint is easy to wipe down.",
   },
   {
-    q: "What is flash coving and why does a clinic need it?",
-    a: "Flash coving carries the sheet flooring up the wall a few inches in a smooth, curved transition instead of stopping at a hard 90-degree corner. That eliminates the floor-to-wall joint where dirt and moisture normally collect and where a mop never quite reaches. In sterile rooms, labs, and wet areas it makes the whole surface wipeable in one pass, which is why it is so common in Toronto healthcare fit-outs.",
+    q: "How do you keep the floor easy to clean at the edges?",
+    a: "We finish the perimeter with a coved vinyl wall base that curves the floor-to-wall joint instead of leaving a hard 90-degree corner where dirt and moisture collect. That softens the edge so a mop reaches cleanly along every wall — which matters most in washrooms, labs, and wet areas.",
   },
   {
-    q: "Can you reduce seams to limit infection risk?",
-    a: "Yes, and it is one of the most important things we plan for. We lay sheet goods in the widest practical runs to minimize the number of seams, then heat-weld every seam that remains so it becomes a continuous, sealed surface rather than a gap. In high-risk rooms we combine wide-sheet layouts with flash coving so the finished floor reads as one cleanable plane.",
+    q: "Can you keep seams tight to limit infection risk?",
+    a: "Yes, and it is one of the things we plan for carefully. We lay out the tile to keep seams tight and well-placed, choose products built for cleanability and constant disinfecting, and finish the perimeter with a coved base so the floor reads as one easy-clean surface from wall to wall.",
   },
   {
     q: "Do you offer anti-fatigue flooring for clinical staff?",
@@ -113,7 +113,7 @@ export default function MedicalClinicsPage() {
       {/* 1. Hero */}
       <PageHero
         title="Medical Clinic & Healthcare Flooring Toronto"
-        subtitle="Seamless, easy-clean flooring built for infection control — installed around your patient hours."
+        subtitle="Durable, easy-clean flooring built for infection control — installed around your patient hours."
         breadcrumb="Medical & Healthcare"
         imageSrc="/images/commercial-medical-clinics-hero.jpeg"
       />
@@ -129,19 +129,20 @@ export default function MedicalClinicsPage() {
           </h2>
           <p className="text-warm-grey text-lg leading-relaxed mb-5">
             In a clinic, the floor is part of your infection-control program. It
-            has to be non-porous, easy to disinfect, and as close to seamless as
-            the room allows — while still being comfortable for staff who stand
+            has to be non-porous, easy to disinfect, and durable enough for
+            constant cleaning — while still being comfortable for staff who stand
             on it through twelve-hour shifts. Since 1959, Atlas Rug &amp; Design
             Centre has supplied and installed healthcare flooring across Toronto:
             dental offices, family medical suites, physio and rehab spaces,
             specialist clinics, and labs.
           </p>
           <p className="text-warm-grey text-lg leading-relaxed">
-            We zone every clinic before we quote it. Sterile and wet rooms get
-            homogeneous sheet vinyl with heat-welded seams and flash coving;
-            waiting rooms and offices can take a warmer LVT; standing stations get
-            anti-fatigue support. The result is a floor that meets your IPAC
-            expectations without feeling like a hospital corridor.
+            We zone every clinic before we quote it. Wet and high-traffic rooms
+            get waterproof commercial luxury vinyl tile with a coved base at the
+            walls; waiting rooms and offices can take a warmer wood-look vinyl;
+            standing stations get anti-fatigue support. The result is a floor
+            that meets your IPAC expectations without feeling like a hospital
+            corridor.
           </p>
         </div>
       </section>
@@ -189,8 +190,8 @@ export default function MedicalClinicsPage() {
             </table>
           </div>
           <p className="text-warm-grey text-lg leading-relaxed mt-8 max-w-4xl mx-auto text-center">
-            Most clinics end up combining products — seamless sheet in the
-            clinical core, a warmer{" "}
+            Most clinics end up combining products — hard-wearing LVT in the
+            clinical core, a warmer wood-look{" "}
             <Link href="/vinyl" className="text-gold font-semibold hover:underline">
               luxury vinyl
             </Link>{" "}
