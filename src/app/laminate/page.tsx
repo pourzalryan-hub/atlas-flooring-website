@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import CTABanner from "@/components/CTABanner";
 import FAQAccordion from "@/components/FAQAccordion";
@@ -149,8 +150,20 @@ const comparisonRows = [
 
 const faqItems = [
   {
+    q: "How much does laminate flooring cost in Toronto?",
+    a: "Laminate is usually the most budget-friendly of the wood-look floors — noticeably less than hardwood and generally a bit less than luxury vinyl. Your final price depends on the product you choose (an entry-level AC3 8mm plank costs far less than a 12mm AC4 with an attached underpad), the size and layout of the space, whether the old flooring has to be removed, and how much subfloor prep or levelling is needed. The honest way to get a real number is a free in-home measure — we walk the space, note the prep, and give you one written, itemized quote with no surprises.",
+  },
+  {
     q: "Can laminate flooring be installed in a kitchen or bathroom?",
     a: "Laminate is water-resistant but not waterproof — it can handle minor spills if wiped up quickly, but standing water or high humidity will cause the core to swell and warp over time. For kitchens with high spill risk, or any bathroom, we typically recommend luxury vinyl (LVP/LVT) instead, which is fully waterproof.",
+  },
+  {
+    q: "Is there a waterproof laminate option?",
+    a: "Traditional laminate is water-resistant, not waterproof — it shrugs off everyday spills if you wipe them up, but standing water or steam can swell the core. Some newer laminates are built with sealed, moisture-resistant cores and tight-locking edges that handle damp conditions far better, and we are happy to show you those options in the showroom. That said, for a bathroom, laundry room, or anywhere water can pool, we will still steer you to fully waterproof luxury vinyl — it is simply the safer choice, and we would rather your floor lasts.",
+  },
+  {
+    q: "Can I install laminate flooring in a basement?",
+    a: "It depends on the basement. In a dry, fully finished basement with a sound, level slab, a quality moisture-resistant laminate can look great and feel warm underfoot. In a basement that ever gets damp — or directly on a slab that has not been moisture-tested — we recommend waterproof luxury vinyl instead, which is not bothered by the humidity concrete gives off. We moisture-test before we recommend anything, so you do not find out the hard way.",
   },
   {
     q: "How does laminate flooring compare to hardwood?",
@@ -429,6 +442,25 @@ export default function LaminatePage() {
               </tbody>
             </table>
           </div>
+          <p className="text-warm-grey text-sm leading-relaxed mt-8 text-center max-w-3xl mx-auto">
+            Still weighing your options? Read our in-depth{" "}
+            <Link href="/compare/vinyl-vs-laminate" className="text-gold font-semibold hover:underline">
+              laminate vs. luxury vinyl
+            </Link>{" "}
+            comparison. For a bathroom or a basement that ever gets damp,{" "}
+            <Link href="/vinyl" className="text-gold font-semibold hover:underline">
+              luxury vinyl
+            </Link>{" "}
+            is the safer pick — see our{" "}
+            <Link href="/basement-flooring" className="text-gold font-semibold hover:underline">
+              basement flooring
+            </Link>{" "}
+            guide. Want a floor you can refinish for decades? Compare it with real{" "}
+            <Link href="/hardwood" className="text-gold font-semibold hover:underline">
+              hardwood
+            </Link>
+            .
+          </p>
         </div>
       </section>
 

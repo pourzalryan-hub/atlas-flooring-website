@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import CTABanner from "@/components/CTABanner";
 import FAQAccordion from "@/components/FAQAccordion";
@@ -204,6 +205,14 @@ export default function HardwoodPage() {
             product supply, subfloor preparation, and expert installation — all
             under one roof. Just beautiful
             floors, installed right the first time.
+          </p>
+          <p className="text-warm-grey text-lg leading-relaxed mt-5">
+            Love the look of wood but working to a tighter budget? Ask us about{" "}
+            <Link href="/laminate" className="text-gold font-semibold hover:underline">
+              laminate flooring
+            </Link>{" "}
+            — it captures the warmth of hardwood for less, and we will help you
+            weigh the trade-offs honestly.
           </p>
         </div>
       </section>
