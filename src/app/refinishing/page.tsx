@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import CTABanner from "@/components/CTABanner";
 import FAQAccordion from "@/components/FAQAccordion";
@@ -187,6 +188,21 @@ export default function RefinishingPage() {
             floors across Toronto since 1959. We use dustless sanding equipment,
             premium waterborne and oil finishes, and the kind of care and
             craftsmanship that comes from decades of experience.
+          </p>
+          <p className="text-warm-grey text-lg leading-relaxed mt-5">
+            Not sure whether to restore or start fresh? Read our{" "}
+            <Link href="/compare/refinishing-vs-replacement" className="text-gold font-semibold hover:underline">
+              refinishing vs. replacement
+            </Link>{" "}
+            guide. If the floors are too far gone, explore new{" "}
+            <Link href="/hardwood" className="text-gold font-semibold hover:underline">
+              hardwood
+            </Link>{" "}
+            or{" "}
+            <Link href="/engineered-hardwood" className="text-gold font-semibold hover:underline">
+              engineered hardwood
+            </Link>
+            .
           </p>
         </div>
       </section>

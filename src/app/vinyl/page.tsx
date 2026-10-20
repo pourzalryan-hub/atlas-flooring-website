@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Image from "next/image";
 import PageHero from "@/components/PageHero";
 import CTABanner from "@/components/CTABanner";
@@ -169,6 +170,21 @@ export default function VinylPage() {
             Bathurst Street carries a curated selection of LVP and LVT from
             leading manufacturers, with products at every price point and
             performance level. Come in and compare them side by side.
+          </p>
+          <p className="text-warm-grey text-lg leading-relaxed mt-5">
+            Weighing your options? See how vinyl compares to{" "}
+            <Link href="/compare/vinyl-vs-laminate" className="text-gold font-semibold hover:underline">
+              laminate
+            </Link>
+            , and because it&apos;s fully waterproof it&apos;s our top pick for a{" "}
+            <Link href="/basement-flooring" className="text-gold font-semibold hover:underline">
+              basement
+            </Link>
+            . Prefer the look of real wood? Explore{" "}
+            <Link href="/hardwood" className="text-gold font-semibold hover:underline">
+              hardwood
+            </Link>
+            .
           </p>
         </div>
       </section>

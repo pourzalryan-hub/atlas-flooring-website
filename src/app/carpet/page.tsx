@@ -239,6 +239,21 @@ export default function CarpetPage() {
             level broadloom to heirloom-quality wool, we have something for every
             home and every budget — with honest advice to guide your decision.
           </p>
+          <p className="text-warm-grey text-lg leading-relaxed mt-5">
+            Ready to start?{" "}
+            <Link href="/carpet/samples" className="text-gold font-semibold hover:underline">
+              Browse our carpet samples
+            </Link>{" "}
+            online, add a matching{" "}
+            <Link href="/stair-runners" className="text-gold font-semibold hover:underline">
+              stair runner
+            </Link>
+            , or explore our{" "}
+            <Link href="/area-rugs" className="text-gold font-semibold hover:underline">
+              area rugs
+            </Link>
+            .
+          </p>
         </div>
       </section>
 
