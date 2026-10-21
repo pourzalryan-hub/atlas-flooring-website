@@ -237,7 +237,7 @@ export const articles: BlogArticle[] = [
 <p>Carpet naturally absorbs sound and is sometimes the easiest way to meet IIC requirements, especially in bedrooms.</p>
 
 <h2>Plan for Building Logistics</h2>
-<p>Condo installations involve practical hurdles: booking the service elevator, scheduling work within permitted hours, and arranging building access for your crew. Our installers are experienced with these protocols, which keeps projects smooth — something <a href="/locations/downtown-toronto">downtown Toronto</a> residents particularly appreciate.</p>
+<p>Condo installations involve practical hurdles: booking the service elevator, scheduling work within permitted hours, and arranging building access for the crew. We are experienced with these protocols, which keeps projects smooth — something <a href="/locations/downtown-toronto">downtown Toronto</a> residents particularly appreciate.</p>
 
 <h2>Speed Matters in a Condo</h2>
 <p>Because you're often living in the unit or coordinating around tenants, a fast installation is valuable. LVP and engineered hardwood can typically be installed quickly, minimizing disruption.</p>

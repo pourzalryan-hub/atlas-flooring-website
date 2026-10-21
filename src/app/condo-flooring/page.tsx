@@ -99,7 +99,7 @@ const steps = [
   {
     title: "Efficient Installation",
     description:
-      "Our installers work cleanly and quickly to minimize disruption to you and your neighbours — most condo floors are completed in one to two days, with the rated acoustic underlay installed exactly to spec.",
+      "The work is done cleanly and quickly to minimize disruption to you and your neighbours, with the rated acoustic underlay installed exactly to spec.",
   },
   {
     title: "Final Walkthrough & Documentation",

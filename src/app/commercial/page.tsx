@@ -125,7 +125,7 @@ const steps = [
   {
     title: "Professional Installation",
     description:
-      "Our installers prep the subfloor properly, control dust and noise, and install to manufacturer specification — including transitions and moisture barriers where required.",
+      "We prep the subfloor properly, control dust and noise, and install to manufacturer specification — including transitions and moisture barriers where required.",
   },
   {
     title: "Walkthrough & Warranty",

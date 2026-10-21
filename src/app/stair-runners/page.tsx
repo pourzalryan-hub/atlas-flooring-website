@@ -111,11 +111,11 @@ const faqItems = [
   },
   {
     q: "Can you install a runner on curved or winder stairs?",
-    a: "Yes, with expert cutting and fitting. Curved staircases and winder stairs (where treads are wedge-shaped) require precise on-site cutting and mitering. Our installers have extensive experience with non-standard stair configurations. We always measure curved stairs in person before providing a quote.",
+    a: "Yes, with expert cutting and fitting. Curved staircases and winder stairs (where treads are wedge-shaped) require precise on-site cutting and mitering. We have extensive experience with non-standard stair configurations. We always measure curved stairs in person before providing a quote.",
   },
   {
     q: "Do stair runners need to be professionally installed?",
-    a: "We strongly recommend professional installation. Poorly fitted stair runners — whether stretched incorrectly, inadequately secured, or with improperly placed tack strips — are a safety hazard. Our installers ensure every runner is firmly secured, smooth, and flat from top to bottom.",
+    a: "We strongly recommend professional installation. Poorly fitted stair runners — whether stretched incorrectly, inadequately secured, or with improperly placed tack strips — are a safety hazard. Professional installation ensures every runner is firmly secured, smooth, and flat from top to bottom.",
   },
   {
     q: "How long does stair runner installation take?",

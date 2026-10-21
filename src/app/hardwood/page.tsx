@@ -134,7 +134,7 @@ const installationSteps = [
   {
     title: "Installation Day",
     description:
-      "Our certified installers arrive on time, protect your home, and complete the installation with precision — including expansion gaps, transitions, and thresholds done properly.",
+      "The installation is completed with precision — arriving on time, protecting your home, with expansion gaps, transitions, and thresholds all done properly.",
   },
   {
     title: "Final Walkthrough",

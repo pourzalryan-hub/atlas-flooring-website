@@ -118,7 +118,7 @@ const installationSteps = [
   {
     title: "Installation Day",
     description:
-      "Our certified installers choose the right method — floating, glue-down, or nail-down — for your subfloor and product. We acclimate the wood, set proper expansion gaps, and finish transitions and thresholds correctly.",
+      "Your floor is professionally installed using the right method — floating, glue-down, or nail-down — for your subfloor and product. We acclimate the wood, set proper expansion gaps, and finish transitions and thresholds correctly.",
   },
   {
     title: "Final Walkthrough",

@@ -73,7 +73,7 @@ export const carpetAreas: CarpetArea[] = [
       "Carpet supply and installation in Scarborough. In-stock nylon, wool & polyester carpet, professionally installed. Free in-home measure and written quotes. Since 1959.",
     h1: "Carpet in Scarborough",
     intro: [
-      "Scarborough's family homes, townhouses, and rental units keep our installers busy with carpet year-round — bedrooms, stairs, hallways, and basement rec rooms. We help homeowners and landlords across Scarborough choose durable, good-value carpet that holds up to real family life.",
+      "Scarborough's family homes, townhouses, and rental units keep us busy with carpet year-round — bedrooms, stairs, hallways, and basement rec rooms. We help homeowners and landlords across Scarborough choose durable, good-value carpet that holds up to real family life.",
       "We stock our own carpet, so you're never waiting on a supplier's timeline. Choose from what's in stock, we measure precisely, and install — usually within one to two weeks. One itemized price covers carpet, underpad, and installation, so you know exactly what you're paying.",
     ],
     localAngle:

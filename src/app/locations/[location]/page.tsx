@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import PageHero from "@/components/PageHero";
 import CTABanner from "@/components/CTABanner";
 import FAQAccordion from "@/components/FAQAccordion";
+import FaqSchema from "@/components/FaqSchema";
 import { locations, getLocation } from "@/lib/locations";
 import { projects } from "@/lib/projects";
 
@@ -44,9 +45,9 @@ const trustSignals = [
       "More than 65 years serving Toronto homeowners — and still family run, with the accountability that comes with it.",
   },
   {
-    title: "Our Own Installers",
+    title: "Professional Installation",
     description:
-      "Every project is completed by experienced, vetted flooring installers. We oversee every job and stand behind the results.",
+      "Every project is completed by experienced, professional installers, and we stand behind the results.",
   },
   {
     title: "Free In-Home Consultations",
@@ -225,6 +226,7 @@ export default function LocationPage({
               {loc.name} Flooring FAQs
             </h2>
           </div>
+          <FaqSchema items={loc.faq} />
           <FAQAccordion items={loc.faq} />
         </div>
       </section>
