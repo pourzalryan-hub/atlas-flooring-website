@@ -185,6 +185,30 @@ export default function StairRunnersPage() {
             to a standard you'd expect from a 65-year-old company that still cares
             deeply about its craft.
           </p>
+          <p className="text-warm-grey text-lg leading-relaxed mt-5">
+            We fit stair runners across Toronto and the GTA — from heritage
+            staircases in{" "}
+            <Link href="/locations/rosedale" className="text-gold font-semibold hover:underline">
+              Rosedale
+            </Link>{" "}
+            and{" "}
+            <Link href="/locations/forest-hill" className="text-gold font-semibold hover:underline">
+              Forest Hill
+            </Link>{" "}
+            to family homes in{" "}
+            <Link href="/locations/etobicoke" className="text-gold font-semibold hover:underline">
+              Etobicoke
+            </Link>{" "}
+            and beyond. See a recent{" "}
+            <Link href="/projects/stair-runner-forest-hill" className="text-gold font-semibold hover:underline">
+              Forest Hill wool runner
+            </Link>{" "}
+            or{" "}
+            <Link href="/projects/stair-runner-rosedale" className="text-gold font-semibold hover:underline">
+              Rosedale curved staircase
+            </Link>{" "}
+            we completed.
+          </p>
         </div>
       </section>
 

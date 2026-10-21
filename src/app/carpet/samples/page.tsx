@@ -9,8 +9,32 @@ import {
   type CarpetFamily,
   type CarpetSample,
 } from "@/lib/carpet-samples";
+import FaqSchema from "@/components/FaqSchema";
 
 type Filter = "All" | CarpetFamily;
+
+const faqItems = [
+  {
+    q: "Can I take carpet samples home to try?",
+    a: "Yes. Visit our showroom at 978 Bathurst Street in Toronto to browse the full range and take swatches home, or book a free in-home consultation and we'll bring samples to you. Carpet colour and texture look very different under your own lighting, so seeing a swatch in the actual room is the best way to choose.",
+  },
+  {
+    q: "How many carpet samples do you have?",
+    a: "We carry 60+ in-stock carpet and broadloom samples, grouped into five colour families — cream & beige, tan & brown, grey & silver, charcoal & black, and accent colours — across wool, nylon and polyester fibres.",
+  },
+  {
+    q: "Do you bring carpet samples to my home?",
+    a: "We do. Book a free in-home consultation and we'll bring a curated selection of carpet samples to your door, measure your space, and leave you with a written, itemized quote. We serve homeowners across Toronto and the GTA.",
+  },
+  {
+    q: "What carpet fibres do your samples come in?",
+    a: "Wool for natural luxury and resilience, nylon for the best all-round durability and stain resistance, and polyester for soft, budget-friendly colour. We'll help you match the right fibre to how each room is actually used.",
+  },
+  {
+    q: "Are these carpets in stock?",
+    a: "Yes — we warehouse our own carpet, so the samples you see are from in-stock ranges. That means no long special-order waits once you've chosen, and installation usually within one to two weeks.",
+  },
+];
 
 export default function CarpetSamplesPage() {
   const [search, setSearch] = useState("");
@@ -51,6 +75,7 @@ export default function CarpetSamplesPage() {
 
   return (
     <main className="font-lato">
+      <FaqSchema items={faqItems} />
       {/* Lightbox */}
       {lightbox && (
         <div
@@ -205,6 +230,72 @@ export default function CarpetSamplesPage() {
               </div>
             ))
           )}
+        </div>
+      </section>
+
+      {/* About the samples — content for search */}
+      <section className="bg-white py-16 px-4">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="font-playfair text-3xl text-charcoal mb-5 text-center">
+            Carpet Samples in Every Colour and Fibre
+          </h2>
+          <div className="space-y-4 text-warm-grey font-lato leading-relaxed">
+            <p>
+              Our Toronto showroom carries 60+ in-stock carpet and broadloom
+              samples, grouped into five colour families — cream &amp; beige, tan
+              &amp; brown, grey &amp; silver, charcoal &amp; black, and accent
+              colours — so you can quickly narrow down the look you want. Every
+              sample is a real swatch you can see and feel, not just a photo on a
+              screen.
+            </p>
+            <p>
+              We carry carpet in the three fibres that matter for a Canadian home:{" "}
+              <strong>wool</strong> for natural luxury and resilience,{" "}
+              <strong>nylon</strong> for the best all-round durability and stain
+              resistance, and <strong>polyester</strong> for soft, budget-friendly
+              colour. Not sure which suits your room? Read our{" "}
+              <Link href="/blog/types-of-carpet-toronto" className="text-gold font-semibold hover:underline">
+                guide to carpet types and fibres
+              </Link>{" "}
+              or just ask us — honest advice is what we do.
+            </p>
+            <p>
+              Colours and textures look completely different under your own
+              lighting, which is why we always recommend seeing swatches in the
+              space they&apos;re going. Visit our showroom at 978 Bathurst Street,
+              or book a{" "}
+              <Link href="/contact" className="text-gold font-semibold hover:underline">
+                free in-home consultation
+              </Link>{" "}
+              and we&apos;ll bring carpet samples to you anywhere in Toronto and
+              the GTA. Explore the full{" "}
+              <Link href="/carpet" className="text-gold font-semibold hover:underline">
+                carpet &amp; broadloom
+              </Link>{" "}
+              range while you&apos;re here.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="bg-off-white py-16 px-4 border-t border-stone-100">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="font-playfair text-3xl text-charcoal mb-8 text-center">
+            Carpet Sample FAQs
+          </h2>
+          <div className="space-y-6">
+            {faqItems.map((item) => (
+              <div key={item.q}>
+                <h3 className="font-lato font-semibold text-charcoal mb-1">
+                  {item.q}
+                </h3>
+                <p className="font-lato text-warm-grey leading-relaxed">
+                  {item.a}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

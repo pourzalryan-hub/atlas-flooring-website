@@ -45,20 +45,24 @@ export const carpetAreas: CarpetArea[] = [
   {
     slug: "etobicoke",
     name: "Etobicoke",
-    metaTitle: "Carpet Store Etobicoke | Carpet & Installation",
+    metaTitle: "Carpet Flooring Etobicoke | Supply & Installation",
     metaDescription:
-      "Carpet supply and installation in Etobicoke. In-stock wool, nylon & polyester carpet, professionally installed with a free in-home measure. Family-run since 1959.",
-    h1: "Carpet in Etobicoke",
+      "Carpet flooring supply and installation in Etobicoke. In-stock wool, nylon & polyester carpet, professionally installed with a free in-home measure. Family-run since 1959.",
+    h1: "Carpet & Carpet Flooring in Etobicoke",
     intro: [
-      "Etobicoke's postwar bungalows, sprawling suburban homes, and lakeside condos each call for something different underfoot. We've been helping Etobicoke families carpet bedrooms, stairs, and finished basements for decades — matching the right fibre and pile to each room and budget.",
+      "Etobicoke's postwar bungalows, sprawling suburban homes, and lakeside condos each call for something different underfoot. We've been helping Etobicoke families with carpet flooring — bedrooms, stairs, hallways, and finished basements — for decades, matching the right fibre and pile to each room and budget.",
       "Our own in-stock carpet means no long supplier delays: pick from carpet that's ready to go, get a precise in-home measure, and have it professionally installed, typically within one to two weeks. Everything is quoted up front — carpet, underpad, and labour — with no surprise costs.",
+      "From a single stair runner in The Kingsway to whole-home broadloom in a Markland Wood family home, our carpet installation across Etobicoke is done to a high standard — and your old carpet is removed and hauled away as part of the job.",
     ],
     localAngle:
-      "Finished basements are big in Etobicoke — we fit durable, comfortable carpet over the right underpad to keep lower levels warm and quiet.",
-    nearbyAreas: ["Mimico", "The Kingsway", "Islington", "Long Branch"],
+      "Finished basements are big in Etobicoke — we fit durable, comfortable carpet over the right moisture-aware underpad to keep lower levels warm and quiet, and we know which fibres hold up best below grade.",
+    nearbyAreas: ["Mimico", "The Kingsway", "Islington", "Long Branch", "Markland Wood"],
     faq: [
       { q: "Can you carpet a whole Etobicoke home?", a: "Absolutely — from single bedrooms to whole-home broadloom, we handle jobs of every size across Etobicoke. Because we stock our own carpet, larger jobs don't mean longer waits." },
       { q: "Do you remove the old carpet?", a: "Yes. Removal and disposal of your old carpet and underpad is included in our standard installation quote across Etobicoke." },
+      { q: "How much does new carpet cost in Etobicoke?", a: "It depends on the carpet you choose, the size and layout of the rooms, and whether old flooring needs removing. The honest way to get a real number is a free in-home measure — we'll walk the space and give you one written, itemized quote with no surprises." },
+      { q: "What's the best carpet for an Etobicoke basement?", a: "For a dry, finished basement we usually recommend a hard-wearing nylon over a moisture-aware underpad that keeps the carpet off the cold slab. We'll check the space on the in-home visit and recommend the right combination for your lower level." },
+      { q: "Do you install carpet on stairs?", a: "Yes — stairs are one of the most common jobs we do in Etobicoke, from full carpet to fitted stair runners. Stairs are high-traffic, so we'll steer you toward a durable fibre and the right installation method for your treads." },
     ],
   },
   {
