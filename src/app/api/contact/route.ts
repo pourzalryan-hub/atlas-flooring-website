@@ -8,6 +8,9 @@ import { NextResponse } from "next/server";
  *   RESEND_API_KEY       — your Resend API key (required)
  *   LEADS_FROM_EMAIL     — verified sender, e.g. "Atlas Rug & Design Centre <hello@atlasrugflooring.com>"
  *   LEADS_NOTIFY_EMAIL   — where lead notifications go, e.g. "info@atlasrugflooring.com"
+ *   LEADS_WEBHOOK        — (optional, private) Apps Script web app URL that logs the
+ *                          lead into the Google Sheet Pipeline. Called server-side so
+ *                          the URL is never exposed to the browser.
  */
 
 function esc(s: unknown): string {
@@ -124,6 +127,21 @@ Atlas Rug & Design Centre`;
         { ok: false, error: "Could not send your request. Please call us at (416) 533-3366.", detail },
         { status: 502 }
       );
+    }
+
+    // Capture the lead into the Google Sheet (Pipeline) via a private webhook.
+    // Server-side, so the Apps Script URL never reaches the browser. Non-fatal.
+    const leadsWebhook = process.env.LEADS_WEBHOOK;
+    if (leadsWebhook) {
+      try {
+        await fetch(leadsWebhook, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({ name, email, phone, product, message, source: "Website" }),
+        });
+      } catch {
+        // The lead already emailed through — don't fail the form over the sheet.
+      }
     }
 
     // Auto-reply to the customer — best effort (don't fail the form if this hiccups)
