@@ -479,6 +479,68 @@ export const articles: BlogArticle[] = [
 <p>Call <a href="tel:4165333366">(416) 533-3366</a> or <a href="/contact">book your free consultation online</a>.</p>
 `,
   },
+  {
+    slug: "types-of-carpet-toronto",
+    title: "Types of Carpet Explained: Styles, Piles & Fibres",
+    description:
+      "Cut pile, loop, Berber, frieze and Saxony — plus wool, nylon and polyester. A clear guide to carpet types and which one suits each room in your Toronto home.",
+    category: "Carpet",
+    excerpt:
+      "Carpet isn't one product. The pile style and the fibre decide how it looks, feels and lasts — here's a plain-English guide to the main carpet types and which works best where.",
+    date: "2026-10-21",
+    image: "/images/carpet-hero.jpg",
+    body: `
+<p>"Carpet" sounds like one product, but walk into a showroom and you'll find it comes in dozens of constructions that look and wear very differently. Two choices drive almost everything: the <strong>pile style</strong> (how the yarn is tufted and finished) and the <strong>fibre</strong> (what the yarn is made of). Get those two right for the room and your carpet looks good for years; get them wrong and it flattens, sheds or stains far too soon. At <a href="/about">Atlas Rug &amp; Design Centre</a> we've been helping Toronto homeowners choose <a href="/carpet">carpet and broadloom</a> since 1959 — here's the plain-English version of what actually matters.</p>
+
+<h2>Carpet by Pile Style</h2>
+<p>Pile style is simply how the yarn is tufted into the backing and whether the tops are cut or left as loops. It's the single biggest driver of how a carpet looks and feels underfoot.</p>
+
+<h3>Cut pile</h3>
+<p>The loops are cut at the top so the tips stand upright, giving a soft, warm surface. Within cut pile you'll hear a few names:</p>
+<ul>
+<li><strong>Plush / Saxony</strong> — dense, even and velvety. Looks luxurious and formal, but it shows footprints and vacuum marks. Best in low-traffic, grown-up spaces like a master bedroom or a formal living room.</li>
+<li><strong>Textured</strong> — the yarn is twisted and set so the surface is less uniform, which hides footprints and everyday wear far better than plush. It's the most popular all-round choice for family homes.</li>
+<li><strong>Frieze (twist)</strong> — tightly twisted, slightly curled yarns that create a casual, springy surface. Excellent at hiding traffic, and a go-to for busy households and stairs.</li>
+</ul>
+
+<h3>Loop pile</h3>
+<p>The yarn stays as uncut loops, making a hard-wearing, low-profile surface that resists crushing.</p>
+<ul>
+<li><strong>Level loop</strong> — short, even loops that stand up to heavy traffic and rolling loads. A sensible pick for hallways, home offices and basements.</li>
+<li><strong>Berber</strong> — a chunkier loop style, often flecked with colour and typically made in wool or nylon. Very durable and casual-looking; because a pulled loop can run, it suits homes that won't be snagging it regularly.</li>
+</ul>
+
+<h3>Cut-and-loop (patterned)</h3>
+<p>Combines cut and looped yarns at different heights to create sculpted patterns and texture. It hides soil and footprints well and adds visual interest — a nice middle ground between formal plush and casual loop.</p>
+
+<h2>Carpet by Fibre</h2>
+<p>The fibre decides durability, how the carpet handles stains, how it feels and what it costs. We work with three, and we're honest about the trade-offs:</p>
+<h3>Wool</h3>
+<p>The natural premium fibre. Wonderfully resilient — it springs back instead of matting — naturally soil- and flame-resistant, and it ages gracefully. It's the most expensive option and prefers gentle cleaning, but for a bedroom or a heritage home it's hard to beat.</p>
+<h3>Nylon</h3>
+<p>The best-performing synthetic and our most-recommended fibre for family homes. Extremely durable and abrasion-resistant, and — especially in solution-dyed form — very good against stains and fading, at a friendlier price than wool.</p>
+<h3>Polyester</h3>
+<p>The budget-friendly choice. Naturally resistant to water-based stains and fading, with rich colour, but less resilient than wool or nylon, so it flattens sooner under heavy traffic. Great for low-traffic rooms and rentals. For a deeper fibre comparison, see our guide to <a href="/blog/best-stair-runner-materials">wool vs nylon vs polyester</a>.</p>
+
+<h2>Which Carpet for Which Room?</h2>
+<p>Matching the style and fibre to how a room is actually used is where a good carpet decision is made:</p>
+<ul>
+<li><strong>Bedrooms</strong> — comfort first. A soft plush or textured cut pile in wool or nylon feels wonderful underfoot where traffic is light.</li>
+<li><strong>Stairs &amp; hallways</strong> — durability first. A frieze or textured nylon hides wear and handles the pounding; see our <a href="/stair-runners">stair runner</a> options too.</li>
+<li><strong>Family &amp; living rooms</strong> — a textured cut pile or cut-and-loop in solution-dyed nylon balances comfort with stain and traffic resistance.</li>
+<li><strong>Basements</strong> — a level-loop or low-pile carpet over a moisture-barrier underpad; for a damp basement, read <a href="/blog/best-flooring-basements">best flooring for Toronto basements</a> first.</li>
+<li><strong>Homes with pets</strong> — solution-dyed nylon with a stain-resistant construction; our guide to <a href="/blog/best-flooring-pets">flooring for families with pets</a> goes deeper.</li>
+</ul>
+
+<h2>Two Things That Matter More Than the Label</h2>
+<p><strong>Density and twist.</strong> Two carpets can share a style name and perform very differently. Denser pile (more yarn packed in) and a tighter twist both resist crushing and last longer — it's worth pressing your fingers into a sample to feel the difference.</p>
+<p><strong>The underpad.</strong> The cushion under the carpet is not the place to cut corners. The right underpad protects the carpet's backing, improves comfort and quiet, and can add years to its life. Our <a href="/carpet">carpet page</a> explains how we match the pad to the carpet and the room.</p>
+
+<h2>See and Feel It in Person</h2>
+<p>Photos and spec sheets only tell you so much — carpet is a "touch it" decision. <a href="/carpet/samples">Browse our carpet samples</a> online to narrow the field, then visit our Bathurst Street showroom or book a free in-home measure and we'll bring samples to you so you can see colours in your own light. Because we stock our own carpet, you're choosing from in-stock options without long special-order waits. Wondering about budget first? See <a href="/blog/carpet-installation-cost-toronto">how much new carpet costs in Toronto</a>.</p>
+<p>Call <a href="tel:4165333366">(416) 533-3366</a> or <a href="/contact">book your free consultation online</a>. We serve homeowners across <a href="/locations/toronto">Toronto</a> and the GTA.</p>
+`,
+  },
 ];
 
 export function getArticle(slug: string): BlogArticle | undefined {
