@@ -49,6 +49,7 @@ export async function POST(req: Request) {
   const name = (data.name || "").trim();
   const email = (data.email || "").trim();
   const phone = (data.phone || "").trim();
+  const address = (data.address || "").trim();
   const product = (data.product || "").trim();
   const message = (data.message || "").trim();
 
@@ -75,6 +76,7 @@ export async function POST(req: Request) {
         <tr><td style="padding:4px 12px 4px 0;color:#6B6B6B;">Name</td><td style="padding:4px 0;"><strong>${esc(name)}</strong></td></tr>
         <tr><td style="padding:4px 12px 4px 0;color:#6B6B6B;">Phone</td><td style="padding:4px 0;"><a href="tel:${esc(phone)}">${esc(phone)}</a></td></tr>
         <tr><td style="padding:4px 12px 4px 0;color:#6B6B6B;">Email</td><td style="padding:4px 0;"><a href="mailto:${esc(email)}">${esc(email)}</a></td></tr>
+        <tr><td style="padding:4px 12px 4px 0;color:#6B6B6B;">Address</td><td style="padding:4px 0;">${esc(address) || "—"}</td></tr>
         <tr><td style="padding:4px 12px 4px 0;color:#6B6B6B;">Interested in</td><td style="padding:4px 0;">${esc(product) || "—"}</td></tr>
         <tr><td style="padding:4px 12px 4px 0;color:#6B6B6B;vertical-align:top;">Message</td><td style="padding:4px 0;">${esc(message).replace(/\n/g, "<br>") || "—"}</td></tr>
       </table>
@@ -137,7 +139,7 @@ Atlas Rug & Design Centre`;
         await fetch(leadsWebhook, {
           method: "POST",
           headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({ name, email, phone, product, message, source: "Website" }),
+          body: JSON.stringify({ name, email, phone, address, product, message, source: "Website" }),
         });
       } catch {
         // The lead already emailed through — don't fail the form over the sheet.

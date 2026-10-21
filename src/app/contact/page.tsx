@@ -57,6 +57,7 @@ interface FormState {
   name: string
   email: string
   phone: string
+  address: string
   product: string
   message: string
 }
@@ -65,6 +66,7 @@ const initialForm: FormState = {
   name: '',
   email: '',
   phone: '',
+  address: '',
   product: '',
   message: '',
 }
@@ -109,6 +111,7 @@ export default function ContactPage() {
           name: form.name,
           email: form.email,
           phone: form.phone,
+          address: form.address,
           product: form.product,
           message: form.message,
         }),
@@ -240,6 +243,21 @@ export default function ContactPage() {
                         <option key={o} value={o}>{o}</option>
                       ))}
                     </select>
+                  </div>
+
+                  {/* Address (optional) */}
+                  <div>
+                    <label className="block font-lato text-sm font-semibold text-charcoal mb-1">
+                      Project Address <span className="text-warm-grey font-normal">(optional)</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="address"
+                      value={form.address}
+                      onChange={handleChange}
+                      className={fieldClass}
+                      placeholder="Street, city — where the flooring is going"
+                    />
                   </div>
 
                   {/* Message (optional) */}
