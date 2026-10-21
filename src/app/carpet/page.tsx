@@ -124,7 +124,7 @@ const installationSteps = [
   {
     title: "Installation Day",
     description:
-      "Our experienced installers prepare the subfloor, lay and fasten tack strips, install the underpad, and stretch the carpet professionally — ensuring no bubbles, wrinkles, or poorly placed seams.",
+      "We prepare the subfloor, lay and fasten tack strips, install the underpad, and stretch the carpet professionally — ensuring no bubbles, wrinkles, or poorly placed seams.",
   },
   {
     title: "Final Walkthrough",
@@ -136,7 +136,7 @@ const installationSteps = [
 const faqItems = [
   {
     q: "How long does carpet installation take?",
-    a: "A typical residential installation of two to four rooms takes one day. Larger homes or jobs with complex seaming may take two days. We'll give you a realistic schedule in your quote so you can plan furniture moving and avoid disruption.",
+    a: "Two things to know. First, the wait to get on the schedule is usually one to two weeks from your quote. Second, the install itself is quick — a typical two-to-four-room job is done in a day (larger homes or complex seaming may take two). We'll give you a realistic schedule in your quote so you can plan furniture moving and avoid disruption.",
   },
   {
     q: "How do I choose the right carpet for high-traffic areas?",
