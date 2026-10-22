@@ -53,6 +53,12 @@ export async function POST(req: Request) {
   const product = (data.product || "").trim();
   const message = (data.message || "").trim();
 
+  // Honeypot: real users never fill the hidden "website" field. If it has any
+  // value, this is a bot — return success so it moves on, but send nothing.
+  if ((data.website || "").toString().trim() !== "") {
+    return NextResponse.json({ ok: true });
+  }
+
   if (!name || !email || !phone) {
     return NextResponse.json({ ok: false, error: "Missing required fields" }, { status: 400 });
   }

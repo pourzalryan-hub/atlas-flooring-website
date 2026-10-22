@@ -60,6 +60,8 @@ interface FormState {
   address: string
   product: string
   message: string
+  // Honeypot — hidden from real users, only bots fill it. Not a real field.
+  website: string
 }
 
 const initialForm: FormState = {
@@ -69,6 +71,7 @@ const initialForm: FormState = {
   address: '',
   product: '',
   message: '',
+  website: '',
 }
 
 function SamplePrefill({ setForm }: { setForm: React.Dispatch<React.SetStateAction<FormState>> }) {
@@ -114,6 +117,7 @@ export default function ContactPage() {
           address: form.address,
           product: form.product,
           message: form.message,
+          website: form.website,
         }),
       })
 
@@ -179,6 +183,23 @@ export default function ContactPage() {
                 </div>
               ) : (
                 <form id="contact-form" onSubmit={handleSubmit} className="space-y-6">
+                  {/* Honeypot — invisible to people, bots fill it. If filled, we drop the submission. */}
+                  <div
+                    aria-hidden="true"
+                    style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}
+                  >
+                    <label htmlFor="website">Website</label>
+                    <input
+                      id="website"
+                      type="text"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={form.website}
+                      onChange={handleChange}
+                    />
+                  </div>
+
                   {/* Name */}
                   <div>
                     <label className="block font-lato text-sm font-semibold text-charcoal mb-1">
