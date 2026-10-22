@@ -4,9 +4,14 @@ import Image from "next/image";
 import CTABanner from "@/components/CTABanner";
 
 export const metadata: Metadata = {
-  title: "Atlas Rug & Design Centre | Premium Flooring Toronto",
+  title: { absolute: "Toronto Carpet Store & Flooring | Atlas Since 1959" },
   description:
-    "Premium hardwood, carpet, luxury vinyl, laminate & stair runners in Toronto. Expert installation across the GTA since 1959. Visit our showroom at 978 Bathurst St or book a free consultation.",
+    "Toronto carpet & flooring store since 1959 — carpet, hardwood, laminate & luxury vinyl, supplied and professionally installed. Free in-home measure. Visit 978 Bathurst St.",
+  openGraph: {
+    title: "Toronto Carpet Store & Flooring | Atlas Since 1959",
+    description:
+      "Family-run Toronto carpet & flooring store since 1959. Wool, nylon & polyester carpet, hardwood, laminate & vinyl, supplied and professionally installed across the GTA.",
+  },
 };
 
 const products = [
