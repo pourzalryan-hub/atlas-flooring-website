@@ -53,9 +53,10 @@ export async function POST(req: Request) {
   const product = (data.product || "").trim();
   const message = (data.message || "").trim();
 
-  // Honeypot: real users never fill the hidden "website" field. If it has any
+  // Honeypot: real users never fill the hidden "contact_time" field (it's not
+  // a real field and is named so browser autofill ignores it). If it has any
   // value, this is a bot — return success so it moves on, but send nothing.
-  if ((data.website || "").toString().trim() !== "") {
+  if ((data.contact_time || "").toString().trim() !== "") {
     return NextResponse.json({ ok: true });
   }
 

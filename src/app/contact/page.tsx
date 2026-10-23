@@ -61,7 +61,9 @@ interface FormState {
   product: string
   message: string
   // Honeypot — hidden from real users, only bots fill it. Not a real field.
-  website: string
+  // Deliberately NOT named like a real field (e.g. "website"/"url") so browser
+  // autofill never touches it and drops a genuine lead.
+  contact_time: string
 }
 
 const initialForm: FormState = {
@@ -71,7 +73,7 @@ const initialForm: FormState = {
   address: '',
   product: '',
   message: '',
-  website: '',
+  contact_time: '',
 }
 
 function SamplePrefill({ setForm }: { setForm: React.Dispatch<React.SetStateAction<FormState>> }) {
@@ -117,7 +119,7 @@ export default function ContactPage() {
           address: form.address,
           product: form.product,
           message: form.message,
-          website: form.website,
+          contact_time: form.contact_time,
         }),
       })
 
@@ -188,14 +190,14 @@ export default function ContactPage() {
                     aria-hidden="true"
                     style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}
                   >
-                    <label htmlFor="website">Website</label>
+                    <label htmlFor="contact_time">Preferred contact time</label>
                     <input
-                      id="website"
+                      id="contact_time"
                       type="text"
-                      name="website"
+                      name="contact_time"
                       tabIndex={-1}
                       autoComplete="off"
-                      value={form.website}
+                      value={form.contact_time}
                       onChange={handleChange}
                     />
                   </div>
