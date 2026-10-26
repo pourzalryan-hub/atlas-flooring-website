@@ -541,6 +541,60 @@ export const articles: BlogArticle[] = [
 <p>Call <a href="tel:4165333366">(416) 533-3366</a> or <a href="/contact">book your free consultation online</a>. We serve homeowners across <a href="/locations/toronto">Toronto</a> and the GTA.</p>
 `,
   },
+  {
+    slug: "how-to-choose-laminate-flooring",
+    title: "How to Choose Laminate Flooring: AC Rating, Thickness & More",
+    description:
+      "A plain-English guide to choosing laminate flooring in Toronto — AC wear ratings, thickness, waterproof vs water-resistant, and which type suits each room.",
+    category: "Laminate",
+    excerpt:
+      "AC rating, thickness, waterproof cores — laminate has a few specs that actually matter. Here's how to choose the right one for each room, in plain English.",
+    date: "2026-10-26",
+    image: "/images/laminate-hero.jpg",
+    body: `
+<p>Laminate is the smart middle ground in flooring — the warm look of hardwood at a friendlier price — but not all laminate is equal. A few specs genuinely matter, and getting them right for each room is the difference between a floor that looks great for 20 years and one that flattens or swells in two. At <a href="/about">Atlas Rug &amp; Design Centre</a> we've been helping Toronto homeowners choose <a href="/laminate">laminate flooring</a> since 1959 — here's the plain-English version of what to look for.</p>
+
+<h2>AC Rating — the wear layer</h2>
+<p>The AC (Abrasion Class) rating tells you how much wear the laminate's surface can take. A higher number means a tougher floor.</p>
+<ul>
+<li><strong>AC3</strong> — residential, light to moderate traffic. Fine for bedrooms and quiet living rooms.</li>
+<li><strong>AC4</strong> — residential heavy / light commercial. The sweet spot for most homes: hallways, kitchens, family rooms, stairs.</li>
+<li><strong>AC5</strong> — commercial grade. Overkill for most homes, but worth it for a busy rental or a hard-working home office.</li>
+</ul>
+<p>For most Toronto homes we recommend <strong>AC4</strong> — it handles real family life without paying for commercial durability you'll never use.</p>
+
+<h2>Thickness — how it feels underfoot</h2>
+<p>Thickness (in millimetres) affects how solid the floor feels, how well it hides minor subfloor imperfections, and how much sound it dampens.</p>
+<ul>
+<li><strong>8mm</strong> — entry level. Okay for a bedroom over a flat subfloor, but it can feel and sound a bit hollow.</li>
+<li><strong>12mm</strong> — the most popular choice: noticeably more solid, quieter, and more forgiving of small subfloor dips.</li>
+<li><strong>14–15mm</strong> — premium. The closest feel to real hardwood, with the best sound dampening.</li>
+</ul>
+
+<h2>Core type — HDF vs MDF (and "waterproof" laminate)</h2>
+<p>Under the photographic wood-look layer is a fibreboard core. Look for <strong>HDF (high-density fibreboard)</strong> over standard MDF — it's denser, more stable, and more moisture-resistant. Also look for <strong>EIR (Embossed in Register)</strong>, where the surface texture lines up with the printed grain, for the most convincing wood look.</p>
+<p>An honesty note on <strong>"waterproof" laminate</strong>: traditional laminate is <em>water-resistant</em>, not waterproof — it shrugs off everyday spills if you wipe them up, but standing water can swell the core. Some newer laminates have sealed, moisture-resistant cores and tight-locking edges that handle damp conditions far better, and we're happy to show you those. But for a true wet zone — a bathroom, a laundry room, or a basement that ever takes on water — we'll steer you to fully waterproof <a href="/vinyl">luxury vinyl</a> instead. Not sure which? Our <a href="/compare/vinyl-vs-laminate">laminate vs. vinyl comparison</a> lays it out.</p>
+
+<h2>Which laminate for which room?</h2>
+<ul>
+<li><strong>Bedrooms</strong> — comfort over toughness: AC3–AC4, 12mm, warm and quiet underfoot.</li>
+<li><strong>Living &amp; family rooms, hallways</strong> — AC4, 12mm. The all-round family choice.</li>
+<li><strong>Kitchens</strong> — AC4 with a moisture-resistant core, and wipe spills up promptly. For heavy splash zones, consider vinyl.</li>
+<li><strong>Basements</strong> — only in a dry, finished basement over a moisture-aware underlay; if it ever gets damp, go waterproof vinyl. See our <a href="/blog/best-flooring-basements">best flooring for Toronto basements</a> guide.</li>
+<li><strong>Condos &amp; rentals</strong> — a favourite here: affordable, fast to install, and great for a pre-sale refresh or tenant turnover. See <a href="/condo-flooring">condo flooring</a>.</li>
+</ul>
+
+<h2>Installation &amp; underlay</h2>
+<p>Modern laminate is a <strong>floating floor</strong>: the planks click together with a tongue-and-groove edge rather than being nailed or glued down, which makes installation fast and clean. Two things make or break the result — a <strong>flat, dry subfloor</strong> (we check level and moisture first) and a <strong>quality underlay</strong> for cushioning, warmth and sound. Expansion gaps at the walls matter too; skip them and the floor can buckle. We handle all of it as part of professional <a href="/laminate">laminate installation</a>, typically within one to two weeks of your quote.</p>
+
+<h2>What drives the cost</h2>
+<p>Laminate is usually the most budget-friendly of the wood-look floors — less than hardwood, and generally a bit less than luxury vinyl. Your price comes down to the product you choose (an AC3 8mm plank costs far less than a 12mm AC4 with an attached underlay), the size and layout of the space, whether old flooring needs removing, and how much subfloor prep is required. The honest way to get a real number is a free in-home measure, where we note all of that and leave you with one written, itemized quote.</p>
+
+<h2>See it — and feel it — in person</h2>
+<p>Photos never do laminate justice; the texture, sheen and thickness all read differently in your hand and in your own lighting. Visit our Bathurst Street showroom to compare a premium 12mm plank against a budget product — the gap is obvious — or <a href="/contact">book a free in-home measure</a> and we'll bring samples to you. We serve homeowners across <a href="/locations/toronto">Toronto</a> and the GTA.</p>
+<p>Call <a href="tel:4165333366">(416) 533-3366</a> or <a href="/contact">book your free consultation online</a>.</p>
+`,
+  },
 ];
 
 export function getArticle(slug: string): BlogArticle | undefined {
