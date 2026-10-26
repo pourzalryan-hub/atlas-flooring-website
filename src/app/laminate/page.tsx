@@ -195,6 +195,54 @@ export default function LaminatePage() {
         imageSrc="/images/laminate-hero.jpg"
       />
 
+      {/* 1b. Conversion band (ad landing) */}
+      <section className="bg-charcoal border-t border-white/10 py-8 px-4">
+        <div className="max-w-6xl mx-auto grid gap-6 md:grid-cols-2 md:items-center">
+          <div className="text-center md:text-left">
+            <p className="text-gold font-semibold text-xs uppercase tracking-[0.15em] mb-2">
+              The Look of Wood · For Less
+            </p>
+            <h2 className="font-playfair text-2xl md:text-3xl text-white mb-2">
+              Laminate Flooring, Professionally Installed
+            </h2>
+            <p className="text-stone-300 text-sm">
+              Free in-home measure · written, itemized quotes · family-run in Toronto since 1959.
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3 md:justify-end">
+            <a
+              href="tel:4165333366"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gold text-white font-semibold rounded hover:bg-opacity-90 transition-colors text-lg"
+            >
+              Call (416) 533-3366
+            </a>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center px-8 py-4 border border-white/30 text-white font-semibold rounded hover:border-gold hover:text-gold transition-colors"
+            >
+              Get a Free Quote
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 1c. Trust bar */}
+      <section className="bg-white border-b border-stone-100 py-6 px-4">
+        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          {[
+            { t: "Durable & Scratch-Resistant", s: "Built for family life" },
+            { t: "Free In-Home Measure", s: "Written, itemized quotes" },
+            { t: "Professional Install", s: "Supplied & installed" },
+            { t: "Family-Run Since 1959", s: "65+ years in Toronto" },
+          ].map((item) => (
+            <div key={item.t}>
+              <p className="font-lato font-semibold text-charcoal text-sm">{item.t}</p>
+              <p className="font-lato text-warm-grey text-xs mt-1">{item.s}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* 2. Intro */}
       <section id="content" className="bg-off-white py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
