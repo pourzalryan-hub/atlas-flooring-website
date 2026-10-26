@@ -10,7 +10,7 @@ import FaqSchema from "@/components/FaqSchema";
 export const metadata: Metadata = {
   title: "Condo Flooring Toronto | Flooring for Condos & Apartments",
   description:
-    "Condo flooring in Toronto done right — IIC-rated acoustic underlay, board-approved installations, and fast, low-disruption fitting. Luxury vinyl, engineered hardwood and carpet from Atlas Rug & Design Centre, serving Toronto since 1959.",
+    "Condo flooring in Toronto done right — IIC-rated acoustic underlay, board-approved installs, fast and low-disruption. Laminate, luxury vinyl, engineered hardwood and carpet from Atlas Rug & Design Centre, serving Toronto since 1959.",
   alternates: { canonical: "/condo-flooring" },
   openGraph: {
     title: "Condo Flooring Toronto | Flooring for Condos & Apartments",
@@ -89,7 +89,7 @@ const steps = [
   {
     title: "Measure & Approval Package",
     description:
-      "We measure precisely and prepare the documentation your board or property manager needs: product spec sheets, the acoustic underlay's lab-tested sound rating, and our certificate of insurance — so you get approval without back-and-forth.",
+      "We measure precisely and prepare the documentation your board or property manager needs: the product spec sheets and the acoustic underlay's lab-tested sound rating — so the sound-rating side of your submission is accurate and complete.",
   },
   {
     title: "Schedule Building Logistics",
@@ -119,7 +119,7 @@ const faqItems = [
   },
   {
     q: "Do I need condo board approval before installing flooring?",
-    a: "Almost always, yes. Most corporations require written approval before any hard-surface flooring is installed. The approval package typically includes the product specification, the lab-tested sound rating of the underlay, the installer's certificate of insurance, and sometimes a signed acknowledgement of the rules. We prepare this documentation as a standard part of every condo job so the process is smooth.",
+    a: "Almost always, yes. Most corporations require written approval before any hard-surface flooring is installed, along with the product specification and the lab-tested sound rating of the underlay. Some boards also ask for a contractor's insurance documentation and a signed acknowledgement of the rules. We help prepare the product and underlay documentation so the sound-rating side of your submission is accurate and easy to approve.",
   },
   {
     q: "Which flooring is best for a condo?",
@@ -130,8 +130,16 @@ const faqItems = [
     a: "Most condo units are completed in one to two days. Floating floors like LVP and engineered hardwood install quickly because there's no nailing into the slab. We schedule the work within your building's permitted hours and around your elevator booking to keep disruption to a minimum for you and your neighbours.",
   },
   {
-    q: "Will you handle the elevator booking and insurance for my building?",
-    a: "Yes. We're experienced with high-rise logistics: we'll help coordinate the service elevator booking, work within posted noise and work-hour windows, protect lobbies and corridors, and provide a certificate of insurance naming the corporation if required. Handling these details is part of doing condo work properly.",
+    q: "Will you handle the elevator booking and building logistics?",
+    a: "Yes. We're experienced with high-rise logistics: we'll help coordinate the service elevator booking, work within posted noise and work-hour windows, and protect lobbies and corridors. Handling these details is part of doing condo work properly.",
+  },
+  {
+    q: "Do you do flooring for a condo I'm selling or renting?",
+    a: "Yes — refreshing a condo's floors before a sale or a new tenant is one of the most common jobs we do. Laminate is the go-to: it's affordable, installs fast, and gives a clean, modern wood look that photographs beautifully for listings and holds up to rental turnover. We work around your timeline so the unit is ready for the market or the next tenant.",
+  },
+  {
+    q: "Can you turn a rental unit around quickly between tenants?",
+    a: "Usually, yes. Floating laminate installs in about a day or two once we're booked and approved, so we can get a unit back in service fast. You get one written, itemized price covering the laminate, underlay and installation — handy when you're managing turnover costs across units.",
   },
 ];
 
@@ -160,8 +168,8 @@ export default function CondoFlooringPage() {
             Flooring a condo is not the same as flooring a house. In a high-rise,
             your floor sits on a concrete slab shared with the neighbours below,
             your building has rules about what you can install, and your
-            installers have to work around elevators, insurance certificates, and
-            posted work hours. Since 1959, Atlas Rug &amp; Design Centre has
+            installers have to work around elevator bookings and posted work
+            hours. Since 1959, Atlas Rug &amp; Design Centre has
             helped Toronto residents navigate exactly this — from downtown
             towers to midtown mid-rises — and our showroom at 978 Bathurst Street
             stocks the materials and acoustic underlays that condo boards
@@ -214,6 +222,10 @@ export default function CondoFlooringPage() {
           </div>
           <p className="text-center text-warm-grey mt-8 max-w-3xl mx-auto leading-relaxed">
             Explore each option in depth:{" "}
+            <Link href="/laminate" className="text-gold font-semibold hover:underline">
+              laminate
+            </Link>
+            ,{" "}
             <Link href="/vinyl" className="text-gold font-semibold hover:underline">
               luxury vinyl
             </Link>
@@ -230,6 +242,41 @@ export default function CondoFlooringPage() {
             </Link>
             . Whichever you choose, the acoustic underlay beneath it is what makes
             it condo-ready.
+          </p>
+        </div>
+      </section>
+
+      {/* 3b. Selling or renting */}
+      <section className="bg-off-white py-16 px-4 border-t border-stone-100">
+        <div className="max-w-4xl mx-auto text-center">
+          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gold mb-3 font-lato">
+            Selling, Renting or Turning Over a Unit?
+          </p>
+          <h2 className="font-playfair text-3xl md:text-4xl text-charcoal mb-5">
+            Condo-Ready Laminate, Installed Fast
+          </h2>
+          <p className="text-warm-grey text-lg leading-relaxed mb-5">
+            Getting a condo ready for the market or a new tenant? New floors are
+            one of the highest-return updates you can make — and laminate is the
+            go-to for it. It&apos;s affordable, installs quickly as a floating
+            floor over the acoustic underlay your building requires, and gives a
+            clean, modern wood look that photographs beautifully in listings and
+            stands up to rental turnover.
+          </p>
+          <p className="text-warm-grey text-lg leading-relaxed">
+            We work around your closing date or tenant schedule, give you one
+            written, itemized price covering the laminate, underlay and
+            installation, and keep the unit tidy from start to finish. Realtors,
+            landlords and investors: ask us about faster turnarounds across
+            multiple units. Explore{" "}
+            <Link href="/laminate" className="text-gold font-semibold hover:underline">
+              laminate flooring
+            </Link>{" "}
+            or{" "}
+            <Link href="/contact" className="text-gold font-semibold hover:underline">
+              book a free in-home measure
+            </Link>
+            .
           </p>
         </div>
       </section>
@@ -311,12 +358,13 @@ export default function CondoFlooringPage() {
             The paperwork side of a condo floor trips up more renovations than the
             installation itself. Before a single plank is laid, most corporations
             require written approval from the board or property manager. A
-            complete approval package usually includes the product specification
-            sheet, the lab-tested IIC/STC rating of the acoustic underlay, the
-            installer&apos;s certificate of insurance, and a signed
-            acknowledgement that the work will follow building rules. Submitting
-            all of this at once — rather than piecemeal — is the fastest route to
-            a green light, and it is exactly how we package every condo job.
+            complete approval package usually covers the product specification
+            sheet, the lab-tested IIC/STC rating of the acoustic underlay, any
+            insurance documentation the building requires, and a signed
+            acknowledgement that the work will follow building rules. We make
+            sure the product and underlay documentation is ready and accurate so
+            the sound-rating side of your submission isn&apos;t what holds up
+            approval.
           </p>
           <p className="text-warm-grey text-lg leading-relaxed mb-5">
             Once you&apos;re approved, building logistics take over. Almost every

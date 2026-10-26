@@ -226,7 +226,7 @@ export const articles: BlogArticle[] = [
 <p>Most Toronto condos require flooring to meet a minimum IIC (Impact Insulation Class) rating — a measure of how well the floor blocks impact noise from reaching the unit below. This usually means installing an acoustic underlay rated to your building's specification. Skipping this step can lead to complaints, fines, or being forced to tear out your new floor, so it's essential to get it right.</p>
 
 <h2>Get Board Approval First</h2>
-<p>Before any work begins, most condo corporations require you to submit your flooring plan and underlay specification for approval. They may also require proof of insurance from your installer. We handle these requirements regularly and can provide the documentation your board needs.</p>
+<p>Before any work begins, most condo corporations require you to submit your flooring plan and underlay specification for approval. They may also require proof of insurance from the installer. We handle the flooring plan and underlay documentation your board needs and help keep your submission on track.</p>
 
 <h2>Best Flooring Options for Condos</h2>
 <h3>Luxury vinyl plank</h3>
