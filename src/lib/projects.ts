@@ -126,7 +126,7 @@ export const projects: Project[] = [
       "We specified a quality 12mil luxury vinyl plank in a light oak look over an acoustic underlay that satisfied the building's sound requirements. LVP is quick to install, 100% waterproof, and gave the unit a bright, modern feel that appeals to downtown buyers and renters alike.",
     process: [
       "Review of the condo's acoustic specification and selection of compliant underlay.",
-      "Coordination of building access and elevator booking.",
+      "Coordination of building access, the installer's certificate of insurance, and elevator booking.",
       "Removal of old flooring and levelling of the concrete subfloor.",
       "Efficient single-day installation of the LVP within the approved window.",
     ],

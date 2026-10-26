@@ -93,7 +93,7 @@ const faqItems = [
   },
   {
     q: "Do you work within strata rules and elevator bookings?",
-    a: "Yes. Multi-unit work lives or dies on logistics. We book service elevators, coordinate loading-dock windows, pad and protect common surfaces, and respect any contractor hours and access rules the building sets. Handling those details is exactly why property managers bring us back.",
+    a: "Yes. Multi-unit work lives or dies on logistics. We book service elevators, coordinate loading-dock windows, pad and protect common surfaces, and respect any contractor hours, insurance requirements, and access rules the building sets. Handling those details is exactly why property managers bring us back.",
   },
   {
     q: "Can you match flooring across multiple floors and phases?",

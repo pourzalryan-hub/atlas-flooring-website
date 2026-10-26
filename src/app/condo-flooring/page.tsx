@@ -89,7 +89,7 @@ const steps = [
   {
     title: "Measure & Approval Package",
     description:
-      "We measure precisely and prepare the documentation your board or property manager needs: the product spec sheets and the acoustic underlay's lab-tested sound rating — so the sound-rating side of your submission is accurate and complete.",
+      "We measure precisely and pull together the documentation your board or property manager needs: the product spec sheets, the acoustic underlay's lab-tested sound rating, and — when the building requires it — a certificate of insurance from the installer, so your submission goes in complete.",
   },
   {
     title: "Schedule Building Logistics",
@@ -119,7 +119,7 @@ const faqItems = [
   },
   {
     q: "Do I need condo board approval before installing flooring?",
-    a: "Almost always, yes. Most corporations require written approval before any hard-surface flooring is installed, along with the product specification and the lab-tested sound rating of the underlay. Some boards also ask for a contractor's insurance documentation and a signed acknowledgement of the rules. We help prepare the product and underlay documentation so the sound-rating side of your submission is accurate and easy to approve.",
+    a: "Almost always, yes. Most corporations require written approval before any hard-surface flooring is installed, along with the product specification and the lab-tested sound rating of the underlay. Many boards also require a certificate of insurance from the contractor doing the work — the professional installers we work with carry their own insurance, so that can be provided when your building requires it. We prepare the product and underlay documentation too, so your whole submission goes in accurate and complete.",
   },
   {
     q: "Which flooring is best for a condo?",
@@ -131,7 +131,7 @@ const faqItems = [
   },
   {
     q: "Will you handle the elevator booking and building logistics?",
-    a: "Yes. We're experienced with high-rise logistics: we'll help coordinate the service elevator booking, work within posted noise and work-hour windows, and protect lobbies and corridors. Handling these details is part of doing condo work properly.",
+    a: "Yes. We're experienced with high-rise logistics: we'll help coordinate the service elevator booking, work within posted noise and work-hour windows, and protect lobbies and corridors — and if your building requires a certificate of insurance from the installer, that can be provided. Handling these details is part of doing condo work properly.",
   },
   {
     q: "Do you do flooring for a condo I'm selling or renting?",
@@ -168,8 +168,8 @@ export default function CondoFlooringPage() {
             Flooring a condo is not the same as flooring a house. In a high-rise,
             your floor sits on a concrete slab shared with the neighbours below,
             your building has rules about what you can install, and your
-            installers have to work around elevator bookings and posted work
-            hours. Since 1959, Atlas Rug &amp; Design Centre has
+            installers have to work around elevator bookings, insurance
+            requirements, and posted work hours. Since 1959, Atlas Rug &amp; Design Centre has
             helped Toronto residents navigate exactly this — from downtown
             towers to midtown mid-rises — and our showroom at 978 Bathurst Street
             stocks the materials and acoustic underlays that condo boards
@@ -359,12 +359,12 @@ export default function CondoFlooringPage() {
             installation itself. Before a single plank is laid, most corporations
             require written approval from the board or property manager. A
             complete approval package usually covers the product specification
-            sheet, the lab-tested IIC/STC rating of the acoustic underlay, any
-            insurance documentation the building requires, and a signed
-            acknowledgement that the work will follow building rules. We make
-            sure the product and underlay documentation is ready and accurate so
-            the sound-rating side of your submission isn&apos;t what holds up
-            approval.
+            sheet, the lab-tested IIC/STC rating of the acoustic underlay, a
+            certificate of insurance from the installer, and a signed
+            acknowledgement that the work will follow building rules. The
+            installers we work with carry their own insurance, and we make sure
+            the product and underlay documentation is ready and accurate — so
+            nothing on the paperwork side holds up your approval.
           </p>
           <p className="text-warm-grey text-lg leading-relaxed mb-5">
             Once you&apos;re approved, building logistics take over. Almost every
