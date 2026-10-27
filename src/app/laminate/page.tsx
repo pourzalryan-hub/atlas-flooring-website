@@ -271,6 +271,9 @@ export default function LaminatePage() {
         </div>
       </section>
 
+      {/* Proof — real reviews, placed high */}
+      <ReviewsSection service="laminate" />
+
       {/* 3. Why Laminate — dark section */}
       <section className="bg-charcoal py-20 px-4">
         <div className="max-w-6xl mx-auto">
@@ -383,6 +386,33 @@ export default function LaminatePage() {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mid-page CTA */}
+      <section className="bg-gold py-12 px-4 text-center">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="font-playfair text-2xl md:text-3xl text-white mb-3">
+            Ready for a Free In-Home Measure?
+          </h2>
+          <p className="text-white/90 font-lato mb-6 max-w-xl mx-auto">
+            We bring samples to you, measure precisely, and leave you with one
+            written, itemized quote — no pressure, no obligation.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <a
+              href="tel:4165333366"
+              className="inline-flex items-center justify-center px-8 py-4 bg-white text-charcoal font-semibold rounded hover:bg-opacity-90 transition-colors"
+            >
+              Call (416) 533-3366
+            </a>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-semibold rounded hover:bg-white hover:text-charcoal transition-colors"
+            >
+              Get a Free Quote
+            </Link>
           </div>
         </div>
       </section>
@@ -526,8 +556,6 @@ export default function LaminatePage() {
           <FAQAccordion items={faqItems} />
         </div>
       </section>
-
-      <ReviewsSection service="laminate" />
 
       {/* 9. CTA Banner */}
       <CTABanner
