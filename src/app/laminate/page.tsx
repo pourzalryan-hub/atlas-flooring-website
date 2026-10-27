@@ -8,7 +8,7 @@ import ReviewsSection from "@/components/ReviewsSection";
 import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
-  title: "Laminate Flooring Toronto",
+  title: { absolute: "Laminate Flooring Toronto | Supply & Installation" },
   description:
     "Premium laminate flooring supply and installation in Toronto. Scratch-resistant, budget-friendly, and beautiful — supplied and installed by Atlas Rug & Design Centre since 1959. Free quotes available.",
   alternates: { canonical: "/laminate" },
@@ -554,6 +554,35 @@ export default function LaminatePage() {
             </h2>
           </div>
           <FAQAccordion items={faqItems} />
+        </div>
+      </section>
+
+      {/* Serving Toronto & the GTA — local SEO */}
+      <section className="bg-off-white py-16 px-4 border-t border-stone-100">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="font-playfair text-3xl text-charcoal mb-5">
+            Laminate Flooring Across Toronto &amp; the GTA
+          </h2>
+          <p className="text-warm-grey text-lg leading-relaxed mb-5">
+            We supply and professionally install laminate flooring for homes and
+            condos right across Toronto — from{" "}
+            <Link href="/locations/etobicoke" className="text-gold font-semibold hover:underline">Etobicoke</Link>{" "}
+            and{" "}
+            <Link href="/locations/north-york" className="text-gold font-semibold hover:underline">North York</Link>{" "}
+            to{" "}
+            <Link href="/locations/scarborough" className="text-gold font-semibold hover:underline">Scarborough</Link>,{" "}
+            <Link href="/locations/forest-hill" className="text-gold font-semibold hover:underline">Forest Hill</Link>,{" "}
+            <Link href="/locations/leaside" className="text-gold font-semibold hover:underline">Leaside</Link>{" "}
+            and{" "}
+            <Link href="/locations/downtown-toronto" className="text-gold font-semibold hover:underline">downtown Toronto</Link>{" "}
+            — and throughout the GTA. Visit our showroom at 978 Bathurst Street.
+          </p>
+          <p className="text-warm-grey text-lg leading-relaxed">
+            Flooring a condo? See our{" "}
+            <Link href="/condo-flooring" className="text-gold font-semibold hover:underline">condo flooring</Link>{" "}
+            page. Still deciding? Compare{" "}
+            <Link href="/compare/vinyl-vs-laminate" className="text-gold font-semibold hover:underline">laminate vs. luxury vinyl</Link>.
+          </p>
         </div>
       </section>
 
