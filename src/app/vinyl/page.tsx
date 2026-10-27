@@ -471,6 +471,39 @@ export default function VinylPage() {
 
       <ReviewsSection service="vinyl" />
 
+      {/* Serving Toronto & the GTA — local SEO */}
+      <section className="bg-off-white py-16 px-4 border-t border-stone-100">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="font-playfair text-3xl text-charcoal mb-5">
+            Luxury Vinyl Flooring Across Toronto &amp; the GTA
+          </h2>
+          <p className="text-warm-grey text-lg leading-relaxed mb-5">
+            Waterproof and hard-wearing, luxury vinyl is a favourite for Toronto
+            basements, kitchens and busy family homes. We supply and professionally
+            install it across the city — from{" "}
+            <Link href="/locations/etobicoke" className="text-gold font-semibold hover:underline">Etobicoke</Link>{" "}
+            and{" "}
+            <Link href="/locations/north-york" className="text-gold font-semibold hover:underline">North York</Link>{" "}
+            to{" "}
+            <Link href="/locations/scarborough" className="text-gold font-semibold hover:underline">Scarborough</Link>,{" "}
+            <Link href="/locations/east-york" className="text-gold font-semibold hover:underline">East York</Link>,{" "}
+            <Link href="/locations/the-beaches" className="text-gold font-semibold hover:underline">The Beaches</Link>{" "}
+            and{" "}
+            <Link href="/locations/downtown-toronto" className="text-gold font-semibold hover:underline">downtown Toronto</Link>{" "}
+            — and throughout the GTA. Visit our showroom at 978 Bathurst Street.
+          </p>
+          <p className="text-warm-grey text-lg leading-relaxed">
+            Perfect for a{" "}
+            <Link href="/basement-flooring" className="text-gold font-semibold hover:underline">basement</Link>{" "}
+            or a{" "}
+            <Link href="/condo-flooring" className="text-gold font-semibold hover:underline">condo</Link>.
+            Weighing it against laminate? Read our{" "}
+            <Link href="/compare/vinyl-vs-laminate" className="text-gold font-semibold hover:underline">vinyl vs. laminate</Link>{" "}
+            comparison.
+          </p>
+        </div>
+      </section>
+
       {/* 9. CTA Banner */}
       <CTABanner
         title="Ready for a Floor That Can Handle Real Life?"
