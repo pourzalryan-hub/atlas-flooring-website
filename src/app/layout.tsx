@@ -5,6 +5,7 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import TelClickTracker from "@/components/TelClickTracker";
+import Link from "next/link";
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID
 
@@ -205,20 +206,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <Navigation />
         <main>{children}</main>
         <Footer />
+        {/* Spacer so the fixed mobile CTA bar doesn't cover footer content */}
+        <div className="lg:hidden h-20" aria-hidden="true" />
         {/* Mobile sticky CTA bar */}
-        <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-charcoal border-t border-white/10 px-4 py-3 flex gap-3 safe-area-inset-bottom">
+        <div
+          className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-charcoal border-t border-white/10 px-3 pt-2 flex gap-2"
+          style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}
+        >
           <a
             href="tel:4165333366"
-            className="flex-1 bg-gold text-white font-lato font-semibold text-center py-3 rounded text-sm"
+            className="flex-[1.4] inline-flex items-center justify-center gap-2 bg-gold text-white font-lato font-semibold py-3 rounded text-sm whitespace-nowrap"
           >
-            Call Now
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+              <path d="M2 3.5A1.5 1.5 0 013.5 2h1.148a1.5 1.5 0 011.465 1.175l.716 3.223a1.5 1.5 0 01-1.052 1.767l-.933.267c-.41.117-.643.555-.48.95a11.542 11.542 0 006.254 6.254c.395.163.833-.07.95-.48l.267-.933a1.5 1.5 0 011.767-1.052l3.223.716A1.5 1.5 0 0118 15.352V16.5a1.5 1.5 0 01-1.5 1.5H15c-7.18 0-13-5.82-13-13V3.5z" />
+            </svg>
+            Call (416) 533-3366
           </a>
-          <a
+          <Link
             href="/contact"
-            className="flex-1 border border-white/30 text-white font-lato font-semibold text-center py-3 rounded text-sm"
+            className="flex-1 inline-flex items-center justify-center border border-white/40 text-white font-lato font-semibold py-3 rounded text-sm"
           >
-            Get a Quote
-          </a>
+            Free Quote
+          </Link>
         </div>
       </body>
     </html>
