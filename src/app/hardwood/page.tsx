@@ -394,6 +394,35 @@ export default function HardwoodPage() {
 
       <ReviewsSection service="hardwood" />
 
+      {/* Serving Toronto & the GTA — local SEO */}
+      <section className="bg-off-white py-16 px-4 border-t border-stone-100">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="font-playfair text-3xl text-charcoal mb-5">
+            Hardwood Flooring Across Toronto &amp; the GTA
+          </h2>
+          <p className="text-warm-grey text-lg leading-relaxed mb-5">
+            We supply and professionally install hardwood flooring for homes
+            across Toronto — from{" "}
+            <Link href="/locations/rosedale" className="text-gold font-semibold hover:underline">Rosedale</Link>{" "}
+            and{" "}
+            <Link href="/locations/forest-hill" className="text-gold font-semibold hover:underline">Forest Hill</Link>{" "}
+            to{" "}
+            <Link href="/locations/leaside" className="text-gold font-semibold hover:underline">Leaside</Link>,{" "}
+            <Link href="/locations/the-annex" className="text-gold font-semibold hover:underline">The Annex</Link>,{" "}
+            <Link href="/locations/north-york" className="text-gold font-semibold hover:underline">North York</Link>{" "}
+            and{" "}
+            <Link href="/locations/etobicoke" className="text-gold font-semibold hover:underline">Etobicoke</Link>{" "}
+            — and throughout the GTA. Visit our showroom at 978 Bathurst Street.
+          </p>
+          <p className="text-warm-grey text-lg leading-relaxed">
+            Want a more stable option for a condo or over concrete? See{" "}
+            <Link href="/engineered-hardwood" className="text-gold font-semibold hover:underline">engineered hardwood</Link>.
+            Already have hardwood that needs new life? We also offer{" "}
+            <Link href="/refinishing" className="text-gold font-semibold hover:underline">hardwood floor refinishing</Link>.
+          </p>
+        </div>
+      </section>
+
       {/* 7. CTA Banner */}
       <CTABanner
         title="Ready for Beautiful Hardwood Floors?"

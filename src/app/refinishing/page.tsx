@@ -322,6 +322,38 @@ export default function RefinishingPage() {
 
       <ReviewsSection service="refinishing" />
 
+      {/* Serving Toronto & the GTA — local SEO */}
+      <section className="bg-off-white py-16 px-4 border-t border-stone-100">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="font-playfair text-3xl text-charcoal mb-5">
+            Hardwood Floor Refinishing Across Toronto &amp; the GTA
+          </h2>
+          <p className="text-warm-grey text-lg leading-relaxed mb-5">
+            Many of Toronto&apos;s older homes hide beautiful original hardwood
+            under decades of wear. We refinish floors across the city — from{" "}
+            <Link href="/locations/the-annex" className="text-gold font-semibold hover:underline">The Annex</Link>{" "}
+            and{" "}
+            <Link href="/locations/riverdale" className="text-gold font-semibold hover:underline">Riverdale</Link>{" "}
+            to{" "}
+            <Link href="/locations/leslieville" className="text-gold font-semibold hover:underline">Leslieville</Link>,{" "}
+            <Link href="/locations/high-park" className="text-gold font-semibold hover:underline">High Park</Link>,{" "}
+            <Link href="/locations/leaside" className="text-gold font-semibold hover:underline">Leaside</Link>{" "}
+            and{" "}
+            <Link href="/locations/rosedale" className="text-gold font-semibold hover:underline">Rosedale</Link>{" "}
+            — and throughout the GTA. Visit our showroom at 978 Bathurst Street.
+          </p>
+          <p className="text-warm-grey text-lg leading-relaxed">
+            Floors too far gone to save? Explore new{" "}
+            <Link href="/hardwood" className="text-gold font-semibold hover:underline">hardwood</Link>{" "}
+            or{" "}
+            <Link href="/engineered-hardwood" className="text-gold font-semibold hover:underline">engineered hardwood</Link>,
+            or read our{" "}
+            <Link href="/compare/refinishing-vs-replacement" className="text-gold font-semibold hover:underline">refinishing vs. replacement</Link>{" "}
+            guide.
+          </p>
+        </div>
+      </section>
+
       {/* 8. CTA */}
       <CTABanner
         title="Ready to Restore Your Floors?"
