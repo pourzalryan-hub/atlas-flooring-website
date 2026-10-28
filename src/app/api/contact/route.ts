@@ -76,6 +76,11 @@ export async function POST(req: Request) {
   }
 
   // 1) Notification to Atlas (the important one)
+  // A clean, pre-filled email to the customer — opens a fresh message with
+  // nothing quoted, so the internal alert is never shown to them.
+  const customerSubject = "Thanks for reaching out — Atlas Rug & Design Centre";
+  const customerBody = `Hi ${name},\n\nThanks for reaching out to Atlas Rug & Design Centre${product ? ` about ${product}` : ""}. I'd be glad to help — what's a good time for a quick call, or we can set up a free in-home measure at your convenience.\n\nTalk soon,\nRyan\nAtlas Rug & Design Centre\n(416) 533-3366`;
+  const customerMailto = `mailto:${email}?subject=${encodeURIComponent(customerSubject)}&amp;body=${encodeURIComponent(customerBody)}`;
   const notifyHtml = `
     <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#1C1C1C;max-width:600px;">
       <h2 style="margin:0 0 12px;">New website lead</h2>
@@ -87,7 +92,11 @@ export async function POST(req: Request) {
         <tr><td style="padding:4px 12px 4px 0;color:#6B6B6B;">Interested in</td><td style="padding:4px 0;">${esc(product) || "—"}</td></tr>
         <tr><td style="padding:4px 12px 4px 0;color:#6B6B6B;vertical-align:top;">Message</td><td style="padding:4px 0;">${esc(message).replace(/\n/g, "<br>") || "—"}</td></tr>
       </table>
-      <p style="margin:16px 0 0;color:#6B6B6B;font-size:13px;">Reply to this email to respond directly to ${esc(name)}. Respond fast — speed to lead wins jobs.</p>
+      <div style="margin:18px 0 4px;">
+        <a href="tel:${esc(phone)}" style="display:inline-block;background:#C9A84C;color:#ffffff;text-decoration:none;font-weight:bold;padding:11px 18px;border-radius:6px;margin:0 8px 8px 0;">📞 Call ${esc(name)}</a>
+        <a href="${customerMailto}" style="display:inline-block;background:#1C1C1C;color:#ffffff;text-decoration:none;font-weight:bold;padding:11px 18px;border-radius:6px;margin:0 0 8px 0;">✉️ Email ${esc(name)}</a>
+      </div>
+      <p style="margin:10px 0 0;color:#9a9a9a;font-size:12px;">This is your lead alert — tap a button above to reach them. The Email button opens a clean message with nothing quoted. (Don't use your mail app's Reply button — it copies this whole alert to the customer.) Speed to lead wins jobs.</p>
     </div>`;
 
   // 2) Personalized welcome auto-reply to the customer.
@@ -125,7 +134,7 @@ Atlas Rug & Design Centre`;
     const notify = await sendEmail(apiKey, {
       from: `🔔 New Lead · ${stamp} <${emailAddress(fromEmail)}>`,
       to: [notifyEmail],
-      reply_to: email,
+      reply_to: notifyEmail,
       subject: `🔔 New lead: ${name}${product ? ` (${product})` : ""}`,
       html: notifyHtml,
     });
