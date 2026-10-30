@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import PageHero from "@/components/PageHero";
+import LandingHero from "@/components/LandingHero";
 import CTABanner from "@/components/CTABanner";
 import FAQAccordion from "@/components/FAQAccordion";
 import ProcessSteps from "@/components/ProcessSteps";
@@ -160,44 +160,22 @@ export default function CarpetPage() {
   return (
     <main className="font-lato">
       <FaqSchema items={faqItems} />
-      {/* 1. Hero */}
-      <PageHero
-        title="Carpet & Broadloom Toronto"
-        subtitle="Carpet from our own stock — no supplier delays. Supplied and professionally installed across Toronto since 1959."
+      {/* 1. Hero with on-page lead form */}
+      <LandingHero
+        eyebrow="Carpet & Broadloom · Toronto"
+        title="Toronto's Carpet Store Since 1959"
+        subtitle="Hundreds of carpet and broadloom styles from our own stock — no supplier delays. Supplied and professionally installed across Toronto."
+        trust={[
+          'Carpet from our own stock — no long waits',
+          'Free in-home measure & written quote',
+          'Family-run in Toronto since 1959',
+        ]}
         breadcrumb="Carpet & Broadloom"
         imageSrc="/images/carpet-hero.jpg"
+        product="Carpet & Broadloom"
+        source="Carpet Landing"
+        formHeading="Get Your Free Carpet Quote"
       />
-
-      {/* 1b. Conversion band (ad landing) */}
-      <section className="bg-charcoal border-t border-white/10 py-8 px-4">
-        <div className="max-w-6xl mx-auto grid gap-6 md:grid-cols-2 md:items-center">
-          <div className="text-center md:text-left">
-            <p className="text-gold font-semibold text-xs uppercase tracking-[0.15em] mb-2">
-              In-Stock Carpet · No Supplier Delays
-            </p>
-            <h2 className="font-playfair text-2xl md:text-3xl text-white mb-2">
-              Carpet From Our Own Stock, Professionally Installed
-            </h2>
-            <p className="text-stone-300 text-sm">
-              Free in-home measure · written, itemized quotes · family-run in Toronto since 1959.
-            </p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-3 md:justify-end">
-            <a
-              href="tel:4165333366"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gold text-white font-semibold rounded hover:bg-opacity-90 transition-colors text-lg"
-            >
-              Call (416) 533-3366
-            </a>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center px-8 py-4 border border-white/30 text-white font-semibold rounded hover:border-gold hover:text-gold transition-colors"
-            >
-              Get a Free Quote
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* 1c. Trust bar */}
       <section className="bg-white border-b border-stone-100 py-6 px-4">

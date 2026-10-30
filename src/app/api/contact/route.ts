@@ -52,6 +52,9 @@ export async function POST(req: Request) {
   const address = (data.address || "").trim();
   const product = (data.product || "").trim();
   const message = (data.message || "").trim();
+  // Where the lead came from (e.g. "Laminate Landing", "Carpet Landing").
+  // Defaults to "Website" so older forms keep working unchanged.
+  const source = (data.source || "Website").trim();
 
   // Honeypot: real users never fill the hidden "contact_time" field (it's not
   // a real field and is named so browser autofill ignores it). If it has any
@@ -90,6 +93,7 @@ export async function POST(req: Request) {
         <tr><td style="padding:4px 12px 4px 0;color:#6B6B6B;">Email</td><td style="padding:4px 0;"><a href="mailto:${esc(email)}">${esc(email)}</a></td></tr>
         <tr><td style="padding:4px 12px 4px 0;color:#6B6B6B;">Address</td><td style="padding:4px 0;">${esc(address) || "—"}</td></tr>
         <tr><td style="padding:4px 12px 4px 0;color:#6B6B6B;">Interested in</td><td style="padding:4px 0;">${esc(product) || "—"}</td></tr>
+        <tr><td style="padding:4px 12px 4px 0;color:#6B6B6B;">Source</td><td style="padding:4px 0;">${esc(source)}</td></tr>
         <tr><td style="padding:4px 12px 4px 0;color:#6B6B6B;vertical-align:top;">Message</td><td style="padding:4px 0;">${esc(message).replace(/\n/g, "<br>") || "—"}</td></tr>
       </table>
       <div style="margin:18px 0 4px;">
@@ -155,7 +159,7 @@ Atlas Rug & Design Centre`;
         await fetch(leadsWebhook, {
           method: "POST",
           headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({ name, email, phone, address, product, message, source: "Website" }),
+          body: JSON.stringify({ name, email, phone, address, product, message, source }),
         });
       } catch {
         // The lead already emailed through — don't fail the form over the sheet.

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import PageHero from "@/components/PageHero";
+import LandingHero from "@/components/LandingHero";
 import CTABanner from "@/components/CTABanner";
 import FAQAccordion from "@/components/FAQAccordion";
 import ProcessSteps from "@/components/ProcessSteps";
@@ -187,44 +187,17 @@ export default function LaminatePage() {
   return (
     <main className="font-lato">
       <FaqSchema items={faqItems} />
-      {/* 1. Hero */}
-      <PageHero
-        title="Laminate Flooring Toronto"
-        subtitle="Beautiful, durable, and budget-smart — laminate flooring installed by Toronto's most trusted flooring experts."
+      {/* 1. Hero with on-page lead form */}
+      <LandingHero
+        eyebrow="Laminate Flooring · Toronto"
+        title="Laminate Flooring, Supplied & Installed in Toronto"
+        subtitle="The warm look of hardwood for less — scratch-resistant, budget-smart, and professionally installed by a family-run Toronto store since 1959."
         breadcrumb="Laminate"
         imageSrc="/images/laminate-hero.jpg"
+        product="Laminate Flooring"
+        source="Laminate Landing"
+        formHeading="Get Your Free Laminate Quote"
       />
-
-      {/* 1b. Conversion band (ad landing) */}
-      <section className="bg-charcoal border-t border-white/10 py-8 px-4">
-        <div className="max-w-6xl mx-auto grid gap-6 md:grid-cols-2 md:items-center">
-          <div className="text-center md:text-left">
-            <p className="text-gold font-semibold text-xs uppercase tracking-[0.15em] mb-2">
-              The Look of Wood · For Less
-            </p>
-            <h2 className="font-playfair text-2xl md:text-3xl text-white mb-2">
-              Laminate Flooring, Professionally Installed
-            </h2>
-            <p className="text-stone-300 text-sm">
-              Free in-home measure · written, itemized quotes · family-run in Toronto since 1959.
-            </p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-3 md:justify-end">
-            <a
-              href="tel:4165333366"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gold text-white font-semibold rounded hover:bg-opacity-90 transition-colors text-lg"
-            >
-              Call (416) 533-3366
-            </a>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center px-8 py-4 border border-white/30 text-white font-semibold rounded hover:border-gold hover:text-gold transition-colors"
-            >
-              Get a Free Quote
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* 1c. Trust bar */}
       <section className="bg-white border-b border-stone-100 py-6 px-4">
