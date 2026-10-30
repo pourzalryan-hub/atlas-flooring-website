@@ -59,7 +59,6 @@ const STEP_TYPES = [
   { key: 'box', label: 'Straight box', labour: 20, special: 0 },
   { key: 'runner', label: 'Runner', labour: 25, special: 0 },
   { key: 'floating', label: 'Floating', labour: 60, special: 0 },
-  { key: 'liveEdge', label: 'Live-edge', labour: 75, special: 0 },
   { key: 'capping', label: 'Capping', labour: 50, special: 8 },
   { key: 'pie', label: 'Pie / winder', labour: 75, special: 12 },
   { key: 'landing', label: 'Landing', labour: 100, special: 16 },
@@ -76,7 +75,7 @@ const ROOM_PRESETS = [
 ]
 
 const emptyCounts: Record<StepKey, number> = {
-  box: 0, runner: 0, floating: 0, liveEdge: 0, capping: 0, pie: 0, landing: 0,
+  box: 0, runner: 0, floating: 0, capping: 0, pie: 0, landing: 0,
 }
 
 function fmt(n: number) {
