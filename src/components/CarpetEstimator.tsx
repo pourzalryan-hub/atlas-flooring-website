@@ -33,7 +33,7 @@ import LeadForm from './LeadForm'
 
 const MATERIALS = {
   stock: { label: 'Stock', sub: 'Budget-friendly', low: 4, high: 5.5, roll: 12 },
-  nylon: { label: 'Nylon / Polyester', sub: 'Most popular', low: 5, high: 12, roll: 12 },
+  nylon: { label: 'Nylon / Polyester', sub: 'Most popular', low: 5, high: 9, roll: 12 },
   wool: { label: 'Wool', sub: 'Premium', low: 9, high: 13, roll: 13 },
 } as const
 type MaterialKey = keyof typeof MATERIALS
@@ -265,7 +265,7 @@ export default function CarpetEstimator() {
               <div className="space-y-2">
                 {STEP_TYPES.map((s) => (
                   <div key={s.key} className="flex items-center justify-between gap-3">
-                    <span className="text-sm text-charcoal">{s.label} <span className="text-warm-grey text-xs">(${s.labour}/step{s.key === 'runner' ? ' + binding' : ''})</span></span>
+                    <span className="text-sm text-charcoal">{s.label}{s.key === 'runner' && <span className="text-warm-grey text-xs"> (incl. edge binding)</span>}</span>
                     <div className="flex items-center gap-2">
                       <button type="button" onClick={() => setCount(s.key, counts[s.key] - 1)}
                         className="w-7 h-7 rounded-full border border-stone-300 text-charcoal leading-none hover:border-gold">−</button>
