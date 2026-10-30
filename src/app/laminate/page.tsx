@@ -5,6 +5,7 @@ import CTABanner from "@/components/CTABanner";
 import FAQAccordion from "@/components/FAQAccordion";
 import ProcessSteps from "@/components/ProcessSteps";
 import ReviewsSection from "@/components/ReviewsSection";
+import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import FaqSchema from "@/components/FaqSchema";
 
 export const metadata: Metadata = {
@@ -246,6 +247,34 @@ export default function LaminatePage() {
 
       {/* Proof — real reviews, placed high */}
       <ReviewsSection service="laminate" />
+
+      {/* Before & After — interactive slider */}
+      <section className="bg-off-white py-20 px-4">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gold mb-3 font-lato">
+              See the Difference
+            </p>
+            <h2 className="font-playfair text-4xl text-charcoal">
+              Before &amp; After
+            </h2>
+            <p className="text-warm-grey mt-4 max-w-2xl mx-auto">
+              Drag the slider to see a Toronto condo bedroom go from stained, worn
+              carpet to warm, modern laminate — supplied and professionally installed
+              by our team.
+            </p>
+          </div>
+          <div className="max-w-md mx-auto">
+            <BeforeAfterSlider
+              beforeSrc="/images/laminate-before.jpg"
+              afterSrc="/images/laminate-after.jpg"
+              beforeAlt="Old stained, worn carpet in a Toronto condo bedroom before laminate installation"
+              afterAlt="Warm light oak laminate flooring installed in a Toronto condo bedroom by Atlas Rug & Design Centre"
+              caption="Condo carpet replaced with laminate · Toronto"
+            />
+          </div>
+        </div>
+      </section>
 
       {/* 3. Why Laminate — dark section */}
       <section className="bg-charcoal py-20 px-4">
