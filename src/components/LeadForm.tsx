@@ -16,6 +16,8 @@ interface LeadFormProps {
   ctaLabel?: string
   /** Show the optional free-text message box (off by default to keep landing forms short). */
   showMessage?: boolean
+  /** Extra context (e.g. an instant-estimate summary) appended to the lead's message. */
+  details?: string
 }
 
 interface FormState {
@@ -48,6 +50,7 @@ export default function LeadForm({
   subheading = 'No obligation. We reply within one business day.',
   ctaLabel = 'Get My Free Quote →',
   showMessage = false,
+  details,
 }: LeadFormProps) {
   const [form, setForm] = useState<FormState>(initialForm)
   const [submitted, setSubmitted] = useState(false)
@@ -75,7 +78,7 @@ export default function LeadForm({
           phone: form.phone,
           address: form.address,
           product: product ?? '',
-          message: form.message,
+          message: [form.message, details].filter(Boolean).join('\n\n'),
           source,
           contact_time: form.contact_time,
         }),
