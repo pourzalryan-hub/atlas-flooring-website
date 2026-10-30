@@ -6,6 +6,7 @@ import CTABanner from "@/components/CTABanner";
 import FAQAccordion from "@/components/FAQAccordion";
 import ProcessSteps from "@/components/ProcessSteps";
 import ReviewsSection from "@/components/ReviewsSection";
+import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import FaqSchema from "@/components/FaqSchema";
 import { carpetAreas } from "@/lib/carpet-areas";
 
@@ -237,6 +238,33 @@ export default function CarpetPage() {
 
       {/* Proof — real reviews, placed high */}
       <ReviewsSection service="carpet" />
+
+      {/* Before & After — interactive slider */}
+      <section className="bg-white py-20 px-4">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gold mb-3 font-lato">
+              See the Difference
+            </p>
+            <h2 className="font-playfair text-4xl text-charcoal">
+              Before &amp; After
+            </h2>
+            <p className="text-warm-grey mt-4 max-w-2xl mx-auto">
+              Drag the slider to see a tired, worn bedroom carpet transformed with
+              fresh new broadloom — supplied and professionally installed by our team.
+            </p>
+          </div>
+          <div className="max-w-md mx-auto">
+            <BeforeAfterSlider
+              beforeSrc="/images/carpet-before.jpg"
+              afterSrc="/images/carpet-after.jpg"
+              beforeAlt="Worn, matted bedroom carpet with visible traffic lanes before replacement"
+              afterAlt="Fresh new plush bedroom carpet after installation by Atlas Rug & Design Centre in Toronto"
+              caption="Bedroom carpet replacement · Toronto"
+            />
+          </div>
+        </div>
+      </section>
 
       {/* 3. Carpet Types */}
       <section className="bg-white py-20 px-4">
