@@ -292,12 +292,15 @@ export default function CarpetEstimator() {
                 <p className="font-playfair text-3xl md:text-4xl mb-1">{fmt(totalLow)} – {fmt(totalHigh)}</p>
                 <p className="text-white/60 text-sm mb-5">installed · before HST</p>
 
-                <div className="space-y-1.5 text-sm border-t border-white/15 pt-4">
-                  <Row label="Carpet" v={`${fmt(carpetLow)} – ${fmt(carpetHigh)}`} />
-                  <Row label="Underpad" v={`${fmt(padLow)} – ${fmt(padHigh)}`} />
-                  {removal > 0 && <Row label="Lift & dispose" v={fmt(removal)} />}
-                  <Row label="Labour" v={fmt(labour)} />
-                  {binding > 0 && <Row label="Runner binding" v={fmt(binding)} />}
+                <div className="border-t border-white/15 pt-4">
+                  <p className="text-white/50 text-xs font-semibold uppercase tracking-wide mb-2">Includes</p>
+                  <ul className="space-y-1.5 text-sm">
+                    <li className="flex items-center gap-2"><span className="text-gold">✓</span>{mat.label} carpet</li>
+                    <li className="flex items-center gap-2"><span className="text-gold">✓</span>Underpad</li>
+                    <li className="flex items-center gap-2"><span className="text-gold">✓</span>Professional installation</li>
+                    {removal > 0 && <li className="flex items-center gap-2"><span className="text-gold">✓</span>Old carpet removal &amp; disposal</li>}
+                    {binding > 0 && <li className="flex items-center gap-2"><span className="text-gold">✓</span>Runner edge binding</li>}
+                  </ul>
                 </div>
 
                 <p className="text-white/50 text-xs mt-4 leading-relaxed">
@@ -335,15 +338,6 @@ export default function CarpetEstimator() {
           />
         </div>
       )}
-    </div>
-  )
-}
-
-function Row({ label, v }: { label: string; v: string }) {
-  return (
-    <div className="flex justify-between gap-4">
-      <span className="text-white/60">{label}</span>
-      <span className="text-white font-medium">{v}</span>
     </div>
   )
 }
