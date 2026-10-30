@@ -250,11 +250,18 @@ export default function CarpetPage() {
               Before &amp; After
             </h2>
             <p className="text-warm-grey mt-4 max-w-2xl mx-auto">
-              Drag the slider to see a tired, worn bedroom carpet transformed with
-              fresh new broadloom — supplied and professionally installed by our team.
+              Drag the slider on each photo to see the transformation — real Toronto
+              carpet jobs, supplied and professionally installed by our team.
             </p>
           </div>
-          <div className="max-w-md mx-auto">
+          <div className="grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
+            <BeforeAfterSlider
+              beforeSrc="/images/carpet-before-2.jpg"
+              afterSrc="/images/carpet-after-2.jpg"
+              beforeAlt="Bare, stained concrete basement subfloor with old carpet removed, before new carpet installation"
+              afterAlt="Finished basement with fresh light grey carpet installed by Atlas Rug & Design Centre in Toronto"
+              caption="Basement carpet installation · Toronto"
+            />
             <BeforeAfterSlider
               beforeSrc="/images/carpet-before.jpg"
               afterSrc="/images/carpet-after.jpg"
