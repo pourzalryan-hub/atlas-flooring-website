@@ -254,7 +254,7 @@ export default function CarpetPage() {
               carpet jobs, supplied and professionally installed by our team.
             </p>
           </div>
-          <div className="grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
             <BeforeAfterSlider
               beforeSrc="/images/carpet-before-2.jpg"
               afterSrc="/images/carpet-after-2.jpg"
@@ -268,6 +268,13 @@ export default function CarpetPage() {
               beforeAlt="Worn, matted bedroom carpet with visible traffic lanes before replacement"
               afterAlt="Fresh new plush bedroom carpet after installation by Atlas Rug & Design Centre in Toronto"
               caption="Bedroom carpet replacement · Toronto"
+            />
+            <BeforeAfterSlider
+              beforeSrc="/images/carpet-before-3.jpg"
+              afterSrc="/images/carpet-after-3.jpg"
+              beforeAlt="Cluttered basement rec room with painted floor and new carpet rolled up, before installation"
+              afterAlt="Basement rec room with fresh wall-to-wall carpet professionally installed by Atlas Rug & Design Centre in Toronto"
+              caption="Basement rec room · Toronto"
             />
           </div>
         </div>
