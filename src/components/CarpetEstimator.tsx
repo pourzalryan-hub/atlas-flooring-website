@@ -121,7 +121,7 @@ export default function CarpetEstimator() {
     ? STEP_TYPES.filter((s) => s.special === 0).reduce((n, s) => n + counts[s.key], 0)
     : 0
   const regularRows = regularCount > 0 ? Math.ceil(regularCount / ACROSS[stairSize]) : 0
-  const regularSqft = STEP_LEN_IN * regularRows // = 20 * rows (12 ft roll)
+  const regularSqft = mat.roll * (STEP_LEN_IN / 12) * regularRows // roll width (12 nylon/stock, 13 wool) × rows × 20″
   const specialSqft = includeStairs
     ? STEP_TYPES.reduce((sf, s) => sf + s.special * counts[s.key], 0)
     : 0
@@ -295,6 +295,7 @@ export default function CarpetEstimator() {
                 <div className="border-t border-white/15 pt-4">
                   <p className="text-white/50 text-xs font-semibold uppercase tracking-wide mb-2">Includes</p>
                   <ul className="space-y-1.5 text-sm">
+                    <li className="flex items-center gap-2 text-gold font-semibold"><span>🛡️</span>Lifetime labour warranty</li>
                     <li className="flex items-center gap-2"><span className="text-gold">✓</span>{mat.label} carpet</li>
                     <li className="flex items-center gap-2"><span className="text-gold">✓</span>Underpad</li>
                     <li className="flex items-center gap-2"><span className="text-gold">✓</span>Professional installation</li>
