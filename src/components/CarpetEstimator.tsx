@@ -18,7 +18,7 @@ import LeadForm from './LeadForm'
  */
 
 const MATERIALS = {
-  stock: { label: 'Basic', sub: 'Budget-friendly', low: 4, high: 5.5, roll: 12 },
+  stock: { label: 'Stock', sub: 'In-stock — budget-friendly', low: 4, high: 5.5, roll: 12 },
   nylon: { label: 'Nylon / Polyester', sub: 'Most popular — tough & family-friendly', low: 5, high: 9, roll: 12 },
   wool: { label: 'Wool', sub: 'Premium — natural & luxurious', low: 9, high: 13, roll: 13 },
 } as const
