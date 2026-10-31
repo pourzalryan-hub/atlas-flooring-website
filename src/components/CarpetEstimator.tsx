@@ -266,10 +266,21 @@ export default function CarpetEstimator() {
                   <div key={s.key} className="flex items-center justify-between gap-3">
                     <span className="text-sm text-charcoal">{s.label}{s.key === 'runner' && <span className="text-warm-grey text-xs"> (incl. edge binding)</span>}</span>
                     <div className="flex items-center gap-2">
-                      <button type="button" onClick={() => setCount(s.key, counts[s.key] - 1)}
+                      <button type="button" aria-label={`Fewer ${s.label}`} onClick={() => setCount(s.key, counts[s.key] - 1)}
                         className="w-7 h-7 rounded-full border border-stone-300 text-charcoal leading-none hover:border-gold">−</button>
-                      <span className="w-6 text-center text-sm font-semibold">{counts[s.key]}</span>
-                      <button type="button" onClick={() => setCount(s.key, counts[s.key] + 1)}
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        aria-label={`Number of ${s.label} steps`}
+                        value={counts[s.key] === 0 ? '' : String(counts[s.key])}
+                        onChange={(e) => {
+                          const n = parseInt(e.target.value.replace(/\D/g, ''), 10)
+                          setCount(s.key, Number.isNaN(n) ? 0 : n)
+                        }}
+                        placeholder="0"
+                        className="w-12 text-center text-sm font-semibold border border-stone-300 rounded-md py-1 focus:outline-none focus:ring-2 focus:ring-gold"
+                      />
+                      <button type="button" aria-label={`More ${s.label}`} onClick={() => setCount(s.key, counts[s.key] + 1)}
                         className="w-7 h-7 rounded-full border border-stone-300 text-charcoal leading-none hover:border-gold">+</button>
                     </div>
                   </div>
