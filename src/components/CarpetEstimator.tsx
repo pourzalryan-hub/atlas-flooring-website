@@ -4,37 +4,23 @@ import { useState, useRef } from 'react'
 import LeadForm from './LeadForm'
 
 /*
- * Carpet Instant Estimate — pricing engine (all numbers provided by Atlas).
+ * Carpet Instant Estimate — pricing engine (numbers provided by Atlas).
+ * Written to be understood by a first-time visitor: plain words, best-guess
+ * inputs, and "we confirm free at the measure" reassurance throughout.
  *
- * MATERIAL (installed estimate is built from these):
- *   Stock  $4–5.50 /sq ft   (12 ft roll)
- *   Nylon  $5–12   /sq ft   (12 ft roll)
- *   Wool   $9–13   /sq ft   (13 ft roll)
- *
- * ROOMS (broadloom): ordered by the roll, not raw sq ft. We lay full-width
- *   "drops" and pick the lower-waste orientation:
- *     ordered = min( ceil(W/roll)*roll*L , ceil(L/roll)*roll*W )
- *   Carpet is charged on `ordered`; pad / removal / install labour on the
- *   actual room sq ft (L*W).
- *
- * STAIRS:
- *   Regular steps (box/runner/floating/live-edge) are cut from a 12 ft roll,
- *   20" of length each, N across by width size (small≤24"=6, med≤36"=4,
- *   large≤48"=3):  rows = ceil(count / across);  sqft = 20 * rows.
- *   Special steps carry a fixed footprint: capping 8, pie 12, landing 16 sq ft.
- *   Everything gets a 10% waste buffer. Carpet/pad/dispose charged on that area.
- *
- * SHARED:
- *   Pad $1–2/sq ft · Lift & dispose $1/sq ft (if existing carpet, separate) ·
- *   Install labour $2/sq ft PLUS per-step prices, with a $500 labour floor for
- *   the whole job (dispose + binding are separate from the floor) ·
- *   Runner binding max($200, runnerSteps * $200/12).
+ * MATERIAL:  Basic $4–5.50 (12ft roll) · Nylon/Poly $5–9 (12ft) · Wool $9–13 (13ft)
+ * ROOMS: ordered by the roll (lower-waste drop method), summed per area.
+ * STAIRS: pick one style for the steps + how many; optional angled steps / landings.
+ *   Straight/Runner/Open = roll-cut (20" each, N across by width). Wrapped = 8 sq ft each.
+ *   Angled (pie) = 12 sq ft + $75/step · Landing = 16 sq ft + $100/step. 10% waste.
+ * SHARED: pad $1–2/sf · removal $1/sf (if existing) · install $2/sf + per-step labour,
+ *   $500 labour floor · runner binding max($200, steps×$200/12). Prices before HST.
  */
 
 const MATERIALS = {
-  stock: { label: 'Stock', sub: 'Budget-friendly', low: 4, high: 5.5, roll: 12 },
-  nylon: { label: 'Nylon / Polyester', sub: 'Most popular', low: 5, high: 9, roll: 12 },
-  wool: { label: 'Wool', sub: 'Premium', low: 9, high: 13, roll: 13 },
+  stock: { label: 'Basic', sub: 'Budget-friendly', low: 4, high: 5.5, roll: 12 },
+  nylon: { label: 'Nylon / Polyester', sub: 'Most popular — tough & family-friendly', low: 5, high: 9, roll: 12 },
+  wool: { label: 'Wool', sub: 'Premium — natural & luxurious', low: 9, high: 13, roll: 13 },
 } as const
 type MaterialKey = keyof typeof MATERIALS
 
@@ -48,22 +34,21 @@ const STEP_LEN_IN = 20
 
 const ACROSS = { small: 6, medium: 4, large: 3 } as const
 type SizeKey = keyof typeof ACROSS
-const SIZE_LABEL: Record<SizeKey, string> = {
-  small: 'Small (≤24″ wide)',
-  medium: 'Medium (24–36″)',
-  large: 'Large (36–48″)',
-}
+const SIZE_OPTIONS: { key: SizeKey; label: string }[] = [
+  { key: 'small', label: 'Narrow' },
+  { key: 'medium', label: 'Standard' },
+  { key: 'large', label: 'Wide' },
+]
 
-// Regular steps = roll-cut by size. Special steps = fixed footprint (sq ft).
-const STEP_TYPES = [
-  { key: 'box', label: 'Straight box', labour: 20, special: 0 },
-  { key: 'runner', label: 'Runner', labour: 25, special: 0 },
-  { key: 'floating', label: 'Floating', labour: 60, special: 0 },
-  { key: 'capping', label: 'Capping', labour: 50, special: 8 },
-  { key: 'pie', label: 'Pie / winder', labour: 75, special: 12 },
-  { key: 'landing', label: 'Landing', labour: 100, special: 16 },
+// One style for the whole staircase. "fixedSqft" steps are cut individually;
+// the rest are cut from the roll by width.
+const MAIN_STYLES = [
+  { key: 'box', label: 'Straight stairs', hint: 'The usual kind — carpet covers the whole step', labour: 20 },
+  { key: 'runner', label: 'Runner', hint: 'A carpet strip down the middle, wood showing on the sides', labour: 25 },
+  { key: 'capping', label: 'Wrapped', hint: 'Carpet wraps around and under each step edge', labour: 50, fixedSqft: 8 },
+  { key: 'floating', label: 'Open steps', hint: 'Floating stairs with gaps you can see through', labour: 60 },
 ] as const
-type StepKey = (typeof STEP_TYPES)[number]['key']
+type StyleKey = (typeof MAIN_STYLES)[number]['key']
 
 const BINDING_MIN = 200
 const BINDING_PER = 200 / 12
@@ -76,12 +61,12 @@ const ROOM_PRESETS = [
   { label: 'Basement', l: 20, w: 30 },
 ]
 
-const emptyCounts: Record<StepKey, number> = {
-  box: 0, runner: 0, floating: 0, capping: 0, pie: 0, landing: 0,
-}
-
 function fmt(n: number) {
   return '$' + (Math.round(n / 10) * 10).toLocaleString('en-US')
+}
+const toInt = (s: string) => {
+  const n = parseInt(s, 10)
+  return Number.isNaN(n) ? 0 : Math.max(0, n)
 }
 
 export default function CarpetEstimator() {
@@ -93,13 +78,18 @@ export default function CarpetEstimator() {
   const [roomExisting, setRoomExisting] = useState(true)
 
   const [includeStairs, setIncludeStairs] = useState(false)
+  const [stairStyle, setStairStyle] = useState<StyleKey>('box')
+  const [stepCount, setStepCount] = useState('')
   const [stairSize, setStairSize] = useState<SizeKey>('medium')
-  const [counts, setCounts] = useState<Record<StepKey, number>>(emptyCounts)
+  const [hasSpecial, setHasSpecial] = useState(false)
+  const [pieCount, setPieCount] = useState('')
+  const [landingCount, setLandingCount] = useState('')
   const [stairsExisting, setStairsExisting] = useState(true)
 
   const [showForm, setShowForm] = useState(false)
 
   const mat = MATERIALS[material]
+  const style = MAIN_STYLES.find((s) => s.key === stairStyle)!
 
   // ---- Rooms / areas ----
   let roomSqft = 0
@@ -112,7 +102,7 @@ export default function CarpetEstimator() {
         roomSqft += L * W
         const a = Math.ceil(W / mat.roll) * mat.roll * L
         const b = Math.ceil(L / mat.roll) * mat.roll * W
-        roomOrdered += Math.min(a, b) // each area is cut separately, with its own waste
+        roomOrdered += Math.min(a, b) // each area cut separately, own waste
       }
     }
   }
@@ -124,28 +114,30 @@ export default function CarpetEstimator() {
   const roomInstall = roomSqft * INSTALL
 
   // ---- Stairs ----
-  const regularCount = includeStairs
-    ? STEP_TYPES.filter((s) => s.special === 0).reduce((n, s) => n + counts[s.key], 0)
-    : 0
-  const regularRows = regularCount > 0 ? Math.ceil(regularCount / ACROSS[stairSize]) : 0
-  const regularSqft = mat.roll * (STEP_LEN_IN / 12) * regularRows // roll width (12 nylon/stock, 13 wool) × rows × 20″
-  const specialSqft = includeStairs
-    ? STEP_TYPES.reduce((sf, s) => sf + s.special * counts[s.key], 0)
-    : 0
-  const stairSqft = (regularSqft + specialSqft) * STAIR_WASTE
+  const nSteps = includeStairs ? toInt(stepCount) : 0
+  const nPie = includeStairs && hasSpecial ? toInt(pieCount) : 0
+  const nLanding = includeStairs && hasSpecial ? toInt(landingCount) : 0
+
+  let stairRaw = 0
+  if (nSteps > 0) {
+    if ('fixedSqft' in style && style.fixedSqft) {
+      stairRaw += nSteps * style.fixedSqft
+    } else {
+      const rows = Math.ceil(nSteps / ACROSS[stairSize])
+      stairRaw += mat.roll * (STEP_LEN_IN / 12) * rows
+    }
+  }
+  stairRaw += nPie * 12 + nLanding * 16
+  const stairSqft = stairRaw * STAIR_WASTE
 
   const stairCarpetLow = stairSqft * mat.low
   const stairCarpetHigh = stairSqft * mat.high
   const stairPadLow = stairSqft * PAD_LOW
   const stairPadHigh = stairSqft * PAD_HIGH
   const stairDispose = includeStairs && stairsExisting ? stairSqft * REMOVAL : 0
-  const stairPerStep = includeStairs
-    ? STEP_TYPES.reduce((l, s) => l + s.labour * counts[s.key], 0)
-    : 0
+  const stairPerStep = nSteps * style.labour + nPie * 75 + nLanding * 100
   const stairInstall = stairSqft * INSTALL
-  const binding = includeStairs && counts.runner > 0
-    ? Math.max(BINDING_MIN, counts.runner * BINDING_PER)
-    : 0
+  const binding = stairStyle === 'runner' && nSteps > 0 ? Math.max(BINDING_MIN, nSteps * BINDING_PER) : 0
 
   // ---- Combine ----
   const labourCore = roomInstall + stairInstall + stairPerStep
@@ -159,12 +151,8 @@ export default function CarpetEstimator() {
   const totalLow = carpetLow + padLow + removal + labour + binding
   const totalHigh = carpetHigh + padHigh + removal + labour + binding
 
-  const hasEstimate =
-    (includeRoom && roomSqft > 0) ||
-    (includeStairs && regularCount + specialSqft > 0)
-
-  const setCount = (key: StepKey, v: number) =>
-    setCounts((c) => ({ ...c, [key]: Math.max(0, v) }))
+  const stairsHave = nSteps > 0 || nPie > 0 || nLanding > 0
+  const hasEstimate = (includeRoom && roomSqft > 0) || (includeStairs && stairsHave)
 
   const addRoom = (name = '', length = '', width = '') =>
     setRooms((r) => [...r, { id: roomId.current++, name, length, width }])
@@ -174,20 +162,22 @@ export default function CarpetEstimator() {
     setRooms((r) => (r.length === 1 ? r : r.filter((x) => x.id !== id)))
 
   const estimateSummary = (() => {
-    const parts: string[] = []
-    parts.push(`Material: ${mat.label}`)
+    const parts: string[] = [`Carpet: ${mat.label}`]
     if (includeRoom) {
       const list = rooms
         .filter((x) => (parseFloat(x.length) || 0) > 0 && (parseFloat(x.width) || 0) > 0)
         .map((x) => `${x.name || 'Area'} ${x.length}×${x.width}`)
       if (list.length)
-        parts.push(`Rooms: ${list.join(', ')} (${roomSqft} sq ft total, ${Math.round(roomOrdered)} sq ft ordered)${roomExisting ? ', remove existing' : ''}`)
+        parts.push(`Rooms: ${list.join(', ')} (${roomSqft} sq ft total)${roomExisting ? ', remove existing' : ''}`)
     }
-    if (includeStairs) {
-      const steps = STEP_TYPES.filter((s) => counts[s.key] > 0).map((s) => `${counts[s.key]} ${s.label}`)
-      if (steps.length) parts.push(`Stairs (${SIZE_LABEL[stairSize]}): ${steps.join(', ')}${stairsExisting ? ', remove existing' : ''}`)
+    if (includeStairs && stairsHave) {
+      const bits: string[] = []
+      if (nSteps > 0) bits.push(`${nSteps} ${style.label}`)
+      if (nPie > 0) bits.push(`${nPie} angled`)
+      if (nLanding > 0) bits.push(`${nLanding} landing`)
+      parts.push(`Stairs: ${bits.join(', ')}${stairsExisting ? ', remove existing' : ''}`)
     }
-    parts.push(`Estimated: ${fmt(totalLow)} – ${fmt(totalHigh)}`)
+    parts.push(`Estimated: ${fmt(totalLow)} – ${fmt(totalHigh)} (before HST)`)
     return parts.join('\n')
   })()
 
@@ -196,6 +186,9 @@ export default function CarpetEstimator() {
       active ? 'border-gold bg-gold/5 ring-1 ring-gold' : 'border-stone-200 hover:border-gold/50'
     }`
 
+  const numInput =
+    'w-full border border-stone-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold'
+
   return (
     <div className="font-lato">
       <div className="grid lg:grid-cols-5 gap-8">
@@ -203,13 +196,12 @@ export default function CarpetEstimator() {
         <div className="lg:col-span-3 space-y-8">
           {/* Material */}
           <div>
-            <h3 className="font-playfair text-xl text-charcoal mb-3">1. Choose your carpet</h3>
+            <h3 className="font-playfair text-xl text-charcoal mb-3">1. Pick your carpet</h3>
             <div className="grid grid-cols-3 gap-3">
               {(Object.keys(MATERIALS) as MaterialKey[]).map((k) => (
                 <button key={k} type="button" onClick={() => setMaterial(k)} className={chip(material === k)}>
                   <p className="font-semibold text-charcoal text-sm">{MATERIALS[k].label}</p>
-                  <p className="text-warm-grey text-xs mt-0.5">{MATERIALS[k].sub}</p>
-                  <p className="text-gold text-xs font-semibold mt-1">${MATERIALS[k].low}–{MATERIALS[k].high}/sq ft</p>
+                  <p className="text-warm-grey text-xs mt-0.5 leading-snug">{MATERIALS[k].sub}</p>
                 </button>
               ))}
             </div>
@@ -217,31 +209,35 @@ export default function CarpetEstimator() {
 
           {/* What are you carpeting */}
           <div>
-            <h3 className="font-playfair text-xl text-charcoal mb-3">2. What are you carpeting?</h3>
+            <h3 className="font-playfair text-xl text-charcoal mb-3">2. What needs carpet?</h3>
             <div className="grid grid-cols-2 gap-3">
               <button type="button" onClick={() => setIncludeRoom((v) => !v)} className={chip(includeRoom)}>
-                <p className="font-semibold text-charcoal text-sm">🏠 A room / area</p>
-                <p className="text-warm-grey text-xs mt-0.5">Broadloom, wall-to-wall</p>
+                <p className="font-semibold text-charcoal text-sm">🏠 A room</p>
+                <p className="text-warm-grey text-xs mt-0.5">Wall-to-wall carpet</p>
               </button>
               <button type="button" onClick={() => setIncludeStairs((v) => !v)} className={chip(includeStairs)}>
                 <p className="font-semibold text-charcoal text-sm">🪜 Stairs</p>
-                <p className="text-warm-grey text-xs mt-0.5">Box, runner, capping…</p>
+                <p className="text-warm-grey text-xs mt-0.5">Any staircase</p>
               </button>
             </div>
+            <p className="text-warm-grey text-xs mt-2">Tap one or both. You can change it anytime.</p>
           </div>
 
-          {/* Room / area inputs */}
+          {/* Rooms */}
           {includeRoom && (
             <div className="rounded-2xl border border-stone-200 p-5">
-              <h4 className="font-semibold text-charcoal mb-1">Rooms / areas</h4>
-              <p className="text-warm-grey text-xs mb-3">Add every room you want carpeted.</p>
+              <h4 className="font-semibold text-charcoal mb-1">Your rooms</h4>
+              <p className="text-warm-grey text-xs mb-3">
+                Add each room. Don&apos;t know the exact size? A rough guess is fine — we measure for real,
+                free.
+              </p>
               <div className="space-y-2">
                 {rooms.map((r, i) => (
                   <div key={r.id} className="flex items-center gap-2">
                     <input
                       value={r.name}
                       onChange={(e) => updateRoom(r.id, 'name', e.target.value)}
-                      placeholder={`Area ${i + 1}`}
+                      placeholder={`Room ${i + 1}`}
                       aria-label={`Area ${i + 1} name`}
                       className="w-24 sm:w-32 border border-stone-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
                     />
@@ -249,7 +245,7 @@ export default function CarpetEstimator() {
                       inputMode="decimal"
                       value={r.length}
                       onChange={(e) => updateRoom(r.id, 'length', e.target.value)}
-                      placeholder="L (ft)"
+                      placeholder="Length (ft)"
                       aria-label={`Area ${i + 1} length`}
                       className="flex-1 min-w-0 border border-stone-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
                     />
@@ -258,13 +254,13 @@ export default function CarpetEstimator() {
                       inputMode="decimal"
                       value={r.width}
                       onChange={(e) => updateRoom(r.id, 'width', e.target.value)}
-                      placeholder="W (ft)"
+                      placeholder="Width (ft)"
                       aria-label={`Area ${i + 1} width`}
                       className="flex-1 min-w-0 border border-stone-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
                     />
                     <button
                       type="button"
-                      aria-label="Remove area"
+                      aria-label="Remove room"
                       onClick={() => removeRoom(r.id)}
                       disabled={rooms.length === 1}
                       className="text-warm-grey hover:text-charcoal disabled:opacity-30 disabled:cursor-not-allowed text-xl leading-none px-1"
@@ -290,58 +286,104 @@ export default function CarpetEstimator() {
                   onClick={() => addRoom()}
                   className="px-3 py-1.5 rounded-full border border-dashed border-stone-300 text-sm text-charcoal hover:border-gold hover:text-gold transition-colors"
                 >
-                  + Add area
+                  + Add another room
                 </button>
               </div>
               <label className="flex items-center gap-2 mt-4 text-sm text-charcoal cursor-pointer">
                 <input type="checkbox" checked={roomExisting} onChange={(e) => setRoomExisting(e.target.checked)} className="accent-gold w-4 h-4" />
-                Remove &amp; dispose existing carpet
+                There&apos;s old carpet to take away
               </label>
             </div>
           )}
 
-          {/* Stairs inputs */}
+          {/* Stairs */}
           {includeStairs && (
             <div className="rounded-2xl border border-stone-200 p-5">
-              <h4 className="font-semibold text-charcoal mb-3">Stairs</h4>
-              <p className="text-sm font-semibold text-charcoal mb-2">Step width</p>
-              <div className="grid grid-cols-3 gap-2 mb-4">
-                {(Object.keys(ACROSS) as SizeKey[]).map((s) => (
-                  <button key={s} type="button" onClick={() => setStairSize(s)}
-                    className={`rounded-lg border px-2 py-2 text-xs font-medium transition-colors ${stairSize === s ? 'border-gold bg-gold/5 text-charcoal ring-1 ring-gold' : 'border-stone-200 text-warm-grey hover:border-gold/50'}`}>
-                    {SIZE_LABEL[s]}
+              <h4 className="font-semibold text-charcoal mb-1">Your stairs</h4>
+              <p className="text-warm-grey text-xs mb-4">
+                Not sure about these? Take your best guess — we confirm everything free when we measure.
+              </p>
+
+              {/* How many steps */}
+              <label className="block mb-4">
+                <span className="block text-sm font-semibold text-charcoal mb-1">How many steps?</span>
+                <input
+                  inputMode="numeric"
+                  value={stepCount}
+                  onChange={(e) => setStepCount(e.target.value.replace(/\D/g, ''))}
+                  placeholder="e.g. 13"
+                  aria-label="Number of steps"
+                  className={`${numInput} max-w-[8rem]`}
+                />
+              </label>
+
+              {/* Style */}
+              <p className="text-sm font-semibold text-charcoal mb-2">What do your stairs look like?</p>
+              <div className="space-y-2 mb-4">
+                {MAIN_STYLES.map((s) => (
+                  <button
+                    key={s.key}
+                    type="button"
+                    onClick={() => setStairStyle(s.key)}
+                    className={`w-full text-left rounded-lg border p-3 transition-colors ${
+                      stairStyle === s.key ? 'border-gold bg-gold/5 ring-1 ring-gold' : 'border-stone-200 hover:border-gold/50'
+                    }`}
+                  >
+                    <span className="font-semibold text-charcoal text-sm">{s.label}</span>
+                    <span className="block text-warm-grey text-xs mt-0.5">{s.hint}</span>
                   </button>
                 ))}
               </div>
-              <p className="text-sm font-semibold text-charcoal mb-2">How many of each?</p>
-              <div className="space-y-2">
-                {STEP_TYPES.map((s) => (
-                  <div key={s.key} className="flex items-center justify-between gap-3">
-                    <span className="text-sm text-charcoal">{s.label}{s.key === 'runner' && <span className="text-warm-grey text-xs"> (incl. edge binding)</span>}</span>
-                    <div className="flex items-center gap-2">
-                      <button type="button" aria-label={`Fewer ${s.label}`} onClick={() => setCount(s.key, counts[s.key] - 1)}
-                        className="w-7 h-7 rounded-full border border-stone-300 text-charcoal leading-none hover:border-gold">−</button>
-                      <input
-                        type="text"
-                        inputMode="numeric"
-                        aria-label={`Number of ${s.label} steps`}
-                        value={counts[s.key] === 0 ? '' : String(counts[s.key])}
-                        onChange={(e) => {
-                          const n = parseInt(e.target.value.replace(/\D/g, ''), 10)
-                          setCount(s.key, Number.isNaN(n) ? 0 : n)
-                        }}
-                        placeholder="0"
-                        className="w-12 text-center text-sm font-semibold border border-stone-300 rounded-md py-1 focus:outline-none focus:ring-2 focus:ring-gold"
-                      />
-                      <button type="button" aria-label={`More ${s.label}`} onClick={() => setCount(s.key, counts[s.key] + 1)}
-                        className="w-7 h-7 rounded-full border border-stone-300 text-charcoal leading-none hover:border-gold">+</button>
-                    </div>
+
+              {/* Width — only matters when cut from the roll */}
+              {stairStyle !== 'capping' && (
+                <div className="mb-4">
+                  <p className="text-sm font-semibold text-charcoal mb-1">How wide are the stairs?</p>
+                  <p className="text-warm-grey text-xs mb-2">Most homes are &quot;Standard.&quot; Not sure? Leave it.</p>
+                  <div className="grid grid-cols-3 gap-2">
+                    {SIZE_OPTIONS.map((s) => (
+                      <button
+                        key={s.key}
+                        type="button"
+                        onClick={() => setStairSize(s.key)}
+                        className={`rounded-lg border px-2 py-2 text-sm font-medium transition-colors ${
+                          stairSize === s.key ? 'border-gold bg-gold/5 text-charcoal ring-1 ring-gold' : 'border-stone-200 text-warm-grey hover:border-gold/50'
+                        }`}
+                      >
+                        {s.label}
+                      </button>
+                    ))}
                   </div>
-                ))}
-              </div>
-              <label className="flex items-center gap-2 mt-4 text-sm text-charcoal cursor-pointer">
+                </div>
+              )}
+
+              {/* Special steps (optional) */}
+              <label className="flex items-center gap-2 text-sm text-charcoal cursor-pointer mb-2">
+                <input type="checkbox" checked={hasSpecial} onChange={(e) => setHasSpecial(e.target.checked)} className="accent-gold w-4 h-4" />
+                My stairs have angled steps or a flat landing
+              </label>
+              {hasSpecial && (
+                <div className="space-y-3 pl-6 mb-2">
+                  <div>
+                    <label className="block text-sm text-charcoal mb-1">
+                      Angled steps <span className="text-warm-grey text-xs">(wedge-shaped, on a turn)</span>
+                    </label>
+                    <input inputMode="numeric" value={pieCount} onChange={(e) => setPieCount(e.target.value.replace(/\D/g, ''))}
+                      placeholder="0" aria-label="Angled steps" className={`${numInput} max-w-[6rem]`} />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-charcoal mb-1">
+                      Landings <span className="text-warm-grey text-xs">(flat platform between stairs)</span>
+                    </label>
+                    <input inputMode="numeric" value={landingCount} onChange={(e) => setLandingCount(e.target.value.replace(/\D/g, ''))}
+                      placeholder="0" aria-label="Landings" className={`${numInput} max-w-[6rem]`} />
+                  </div>
+                </div>
+              )}
+
+              <label className="flex items-center gap-2 mt-3 text-sm text-charcoal cursor-pointer">
                 <input type="checkbox" checked={stairsExisting} onChange={(e) => setStairsExisting(e.target.checked)} className="accent-gold w-4 h-4" />
-                Remove &amp; dispose existing stair carpet
+                There&apos;s old carpet to take away
               </label>
             </div>
           )}
@@ -363,25 +405,25 @@ export default function CarpetEstimator() {
                     <li className="flex items-center gap-2"><span className="text-gold">✓</span>{mat.label} carpet</li>
                     <li className="flex items-center gap-2"><span className="text-gold">✓</span>Underpad</li>
                     <li className="flex items-center gap-2"><span className="text-gold">✓</span>Professional installation</li>
-                    {removal > 0 && <li className="flex items-center gap-2"><span className="text-gold">✓</span>Old carpet removal &amp; disposal</li>}
+                    {removal > 0 && <li className="flex items-center gap-2"><span className="text-gold">✓</span>Taking away your old carpet</li>}
                     {binding > 0 && <li className="flex items-center gap-2"><span className="text-gold">✓</span>Runner edge binding</li>}
                   </ul>
                 </div>
 
                 <p className="text-white/50 text-xs mt-4 leading-relaxed">
-                  Ballpark only — your exact price is confirmed at your free in-home measure.
+                  This is a ballpark. We give you the exact price at your free in-home measure — no pressure.
                 </p>
 
-                {!showForm ? (
+                {!showForm && (
                   <button type="button" onClick={() => setShowForm(true)}
                     className="w-full mt-5 bg-gold text-white font-semibold py-3.5 rounded hover:bg-gold-dark transition-colors">
-                    Lock in this estimate — book your free measure →
+                    Book my free measure →
                   </button>
-                ) : null}
+                )}
               </>
             ) : (
               <p className="text-white/70 text-sm py-8 text-center">
-                Pick a carpet and add a room or stairs to see your instant estimate.
+                Pick a carpet and tell us about your room or stairs to see your price.
               </p>
             )}
           </div>
@@ -398,7 +440,7 @@ export default function CarpetEstimator() {
             product="Carpet — Instant Estimate"
             source="Carpet Estimator"
             heading="Book your free measure"
-            subheading="We'll confirm this estimate on-site. No obligation."
+            subheading="We'll confirm this price at your home. No obligation."
             details={estimateSummary}
           />
         </div>
