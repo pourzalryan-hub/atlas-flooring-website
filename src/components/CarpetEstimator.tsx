@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import LeadForm from './LeadForm'
 
 /*
@@ -68,6 +68,8 @@ type StepKey = (typeof STEP_TYPES)[number]['key']
 const BINDING_MIN = 200
 const BINDING_PER = 200 / 12
 
+type RoomItem = { id: number; name: string; length: string; width: string }
+
 const ROOM_PRESETS = [
   { label: 'Bedroom', l: 10, w: 12 },
   { label: 'Living room', l: 15, w: 20 },
@@ -86,8 +88,8 @@ export default function CarpetEstimator() {
   const [material, setMaterial] = useState<MaterialKey>('nylon')
 
   const [includeRoom, setIncludeRoom] = useState(true)
-  const [length, setLength] = useState('')
-  const [width, setWidth] = useState('')
+  const roomId = useRef(1)
+  const [rooms, setRooms] = useState<RoomItem[]>([{ id: 0, name: '', length: '', width: '' }])
   const [roomExisting, setRoomExisting] = useState(true)
 
   const [includeStairs, setIncludeStairs] = useState(false)
@@ -99,15 +101,20 @@ export default function CarpetEstimator() {
 
   const mat = MATERIALS[material]
 
-  // ---- Room ----
-  const L = parseFloat(length) || 0
-  const W = parseFloat(width) || 0
-  const roomSqft = includeRoom ? L * W : 0
+  // ---- Rooms / areas ----
+  let roomSqft = 0
   let roomOrdered = 0
-  if (roomSqft > 0) {
-    const a = Math.ceil(W / mat.roll) * mat.roll * L
-    const b = Math.ceil(L / mat.roll) * mat.roll * W
-    roomOrdered = Math.min(a, b)
+  if (includeRoom) {
+    for (const r of rooms) {
+      const L = parseFloat(r.length) || 0
+      const W = parseFloat(r.width) || 0
+      if (L > 0 && W > 0) {
+        roomSqft += L * W
+        const a = Math.ceil(W / mat.roll) * mat.roll * L
+        const b = Math.ceil(L / mat.roll) * mat.roll * W
+        roomOrdered += Math.min(a, b) // each area is cut separately, with its own waste
+      }
+    }
   }
   const roomCarpetLow = roomOrdered * mat.low
   const roomCarpetHigh = roomOrdered * mat.high
@@ -159,11 +166,23 @@ export default function CarpetEstimator() {
   const setCount = (key: StepKey, v: number) =>
     setCounts((c) => ({ ...c, [key]: Math.max(0, v) }))
 
+  const addRoom = (name = '', length = '', width = '') =>
+    setRooms((r) => [...r, { id: roomId.current++, name, length, width }])
+  const updateRoom = (id: number, field: 'name' | 'length' | 'width', value: string) =>
+    setRooms((r) => r.map((x) => (x.id === id ? { ...x, [field]: value } : x)))
+  const removeRoom = (id: number) =>
+    setRooms((r) => (r.length === 1 ? r : r.filter((x) => x.id !== id)))
+
   const estimateSummary = (() => {
     const parts: string[] = []
     parts.push(`Material: ${mat.label}`)
-    if (includeRoom && roomSqft > 0)
-      parts.push(`Room: ${L}×${W} ft (${roomSqft} sq ft, ${Math.round(roomOrdered)} sq ft ordered)${roomExisting ? ', remove existing' : ''}`)
+    if (includeRoom) {
+      const list = rooms
+        .filter((x) => (parseFloat(x.length) || 0) > 0 && (parseFloat(x.width) || 0) > 0)
+        .map((x) => `${x.name || 'Area'} ${x.length}×${x.width}`)
+      if (list.length)
+        parts.push(`Rooms: ${list.join(', ')} (${roomSqft} sq ft total, ${Math.round(roomOrdered)} sq ft ordered)${roomExisting ? ', remove existing' : ''}`)
+    }
     if (includeStairs) {
       const steps = STEP_TYPES.filter((s) => counts[s.key] > 0).map((s) => `${counts[s.key]} ${s.label}`)
       if (steps.length) parts.push(`Stairs (${SIZE_LABEL[stairSize]}): ${steps.join(', ')}${stairsExisting ? ', remove existing' : ''}`)
@@ -211,34 +230,68 @@ export default function CarpetEstimator() {
             </div>
           </div>
 
-          {/* Room inputs */}
+          {/* Room / area inputs */}
           {includeRoom && (
             <div className="rounded-2xl border border-stone-200 p-5">
-              <h4 className="font-semibold text-charcoal mb-3">Room size</h4>
-              <div className="flex flex-wrap gap-2 mb-4">
+              <h4 className="font-semibold text-charcoal mb-1">Rooms / areas</h4>
+              <p className="text-warm-grey text-xs mb-3">Add every room you want carpeted.</p>
+              <div className="space-y-2">
+                {rooms.map((r, i) => (
+                  <div key={r.id} className="flex items-center gap-2">
+                    <input
+                      value={r.name}
+                      onChange={(e) => updateRoom(r.id, 'name', e.target.value)}
+                      placeholder={`Area ${i + 1}`}
+                      aria-label={`Area ${i + 1} name`}
+                      className="w-24 sm:w-32 border border-stone-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
+                    />
+                    <input
+                      inputMode="decimal"
+                      value={r.length}
+                      onChange={(e) => updateRoom(r.id, 'length', e.target.value)}
+                      placeholder="L (ft)"
+                      aria-label={`Area ${i + 1} length`}
+                      className="flex-1 min-w-0 border border-stone-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
+                    />
+                    <span className="text-warm-grey">×</span>
+                    <input
+                      inputMode="decimal"
+                      value={r.width}
+                      onChange={(e) => updateRoom(r.id, 'width', e.target.value)}
+                      placeholder="W (ft)"
+                      aria-label={`Area ${i + 1} width`}
+                      className="flex-1 min-w-0 border border-stone-300 rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
+                    />
+                    <button
+                      type="button"
+                      aria-label="Remove area"
+                      onClick={() => removeRoom(r.id)}
+                      disabled={rooms.length === 1}
+                      className="text-warm-grey hover:text-charcoal disabled:opacity-30 disabled:cursor-not-allowed text-xl leading-none px-1"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <div className="flex flex-wrap gap-2 mt-3">
                 {ROOM_PRESETS.map((p) => (
                   <button
                     key={p.label}
                     type="button"
-                    onClick={() => { setLength(String(p.l)); setWidth(String(p.w)) }}
+                    onClick={() => addRoom(p.label, String(p.l), String(p.w))}
                     className="px-3 py-1.5 rounded-full border border-stone-200 text-sm text-charcoal hover:border-gold hover:text-gold transition-colors"
                   >
-                    {p.label} ({p.l}×{p.w})
+                    + {p.label}
                   </button>
                 ))}
-              </div>
-              <div className="flex items-end gap-3">
-                <label className="flex-1">
-                  <span className="block text-sm font-semibold text-charcoal mb-1">Length (ft)</span>
-                  <input inputMode="decimal" value={length} onChange={(e) => setLength(e.target.value)}
-                    className="w-full border border-stone-300 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-gold" placeholder="15" />
-                </label>
-                <span className="pb-3 text-warm-grey">×</span>
-                <label className="flex-1">
-                  <span className="block text-sm font-semibold text-charcoal mb-1">Width (ft)</span>
-                  <input inputMode="decimal" value={width} onChange={(e) => setWidth(e.target.value)}
-                    className="w-full border border-stone-300 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-gold" placeholder="20" />
-                </label>
+                <button
+                  type="button"
+                  onClick={() => addRoom()}
+                  className="px-3 py-1.5 rounded-full border border-dashed border-stone-300 text-sm text-charcoal hover:border-gold hover:text-gold transition-colors"
+                >
+                  + Add area
+                </button>
               </div>
               <label className="flex items-center gap-2 mt-4 text-sm text-charcoal cursor-pointer">
                 <input type="checkbox" checked={roomExisting} onChange={(e) => setRoomExisting(e.target.checked)} className="accent-gold w-4 h-4" />
