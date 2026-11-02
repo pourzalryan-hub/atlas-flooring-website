@@ -17,9 +17,9 @@ import LeadForm from './LeadForm'
  */
 
 const MATERIALS = {
-  stock: { label: 'Stock', sub: 'In-stock, budget-friendly', low: 4, high: 5.5, roll: 12 },
-  nylon: { label: 'Nylon / Polyester', sub: 'Most popular — tough & family-friendly', low: 5, high: 9, roll: 12 },
-  wool: { label: 'Wool', sub: 'Premium — natural & luxurious', low: 9, high: 13, roll: 13 },
+  stock: { label: 'Stock', sub: 'In-stock — great value', low: 4, high: 5.5, roll: 12, lead: 'Shortest wait' },
+  nylon: { label: 'Nylon / Polyester', sub: 'Tough & family-friendly', low: 5, high: 9, roll: 12, lead: '2–4 week lead time' },
+  wool: { label: 'Wool', sub: 'Premium — natural & luxurious', low: 9, high: 13, roll: 13, lead: '2–4 week lead time' },
 } as const
 type MaterialKey = keyof typeof MATERIALS
 const MATERIAL_KEYS = Object.keys(MATERIALS) as MaterialKey[]
@@ -190,7 +190,7 @@ export default function CarpetEstimator() {
     }
     if (results.length)
       parts.push(
-        'Prices before HST — ' +
+        'Prices +HST — ' +
           results.map((r) => `${MATERIALS[r.key].label}: ${fmt(r.low)}–${fmt(r.high)}`).join(' · ')
       )
     if (selectedTier) parts.push(`Leaning toward: ${MATERIALS[selectedTier].label}`)
@@ -364,7 +364,7 @@ export default function CarpetEstimator() {
           </p>
           <div className="grid sm:grid-cols-3 gap-4">
             {results.map((r) => {
-              const popular = r.key === 'nylon'
+              const popular = r.key === 'stock'
               return (
                 <div key={r.key}
                   className={`relative rounded-2xl border p-5 flex flex-col ${popular ? 'border-gold ring-1 ring-gold shadow-sm' : 'border-stone-200'}`}>
@@ -376,7 +376,8 @@ export default function CarpetEstimator() {
                   <p className="font-playfair text-lg text-charcoal">{MATERIALS[r.key].label}</p>
                   <p className="text-warm-grey text-xs mb-3 leading-snug min-h-[2.4em]">{MATERIALS[r.key].sub}</p>
                   <p className="font-playfair text-2xl text-charcoal leading-tight">{fmt(r.low)}</p>
-                  <p className="text-warm-grey text-xs mb-3">to {fmt(r.high)} · before HST</p>
+                  <p className="text-warm-grey text-xs">to {fmt(r.high)} · +HST</p>
+                  <p className={`text-xs mt-1 mb-3 ${r.key === 'stock' ? 'text-gold font-semibold' : 'text-warm-grey'}`}>⏱ {MATERIALS[r.key].lead}</p>
                   <button type="button" onClick={() => book(r.key)}
                     className={`mt-auto w-full font-semibold py-2.5 rounded text-sm transition-colors ${
                       popular ? 'bg-gold text-white hover:bg-gold-dark' : 'border border-charcoal text-charcoal hover:bg-charcoal hover:text-white'
