@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import LeadForm from './LeadForm'
 
 /*
@@ -20,8 +20,8 @@ import LeadForm from './LeadForm'
 
 const MATERIALS = {
   stock: { label: 'Stock', sub: 'In-stock — great value', low: 4, high: 5.5, roll: 12, lead: 'Shortest wait' },
-  nylon: { label: 'Nylon / Polyester', sub: 'Tough & family-friendly', low: 5, high: 9, roll: 12, lead: '2–4 week lead time' },
-  wool: { label: 'Wool', sub: 'Premium — natural & luxurious', low: 9, high: 13, roll: 13, lead: '2–4 week lead time' },
+  nylon: { label: 'Nylon / Polyester', sub: 'Tough & family-friendly', low: 5, high: 9, roll: 12, lead: '2–8 week lead time' },
+  wool: { label: 'Wool', sub: 'Premium — natural & luxurious', low: 9, high: 13, roll: 13, lead: '2–8 week lead time' },
 } as const
 type MaterialKey = keyof typeof MATERIALS
 const MATERIAL_KEYS = Object.keys(MATERIALS) as MaterialKey[]
@@ -145,6 +145,11 @@ export default function CarpetEstimator() {
 
   const [showForm, setShowForm] = useState(false)
   const [selectedTier, setSelectedTier] = useState<MaterialKey | null>(null)
+  const formRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (showForm) formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }, [showForm, selectedTier])
 
   const includeRoom = mode === 'room' || mode === 'both'
   const includeStairs = mode === 'stairs' || mode === 'both'
@@ -476,7 +481,7 @@ export default function CarpetEstimator() {
           </div>
 
           {showForm && (
-            <div className="mt-6">
+            <div ref={formRef} className="mt-6 scroll-mt-24">
               <div className="rounded-xl bg-white border border-stone-200 p-4 mb-4 text-sm text-charcoal whitespace-pre-line">{estimateSummary}</div>
               <LeadForm product="Carpet — Instant Estimate" source="Carpet Estimator" heading="Book your free measure" subheading="We'll confirm your price at home. No obligation." details={estimateSummary} />
             </div>
