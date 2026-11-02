@@ -151,6 +151,22 @@ export default function CarpetEstimator() {
     if (showForm) formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }, [showForm, selectedTier])
 
+  // Usage tracking -> Estimator Log sheet (best effort).
+  const startedRef = useRef(false)
+  const pricesRef = useRef(false)
+  const trackEstimator = (type: string, tier = '') => {
+    try {
+      fetch('/api/estimator-event', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type, tier }),
+        keepalive: true,
+      }).catch(() => {})
+    } catch {
+      /* best effort */
+    }
+  }
+
   const includeRoom = mode === 'room' || mode === 'both'
   const includeStairs = mode === 'stairs' || mode === 'both'
 
@@ -161,6 +177,20 @@ export default function CarpetEstimator() {
     'result',
   ]
   const current = flow[Math.min(stepIndex, flow.length - 1)]
+
+  useEffect(() => {
+    if (mode && !startedRef.current) {
+      startedRef.current = true
+      trackEstimator('start')
+    }
+  }, [mode])
+
+  useEffect(() => {
+    if (current === 'result' && !pricesRef.current) {
+      pricesRef.current = true
+      trackEstimator('prices')
+    }
+  }, [current])
 
   const validRooms = rooms.filter((x) => (parseFloat(x.length) || 0) > 0 && (parseFloat(x.width) || 0) > 0)
   const stairsHave = includeStairs && staircases.some((s) => toInt(s.count) > 0 || toInt(s.pie) > 0 || toInt(s.landing) > 0)
@@ -483,7 +513,7 @@ export default function CarpetEstimator() {
           {showForm && (
             <div ref={formRef} className="mt-6 scroll-mt-24">
               <div className="rounded-xl bg-white border border-stone-200 p-4 mb-4 text-sm text-charcoal whitespace-pre-line">{estimateSummary}</div>
-              <LeadForm product="Carpet — Instant Estimate" source="Carpet Estimator" heading="Book your free measure" subheading="We'll confirm your price at home. No obligation." details={estimateSummary} />
+              <LeadForm product="Carpet — Instant Estimate" source="Carpet Estimator" heading="Book your free measure" subheading="We'll confirm your price at home. No obligation." details={estimateSummary} onSuccess={() => trackEstimator('book', selectedTier ?? '')} />
             </div>
           )}
         </div>

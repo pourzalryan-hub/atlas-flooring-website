@@ -18,6 +18,8 @@ interface LeadFormProps {
   showMessage?: boolean
   /** Extra context (e.g. an instant-estimate summary) appended to the lead's message. */
   details?: string
+  /** Called once after a successful submission (e.g. to fire a tracking event). */
+  onSuccess?: () => void
 }
 
 interface FormState {
@@ -51,6 +53,7 @@ export default function LeadForm({
   ctaLabel = 'Get My Free Quote →',
   showMessage = false,
   details,
+  onSuccess,
 }: LeadFormProps) {
   const [form, setForm] = useState<FormState>(initialForm)
   const [submitted, setSubmitted] = useState(false)
@@ -90,6 +93,7 @@ export default function LeadForm({
       }
 
       trackFormSubmit({ product: product ?? '' })
+      onSuccess?.()
       setSubmitted(true)
     } catch (err) {
       setError(
