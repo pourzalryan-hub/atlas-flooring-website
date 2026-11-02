@@ -280,6 +280,31 @@ export default function CarpetPage() {
         </div>
       </section>
 
+      {/* Instant estimate CTA */}
+      <section className="bg-charcoal py-14 px-4">
+        <div className="max-w-4xl mx-auto grid gap-6 md:grid-cols-2 md:items-center">
+          <div className="text-center md:text-left">
+            <p className="text-gold font-semibold text-xs uppercase tracking-[0.15em] mb-2">
+              Instant Estimate
+            </p>
+            <h2 className="font-playfair text-2xl md:text-3xl text-white mb-2">
+              Curious what carpet costs?
+            </h2>
+            <p className="text-stone-300 text-sm">
+              Answer a few quick questions and get a ballpark price in about 60 seconds — no obligation.
+            </p>
+          </div>
+          <div className="flex md:justify-end">
+            <Link
+              href="/carpet-estimate"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gold text-white font-semibold rounded hover:bg-gold-dark transition-colors text-lg"
+            >
+              Get my instant estimate →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* 3. Carpet Types */}
       <section className="bg-white py-20 px-4">
         <div className="max-w-6xl mx-auto">

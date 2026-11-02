@@ -8,6 +8,7 @@ const products = [
   { label: "Engineered Hardwood", href: "/engineered-hardwood" },
   { label: "Carpet & Broadloom", href: "/carpet" },
   { label: "Carpet Samples", href: "/carpet/samples" },
+  { label: "Instant Carpet Estimate", href: "/carpet-estimate" },
   { label: "Stair Runners", href: "/stair-runners" },
   { label: "Luxury Vinyl", href: "/vinyl" },
   { label: "Laminate Flooring", href: "/laminate" },
@@ -110,7 +111,7 @@ export default function Navigation() {
                       key={p.href}
                       href={p.href}
                       className={`block px-5 py-3 font-lato text-sm transition-colors border-b border-white/5 last:border-0 hover:bg-gold/20 hover:text-gold ${
-                        p.href === "/carpet/samples"
+                        p.href === "/carpet/samples" || p.href === "/carpet-estimate"
                           ? "text-gold font-semibold"
                           : "text-white/80"
                       }`}
@@ -200,7 +201,7 @@ export default function Navigation() {
                   href={p.href}
                   onClick={() => setMobileOpen(false)}
                   className={`block pl-4 py-2.5 font-lato text-sm hover:text-gold ${
-                    p.href === "/carpet/samples"
+                    p.href === "/carpet/samples" || p.href === "/carpet-estimate"
                       ? "text-gold font-semibold"
                       : "text-white/70"
                   }`}

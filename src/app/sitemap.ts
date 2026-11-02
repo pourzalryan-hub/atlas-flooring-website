@@ -22,6 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const servicePages: MetadataRoute.Sitemap = [
     "/hardwood",
     "/carpet",
+    "/carpet-estimate",
     "/vinyl",
     "/laminate",
     "/stair-runners",
