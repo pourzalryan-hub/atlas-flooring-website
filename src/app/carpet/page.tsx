@@ -7,6 +7,7 @@ import FAQAccordion from "@/components/FAQAccordion";
 import ProcessSteps from "@/components/ProcessSteps";
 import ReviewsSection from "@/components/ReviewsSection";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
+import CarpetEstimator from "@/components/CarpetEstimator";
 import FaqSchema from "@/components/FaqSchema";
 import { carpetAreas } from "@/lib/carpet-areas";
 
@@ -236,6 +237,26 @@ export default function CarpetPage() {
         </div>
       </section>
 
+      {/* Instant Estimate — embedded right on the page (no click-through) */}
+      <section id="estimate" className="bg-off-white py-16 px-4 border-t border-stone-100">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-8">
+            <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gold mb-3 font-lato">
+              Instant Estimate
+            </p>
+            <h2 className="font-playfair text-4xl text-charcoal">
+              Get Your Carpet Price Now
+            </h2>
+            <p className="text-warm-grey mt-4 max-w-2xl mx-auto">
+              Answer a few quick questions and see three prices right away — no waiting, no obligation.
+            </p>
+          </div>
+          <div className="bg-white rounded-2xl shadow-sm border border-stone-100 p-5 sm:p-8">
+            <CarpetEstimator />
+          </div>
+        </div>
+      </section>
+
       {/* Proof — real reviews, placed high */}
       <ReviewsSection service="carpet" />
 
@@ -276,31 +297,6 @@ export default function CarpetPage() {
               afterAlt="Basement rec room with fresh wall-to-wall carpet professionally installed by Atlas Rug & Design Centre in Toronto"
               caption="Basement rec room · Toronto"
             />
-          </div>
-        </div>
-      </section>
-
-      {/* Instant estimate CTA */}
-      <section className="bg-charcoal py-14 px-4">
-        <div className="max-w-4xl mx-auto grid gap-6 md:grid-cols-2 md:items-center">
-          <div className="text-center md:text-left">
-            <p className="text-gold font-semibold text-xs uppercase tracking-[0.15em] mb-2">
-              Instant Estimate
-            </p>
-            <h2 className="font-playfair text-2xl md:text-3xl text-white mb-2">
-              Curious what carpet costs?
-            </h2>
-            <p className="text-stone-300 text-sm">
-              Answer a few quick questions and get a ballpark price in about 60 seconds — no obligation.
-            </p>
-          </div>
-          <div className="flex md:justify-end">
-            <Link
-              href="/carpet-estimate"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gold text-white font-semibold rounded hover:bg-gold-dark transition-colors text-lg"
-            >
-              Get my instant estimate →
-            </Link>
           </div>
         </div>
       </section>
