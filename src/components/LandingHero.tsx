@@ -93,7 +93,7 @@ export default function LandingHero({
                 {estimatorHref ? (
                   <a
                     href={estimatorHref}
-                    className="inline-flex items-center justify-center px-7 py-4 border border-white/40 text-white font-lato font-semibold rounded hover:border-gold hover:text-gold transition-colors"
+                    className="inline-flex items-center justify-center px-7 py-4 bg-white text-charcoal font-lato font-semibold rounded hover:bg-stone-100 transition-colors text-lg shadow-sm"
                   >
                     💰 Get my instant price →
                   </a>
