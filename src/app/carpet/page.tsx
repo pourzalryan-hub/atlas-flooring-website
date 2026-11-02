@@ -177,6 +177,7 @@ export default function CarpetPage() {
         product="Carpet & Broadloom"
         source="Carpet Landing"
         formHeading="Get Your Free Carpet Quote"
+        estimatorHref="#estimate"
       />
 
       {/* 1c. Trust bar */}
@@ -238,7 +239,7 @@ export default function CarpetPage() {
       </section>
 
       {/* Instant Estimate — embedded right on the page (no click-through) */}
-      <section id="estimate" className="bg-off-white py-16 px-4 border-t border-stone-100">
+      <section id="estimate" className="bg-off-white py-16 px-4 border-t border-stone-100 scroll-mt-24">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-8">
             <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gold mb-3 font-lato">

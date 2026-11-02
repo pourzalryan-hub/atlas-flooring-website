@@ -13,6 +13,8 @@ interface LandingHeroProps {
   product?: string
   source?: string
   formHeading?: string
+  /** When set, shows a secondary hero button linking to an on-page estimator (e.g. "#estimate"). */
+  estimatorHref?: string
 }
 
 export default function LandingHero({
@@ -29,6 +31,7 @@ export default function LandingHero({
   product,
   source = 'Website',
   formHeading = 'Get Your Free Quote',
+  estimatorHref,
 }: LandingHeroProps) {
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -87,12 +90,21 @@ export default function LandingHero({
                   </svg>
                   Call (416) 533-3366
                 </a>
-                <a
-                  href="#lead-form"
-                  className="lg:hidden inline-flex items-center justify-center px-7 py-4 border border-white/40 text-white font-lato font-semibold rounded hover:border-gold hover:text-gold transition-colors"
-                >
-                  Get a Free Quote ↓
-                </a>
+                {estimatorHref ? (
+                  <a
+                    href={estimatorHref}
+                    className="inline-flex items-center justify-center px-7 py-4 border border-white/40 text-white font-lato font-semibold rounded hover:border-gold hover:text-gold transition-colors"
+                  >
+                    💰 Get my instant price →
+                  </a>
+                ) : (
+                  <a
+                    href="#lead-form"
+                    className="lg:hidden inline-flex items-center justify-center px-7 py-4 border border-white/40 text-white font-lato font-semibold rounded hover:border-gold hover:text-gold transition-colors"
+                  >
+                    Get a Free Quote ↓
+                  </a>
+                )}
               </div>
             </div>
 
