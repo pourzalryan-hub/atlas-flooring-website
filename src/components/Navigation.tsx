@@ -142,7 +142,10 @@ export default function Navigation() {
             >
               (416) 533-3366
             </a>
-            <Link href="/contact" className="btn-gold text-sm px-6 py-3">
+            <Link
+              href="/contact"
+              className="btn-gold text-sm px-6 py-3 shadow-lg shadow-gold/40 hover:shadow-xl hover:-translate-y-0.5 transition-all"
+            >
               Get a Free Quote
             </Link>
           </div>
@@ -232,7 +235,7 @@ export default function Navigation() {
               <Link
                 href="/contact"
                 onClick={() => setMobileOpen(false)}
-                className="btn-gold w-full justify-center"
+                className="btn-gold w-full justify-center shadow-lg shadow-gold/40"
               >
                 Get a Free Quote
               </Link>
