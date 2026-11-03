@@ -177,7 +177,6 @@ export default function CarpetPage() {
         product="Carpet & Broadloom"
         source="Carpet Landing"
         formHeading="Get Your Free Carpet Quote"
-        estimatorHref="#estimate"
       />
 
       {/* 1c. Trust bar */}
@@ -235,26 +234,6 @@ export default function CarpetPage() {
             </Link>
             .
           </p>
-        </div>
-      </section>
-
-      {/* Instant Estimate — embedded right on the page (no click-through) */}
-      <section id="estimate" className="bg-off-white py-16 px-4 border-t border-stone-100 scroll-mt-24">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-8">
-            <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gold mb-3 font-lato">
-              Instant Estimate
-            </p>
-            <h2 className="font-playfair text-4xl text-charcoal">
-              Get Your Carpet Price Now
-            </h2>
-            <p className="text-warm-grey mt-4 max-w-2xl mx-auto">
-              Answer a few quick questions and see three prices right away — no waiting, no obligation.
-            </p>
-          </div>
-          <div className="bg-white rounded-2xl shadow-sm border border-stone-100 p-5 sm:p-8">
-            <CarpetEstimator />
-          </div>
         </div>
       </section>
 
@@ -499,6 +478,27 @@ export default function CarpetPage() {
             </h2>
           </div>
           <FAQAccordion items={faqItems} />
+        </div>
+      </section>
+
+      {/* Instant Estimate — optional, offered lower on the page */}
+      <section id="estimate" className="bg-charcoal py-16 px-4 scroll-mt-24">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-8">
+            <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gold mb-3 font-lato">
+              Prefer a Ballpark First?
+            </p>
+            <h2 className="font-playfair text-4xl text-white">
+              Get an Instant Estimate
+            </h2>
+            <p className="text-stone-300 mt-4 max-w-2xl mx-auto">
+              Not ready to book? Answer a few quick questions and see three prices right away — then
+              request your free in-home measure to lock it in. No obligation.
+            </p>
+          </div>
+          <div className="bg-white rounded-2xl shadow-sm p-5 sm:p-8">
+            <CarpetEstimator />
+          </div>
         </div>
       </section>
 
