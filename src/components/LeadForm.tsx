@@ -20,6 +20,8 @@ interface LeadFormProps {
   details?: string
   /** Called once after a successful submission (e.g. to fire a tracking event). */
   onSuccess?: () => void
+  /** Optional extra action shown on the success screen (e.g. a link to the estimator). */
+  successCta?: { label: string; href: string }
 }
 
 interface FormState {
@@ -54,6 +56,7 @@ export default function LeadForm({
   showMessage = false,
   details,
   onSuccess,
+  successCta,
 }: LeadFormProps) {
   const [form, setForm] = useState<FormState>(initialForm)
   const [submitted, setSubmitted] = useState(false)
@@ -119,6 +122,19 @@ export default function LeadForm({
           </a>
           .
         </p>
+        {successCta && (
+          <div className="mt-6 pt-5 border-t border-stone-100">
+            <p className="font-lato text-sm text-warm-grey mb-3">
+              While you wait, want a ballpark price?
+            </p>
+            <a
+              href={successCta.href}
+              className="inline-flex items-center justify-center px-6 py-3 bg-gold text-white font-lato font-semibold rounded hover:bg-gold-dark transition-colors"
+            >
+              {successCta.label}
+            </a>
+          </div>
+        )}
       </div>
     )
   }

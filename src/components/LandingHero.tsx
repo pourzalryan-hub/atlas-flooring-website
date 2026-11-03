@@ -15,6 +15,8 @@ interface LandingHeroProps {
   formHeading?: string
   /** When set, shows a secondary hero button linking to an on-page estimator (e.g. "#estimate"). */
   estimatorHref?: string
+  /** Optional action shown on the form's success screen (e.g. link to the estimator). */
+  formSuccessCta?: { label: string; href: string }
 }
 
 export default function LandingHero({
@@ -32,6 +34,7 @@ export default function LandingHero({
   source = 'Website',
   formHeading = 'Get Your Free Quote',
   estimatorHref,
+  formSuccessCta,
 }: LandingHeroProps) {
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -110,7 +113,7 @@ export default function LandingHero({
 
             {/* RIGHT — on-page lead form */}
             <div id="lead-form" className="scroll-mt-28">
-              <LeadForm product={product} source={source} heading={formHeading} />
+              <LeadForm product={product} source={source} heading={formHeading} successCta={formSuccessCta} />
             </div>
           </div>
         </div>

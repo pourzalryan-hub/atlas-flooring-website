@@ -177,6 +177,7 @@ export default function CarpetPage() {
         product="Carpet & Broadloom"
         source="Carpet Landing"
         formHeading="Get Your Free Carpet Quote"
+        formSuccessCta={{ label: "💰 Get my instant price →", href: "#estimate" }}
       />
 
       {/* 1c. Trust bar */}
