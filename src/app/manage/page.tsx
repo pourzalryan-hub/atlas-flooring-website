@@ -21,14 +21,21 @@ type Lead = {
   notes: string
 }
 
-const STAGES = ['New', 'Contacted', 'Quoted', 'Booked', 'Completed', 'Lost'] as const
+const STAGES = ['New', 'Appointment', 'Booked', 'Completed', 'Lost'] as const
 type Stage = (typeof STAGES)[number]
 
+// Map older / free-text statuses onto the current stages so nothing is lost.
+const STAGE_ALIASES: Record<string, Stage> = {
+  '': 'New', lead: 'New', new: 'New',
+  contacted: 'Appointment', quoted: 'Appointment', quote: 'Appointment',
+  appt: 'Appointment', appointment: 'Appointment', measure: 'Appointment', consult: 'Appointment',
+  booked: 'Booked', won: 'Booked', sold: 'Booked', deposit: 'Booked',
+  completed: 'Completed', complete: 'Completed', done: 'Completed', installed: 'Completed', paid: 'Completed',
+  lost: 'Lost', dead: 'Lost', cancelled: 'Lost', canceled: 'Lost',
+}
 const normalize = (s: string): Stage => {
   const v = (s || '').trim().toLowerCase()
-  if (!v || v === 'lead' || v === 'new') return 'New'
-  const hit = STAGES.find((x) => x.toLowerCase() === v)
-  return (hit as Stage) || 'New'
+  return STAGE_ALIASES[v] || STAGES.find((x) => x.toLowerCase() === v) || 'New'
 }
 const num = (v: string | number) => {
   const n = typeof v === 'number' ? v : parseFloat(String(v).replace(/[^0-9.]/g, ''))
@@ -50,8 +57,7 @@ const isRealLead = (l: Lead) => {
 
 const STAGE_STYLE: Record<Stage, string> = {
   New: 'bg-blue-100 text-blue-800',
-  Contacted: 'bg-purple-100 text-purple-800',
-  Quoted: 'bg-amber-100 text-amber-800',
+  Appointment: 'bg-amber-100 text-amber-800',
   Booked: 'bg-emerald-100 text-emerald-800',
   Completed: 'bg-stone-200 text-stone-700',
   Lost: 'bg-red-100 text-red-700',
@@ -115,21 +121,21 @@ export default function ManagePage() {
     return c
   }, [monthLeads])
 
+  // Short label for the period the stat cards describe (follows the Month filter).
+  const periodShort = !month || month === 'all' ? 'all time' : monthLabel(month).replace(/ \d{4}$/, '')
+
   const stats = useMemo(() => {
-    const now = new Date()
-    const thisMonth = (d: string) => {
-      const dt = new Date(d)
-      return dt.getFullYear() === now.getFullYear() && dt.getMonth() === now.getMonth()
-    }
+    const inStage = (s: Stage) => monthLeads.filter((l) => normalize(l.status) === s).length
+    const revenue = monthLeads
+      .filter((l) => ['Booked', 'Completed'].includes(normalize(l.status)))
+      .reduce((sum, l) => sum + num(l.value), 0)
     return {
-      newThisMonth: leads.filter((l) => normalize(l.status) === 'New' && thisMonth(l.date)).length,
-      toFollowUp: leads.filter((l) => normalize(l.status) === 'Quoted').length,
-      booked: leads.filter((l) => ['Booked', 'Completed'].includes(normalize(l.status))).length,
-      pipelineValue: leads
-        .filter((l) => ['Quoted', 'Booked'].includes(normalize(l.status)))
-        .reduce((s, l) => s + num(l.value), 0),
+      revenue,
+      newCount: inStage('New'),
+      appointments: inStage('Appointment'),
+      booked: inStage('Booked'),
     }
-  }, [leads])
+  }, [monthLeads])
 
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase()
@@ -161,10 +167,10 @@ export default function ManagePage() {
       <div className="max-w-3xl mx-auto px-4 py-5">
         {/* Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-5">
-          <Stat label="New this month" value={String(stats.newThisMonth)} />
-          <Stat label="To follow up" value={String(stats.toFollowUp)} />
-          <Stat label="Booked + done" value={String(stats.booked)} />
-          <Stat label="Pipeline $" value={dollars(stats.pipelineValue)} />
+          <Stat label={`Revenue · ${periodShort}`} value={dollars(stats.revenue)} highlight />
+          <Stat label="New leads" value={String(stats.newCount)} />
+          <Stat label="Appointments" value={String(stats.appointments)} />
+          <Stat label="Booked" value={String(stats.booked)} />
         </div>
 
         {/* Month filter */}
@@ -221,11 +227,11 @@ export default function ManagePage() {
   )
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function Stat({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
   return (
-    <div className="bg-white rounded-xl border border-stone-100 p-3">
-      <p className="text-warm-grey text-[11px] leading-tight">{label}</p>
-      <p className="font-playfair text-xl text-charcoal mt-0.5">{value}</p>
+    <div className={`rounded-xl border p-3 ${highlight ? 'bg-charcoal border-charcoal' : 'bg-white border-stone-100'}`}>
+      <p className={`text-[11px] leading-tight ${highlight ? 'text-white/70' : 'text-warm-grey'}`}>{label}</p>
+      <p className={`font-playfair text-xl mt-0.5 ${highlight ? 'text-gold' : 'text-charcoal'}`}>{value}</p>
     </div>
   )
 }
