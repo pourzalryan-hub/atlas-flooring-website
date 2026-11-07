@@ -36,6 +36,13 @@ const num = (v: string | number) => {
 }
 const dollars = (n: number) => (n ? '$' + Math.round(n).toLocaleString('en-US') : '—')
 
+const monthKey = (d: string) => (/\d{4}-\d{2}/.test(String(d)) ? String(d).slice(0, 7) : 'other')
+const monthLabel = (k: string) => {
+  if (k === 'other') return 'Older / undated'
+  const dt = new Date(k + '-01T00:00:00')
+  return isNaN(dt.getTime()) ? k : dt.toLocaleString('en-US', { month: 'short', year: 'numeric' })
+}
+
 const isRealLead = (l: Lead) => {
   const validDate = /\d{4}/.test(String(l.date)) && !isNaN(new Date(l.date).getTime())
   return validDate || /\d/.test(String(l.phone ?? '')) || /@/.test(String(l.email ?? ''))
@@ -59,6 +66,7 @@ export default function ManagePage() {
   const [filter, setFilter] = useState<'All' | Stage>('All')
   const [search, setSearch] = useState('')
   const [selected, setSelected] = useState<Lead | null>(null)
+  const [month, setMonth] = useState('')
 
   const load = async () => {
     setLoading(true)
@@ -79,12 +87,33 @@ export default function ManagePage() {
     load()
   }, [])
 
-  const counts = useMemo(() => {
-    const c: Record<string, number> = { All: leads.length }
-    STAGES.forEach((s) => (c[s] = 0))
-    leads.forEach((l) => (c[normalize(l.status)] += 1))
-    return c
+  const monthLeads = useMemo(
+    () => leads.filter((l) => month === 'all' || !month || monthKey(l.date) === month),
+    [leads, month]
+  )
+
+  const monthOptions = useMemo(() => {
+    const c: Record<string, number> = {}
+    leads.forEach((l) => {
+      const k = monthKey(l.date)
+      c[k] = (c[k] || 0) + 1
+    })
+    const keys = Object.keys(c).filter((k) => k !== 'other').sort().reverse()
+    if (c['other']) keys.push('other')
+    return keys.map((k) => ({ key: k, label: monthLabel(k), count: c[k] }))
   }, [leads])
+
+  // Default to the most recent month so old leads don't clutter the view.
+  useEffect(() => {
+    if (!month && monthOptions.length) setMonth(monthOptions[0].key)
+  }, [monthOptions, month])
+
+  const counts = useMemo(() => {
+    const c: Record<string, number> = { All: monthLeads.length }
+    STAGES.forEach((s) => (c[s] = 0))
+    monthLeads.forEach((l) => (c[normalize(l.status)] += 1))
+    return c
+  }, [monthLeads])
 
   const stats = useMemo(() => {
     const now = new Date()
@@ -104,11 +133,11 @@ export default function ManagePage() {
 
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase()
-    return leads
+    return monthLeads
       .filter((l) => filter === 'All' || normalize(l.status) === filter)
       .filter((l) => !q || `${l.name} ${l.phone} ${l.email} ${l.product} ${l.address}`.toLowerCase().includes(q))
       .sort((a, b) => (a.date < b.date ? 1 : -1))
-  }, [leads, filter, search])
+  }, [monthLeads, filter, search])
 
   const onSaved = (row: number, patch: Partial<Lead>) => {
     setLeads((ls) => ls.map((l) => (l.row === row ? { ...l, ...patch } : l)))
@@ -136,6 +165,19 @@ export default function ManagePage() {
           <Stat label="To follow up" value={String(stats.toFollowUp)} />
           <Stat label="Booked + done" value={String(stats.booked)} />
           <Stat label="Pipeline $" value={dollars(stats.pipelineValue)} />
+        </div>
+
+        {/* Month filter */}
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-sm text-warm-grey shrink-0">Month</span>
+          <select value={month} onChange={(e) => setMonth(e.target.value)} className={`${fieldCls} flex-1`}>
+            <option value="all">All months</option>
+            {monthOptions.map((m) => (
+              <option key={m.key} value={m.key}>
+                {m.label} ({m.count})
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* Filters */}
@@ -239,6 +281,8 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
 
   const grossProfit = num(value) - num(material) - num(install)
   const balanceDue = num(value) - num(deposit)
+  const hasValue = num(value) > 0
+  const hasCosts = num(material) > 0 || num(install) > 0
   const phone = String(lead.phone ?? '')
   const hasPhone = /\d/.test(phone)
 
@@ -303,41 +347,56 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
                 {STAGES.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
             </label>
-            <label className="block text-xs text-warm-grey">Next follow-up
-              <input value={followUp} onChange={(e) => setFollowUp(e.target.value)} placeholder="e.g. Nov 20" className={`${fieldCls} w-full mt-1`} />
-            </label>
+            <div className="grid grid-cols-2 gap-3">
+              <label className="block text-xs text-warm-grey">Next follow-up
+                <input value={followUp} onChange={(e) => setFollowUp(e.target.value)} placeholder="e.g. Nov 20" className={`${fieldCls} w-full mt-1`} />
+              </label>
+              <label className="block text-xs text-warm-grey">Job booked date
+                <input value={bookedDate} onChange={(e) => setBookedDate(e.target.value)} placeholder="e.g. Nov 23" className={`${fieldCls} w-full mt-1`} />
+              </label>
+            </div>
             <label className="block text-xs text-warm-grey">Notes
               <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} placeholder="Notes…" className={`${fieldCls} w-full mt-1`} />
             </label>
           </div>
 
-          {/* Money */}
+          {/* Money — revenue -> costs -> gross profit; deposit -> balance due */}
           <div className="bg-white rounded-xl border border-stone-100 p-4 space-y-3">
             <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey">Job &amp; money</p>
+
+            <label className="block text-xs text-warm-grey">Job value <span className="text-stone-400">(quote total)</span>
+              <input value={value} onChange={(e) => setValue(e.target.value)} inputMode="decimal" placeholder="$" className={`${fieldCls} w-full mt-1`} />
+            </label>
+
             <div className="grid grid-cols-2 gap-3">
-              <label className="block text-xs text-warm-grey">Job value
-                <input value={value} onChange={(e) => setValue(e.target.value)} inputMode="decimal" placeholder="$" className={`${fieldCls} w-full mt-1`} />
-              </label>
               <label className="block text-xs text-warm-grey">Material cost
                 <input value={material} onChange={(e) => setMaterial(e.target.value)} inputMode="decimal" placeholder="$" className={`${fieldCls} w-full mt-1`} />
               </label>
               <label className="block text-xs text-warm-grey">Install / labour
                 <input value={install} onChange={(e) => setInstall(e.target.value)} inputMode="decimal" placeholder="$" className={`${fieldCls} w-full mt-1`} />
               </label>
-              <label className="block text-xs text-warm-grey">Deposit
+            </div>
+            {hasValue && hasCosts && (
+              <div className="flex justify-between items-center rounded-lg bg-emerald-50 text-emerald-800 px-3 py-2 text-sm">
+                <span>Gross profit <span className="opacity-70">(value − costs)</span></span>
+                <strong>{dollars(grossProfit)}</strong>
+              </div>
+            )}
+
+            <div className="grid grid-cols-2 gap-3 pt-1">
+              <label className="block text-xs text-warm-grey">Deposit paid
                 <input value={deposit} onChange={(e) => setDeposit(e.target.value)} inputMode="decimal" placeholder="$" className={`${fieldCls} w-full mt-1`} />
               </label>
               <label className="block text-xs text-warm-grey">Payment method
                 <input value={payment} onChange={(e) => setPayment(e.target.value)} placeholder="e-transfer…" className={`${fieldCls} w-full mt-1`} />
               </label>
-              <label className="block text-xs text-warm-grey">Job booked date
-                <input value={bookedDate} onChange={(e) => setBookedDate(e.target.value)} placeholder="e.g. Nov 23" className={`${fieldCls} w-full mt-1`} />
-              </label>
             </div>
-            <div className="flex flex-wrap gap-x-6 gap-y-1 pt-1 text-sm">
-              <span className="text-warm-grey">Gross profit: <strong className="text-charcoal">{dollars(grossProfit)}</strong></span>
-              <span className="text-warm-grey">Balance due: <strong className="text-charcoal">{dollars(balanceDue)}</strong></span>
-            </div>
+            {hasValue && (
+              <div className="flex justify-between items-center rounded-lg bg-off-white border border-stone-100 px-3 py-2 text-sm">
+                <span className="text-warm-grey">Balance due <span className="opacity-70">(value − deposit)</span></span>
+                <strong className="text-charcoal">{dollars(balanceDue)}</strong>
+              </div>
+            )}
           </div>
         </div>
 
