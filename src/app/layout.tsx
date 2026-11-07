@@ -5,6 +5,7 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import TelClickTracker from "@/components/TelClickTracker";
+import ChromeGate from "@/components/ChromeGate";
 import Link from "next/link";
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID
@@ -203,8 +204,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           </noscript>
         )}
         <TelClickTracker />
-        <Navigation />
+        <ChromeGate>
+          <Navigation />
+        </ChromeGate>
         <main>{children}</main>
+        <ChromeGate>
         <Footer />
         {/* Spacer so the fixed mobile CTA bar doesn't cover footer content */}
         <div className="lg:hidden h-20" aria-hidden="true" />
@@ -229,6 +233,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             Free Quote
           </Link>
         </div>
+        </ChromeGate>
       </body>
     </html>
   );
