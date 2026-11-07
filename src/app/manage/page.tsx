@@ -37,6 +37,15 @@ const num = (v: string | number) => {
 }
 const dollars = (n: number) => (n ? '$' + Math.round(n).toLocaleString('en-US') : '—')
 
+// Keep only real leads — skip legend/test/junk rows (e.g. a row where every
+// cell says "WON"). A real lead has a real date, a phone with digits, or an email.
+const isRealLead = (l: Lead) => {
+  const validDate = /\d{4}/.test(String(l.date)) && !isNaN(new Date(l.date).getTime())
+  const hasPhone = /\d/.test(String(l.phone ?? ''))
+  const hasEmail = /@/.test(String(l.email ?? ''))
+  return validDate || hasPhone || hasEmail
+}
+
 const STAGE_STYLE: Record<Stage, string> = {
   New: 'bg-blue-100 text-blue-800',
   Contacted: 'bg-purple-100 text-purple-800',
@@ -60,7 +69,8 @@ export default function ManagePage() {
       const res = await fetch('/manage/api/leads', { cache: 'no-store' })
       const json = await res.json()
       if (!json?.ok) throw new Error(json?.error || 'Could not load')
-      setLeads(Array.isArray(json.leads) ? json.leads : [])
+      const all: Lead[] = Array.isArray(json.leads) ? json.leads : []
+      setLeads(all.filter(isRealLead))
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Could not load leads')
     } finally {
