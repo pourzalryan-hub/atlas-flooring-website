@@ -33,6 +33,11 @@ export async function POST(req: Request) {
         notes: body.notes,
         value: body.value,
         bookedDate: body.bookedDate,
+        material: body.material,
+        install: body.install,
+        deposit: body.deposit,
+        payment: body.payment,
+        followUp: body.followUp,
       }),
     });
     const data = await res.json();
