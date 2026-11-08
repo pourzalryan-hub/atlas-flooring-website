@@ -19,6 +19,7 @@ type Lead = {
   payment: string
   followUp: string
   notes: string
+  source?: string
 }
 
 const STAGES = ['New', 'Appointment', 'Booked', 'Completed', 'Lost'] as const
@@ -687,6 +688,13 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
                 <span className="text-warm-grey"> — tap for directions</span>
               </p>
             )}
+            {lead.source && (
+              <p className="pt-1">
+                <span className="inline-block text-[11px] font-semibold text-charcoal bg-stone-100 rounded-full px-2 py-0.5">
+                  🔗 {lead.source}
+                </span>
+              </p>
+            )}
           </div>
 
           {/* Pipeline */}
@@ -825,6 +833,33 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
   )
 }
 
+type GroupRows = [string, { leads: number; booked: number; revenue: number }][]
+function GroupTable({ title, col, rows }: { title: string; col: string; rows: GroupRows }) {
+  return (
+    <div className="bg-white rounded-xl border border-stone-100 p-4">
+      <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey mb-2">{title}</p>
+      {rows.length === 0 ? (
+        <p className="text-warm-grey text-sm">No leads in this period.</p>
+      ) : (
+        <div className="divide-y divide-stone-100">
+          <div className="grid grid-cols-[1fr_auto_auto] gap-3 pb-2 text-[11px] text-warm-grey">
+            <span>{col}</span>
+            <span className="text-right">Leads / Booked</span>
+            <span className="text-right">Revenue</span>
+          </div>
+          {rows.map(([name, e]) => (
+            <div key={name} className="grid grid-cols-[1fr_auto_auto] gap-3 py-2 items-center">
+              <span className="text-sm text-charcoal truncate">{name}</span>
+              <span className="text-sm text-right tabular-nums text-warm-grey">{e.leads} / {e.booked}</span>
+              <span className="text-sm text-right font-semibold text-charcoal tabular-nums">{dollars(e.revenue)}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 function ReportsView({ leads }: { leads: Lead[] }) {
   const [period, setPeriod] = useState<'month' | 'all'>('month')
   const [askedCount, setAskedCount] = useState(0)
@@ -846,11 +881,11 @@ function ReportsView({ leads }: { leads: Lead[] }) {
     return { leads: scoped.length, booked: won.length, revenue, winRate }
   }, [scoped])
 
-  const byProduct = useMemo(() => {
+  const group = (keyOf: (l: Lead) => string) => {
     const m: Record<string, { leads: number; booked: number; revenue: number }> = {}
     scoped.forEach((l) => {
-      const b = productBucket(String(l.product))
-      const e = (m[b] = m[b] || { leads: 0, booked: 0, revenue: 0 })
+      const k = keyOf(l)
+      const e = (m[k] = m[k] || { leads: 0, booked: 0, revenue: 0 })
       e.leads += 1
       if (WON.includes(normalize(l.status))) {
         e.booked += 1
@@ -858,7 +893,9 @@ function ReportsView({ leads }: { leads: Lead[] }) {
       }
     })
     return Object.entries(m).sort((a, b) => b[1].revenue - a[1].revenue || b[1].leads - a[1].leads)
-  }, [scoped])
+  }
+  const bySource = useMemo(() => group((l) => (l.source && String(l.source).trim()) || 'Unknown'), [scoped]) // eslint-disable-line react-hooks/exhaustive-deps
+  const byProduct = useMemo(() => group((l) => productBucket(String(l.product))), [scoped]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const completed = scoped.filter((l) => normalize(l.status) === 'Completed').length
 
@@ -876,27 +913,8 @@ function ReportsView({ leads }: { leads: Lead[] }) {
         <Stat label="Win rate" value={stats.winRate ? `${stats.winRate}%` : '—'} />
       </div>
 
-      <div className="bg-white rounded-xl border border-stone-100 p-4">
-        <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey mb-2">By product</p>
-        {byProduct.length === 0 ? (
-          <p className="text-warm-grey text-sm">No leads in this period.</p>
-        ) : (
-          <div className="divide-y divide-stone-100">
-            <div className="grid grid-cols-[1fr_auto_auto] gap-3 pb-2 text-[11px] text-warm-grey">
-              <span>Product</span>
-              <span className="text-right">Leads / Booked</span>
-              <span className="text-right">Revenue</span>
-            </div>
-            {byProduct.map(([name, e]) => (
-              <div key={name} className="grid grid-cols-[1fr_auto_auto] gap-3 py-2 items-center">
-                <span className="text-sm text-charcoal truncate">{name}</span>
-                <span className="text-sm text-right tabular-nums text-warm-grey">{e.leads} / {e.booked}</span>
-                <span className="text-sm text-right font-semibold text-charcoal tabular-nums">{dollars(e.revenue)}</span>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+      <GroupTable title="By source" col="Source" rows={bySource} />
+      <GroupTable title="By product" col="Product" rows={byProduct} />
 
       <div className="bg-white rounded-xl border border-stone-100 p-4">
         <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey mb-1">Reviews</p>

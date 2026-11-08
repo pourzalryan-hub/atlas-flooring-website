@@ -47,6 +47,16 @@ const initialForm: FormState = {
 const fieldClass =
   'w-full bg-white border border-stone-300 rounded-lg px-4 py-3 text-base font-lato text-charcoal focus:outline-none focus:ring-2 focus:ring-gold'
 
+// Captured acquisition source (set by AttributionTracker), e.g. "Google Ads – Carpet".
+function capturedSource(): string {
+  try {
+    const m = document.cookie.match(/(?:^|; )atlas_src=([^;]*)/)
+    return m ? decodeURIComponent(m[1]) : ''
+  } catch {
+    return ''
+  }
+}
+
 export default function LeadForm({
   product,
   source = 'Website',
@@ -85,7 +95,7 @@ export default function LeadForm({
           address: form.address,
           product: product ?? '',
           message: [form.message, details].filter(Boolean).join('\n\n'),
-          source,
+          source: capturedSource() || source,
           contact_time: form.contact_time,
         }),
       })

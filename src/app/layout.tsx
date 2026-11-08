@@ -5,6 +5,7 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import TelClickTracker from "@/components/TelClickTracker";
+import AttributionTracker from "@/components/AttributionTracker";
 import ChromeGate from "@/components/ChromeGate";
 import Link from "next/link";
 
@@ -204,6 +205,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           </noscript>
         )}
         <TelClickTracker />
+        <AttributionTracker />
         <ChromeGate>
           <Navigation />
         </ChromeGate>
