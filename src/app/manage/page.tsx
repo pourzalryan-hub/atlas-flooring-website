@@ -20,9 +20,10 @@ type Lead = {
   followUp: string
   notes: string
   source?: string
+  installDate?: string
 }
 
-const STAGES = ['New', 'Appointment', 'Booked', 'Completed', 'Lost'] as const
+const STAGES = ['New', 'Appointment', 'Sold', 'Booked', 'Completed', 'Lost'] as const
 type Stage = (typeof STAGES)[number]
 
 // Map older / free-text statuses onto the current stages so nothing is lost.
@@ -30,7 +31,8 @@ const STAGE_ALIASES: Record<string, Stage> = {
   '': 'New', lead: 'New', new: 'New',
   contacted: 'Appointment', quoted: 'Appointment', quote: 'Appointment',
   appt: 'Appointment', appointment: 'Appointment', measure: 'Appointment', consult: 'Appointment',
-  booked: 'Booked', won: 'Booked', sold: 'Booked', deposit: 'Booked',
+  sold: 'Sold', won: 'Sold', deposit: 'Sold', closed: 'Sold',
+  booked: 'Booked', scheduled: 'Booked', install: 'Booked', installdate: 'Booked',
   completed: 'Completed', complete: 'Completed', done: 'Completed', installed: 'Completed', paid: 'Completed',
   lost: 'Lost', dead: 'Lost', cancelled: 'Lost', canceled: 'Lost',
 }
@@ -103,7 +105,7 @@ const daysSince = (d: string) => {
 // Does this lead need a follow-up nudge, and why?
 const followUpInfo = (l: Lead): { flag: boolean; reason: string; urgency: number } => {
   const stage = normalize(l.status)
-  if (stage === 'Booked' || stage === 'Completed' || stage === 'Lost') return { flag: false, reason: '', urgency: 0 }
+  if (stage === 'Sold' || stage === 'Booked' || stage === 'Completed' || stage === 'Lost') return { flag: false, reason: '', urgency: 0 }
   const age = daysSince(String(l.date))
   const appt = parseAppt(String(l.bookedDate || ''))
   const todayIso = toISO(new Date())
@@ -127,7 +129,7 @@ const productBucket = (p: string): string => {
   return 'Other'
 }
 
-const WON = ['Booked', 'Completed']
+const WON = ['Sold', 'Booked', 'Completed']
 
 // Review request (texts the branded /review link).
 const REVIEW_URL = 'https://atlasrugflooring.com/review'
@@ -166,6 +168,7 @@ const isRealLead = (l: Lead) => {
 const STAGE_STYLE: Record<Stage, string> = {
   New: 'bg-blue-100 text-blue-800',
   Appointment: 'bg-amber-100 text-amber-800',
+  Sold: 'bg-indigo-100 text-indigo-800',
   Booked: 'bg-emerald-100 text-emerald-800',
   Completed: 'bg-stone-200 text-stone-700',
   Lost: 'bg-red-100 text-red-700',
@@ -241,13 +244,13 @@ export default function ManagePage() {
   const stats = useMemo(() => {
     const inStage = (s: Stage) => monthLeads.filter((l) => normalize(l.status) === s).length
     const revenue = monthLeads
-      .filter((l) => ['Booked', 'Completed'].includes(normalize(l.status)))
+      .filter((l) => WON.includes(normalize(l.status)))
       .reduce((sum, l) => sum + num(l.value), 0)
     return {
       revenue,
       newCount: inStage('New'),
       appointments: inStage('Appointment'),
-      booked: inStage('Booked'),
+      sold: monthLeads.filter((l) => ['Sold', 'Booked'].includes(normalize(l.status))).length,
     }
   }, [monthLeads])
 
@@ -359,7 +362,7 @@ export default function ManagePage() {
           <Stat label={`Revenue · ${periodShort}`} value={dollars(stats.revenue)} highlight />
           <Stat label="New leads" value={String(stats.newCount)} />
           <Stat label="Appointments" value={String(stats.appointments)} />
-          <Stat label="Booked" value={String(stats.booked)} />
+          <Stat label="Sold" value={String(stats.sold)} />
         </div>
 
         {/* Month filter */}
@@ -565,9 +568,11 @@ function Row({ lead, onOpen, reason }: { lead: Lead; onOpen: () => void; reason?
   const stage = normalize(lead.status)
   const appt = parseAppt(String(lead.bookedDate || ''))
   const apptText = appt.date ? `📅 ${fmtApptDate(appt.date)}${appt.window ? ` · ${appt.window}` : ''}` : null
+  const installText = lead.installDate ? `🔧 Install ${fmtApptDate(String(lead.installDate))}` : null
   const sub = [
     lead.product || null,
     apptText,
+    installText,
     lead.followUp ? `⏰ ${lead.followUp}` : null,
     num(lead.value) > 0 ? dollars(num(lead.value)) : null,
   ]
@@ -607,6 +612,7 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
   const [followUp, setFollowUp] = useState(lead.followUp ?? '')
   const [apptDate, setApptDate] = useState(appt0.date)
   const [apptWindow, setApptWindow] = useState(appt0.window)
+  const [installDate, setInstallDate] = useState(String(lead.installDate ?? ''))
   const [value, setValue] = useState(String(lead.value ?? ''))
   const [material, setMaterial] = useState(String(lead.material ?? ''))
   const [install, setInstall] = useState(String(lead.install ?? ''))
@@ -639,11 +645,11 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
       const res = await fetch('/manage/api/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ row: lead.row, status, followUp, bookedDate, value, material, install, deposit, payment, notes }),
+        body: JSON.stringify({ row: lead.row, status, followUp, bookedDate, installDate, value, material, install, deposit, payment, notes }),
       })
       const json = await res.json()
       if (!json?.ok) throw new Error(json?.error || 'Save failed')
-      onSaved(lead.row, { status, followUp, bookedDate, value, material, install, deposit, payment, notes })
+      onSaved(lead.row, { status, followUp, bookedDate, installDate, value, material, install, deposit, payment, notes })
       setSaved(true)
       setTimeout(() => setSaved(false), 2500)
     } catch {
@@ -730,6 +736,25 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
                     onClick={() => { setApptDate(''); setApptWindow('') }}
                     className="text-[11px] text-warm-grey underline"
                   >
+                    Clear
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Install / job date — set once the job is sold & booked in */}
+            <div>
+              <p className="text-xs text-warm-grey mb-1">Install / job date</p>
+              <input
+                type="date"
+                value={installDate}
+                onChange={(e) => setInstallDate(e.target.value)}
+                className={`${fieldCls} w-full`}
+              />
+              {installDate && (
+                <div className="flex items-center justify-between mt-1.5">
+                  <p className="text-[11px] text-emerald-700">🔧 Install {fmtApptDate(installDate)}</p>
+                  <button type="button" onClick={() => setInstallDate('')} className="text-[11px] text-warm-grey underline">
                     Clear
                   </button>
                 </div>

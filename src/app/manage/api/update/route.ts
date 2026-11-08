@@ -33,6 +33,7 @@ export async function POST(req: Request) {
         notes: body.notes,
         value: body.value,
         bookedDate: body.bookedDate,
+        installDate: body.installDate,
         material: body.material,
         install: body.install,
         deposit: body.deposit,
