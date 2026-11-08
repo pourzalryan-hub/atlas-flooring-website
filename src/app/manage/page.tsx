@@ -93,6 +93,70 @@ const segCls = (active: boolean) =>
     active ? 'bg-charcoal text-white border-charcoal' : 'bg-white text-charcoal border-stone-200'
   }`
 
+// Whole days since a date (0 if unparseable).
+const daysSince = (d: string) => {
+  const t = new Date(d).getTime()
+  return isNaN(t) ? 0 : Math.floor((Date.now() - t) / 864e5)
+}
+
+// Does this lead need a follow-up nudge, and why?
+const followUpInfo = (l: Lead): { flag: boolean; reason: string; urgency: number } => {
+  const stage = normalize(l.status)
+  if (stage === 'Booked' || stage === 'Completed' || stage === 'Lost') return { flag: false, reason: '', urgency: 0 }
+  const age = daysSince(String(l.date))
+  const appt = parseAppt(String(l.bookedDate || ''))
+  const todayIso = toISO(new Date())
+  if (appt.date && appt.date < todayIso) return { flag: true, reason: `Appointment was ${fmtApptDate(appt.date)}`, urgency: 4 }
+  if (stage === 'New' && age >= 1) return { flag: true, reason: `New lead · ${age}d old`, urgency: age >= 3 ? 3 : 2 }
+  if (stage === 'Appointment' && !appt.date && age >= 2) return { flag: true, reason: 'No appointment booked yet', urgency: 2 }
+  if (age >= 7) return { flag: true, reason: `No update in ${age}d`, urgency: 1 }
+  return { flag: false, reason: '', urgency: 0 }
+}
+
+// Group a free-text product into a reporting category.
+const productBucket = (p: string): string => {
+  const s = (p || '').toLowerCase()
+  if (/stair|runner/.test(s)) return 'Stairs & Runners'
+  if (/laminate/.test(s)) return 'Laminate'
+  if (/carpet|broadloom/.test(s)) return 'Carpet'
+  if (/vinyl|lvp|lvt/.test(s)) return 'Vinyl'
+  if (/hardwood|engineered/.test(s)) return 'Hardwood'
+  if (/rug/.test(s)) return 'Area Rugs'
+  if (/refinish/.test(s)) return 'Refinishing'
+  return 'Other'
+}
+
+const WON = ['Booked', 'Completed']
+
+// Review request (texts the branded /review link).
+const REVIEW_URL = 'https://atlasrugflooring.com/review'
+const reviewMessage = (name: string) => {
+  const first = (name || '').trim().split(/\s+/)[0]
+  return `Hi${first ? ' ' + first : ''}, thanks again for choosing Atlas Rug & Design Centre! If you have 30 seconds, we'd really appreciate a quick review — it means a lot to our family business: ${REVIEW_URL}`
+}
+const smsHref = (phone: string, body: string) => `sms:${phone}?&body=${encodeURIComponent(body)}`
+const mailtoHref = (email: string, subject: string, body: string) =>
+  `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+
+// Remember which leads we've asked for a review (per-device).
+const REVIEW_KEY = 'atlas_reviews_asked'
+const readAsked = (): Record<string, string> => {
+  try {
+    return JSON.parse(localStorage.getItem(REVIEW_KEY) || '{}')
+  } catch {
+    return {}
+  }
+}
+const markAsked = (row: number) => {
+  try {
+    const m = readAsked()
+    m[String(row)] = toISO(new Date())
+    localStorage.setItem(REVIEW_KEY, JSON.stringify(m))
+  } catch {
+    /* ignore */
+  }
+}
+
 const isRealLead = (l: Lead) => {
   const validDate = /\d{4}/.test(String(l.date)) && !isNaN(new Date(l.date).getTime())
   return validDate || /\d/.test(String(l.phone ?? '')) || /@/.test(String(l.email ?? ''))
@@ -112,12 +176,12 @@ export default function ManagePage() {
   const [leads, setLeads] = useState<Lead[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [filter, setFilter] = useState<'All' | Stage>('All')
+  const [filter, setFilter] = useState<'All' | Stage | 'Needs follow-up'>('All')
   const [search, setSearch] = useState('')
   const [selected, setSelected] = useState<Lead | null>(null)
   const [month, setMonth] = useState('')
   const [adding, setAdding] = useState(false)
-  const [view, setView] = useState<'leads' | 'week'>('leads')
+  const [view, setView] = useState<'leads' | 'week' | 'reports'>('leads')
 
   const load = async () => {
     setLoading(true)
@@ -186,13 +250,28 @@ export default function ManagePage() {
     }
   }, [monthLeads])
 
+  // Leads needing a nudge — computed across ALL leads (not month-filtered),
+  // sorted most-urgent first, so time-sensitive follow-ups are never hidden.
+  const followUpLeads = useMemo(
+    () =>
+      leads
+        .map((l) => ({ l, info: followUpInfo(l) }))
+        .filter((x) => x.info.flag)
+        .sort((a, b) => b.info.urgency - a.info.urgency)
+        .map((x) => x.l),
+    [leads]
+  )
+
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase()
+    const bySearch = (l: Lead) =>
+      !q || `${l.name} ${l.phone} ${l.email} ${l.product} ${l.address}`.toLowerCase().includes(q)
+    if (filter === 'Needs follow-up') return followUpLeads.filter(bySearch)
     return monthLeads
       .filter((l) => filter === 'All' || normalize(l.status) === filter)
-      .filter((l) => !q || `${l.name} ${l.phone} ${l.email} ${l.product} ${l.address}`.toLowerCase().includes(q))
+      .filter(bySearch)
       .sort((a, b) => (a.date < b.date ? 1 : -1))
-  }, [monthLeads, filter, search])
+  }, [monthLeads, followUpLeads, filter, search])
 
   const onSaved = (row: number, patch: Partial<Lead>) => {
     setLeads((ls) => ls.map((l) => (l.row === row ? { ...l, ...patch } : l)))
@@ -246,10 +325,13 @@ export default function ManagePage() {
         <div className="flex gap-2 mb-4">
           <button onClick={() => setView('leads')} className={segCls(view === 'leads')}>📋 Leads</button>
           <button onClick={() => setView('week')} className={segCls(view === 'week')}>📅 Week</button>
+          <button onClick={() => setView('reports')} className={segCls(view === 'reports')}>📊 Reports</button>
         </div>
 
         {view === 'week' ? (
           <WeekView leads={leads} onOpen={(l) => setSelected(l)} />
+        ) : view === 'reports' ? (
+          <ReportsView leads={leads} />
         ) : (
         <>
         {/* Today's appointments */}
@@ -280,20 +362,32 @@ export default function ManagePage() {
         </div>
 
         {/* Month filter */}
-        <div className="flex items-center gap-2 mb-3">
-          <span className="text-sm text-warm-grey shrink-0">Month</span>
-          <select value={month} onChange={(e) => setMonth(e.target.value)} className={`${fieldCls} flex-1`}>
-            <option value="all">All months</option>
-            {monthOptions.map((m) => (
-              <option key={m.key} value={m.key}>
-                {m.label} ({m.count})
-              </option>
-            ))}
-          </select>
-        </div>
+        {filter !== 'Needs follow-up' && (
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-sm text-warm-grey shrink-0">Month</span>
+            <select value={month} onChange={(e) => setMonth(e.target.value)} className={`${fieldCls} flex-1`}>
+              <option value="all">All months</option>
+              {monthOptions.map((m) => (
+                <option key={m.key} value={m.key}>
+                  {m.label} ({m.count})
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
         {/* Filters */}
         <div className="flex gap-2 overflow-x-auto pb-2 mb-2 -mx-1 px-1">
+          {followUpLeads.length > 0 && (
+            <button
+              onClick={() => setFilter('Needs follow-up')}
+              className={`shrink-0 px-3 py-1.5 rounded-full text-sm border font-semibold transition-colors ${
+                filter === 'Needs follow-up' ? 'bg-red-600 text-white border-red-600' : 'bg-red-50 text-red-700 border-red-200'
+              }`}
+            >
+              ⚠ Follow-ups <span className="text-xs opacity-80">{followUpLeads.length}</span>
+            </button>
+          )}
           {(['All', ...STAGES] as const).map((s) => (
             <button
               key={s}
@@ -323,7 +417,12 @@ export default function ManagePage() {
         {/* Compact list */}
         <div className="space-y-2">
           {visible.map((l) => (
-            <Row key={l.row} lead={l} onOpen={() => setSelected(l)} />
+            <Row
+              key={l.row}
+              lead={l}
+              onOpen={() => setSelected(l)}
+              reason={filter === 'Needs follow-up' ? followUpInfo(l).reason : ''}
+            />
           ))}
         </div>
         </>
@@ -461,7 +560,7 @@ function Stat({ label, value, highlight }: { label: string; value: string; highl
   )
 }
 
-function Row({ lead, onOpen }: { lead: Lead; onOpen: () => void }) {
+function Row({ lead, onOpen, reason }: { lead: Lead; onOpen: () => void; reason?: string }) {
   const stage = normalize(lead.status)
   const appt = parseAppt(String(lead.bookedDate || ''))
   const apptText = appt.date ? `📅 ${fmtApptDate(appt.date)}${appt.window ? ` · ${appt.window}` : ''}` : null
@@ -485,6 +584,7 @@ function Row({ lead, onOpen }: { lead: Lead; onOpen: () => void }) {
           <span className="font-semibold text-charcoal truncate">{lead.name || '(no name)'}</span>
           <span className={`shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full ${STAGE_STYLE[stage]}`}>{stage}</span>
         </div>
+        {reason && <p className="text-red-600 text-xs mt-0.5 truncate">⚠ {reason}</p>}
         <p className="text-warm-grey text-xs mt-0.5 truncate">{sub || lead.date}</p>
       </div>
       {hasPhone && (
@@ -514,6 +614,14 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
   const [notes, setNotes] = useState(lead.notes ?? '')
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [reviewAsked, setReviewAsked] = useState<string | null>(null)
+  useEffect(() => {
+    setReviewAsked(readAsked()[String(lead.row)] || null)
+  }, [lead.row])
+  const onAskReview = () => {
+    markAsked(lead.row)
+    setReviewAsked(toISO(new Date()))
+  }
 
   const grossProfit = num(value) - num(material) - num(install)
   const balanceDue = num(value) - num(deposit)
@@ -666,6 +774,42 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
               </div>
             )}
           </div>
+
+          {/* Reviews */}
+          <div className={`rounded-xl border p-4 space-y-2 ${status === 'Completed' && !reviewAsked ? 'bg-gold/5 border-gold/40' : 'bg-white border-stone-100'}`}>
+            <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey">Review</p>
+            {reviewAsked ? (
+              <p className="text-sm text-emerald-700">✓ Review requested · {fmtApptDate(reviewAsked)}</p>
+            ) : status === 'Completed' ? (
+              <p className="text-sm text-charcoal">Job&apos;s done — ask for a Google review in one tap. ⭐</p>
+            ) : (
+              <p className="text-sm text-warm-grey">Once the job&apos;s complete, request a Google review here.</p>
+            )}
+            {hasPhone || lead.email ? (
+              <div className="flex gap-2">
+                {hasPhone && (
+                  <a
+                    href={smsHref(phone, reviewMessage(lead.name))}
+                    onClick={onAskReview}
+                    className="flex-1 text-center rounded-lg py-2.5 text-sm font-semibold bg-gold text-white"
+                  >
+                    ⭐ Text review link
+                  </a>
+                )}
+                {lead.email && (
+                  <a
+                    href={mailtoHref(lead.email, 'A quick review for Atlas Rug & Design Centre?', reviewMessage(lead.name))}
+                    onClick={onAskReview}
+                    className={`${hasPhone ? 'flex-none px-4' : 'flex-1'} text-center rounded-lg py-2.5 text-sm font-semibold bg-white border border-stone-300 text-charcoal`}
+                  >
+                    ✉️ Email
+                  </a>
+                )}
+              </div>
+            ) : (
+              <p className="text-xs text-stone-400">Add a phone or email to send a request.</p>
+            )}
+          </div>
         </div>
 
         {/* Sticky save */}
@@ -676,6 +820,92 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
             {saving ? 'Saving…' : 'Save'}
           </button>
         </div>
+      </div>
+    </div>
+  )
+}
+
+function ReportsView({ leads }: { leads: Lead[] }) {
+  const [period, setPeriod] = useState<'month' | 'all'>('month')
+  const [askedCount, setAskedCount] = useState(0)
+  useEffect(() => {
+    setAskedCount(Object.keys(readAsked()).length)
+  }, [])
+
+  const thisMonth = toISO(new Date()).slice(0, 7)
+  const scoped = useMemo(
+    () => (period === 'all' ? leads : leads.filter((l) => monthKey(l.date) === thisMonth)),
+    [leads, period, thisMonth]
+  )
+
+  const stats = useMemo(() => {
+    const won = scoped.filter((l) => WON.includes(normalize(l.status)))
+    const revenue = won.reduce((s, l) => s + num(l.value), 0)
+    const decided = scoped.filter((l) => ['Booked', 'Completed', 'Lost'].includes(normalize(l.status)))
+    const winRate = decided.length ? Math.round((won.length / decided.length) * 100) : 0
+    return { leads: scoped.length, booked: won.length, revenue, winRate }
+  }, [scoped])
+
+  const byProduct = useMemo(() => {
+    const m: Record<string, { leads: number; booked: number; revenue: number }> = {}
+    scoped.forEach((l) => {
+      const b = productBucket(String(l.product))
+      const e = (m[b] = m[b] || { leads: 0, booked: 0, revenue: 0 })
+      e.leads += 1
+      if (WON.includes(normalize(l.status))) {
+        e.booked += 1
+        e.revenue += num(l.value)
+      }
+    })
+    return Object.entries(m).sort((a, b) => b[1].revenue - a[1].revenue || b[1].leads - a[1].leads)
+  }, [scoped])
+
+  const completed = scoped.filter((l) => normalize(l.status) === 'Completed').length
+
+  return (
+    <div className="space-y-4">
+      <div className="flex gap-2">
+        <button onClick={() => setPeriod('month')} className={segCls(period === 'month')}>This month</button>
+        <button onClick={() => setPeriod('all')} className={segCls(period === 'all')}>All time</button>
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <Stat label="Revenue" value={dollars(stats.revenue)} highlight />
+        <Stat label="Leads" value={String(stats.leads)} />
+        <Stat label="Booked" value={String(stats.booked)} />
+        <Stat label="Win rate" value={stats.winRate ? `${stats.winRate}%` : '—'} />
+      </div>
+
+      <div className="bg-white rounded-xl border border-stone-100 p-4">
+        <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey mb-2">By product</p>
+        {byProduct.length === 0 ? (
+          <p className="text-warm-grey text-sm">No leads in this period.</p>
+        ) : (
+          <div className="divide-y divide-stone-100">
+            <div className="grid grid-cols-[1fr_auto_auto] gap-3 pb-2 text-[11px] text-warm-grey">
+              <span>Product</span>
+              <span className="text-right">Leads / Booked</span>
+              <span className="text-right">Revenue</span>
+            </div>
+            {byProduct.map(([name, e]) => (
+              <div key={name} className="grid grid-cols-[1fr_auto_auto] gap-3 py-2 items-center">
+                <span className="text-sm text-charcoal truncate">{name}</span>
+                <span className="text-sm text-right tabular-nums text-warm-grey">{e.leads} / {e.booked}</span>
+                <span className="text-sm text-right font-semibold text-charcoal tabular-nums">{dollars(e.revenue)}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="bg-white rounded-xl border border-stone-100 p-4">
+        <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey mb-1">Reviews</p>
+        <p className="text-sm text-charcoal">
+          {completed} completed {completed === 1 ? 'job' : 'jobs'} this period · {askedCount} review {askedCount === 1 ? 'request' : 'requests'} sent
+        </p>
+        <p className="text-[11px] text-warm-grey mt-1">
+          Open a completed job to text its Google review link. (Counted on this device.)
+        </p>
       </div>
     </div>
   )
