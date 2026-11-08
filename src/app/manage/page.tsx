@@ -75,6 +75,24 @@ const apptSort = (w: string) => {
   return i === -1 ? 99 : i
 }
 
+// Google Maps directions link for an address.
+const mapsHref = (address: string) =>
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
+
+// Monday (local) of the week containing `base`, shifted by `offset` weeks.
+const startOfWeek = (base: Date, offset: number) => {
+  const d = new Date(base)
+  const dow = (d.getDay() + 6) % 7 // Monday = 0
+  d.setDate(d.getDate() - dow + offset * 7)
+  d.setHours(0, 0, 0, 0)
+  return d
+}
+
+const segCls = (active: boolean) =>
+  `flex-1 px-3 py-2 rounded-lg text-sm font-semibold border transition-colors ${
+    active ? 'bg-charcoal text-white border-charcoal' : 'bg-white text-charcoal border-stone-200'
+  }`
+
 const isRealLead = (l: Lead) => {
   const validDate = /\d{4}/.test(String(l.date)) && !isNaN(new Date(l.date).getTime())
   return validDate || /\d/.test(String(l.phone ?? '')) || /@/.test(String(l.email ?? ''))
@@ -99,6 +117,7 @@ export default function ManagePage() {
   const [selected, setSelected] = useState<Lead | null>(null)
   const [month, setMonth] = useState('')
   const [adding, setAdding] = useState(false)
+  const [view, setView] = useState<'leads' | 'week'>('leads')
 
   const load = async () => {
     setLoading(true)
@@ -210,6 +229,16 @@ export default function ManagePage() {
       </header>
 
       <div className="max-w-3xl mx-auto px-4 py-5">
+        {/* View switch */}
+        <div className="flex gap-2 mb-4">
+          <button onClick={() => setView('leads')} className={segCls(view === 'leads')}>📋 Leads</button>
+          <button onClick={() => setView('week')} className={segCls(view === 'week')}>📅 Week</button>
+        </div>
+
+        {view === 'week' ? (
+          <WeekView leads={leads} onOpen={(l) => setSelected(l)} />
+        ) : (
+        <>
         {/* Today's appointments */}
         <div className="bg-white rounded-xl border border-gold/40 p-4 mb-5">
           <div className="flex items-center justify-between mb-2">
@@ -284,11 +313,28 @@ export default function ManagePage() {
             <Row key={l.row} lead={l} onOpen={() => setSelected(l)} />
           ))}
         </div>
+        </>
+        )}
       </div>
 
       {selected && <Detail lead={selected} onClose={() => setSelected(null)} onSaved={onSaved} />}
       {adding && <AddLead onClose={() => setAdding(false)} onAdded={load} />}
     </main>
+  )
+}
+
+function MapLink({ address, className = '' }: { address: string; className?: string }) {
+  if (!address) return null
+  return (
+    <a
+      href={mapsHref(address)}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={(e) => e.stopPropagation()}
+      className={className}
+    >
+      📍 {address}
+    </a>
   )
 }
 
@@ -305,12 +351,84 @@ function ApptRow({ lead, window: win, onOpen }: { lead: Lead; window: string; on
       </span>
       <div className="min-w-0 flex-1">
         <p className="font-semibold text-charcoal truncate">{lead.name || '(no name)'}</p>
-        <p className="text-warm-grey text-xs truncate">{[lead.product, lead.address].filter(Boolean).join(' · ')}</p>
+        {lead.product && <p className="text-warm-grey text-xs truncate">{lead.product}</p>}
+        {lead.address && <MapLink address={lead.address} className="text-gold text-xs underline truncate inline-block max-w-full" />}
       </div>
       {hasPhone && (
         <a href={`tel:${phone}`} onClick={(e) => e.stopPropagation()} aria-label="Call"
           className="shrink-0 w-9 h-9 rounded-full bg-gold/10 text-gold flex items-center justify-center hover:bg-gold/20">📞</a>
       )}
+    </div>
+  )
+}
+
+function WeekView({ leads, onOpen }: { leads: Lead[]; onOpen: (l: Lead) => void }) {
+  const [offset, setOffset] = useState(0)
+  const todayISO = toISO(new Date())
+  const appts = useMemo(
+    () =>
+      leads
+        .map((l) => ({ lead: l, ...parseAppt(String(l.bookedDate || '')) }))
+        .filter((a) => a.date),
+    [leads]
+  )
+
+  const start = startOfWeek(new Date(), offset)
+  const days = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(start)
+    d.setDate(start.getDate() + i)
+    const diso = toISO(d)
+    return {
+      iso: diso,
+      label: d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
+      isToday: diso === todayISO,
+      appts: appts.filter((a) => a.date === diso).sort((x, y) => apptSort(x.window) - apptSort(y.window)),
+    }
+  })
+  const end = new Date(start)
+  end.setDate(start.getDate() + 6)
+  const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  const total = days.reduce((s, d) => s + d.appts.length, 0)
+
+  return (
+    <div>
+      {/* Week nav */}
+      <div className="flex items-center justify-between mb-3">
+        <button onClick={() => setOffset((o) => o - 1)} aria-label="Previous week"
+          className="w-10 h-10 rounded-full bg-white border border-stone-200 text-charcoal text-xl leading-none hover:border-gold">‹</button>
+        <div className="text-center">
+          <p className="font-playfair text-lg text-charcoal">{fmt(start)} – {fmt(end)}</p>
+          <p className="text-[11px] text-warm-grey">
+            {total} appointment{total === 1 ? '' : 's'}
+            {offset !== 0 && <> · <button onClick={() => setOffset(0)} className="underline">This week</button></>}
+          </p>
+        </div>
+        <button onClick={() => setOffset((o) => o + 1)} aria-label="Next week"
+          className="w-10 h-10 rounded-full bg-white border border-stone-200 text-charcoal text-xl leading-none hover:border-gold">›</button>
+      </div>
+
+      {/* Days */}
+      <div className="space-y-2">
+        {days.map((day) => (
+          <div key={day.iso} className={`rounded-xl border p-3 ${day.isToday ? 'border-gold bg-white' : 'border-stone-100 bg-white'}`}>
+            <div className="flex items-center justify-between mb-1.5">
+              <p className={`text-sm font-semibold ${day.isToday ? 'text-gold' : 'text-charcoal'}`}>
+                {day.label}{day.isToday ? ' · Today' : ''}
+              </p>
+              {day.appts.length > 0 && <span className="text-[11px] text-warm-grey">{day.appts.length}</span>}
+            </div>
+            {day.appts.length === 0 ? (
+              <p className="text-stone-300 text-xs">No appointments</p>
+            ) : (
+              <div className="space-y-2">
+                {day.appts.map((a) => (
+                  <ApptRow key={a.lead.row} lead={a.lead} window={a.window} onOpen={() => onOpen(a.lead)} />
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
@@ -436,7 +554,12 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
           <div className="text-sm text-warm-grey space-y-0.5">
             {hasPhone && <p>📞 {phone}</p>}
             {lead.email && <p className="break-all">✉️ {lead.email}</p>}
-            {lead.address && <p>📍 {lead.address}</p>}
+            {lead.address && (
+              <p>
+                <MapLink address={lead.address} className="text-gold underline" />
+                <span className="text-warm-grey"> — tap for directions</span>
+              </p>
+            )}
           </div>
 
           {/* Pipeline */}
