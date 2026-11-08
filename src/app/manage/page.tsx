@@ -124,6 +124,10 @@ export default function ManagePage() {
     setError('')
     try {
       const res = await fetch('/manage/api/leads', { cache: 'no-store' })
+      if (res.status === 401) {
+        window.location.href = '/manage/login?next=/manage'
+        return
+      }
       const json = await res.json()
       if (!json?.ok) throw new Error(json?.error || 'Could not load')
       const all: Lead[] = Array.isArray(json.leads) ? json.leads : []
@@ -193,6 +197,15 @@ export default function ManagePage() {
   const onSaved = (row: number, patch: Partial<Lead>) => {
     setLeads((ls) => ls.map((l) => (l.row === row ? { ...l, ...patch } : l)))
     setSelected((s) => (s && s.row === row ? { ...s, ...patch } : s))
+  }
+
+  const logout = async () => {
+    try {
+      await fetch('/manage/api/logout', { method: 'POST' })
+    } catch {
+      /* ignore */
+    }
+    window.location.href = '/manage/login'
   }
 
   // Today's appointments — always "today", independent of the Month filter.
@@ -315,6 +328,12 @@ export default function ManagePage() {
         </div>
         </>
         )}
+
+        <div className="text-center pt-6 pb-2">
+          <button onClick={logout} className="text-xs text-warm-grey underline hover:text-charcoal">
+            Log out
+          </button>
+        </div>
       </div>
 
       {selected && <Detail lead={selected} onClose={() => setSelected(null)} onSaved={onSaved} />}

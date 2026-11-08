@@ -1,33 +1,43 @@
 import { NextRequest, NextResponse } from "next/server";
+import { COOKIE_NAME, verifyToken } from "@/lib/manageAuth";
 
 /**
- * Password-protects the internal lead manager (/manage and its nested API
- * routes) with HTTP Basic Auth over HTTPS. Credentials from env vars:
- *   MANAGE_USER      (optional, defaults to "atlas")
+ * Protects the internal lead manager (/manage and its nested API routes).
+ * One password login sets a signed, 90-day cookie (see src/lib/manageAuth.ts),
+ * so you don't have to sign in on every visit.
  *   MANAGE_PASSWORD  (required — if unset, access is denied: fail-closed)
- * Use a long, random MANAGE_PASSWORD; that is the real lock on this page.
+ * The login page and its API are the only /manage paths left open.
  */
-export function middleware(req: NextRequest) {
-  const user = process.env.MANAGE_USER || "atlas";
-  const pass = process.env.MANAGE_PASSWORD || "";
+export async function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
 
-  const auth = req.headers.get("authorization");
-  if (pass && auth?.startsWith("Basic ")) {
-    try {
-      const decoded = atob(auth.slice(6));
-      const sep = decoded.indexOf(":");
-      if (decoded.slice(0, sep) === user && decoded.slice(sep + 1) === pass) {
-        return NextResponse.next();
-      }
-    } catch {
-      /* fall through to 401 */
-    }
+  // Public auth endpoints (must be reachable without a cookie).
+  if (
+    pathname === "/manage/login" ||
+    pathname.startsWith("/manage/api/login") ||
+    pathname.startsWith("/manage/api/logout")
+  ) {
+    return NextResponse.next();
   }
 
-  return new NextResponse("Authentication required.", {
-    status: 401,
-    headers: { "WWW-Authenticate": 'Basic realm="Atlas Lead Manager", charset="UTF-8"' },
-  });
+  const pass = process.env.MANAGE_PASSWORD || "";
+  if (!pass) {
+    return new NextResponse("Lead manager is not configured.", { status: 503 });
+  }
+
+  const token = req.cookies.get(COOKIE_NAME)?.value;
+  if (await verifyToken(token, pass)) {
+    return NextResponse.next();
+  }
+
+  // Data/API calls get a clean 401; page views go to the login screen.
+  if (pathname.startsWith("/manage/api/")) {
+    return NextResponse.json({ ok: false, error: "Not signed in" }, { status: 401 });
+  }
+  const url = req.nextUrl.clone();
+  url.pathname = "/manage/login";
+  url.searchParams.set("next", pathname);
+  return NextResponse.redirect(url);
 }
 
 export const config = {
