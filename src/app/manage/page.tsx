@@ -50,6 +50,31 @@ const monthLabel = (k: string) => {
   return isNaN(dt.getTime()) ? k : dt.toLocaleString('en-US', { month: 'short', year: 'numeric' })
 }
 
+// --- Appointments ---------------------------------------------------------
+// Stored in the existing "booked date" sheet column as "YYYY-MM-DD <window>"
+// (e.g. "2026-11-10 9–10 AM"), so no new columns / Apps Script redeploy needed.
+const APPT_WINDOWS = [
+  '9–10 AM', '10–11 AM', '11 AM–12 PM', '12–1 PM', '1–2 PM',
+  '2–3 PM', '3–4 PM', '4–5 PM', '5–6 PM', 'Morning (9–12)', 'Afternoon (12–4)',
+]
+const pad2 = (n: number) => String(n).padStart(2, '0')
+const toISO = (d: Date) => `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`
+const parseAppt = (s: string) => {
+  const m = /^(\d{4}-\d{2}-\d{2})(?:[ T]+(.*))?$/.exec(String(s || '').trim())
+  return m ? { date: m[1], window: (m[2] || '').trim() } : { date: '', window: '' }
+}
+const joinAppt = (date: string, win: string) => (date ? (win ? `${date} ${win}` : date) : win)
+const fmtApptDate = (iso: string) => {
+  const d = new Date(iso + 'T00:00:00')
+  return isNaN(d.getTime())
+    ? iso
+    : d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
+}
+const apptSort = (w: string) => {
+  const i = APPT_WINDOWS.indexOf(w)
+  return i === -1 ? 99 : i
+}
+
 const isRealLead = (l: Lead) => {
   const validDate = /\d{4}/.test(String(l.date)) && !isNaN(new Date(l.date).getTime())
   return validDate || /\d/.test(String(l.phone ?? '')) || /@/.test(String(l.email ?? ''))
@@ -73,6 +98,7 @@ export default function ManagePage() {
   const [search, setSearch] = useState('')
   const [selected, setSelected] = useState<Lead | null>(null)
   const [month, setMonth] = useState('')
+  const [adding, setAdding] = useState(false)
 
   const load = async () => {
     setLoading(true)
@@ -150,6 +176,17 @@ export default function ManagePage() {
     setSelected((s) => (s && s.row === row ? { ...s, ...patch } : s))
   }
 
+  // Today's appointments — always "today", independent of the Month filter.
+  const today = toISO(new Date())
+  const todaysAppts = useMemo(
+    () =>
+      leads
+        .map((l) => ({ lead: l, ...parseAppt(String(l.bookedDate || '')) }))
+        .filter((a) => a.date === today)
+        .sort((a, b) => apptSort(a.window) - apptSort(b.window)),
+    [leads, today]
+  )
+
   return (
     <main className="min-h-screen bg-off-white font-lato">
       <header className="bg-charcoal text-white px-4 py-4 sticky top-0 z-20">
@@ -158,13 +195,40 @@ export default function ManagePage() {
             <h1 className="font-playfair text-xl">Lead Manager</h1>
             <p className="text-white/60 text-[11px]">Atlas Rug &amp; Design Centre</p>
           </div>
-          <button onClick={load} className="text-sm bg-white/10 hover:bg-white/20 px-3 py-2 rounded transition-colors">
-            ↻ Refresh
-          </button>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={() => setAdding(true)}
+              className="text-sm bg-gold hover:bg-gold-dark text-white font-semibold px-3 py-2 rounded transition-colors"
+            >
+              + Add lead
+            </button>
+            <button onClick={load} aria-label="Refresh" className="text-sm bg-white/10 hover:bg-white/20 px-3 py-2 rounded transition-colors">
+              ↻
+            </button>
+          </div>
         </div>
       </header>
 
       <div className="max-w-3xl mx-auto px-4 py-5">
+        {/* Today's appointments */}
+        <div className="bg-white rounded-xl border border-gold/40 p-4 mb-5">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey">
+              📅 Today&apos;s appointments
+            </p>
+            <span className="text-[11px] text-warm-grey">{fmtApptDate(today)}</span>
+          </div>
+          {todaysAppts.length === 0 ? (
+            <p className="text-warm-grey text-sm">No appointments today.</p>
+          ) : (
+            <div className="space-y-2">
+              {todaysAppts.map((a) => (
+                <ApptRow key={a.lead.row} lead={a.lead} window={a.window} onOpen={() => setSelected(a.lead)} />
+              ))}
+            </div>
+          )}
+        </div>
+
         {/* Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-5">
           <Stat label={`Revenue · ${periodShort}`} value={dollars(stats.revenue)} highlight />
@@ -223,7 +287,31 @@ export default function ManagePage() {
       </div>
 
       {selected && <Detail lead={selected} onClose={() => setSelected(null)} onSaved={onSaved} />}
+      {adding && <AddLead onClose={() => setAdding(false)} onAdded={load} />}
     </main>
+  )
+}
+
+function ApptRow({ lead, window: win, onOpen }: { lead: Lead; window: string; onOpen: () => void }) {
+  const phone = String(lead.phone ?? '')
+  const hasPhone = /\d/.test(phone)
+  return (
+    <div
+      onClick={onOpen}
+      className="flex items-center gap-3 rounded-lg bg-off-white border border-stone-100 p-2.5 cursor-pointer hover:border-gold transition-colors"
+    >
+      <span className="shrink-0 text-xs font-semibold text-gold bg-gold/10 rounded px-2 py-1 min-w-[72px] text-center">
+        {win || 'Time TBD'}
+      </span>
+      <div className="min-w-0 flex-1">
+        <p className="font-semibold text-charcoal truncate">{lead.name || '(no name)'}</p>
+        <p className="text-warm-grey text-xs truncate">{[lead.product, lead.address].filter(Boolean).join(' · ')}</p>
+      </div>
+      {hasPhone && (
+        <a href={`tel:${phone}`} onClick={(e) => e.stopPropagation()} aria-label="Call"
+          className="shrink-0 w-9 h-9 rounded-full bg-gold/10 text-gold flex items-center justify-center hover:bg-gold/20">📞</a>
+      )}
+    </div>
   )
 }
 
@@ -238,8 +326,11 @@ function Stat({ label, value, highlight }: { label: string; value: string; highl
 
 function Row({ lead, onOpen }: { lead: Lead; onOpen: () => void }) {
   const stage = normalize(lead.status)
+  const appt = parseAppt(String(lead.bookedDate || ''))
+  const apptText = appt.date ? `📅 ${fmtApptDate(appt.date)}${appt.window ? ` · ${appt.window}` : ''}` : null
   const sub = [
     lead.product || null,
+    apptText,
     lead.followUp ? `⏰ ${lead.followUp}` : null,
     num(lead.value) > 0 ? dollars(num(lead.value)) : null,
   ]
@@ -273,9 +364,11 @@ function Row({ lead, onOpen }: { lead: Lead; onOpen: () => void }) {
 }
 
 function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; onSaved: (row: number, patch: Partial<Lead>) => void }) {
+  const appt0 = parseAppt(String(lead.bookedDate ?? ''))
   const [status, setStatus] = useState<Stage>(normalize(lead.status))
   const [followUp, setFollowUp] = useState(lead.followUp ?? '')
-  const [bookedDate, setBookedDate] = useState(lead.bookedDate ?? '')
+  const [apptDate, setApptDate] = useState(appt0.date)
+  const [apptWindow, setApptWindow] = useState(appt0.window)
   const [value, setValue] = useState(String(lead.value ?? ''))
   const [material, setMaterial] = useState(String(lead.material ?? ''))
   const [install, setInstall] = useState(String(lead.install ?? ''))
@@ -295,6 +388,7 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
   const save = async () => {
     setSaving(true)
     setSaved(false)
+    const bookedDate = joinAppt(apptDate, apptWindow)
     try {
       const res = await fetch('/manage/api/update', {
         method: 'POST',
@@ -353,14 +447,40 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
                 {STAGES.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
             </label>
-            <div className="grid grid-cols-2 gap-3">
-              <label className="block text-xs text-warm-grey">Next follow-up
-                <input value={followUp} onChange={(e) => setFollowUp(e.target.value)} placeholder="e.g. Nov 20" className={`${fieldCls} w-full mt-1`} />
-              </label>
-              <label className="block text-xs text-warm-grey">Job booked date
-                <input value={bookedDate} onChange={(e) => setBookedDate(e.target.value)} placeholder="e.g. Nov 23" className={`${fieldCls} w-full mt-1`} />
-              </label>
+
+            {/* Appointment: day first, then time window */}
+            <div>
+              <p className="text-xs text-warm-grey mb-1">Appointment</p>
+              <div className="grid grid-cols-2 gap-3">
+                <input
+                  type="date"
+                  value={apptDate}
+                  onChange={(e) => setApptDate(e.target.value)}
+                  className={`${fieldCls} w-full`}
+                />
+                <select value={apptWindow} onChange={(e) => setApptWindow(e.target.value)} className={`${fieldCls} w-full`}>
+                  <option value="">Time window…</option>
+                  {APPT_WINDOWS.map((w) => <option key={w} value={w}>{w}</option>)}
+                  {apptWindow && !APPT_WINDOWS.includes(apptWindow) && <option value={apptWindow}>{apptWindow}</option>}
+                </select>
+              </div>
+              {apptDate && (
+                <div className="flex items-center justify-between mt-1.5">
+                  <p className="text-[11px] text-emerald-700">📅 {fmtApptDate(apptDate)}{apptWindow ? ` · ${apptWindow}` : ''}</p>
+                  <button
+                    type="button"
+                    onClick={() => { setApptDate(''); setApptWindow('') }}
+                    className="text-[11px] text-warm-grey underline"
+                  >
+                    Clear
+                  </button>
+                </div>
+              )}
             </div>
+
+            <label className="block text-xs text-warm-grey">Next follow-up
+              <input value={followUp} onChange={(e) => setFollowUp(e.target.value)} placeholder="e.g. Nov 20" className={`${fieldCls} w-full mt-1`} />
+            </label>
             <label className="block text-xs text-warm-grey">Notes
               <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} placeholder="Notes…" className={`${fieldCls} w-full mt-1`} />
             </label>
@@ -412,6 +532,96 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
           <button onClick={save} disabled={saving}
             className="bg-gold text-white font-semibold px-6 py-2.5 rounded hover:bg-gold-dark transition-colors disabled:opacity-50">
             {saving ? 'Saving…' : 'Save'}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const PRODUCT_OPTIONS = [
+  'Carpet & Broadloom', 'Stair Runners', 'Hardwood', 'Engineered Hardwood',
+  'Laminate', 'Luxury Vinyl', 'Area Rugs', 'Refinishing', 'Commercial',
+]
+
+function AddLead({ onClose, onAdded }: { onClose: () => void; onAdded: () => void }) {
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
+  const [address, setAddress] = useState('')
+  const [product, setProduct] = useState('')
+  const [notes, setNotes] = useState('')
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
+
+  const canSave = name.trim() !== '' || /\d/.test(phone) || /@/.test(email)
+
+  const save = async () => {
+    if (!canSave) {
+      setError('Add at least a name, phone, or email.')
+      return
+    }
+    setSaving(true)
+    setError('')
+    try {
+      const res = await fetch('/manage/api/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone, email, address, product, message: notes }),
+      })
+      const json = await res.json()
+      if (!json?.ok) throw new Error(json?.error || 'Could not add')
+      onAdded()
+      onClose()
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Could not add lead')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex justify-end">
+      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+      <div className="relative bg-off-white w-full sm:max-w-md h-full overflow-y-auto shadow-2xl flex flex-col">
+        <div className="sticky top-0 bg-charcoal text-white px-4 py-3 flex items-center gap-3 z-10">
+          <button onClick={onClose} aria-label="Close" className="text-2xl leading-none">×</button>
+          <p className="font-semibold flex-1">Add a lead</p>
+        </div>
+
+        <div className="p-4 space-y-3 flex-1">
+          <label className="block text-xs text-warm-grey">Name
+            <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Full name" autoFocus className={`${fieldCls} w-full mt-1`} />
+          </label>
+          <div className="grid grid-cols-2 gap-3">
+            <label className="block text-xs text-warm-grey">Phone
+              <input value={phone} onChange={(e) => setPhone(e.target.value)} type="tel" inputMode="tel" placeholder="(416) …" className={`${fieldCls} w-full mt-1`} />
+            </label>
+            <label className="block text-xs text-warm-grey">Email
+              <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" inputMode="email" placeholder="name@…" className={`${fieldCls} w-full mt-1`} />
+            </label>
+          </div>
+          <label className="block text-xs text-warm-grey">Address
+            <input value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Neighbourhood / address" className={`${fieldCls} w-full mt-1`} />
+          </label>
+          <label className="block text-xs text-warm-grey">Product
+            <input list="add-products" value={product} onChange={(e) => setProduct(e.target.value)} placeholder="e.g. Carpet, Stair runners" className={`${fieldCls} w-full mt-1`} />
+            <datalist id="add-products">
+              {PRODUCT_OPTIONS.map((p) => <option key={p} value={p} />)}
+            </datalist>
+          </label>
+          <label className="block text-xs text-warm-grey">Notes
+            <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} placeholder="What do they need?" className={`${fieldCls} w-full mt-1`} />
+          </label>
+          {error && <p className="text-red-600 text-sm">{error}</p>}
+          <p className="text-[11px] text-warm-grey">Starts as a <strong>New</strong> lead. Open it to book an appointment.</p>
+        </div>
+
+        <div className="sticky bottom-0 bg-white border-t border-stone-200 px-4 py-3 flex items-center justify-end gap-3">
+          <button onClick={onClose} className="text-sm text-warm-grey px-3 py-2.5">Cancel</button>
+          <button onClick={save} disabled={saving || !canSave}
+            className="bg-gold text-white font-semibold px-6 py-2.5 rounded hover:bg-gold-dark transition-colors disabled:opacity-50">
+            {saving ? 'Adding…' : 'Add lead'}
           </button>
         </div>
       </div>
