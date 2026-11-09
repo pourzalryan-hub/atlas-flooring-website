@@ -36,14 +36,14 @@ const JOB_TASKS = [
 const taskSet = (l: Lead): Set<string> =>
   new Set(String(l.tasks || '').split(',').map((s) => s.trim()).filter(Boolean))
 
-const STAGES = ['New', 'Appointment', 'Sold', 'Booked', 'Completed', 'Paid', 'Lost'] as const
+const STAGES = ['New', 'Appointment', 'Quoted', 'Sold', 'Booked', 'Completed', 'Paid', 'Lost'] as const
 type Stage = (typeof STAGES)[number]
 
 // Map older / free-text statuses onto the current stages so nothing is lost.
 const STAGE_ALIASES: Record<string, Stage> = {
   '': 'New', lead: 'New', new: 'New',
-  contacted: 'Appointment', quoted: 'Appointment', quote: 'Appointment',
-  appt: 'Appointment', appointment: 'Appointment', measure: 'Appointment', consult: 'Appointment',
+  contacted: 'Appointment', appt: 'Appointment', appointment: 'Appointment', measure: 'Appointment', consult: 'Appointment',
+  quoted: 'Quoted', quote: 'Quoted', estimate: 'Quoted', estimated: 'Quoted',
   sold: 'Sold', won: 'Sold', deposit: 'Sold', closed: 'Sold',
   booked: 'Booked', scheduled: 'Booked', install: 'Booked', installdate: 'Booked',
   completed: 'Completed', complete: 'Completed', done: 'Completed', installed: 'Completed',
@@ -135,7 +135,8 @@ const followUpInfo = (l: Lead): { flag: boolean; reason: string; urgency: number
   const age = daysSince(String(l.date))
   const appt = parseAppt(String(l.bookedDate || ''))
   const todayIso = toISO(new Date())
-  if (appt.date && appt.date < todayIso) return { flag: true, reason: `Appointment was ${fmtApptDate(appt.date)}`, urgency: 4 }
+  if (stage === 'Appointment' && appt.date && appt.date < todayIso) return { flag: true, reason: `Appointment was ${fmtApptDate(appt.date)}`, urgency: 4 }
+  if (stage === 'Quoted' && age >= 2) return { flag: true, reason: 'Quote sent · follow up', urgency: 3 }
   if (stage === 'New' && age >= 1) return { flag: true, reason: `New lead · ${age}d old`, urgency: age >= 3 ? 3 : 2 }
   if (stage === 'Appointment' && !appt.date && age >= 2) return { flag: true, reason: 'No appointment booked yet', urgency: 2 }
   if (age >= 7) return { flag: true, reason: `No update in ${age}d`, urgency: 1 }
@@ -194,6 +195,7 @@ const isRealLead = (l: Lead) => {
 const STAGE_STYLE: Record<Stage, string> = {
   New: 'bg-blue-100 text-blue-800',
   Appointment: 'bg-amber-100 text-amber-800',
+  Quoted: 'bg-purple-100 text-purple-800',
   Sold: 'bg-indigo-100 text-indigo-800',
   Booked: 'bg-emerald-100 text-emerald-800',
   Completed: 'bg-stone-200 text-stone-700',
@@ -272,9 +274,7 @@ export default function ManagePage() {
   const kpis = useMemo(() => {
     const todayIso = toISO(new Date())
     const active = leads.filter((l) => !['Completed', 'Lost'].includes(normalize(l.status))).length
-    const quotesPending = leads.filter(
-      (l) => num(l.value) > 0 && ['New', 'Appointment'].includes(normalize(l.status))
-    ).length
+    const quotesPending = leads.filter((l) => normalize(l.status) === 'Quoted').length
     const upcomingInstalls = leads.filter((l) => {
       const d = String(l.installDate || '').slice(0, 10)
       return /^\d{4}-\d{2}-\d{2}$/.test(d) && d >= todayIso
@@ -412,7 +412,7 @@ export default function ManagePage() {
         {/* Dashboard KPIs */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-3">
           <KpiTile label="Active leads" value={String(kpis.active)} onClick={() => { setMonth('all'); setFilter('All') }} />
-          <KpiTile label="Quotes pending" value={String(kpis.quotesPending)} onClick={() => { setMonth('all'); setFilter('Appointment') }} />
+          <KpiTile label="Quotes pending" value={String(kpis.quotesPending)} onClick={() => { setMonth('all'); setFilter('Quoted') }} />
           <KpiTile label="Upcoming installs" value={String(kpis.upcomingInstalls)} onClick={() => setView('week')} />
           <KpiTile label="Outstanding" value={dollars(kpis.outstanding)} accent onClick={() => { setMonth('all'); setFilter('Sold') }} />
         </div>
@@ -745,7 +745,7 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
   const phone = String(lead.phone ?? '')
   const hasPhone = /\d/.test(phone)
 
-  const save = async () => {
+  const save = async (): Promise<boolean> => {
     setSaving(true)
     setSaved(false)
     const bookedDate = joinAppt(apptDate, apptWindow)
@@ -760,20 +760,46 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
       onSaved(lead.row, { status, followUp, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(',') })
       setSaved(true)
       setTimeout(() => setSaved(false), 2500)
+      return true
     } catch {
       alert('Could not save — check your connection and try again.')
+      return false
     } finally {
       setSaving(false)
     }
   }
 
+  // Have any fields been edited since the lead was opened?
+  const dirty =
+    status !== normalize(lead.status) ||
+    followUp !== (lead.followUp ?? '') ||
+    joinAppt(apptDate, apptWindow) !== String(lead.bookedDate ?? '') ||
+    installDate !== String(lead.installDate ?? '') ||
+    value !== String(lead.value ?? '') ||
+    material !== String(lead.material ?? '') ||
+    install !== String(lead.install ?? '') ||
+    deposit !== String(lead.deposit ?? '') ||
+    payment !== (lead.payment ?? '') ||
+    notes !== (lead.notes ?? '') ||
+    [...tasks].sort().join(',') !== Array.from(taskSet(lead)).sort().join(',')
+
+  // Clicking away (backdrop or ×) auto-saves pending edits, then closes.
+  // On a save failure we keep the panel open so nothing is lost.
+  const handleClose = async () => {
+    if (dirty && !saving) {
+      const ok = await save()
+      if (!ok) return
+    }
+    onClose()
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
-      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/40" onClick={handleClose} />
       <div className="relative bg-off-white w-full sm:max-w-md h-full overflow-y-auto shadow-2xl flex flex-col">
         {/* Top bar */}
         <div className="sticky top-0 bg-charcoal text-white px-4 py-3 flex items-center gap-3 z-10">
-          <button onClick={onClose} aria-label="Close" className="text-2xl leading-none">×</button>
+          <button onClick={handleClose} aria-label="Close" className="text-2xl leading-none">×</button>
           <div className="min-w-0 flex-1">
             <p className="font-semibold truncate">{lead.name || '(no name)'}</p>
             <p className="text-white/60 text-[11px] truncate">{[lead.date, lead.product].filter(Boolean).join(' · ')}</p>
@@ -974,7 +1000,7 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
 
         {/* Sticky save */}
         <div className="sticky bottom-0 bg-white border-t border-stone-200 px-4 py-3 flex items-center justify-between gap-3">
-          {saved ? <span className="text-emerald-600 text-sm">Saved ✓</span> : <span className="text-warm-grey text-xs">Changes save when you tap Save</span>}
+          {saved ? <span className="text-emerald-600 text-sm">Saved ✓</span> : <span className="text-warm-grey text-xs">{dirty ? 'Saves when you close' : 'Up to date'}</span>}
           <button onClick={save} disabled={saving}
             className="bg-gold text-white font-semibold px-6 py-2.5 rounded hover:bg-gold-dark transition-colors disabled:opacity-50">
             {saving ? 'Saving…' : 'Save'}
