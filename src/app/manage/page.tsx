@@ -2,6 +2,9 @@
 
 import { useEffect, useMemo, useState } from 'react'
 
+type QuoteItem = { desc: string; qty: string; unit: string; price: string }
+type QuoteData = { items: QuoteItem[]; taxRate: string }
+
 type Lead = {
   row: number
   date: string
@@ -22,6 +25,7 @@ type Lead = {
   source?: string
   installDate?: string
   tasks?: string
+  quote?: QuoteData
 }
 
 // Post-sale operational to-dos — independent of the pipeline stage. A job can
@@ -59,6 +63,29 @@ const num = (v: string | number) => {
   return Number.isFinite(n) ? n : 0
 }
 const dollars = (n: number) => (n ? '$' + Math.round(n).toLocaleString('en-US') : '—')
+const money2 = (n: number) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+
+// --- Quote builder --------------------------------------------------------
+const DEFAULT_TAX = '13' // Ontario HST
+const QUOTE_PRESETS: { desc: string; unit: string }[] = [
+  { desc: 'Carpet', unit: 'sq ft' },
+  { desc: 'Underpad', unit: 'sq ft' },
+  { desc: 'Installation', unit: 'sq ft' },
+  { desc: 'Stairs', unit: 'step' },
+  { desc: 'Landing', unit: 'each' },
+  { desc: 'Removal / disposal', unit: 'sq ft' },
+  { desc: 'Binding', unit: 'each' },
+  { desc: 'Item', unit: '' },
+]
+const emptyQuote = (): QuoteData => ({ items: [], taxRate: DEFAULT_TAX })
+const quoteItemAmount = (it: QuoteItem) => num(it.qty || '0') * num(it.price || '0')
+const quoteTotals = (q: QuoteData) => {
+  const subtotal = q.items.reduce((s, it) => s + quoteItemAmount(it), 0)
+  const tax = subtotal * (num(q.taxRate) / 100)
+  return { subtotal, tax, total: subtotal + tax }
+}
+const escHtml = (s: string) =>
+  String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
 const monthKey = (d: string) => (/\d{4}-\d{2}/.test(String(d)) ? String(d).slice(0, 7) : 'other')
 const monthLabel = (k: string) => {
@@ -727,6 +754,50 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
   const [notes, setNotes] = useState(lead.notes ?? '')
   const [tasks, setTasks] = useState<string[]>(() => Array.from(taskSet(lead)))
   const toggleTask = (k: string) => setTasks((ts) => (ts.includes(k) ? ts.filter((x) => x !== k) : [...ts, k]))
+  const [quote, setQuote] = useState<QuoteData>(() => {
+    const q = lead.quote
+    return q && Array.isArray(q.items) ? { items: q.items.map((it) => ({ ...it })), taxRate: q.taxRate ?? DEFAULT_TAX } : emptyQuote()
+  })
+  const [quoteOpen, setQuoteOpen] = useState(false)
+  const qTotals = quoteTotals(quote)
+  const addQuoteItem = (preset: { desc: string; unit: string }) =>
+    setQuote((q) => ({ ...q, items: [...q.items, { desc: preset.desc, qty: '', unit: preset.unit, price: '' }] }))
+  const setQuoteItem = (i: number, field: keyof QuoteItem, val: string) =>
+    setQuote((q) => ({ ...q, items: q.items.map((it, idx) => (idx === i ? { ...it, [field]: val } : it)) }))
+  const removeQuoteItem = (i: number) => setQuote((q) => ({ ...q, items: q.items.filter((_, idx) => idx !== i) }))
+
+  const printQuote = () => {
+    const t = quoteTotals(quote)
+    const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+    const rows = quote.items
+      .map(
+        (it) => `<tr><td>${escHtml(it.desc)}</td><td style="text-align:center">${escHtml(it.qty)} ${escHtml(it.unit)}</td><td style="text-align:right">${money2(num(it.price))}</td><td style="text-align:right">${money2(quoteItemAmount(it))}</td></tr>`
+      )
+      .join('')
+    const html = `<!doctype html><html><head><meta charset="utf-8"><title>Quote — ${escHtml(lead.name)}</title>
+<style>body{font-family:Georgia,serif;color:#1C1C1C;max-width:720px;margin:24px auto;padding:0 16px}.gold{color:#C9A84C}h1{margin:0;font-size:24px}table{width:100%;border-collapse:collapse;margin-top:16px}th,td{padding:8px;border-bottom:1px solid #eee;font-size:14px}th{text-align:left;color:#6B6B6B;font-size:11px;text-transform:uppercase;letter-spacing:.04em}.tot{display:flex;justify-content:flex-end;gap:40px;padding:3px 8px;font-size:14px}.total{font-weight:bold;font-size:18px;border-top:2px solid #1C1C1C;margin-top:4px;padding-top:8px}.muted{color:#6B6B6B;font-size:13px}@media print{button{display:none}}</style></head><body>
+<div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #C9A84C;padding-bottom:12px">
+<div><h1>Atlas Rug <span class="gold">&amp;</span> Design Centre</h1><div class="muted">978 Bathurst St, Toronto, ON &middot; (416) 533-3366 &middot; atlasrugflooring.com</div></div>
+<div style="text-align:right"><div style="font-size:22px;font-weight:bold">QUOTE</div><div class="muted">${today}</div></div></div>
+<div style="margin-top:16px"><div class="muted">Prepared for</div><div style="font-size:16px;font-weight:bold">${escHtml(lead.name || '')}</div>
+<div class="muted">${escHtml(String(lead.address || ''))}${lead.phone ? ' &middot; ' + escHtml(String(lead.phone)) : ''}</div>
+${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : ''}</div>
+<table><thead><tr><th>Description</th><th style="text-align:center">Qty</th><th style="text-align:right">Unit price</th><th style="text-align:right">Amount</th></tr></thead><tbody>${rows}</tbody></table>
+<div style="margin-top:12px"><div class="tot"><span class="muted">Subtotal</span><span>${money2(t.subtotal)}</span></div>
+<div class="tot"><span class="muted">HST (${escHtml(quote.taxRate)}%)</span><span>${money2(t.tax)}</span></div>
+<div class="tot total"><span>Total</span><span>${money2(t.total)}</span></div></div>
+<p class="muted" style="margin-top:24px">Thank you for choosing Atlas Rug &amp; Design Centre — family-owned in Toronto since 1959. This quote is valid for 30 days.</p>
+<button onclick="window.print()" style="margin-top:16px;padding:10px 20px;background:#C9A84C;color:#fff;border:none;border-radius:6px;font-size:15px;cursor:pointer">Print / Save as PDF</button>
+</body></html>`
+    const w = window.open('', '_blank')
+    if (w) {
+      w.document.write(html)
+      w.document.close()
+    } else {
+      alert('Please allow pop-ups to print the quote.')
+    }
+  }
+
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [reviewAsked, setReviewAsked] = useState<string | null>(null)
@@ -753,11 +824,11 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
       const res = await fetch('/manage/api/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ row: lead.row, status, followUp, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(',') }),
+        body: JSON.stringify({ row: lead.row, status, followUp, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(','), quote }),
       })
       const json = await res.json()
       if (!json?.ok) throw new Error(json?.error || 'Save failed')
-      onSaved(lead.row, { status, followUp, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(',') })
+      onSaved(lead.row, { status, followUp, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(','), quote })
       setSaved(true)
       setTimeout(() => setSaved(false), 2500)
       return true
@@ -781,7 +852,8 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
     deposit !== String(lead.deposit ?? '') ||
     payment !== (lead.payment ?? '') ||
     notes !== (lead.notes ?? '') ||
-    [...tasks].sort().join(',') !== Array.from(taskSet(lead)).sort().join(',')
+    [...tasks].sort().join(',') !== Array.from(taskSet(lead)).sort().join(',') ||
+    JSON.stringify(quote) !== JSON.stringify(lead.quote ?? emptyQuote())
 
   // Clicking away (backdrop or ×) auto-saves pending edits, then closes.
   // On a save failure we keep the panel open so nothing is lost.
@@ -919,6 +991,75 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
                   Clear
                 </button>
               </div>
+            )}
+          </div>
+
+          {/* Quote builder */}
+          <div className="bg-white rounded-xl border border-stone-100 p-4 space-y-3">
+            <button type="button" onClick={() => setQuoteOpen((o) => !o)} className="w-full flex items-center justify-between">
+              <span className="text-xs font-semibold uppercase tracking-wide text-warm-grey">Quote</span>
+              <span className="text-sm font-semibold text-charcoal">
+                {quote.items.length ? dollars(qTotals.total) : 'Build a quote'}
+                <span className="text-stone-400 ml-1">{quoteOpen ? '▲' : '▼'}</span>
+              </span>
+            </button>
+
+            {quoteOpen && (
+              <>
+                <div className="flex flex-wrap gap-1.5">
+                  {QUOTE_PRESETS.map((p) => (
+                    <button key={p.desc} type="button" onClick={() => addQuoteItem(p)}
+                      className="text-xs border border-stone-200 rounded-full px-2.5 py-1 hover:border-gold transition-colors">
+                      + {p.desc}
+                    </button>
+                  ))}
+                </div>
+
+                {quote.items.length === 0 ? (
+                  <p className="text-warm-grey text-sm">Tap a button above to add a line.</p>
+                ) : (
+                  <div className="space-y-2">
+                    {quote.items.map((it, i) => (
+                      <div key={i} className="border border-stone-200 rounded-lg p-2 space-y-2">
+                        <div className="flex gap-2">
+                          <input value={it.desc} onChange={(e) => setQuoteItem(i, 'desc', e.target.value)} placeholder="Description" className={`${fieldCls} flex-1`} />
+                          <button type="button" onClick={() => removeQuoteItem(i)} aria-label="Remove" className="shrink-0 w-9 text-stone-400 hover:text-red-600 text-lg">✕</button>
+                        </div>
+                        <div className="grid grid-cols-3 gap-2">
+                          <input value={it.qty} onChange={(e) => setQuoteItem(i, 'qty', e.target.value)} inputMode="decimal" placeholder="Qty" className={fieldCls} />
+                          <input value={it.unit} onChange={(e) => setQuoteItem(i, 'unit', e.target.value)} placeholder="unit" className={fieldCls} />
+                          <input value={it.price} onChange={(e) => setQuoteItem(i, 'price', e.target.value)} inputMode="decimal" placeholder="$ each" className={fieldCls} />
+                        </div>
+                        <div className="text-right text-sm font-semibold text-charcoal">{dollars(quoteItemAmount(it))}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div className="border-t border-stone-100 pt-2 space-y-1 text-sm">
+                  <div className="flex justify-between"><span className="text-warm-grey">Subtotal</span><span>{money2(qTotals.subtotal)}</span></div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-warm-grey flex items-center gap-1">
+                      HST
+                      <input value={quote.taxRate} onChange={(e) => setQuote((q) => ({ ...q, taxRate: e.target.value }))} inputMode="decimal"
+                        className="w-10 border border-stone-300 rounded px-1 py-0.5 text-xs text-center" />%
+                    </span>
+                    <span>{money2(qTotals.tax)}</span>
+                  </div>
+                  <div className="flex justify-between font-semibold text-charcoal text-base"><span>Total</span><span>{money2(qTotals.total)}</span></div>
+                </div>
+
+                <div className="flex gap-2">
+                  <button type="button" onClick={() => setValue(String(Math.round(qTotals.total)))}
+                    className="flex-1 text-sm bg-white border border-stone-300 rounded-lg py-2 font-semibold hover:border-gold transition-colors">
+                    Use as job value
+                  </button>
+                  <button type="button" onClick={printQuote} disabled={quote.items.length === 0}
+                    className="flex-1 text-sm bg-charcoal text-white rounded-lg py-2 font-semibold disabled:opacity-50">
+                    Print / send
+                  </button>
+                </div>
+              </>
             )}
           </div>
 

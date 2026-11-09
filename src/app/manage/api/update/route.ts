@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 const FIELDS = [
   "status", "notes", "value", "bookedDate", "installDate",
-  "material", "install", "deposit", "payment", "followUp", "tasks",
+  "material", "install", "deposit", "payment", "followUp", "tasks", "quote",
 ] as const;
 
 export async function POST(req: Request) {
