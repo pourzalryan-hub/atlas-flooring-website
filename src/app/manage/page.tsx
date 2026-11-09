@@ -27,6 +27,7 @@ type Lead = {
 // Post-sale operational to-dos — independent of the pipeline stage. A job can
 // need several at once (ordered + binding + unpaid). Stored comma-separated.
 const JOB_TASKS = [
+  { key: 'schedule', label: 'Schedule install', short: 'Schedule', icon: '📅' },
   { key: 'order', label: 'Order carpet', short: 'To order', icon: '📦' },
   { key: 'pickup', label: 'Pick up carpet', short: 'Pick up', icon: '🚚' },
   { key: 'binding', label: 'Send to binding', short: 'Binding', icon: '🧵' },
@@ -35,7 +36,7 @@ const JOB_TASKS = [
 const taskSet = (l: Lead): Set<string> =>
   new Set(String(l.tasks || '').split(',').map((s) => s.trim()).filter(Boolean))
 
-const STAGES = ['New', 'Appointment', 'Sold', 'Booked', 'Completed', 'Lost'] as const
+const STAGES = ['New', 'Appointment', 'Sold', 'Booked', 'Completed', 'Paid', 'Lost'] as const
 type Stage = (typeof STAGES)[number]
 
 // Map older / free-text statuses onto the current stages so nothing is lost.
@@ -45,7 +46,8 @@ const STAGE_ALIASES: Record<string, Stage> = {
   appt: 'Appointment', appointment: 'Appointment', measure: 'Appointment', consult: 'Appointment',
   sold: 'Sold', won: 'Sold', deposit: 'Sold', closed: 'Sold',
   booked: 'Booked', scheduled: 'Booked', install: 'Booked', installdate: 'Booked',
-  completed: 'Completed', complete: 'Completed', done: 'Completed', installed: 'Completed', paid: 'Completed',
+  completed: 'Completed', complete: 'Completed', done: 'Completed', installed: 'Completed',
+  paid: 'Paid', settled: 'Paid',
   lost: 'Lost', dead: 'Lost', cancelled: 'Lost', canceled: 'Lost',
 }
 const normalize = (s: string): Stage => {
@@ -90,6 +92,18 @@ const apptSort = (w: string) => {
   return i === -1 ? 99 : i
 }
 
+// Scheduled calendar items for a lead — the measure appointment and the
+// install date. Never filtered by stage, so completed/paid jobs still show.
+type SchedEvent = { lead: Lead; date: string; kind: 'measure' | 'install'; badge: string; sort: number }
+const leadEvents = (l: Lead): SchedEvent[] => {
+  const out: SchedEvent[] = []
+  const appt = parseAppt(String(l.bookedDate || ''))
+  if (appt.date) out.push({ lead: l, date: appt.date, kind: 'measure', badge: appt.window || 'Time TBD', sort: apptSort(appt.window) })
+  const inst = String(l.installDate || '').slice(0, 10)
+  if (/^\d{4}-\d{2}-\d{2}$/.test(inst)) out.push({ lead: l, date: inst, kind: 'install', badge: 'Install', sort: 500 })
+  return out
+}
+
 // Google Maps directions link for an address.
 const mapsHref = (address: string) =>
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
@@ -117,7 +131,7 @@ const daysSince = (d: string) => {
 // Does this lead need a follow-up nudge, and why?
 const followUpInfo = (l: Lead): { flag: boolean; reason: string; urgency: number } => {
   const stage = normalize(l.status)
-  if (stage === 'Sold' || stage === 'Booked' || stage === 'Completed' || stage === 'Lost') return { flag: false, reason: '', urgency: 0 }
+  if (['Sold', 'Booked', 'Completed', 'Paid', 'Lost'].includes(stage)) return { flag: false, reason: '', urgency: 0 }
   const age = daysSince(String(l.date))
   const appt = parseAppt(String(l.bookedDate || ''))
   const todayIso = toISO(new Date())
@@ -141,7 +155,7 @@ const productBucket = (p: string): string => {
   return 'Other'
 }
 
-const WON = ['Sold', 'Booked', 'Completed']
+const WON = ['Sold', 'Booked', 'Completed', 'Paid']
 
 // Review request (texts the branded /review link).
 const REVIEW_URL = 'https://atlasrugflooring.com/review'
@@ -183,6 +197,7 @@ const STAGE_STYLE: Record<Stage, string> = {
   Sold: 'bg-indigo-100 text-indigo-800',
   Booked: 'bg-emerald-100 text-emerald-800',
   Completed: 'bg-stone-200 text-stone-700',
+  Paid: 'bg-teal-100 text-teal-800',
   Lost: 'bg-red-100 text-red-700',
 }
 
@@ -337,9 +352,9 @@ export default function ManagePage() {
   const todaysAppts = useMemo(
     () =>
       leads
-        .map((l) => ({ lead: l, ...parseAppt(String(l.bookedDate || '')) }))
-        .filter((a) => a.date === today)
-        .sort((a, b) => apptSort(a.window) - apptSort(b.window)),
+        .flatMap((l) => leadEvents(l))
+        .filter((e) => e.date === today)
+        .sort((a, b) => a.sort - b.sort),
     [leads, today]
   )
 
@@ -432,7 +447,7 @@ export default function ManagePage() {
           ) : (
             <div className="space-y-2">
               {todaysAppts.map((a) => (
-                <ApptRow key={a.lead.row} lead={a.lead} window={a.window} onOpen={() => setSelected(a.lead)} />
+                <ApptRow key={`${a.lead.row}-${a.kind}`} lead={a.lead} badge={a.badge} kind={a.kind} onOpen={() => setSelected(a.lead)} />
               ))}
             </div>
           )}
@@ -533,16 +548,17 @@ function MapLink({ address, className = '' }: { address: string; className?: str
   )
 }
 
-function ApptRow({ lead, window: win, onOpen }: { lead: Lead; window: string; onOpen: () => void }) {
+function ApptRow({ lead, badge, kind, onOpen }: { lead: Lead; badge: string; kind?: 'measure' | 'install'; onOpen: () => void }) {
   const phone = String(lead.phone ?? '')
   const hasPhone = /\d/.test(phone)
+  const chip = kind === 'install' ? 'text-emerald-700 bg-emerald-100' : 'text-gold bg-gold/10'
   return (
     <div
       onClick={onOpen}
       className="flex items-center gap-3 rounded-lg bg-off-white border border-stone-100 p-2.5 cursor-pointer hover:border-gold transition-colors"
     >
-      <span className="shrink-0 text-xs font-semibold text-gold bg-gold/10 rounded px-2 py-1 min-w-[72px] text-center">
-        {win || 'Time TBD'}
+      <span className={`shrink-0 text-xs font-semibold rounded px-2 py-1 min-w-[72px] text-center ${chip}`}>
+        {badge}
       </span>
       <div className="min-w-0 flex-1">
         <p className="font-semibold text-charcoal truncate">{lead.name || '(no name)'}</p>
@@ -560,13 +576,8 @@ function ApptRow({ lead, window: win, onOpen }: { lead: Lead; window: string; on
 function WeekView({ leads, onOpen }: { leads: Lead[]; onOpen: (l: Lead) => void }) {
   const [offset, setOffset] = useState(0)
   const todayISO = toISO(new Date())
-  const appts = useMemo(
-    () =>
-      leads
-        .map((l) => ({ lead: l, ...parseAppt(String(l.bookedDate || '')) }))
-        .filter((a) => a.date),
-    [leads]
-  )
+  // Measures + installs, never filtered by stage (completed/paid still show).
+  const events = useMemo(() => leads.flatMap((l) => leadEvents(l)), [leads])
 
   const start = startOfWeek(new Date(), offset)
   const days = Array.from({ length: 7 }, (_, i) => {
@@ -577,13 +588,13 @@ function WeekView({ leads, onOpen }: { leads: Lead[]; onOpen: (l: Lead) => void 
       iso: diso,
       label: d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
       isToday: diso === todayISO,
-      appts: appts.filter((a) => a.date === diso).sort((x, y) => apptSort(x.window) - apptSort(y.window)),
+      events: events.filter((e) => e.date === diso).sort((a, b) => a.sort - b.sort),
     }
   })
   const end = new Date(start)
   end.setDate(start.getDate() + 6)
   const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-  const total = days.reduce((s, d) => s + d.appts.length, 0)
+  const total = days.reduce((s, d) => s + d.events.length, 0)
 
   return (
     <div>
@@ -594,7 +605,7 @@ function WeekView({ leads, onOpen }: { leads: Lead[]; onOpen: (l: Lead) => void 
         <div className="text-center">
           <p className="font-playfair text-lg text-charcoal">{fmt(start)} – {fmt(end)}</p>
           <p className="text-[11px] text-warm-grey">
-            {total} appointment{total === 1 ? '' : 's'}
+            {total} scheduled{total === 1 ? '' : ''}
             {offset !== 0 && <> · <button onClick={() => setOffset(0)} className="underline">This week</button></>}
           </p>
         </div>
@@ -610,14 +621,14 @@ function WeekView({ leads, onOpen }: { leads: Lead[]; onOpen: (l: Lead) => void 
               <p className={`text-sm font-semibold ${day.isToday ? 'text-gold' : 'text-charcoal'}`}>
                 {day.label}{day.isToday ? ' · Today' : ''}
               </p>
-              {day.appts.length > 0 && <span className="text-[11px] text-warm-grey">{day.appts.length}</span>}
+              {day.events.length > 0 && <span className="text-[11px] text-warm-grey">{day.events.length}</span>}
             </div>
-            {day.appts.length === 0 ? (
-              <p className="text-stone-300 text-xs">No appointments</p>
+            {day.events.length === 0 ? (
+              <p className="text-stone-300 text-xs">Nothing scheduled</p>
             ) : (
               <div className="space-y-2">
-                {day.appts.map((a) => (
-                  <ApptRow key={a.lead.row} lead={a.lead} window={a.window} onOpen={() => onOpen(a.lead)} />
+                {day.events.map((e) => (
+                  <ApptRow key={`${e.lead.row}-${e.kind}`} lead={e.lead} badge={e.badge} kind={e.kind} onOpen={() => onOpen(e.lead)} />
                 ))}
               </div>
             )}
@@ -839,25 +850,6 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
               )}
             </div>
 
-            {/* Install / job date — set once the job is sold & booked in */}
-            <div>
-              <p className="text-xs text-warm-grey mb-1">Install / job date</p>
-              <input
-                type="date"
-                value={installDate}
-                onChange={(e) => setInstallDate(e.target.value)}
-                className={`${fieldCls} w-full`}
-              />
-              {installDate && (
-                <div className="flex items-center justify-between mt-1.5">
-                  <p className="text-[11px] text-emerald-700">🔧 Install {fmtApptDate(installDate)}</p>
-                  <button type="button" onClick={() => setInstallDate('')} className="text-[11px] text-warm-grey underline">
-                    Clear
-                  </button>
-                </div>
-              )}
-            </div>
-
             <label className="block text-xs text-warm-grey">Next follow-up
               <input value={followUp} onChange={(e) => setFollowUp(e.target.value)} placeholder="e.g. Nov 20" className={`${fieldCls} w-full mt-1`} />
             </label>
@@ -867,7 +859,7 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
           </div>
 
           {/* Job to-do — parallel operational steps, independent of stage */}
-          <div className="bg-white rounded-xl border border-stone-100 p-4 space-y-2">
+          <div className="bg-white rounded-xl border border-stone-100 p-4 space-y-3">
             <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey">To-do</p>
             <div className="flex flex-wrap gap-2">
               {JOB_TASKS.map((t) => {
@@ -886,6 +878,22 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
                 )
               })}
             </div>
+            <label className="block text-xs text-warm-grey">Install / job date
+              <input
+                type="date"
+                value={installDate}
+                onChange={(e) => setInstallDate(e.target.value)}
+                className={`${fieldCls} w-full mt-1`}
+              />
+            </label>
+            {installDate && (
+              <div className="flex items-center justify-between">
+                <p className="text-[11px] text-emerald-700">🔧 Install {fmtApptDate(installDate)}</p>
+                <button type="button" onClick={() => setInstallDate('')} className="text-[11px] text-warm-grey underline">
+                  Clear
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Money — revenue -> costs -> gross profit; deposit -> balance due */}
@@ -966,7 +974,7 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
 
         {/* Sticky save */}
         <div className="sticky bottom-0 bg-white border-t border-stone-200 px-4 py-3 flex items-center justify-between gap-3">
-          {saved ? <span className="text-emerald-600 text-sm">Saved ✓</span> : <span className="text-warm-grey text-xs">Edits save to your sheet</span>}
+          {saved ? <span className="text-emerald-600 text-sm">Saved ✓</span> : <span className="text-warm-grey text-xs">Changes save when you tap Save</span>}
           <button onClick={save} disabled={saving}
             className="bg-gold text-white font-semibold px-6 py-2.5 rounded hover:bg-gold-dark transition-colors disabled:opacity-50">
             {saving ? 'Saving…' : 'Save'}
@@ -1019,9 +1027,10 @@ function ReportsView({ leads }: { leads: Lead[] }) {
 
   const stats = useMemo(() => {
     const won = scoped.filter((l) => WON.includes(normalize(l.status)))
+    const lost = scoped.filter((l) => normalize(l.status) === 'Lost').length
     const revenue = won.reduce((s, l) => s + num(l.value), 0)
-    const decided = scoped.filter((l) => ['Booked', 'Completed', 'Lost'].includes(normalize(l.status)))
-    const winRate = decided.length ? Math.round((won.length / decided.length) * 100) : 0
+    const decided = won.length + lost
+    const winRate = decided ? Math.round((won.length / decided) * 100) : 0
     return { leads: scoped.length, booked: won.length, revenue, winRate }
   }, [scoped])
 
