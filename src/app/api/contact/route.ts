@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { dbConfigured, insertLead } from "@/lib/db";
 
 /**
  * Contact form handler.
@@ -151,18 +152,19 @@ Atlas Rug & Design Centre`;
       );
     }
 
-    // Capture the lead into the Google Sheet (Pipeline) via a private webhook.
-    // Server-side, so the Apps Script URL never reaches the browser. Non-fatal.
-    const leadsWebhook = process.env.LEADS_WEBHOOK;
-    if (leadsWebhook) {
+    // Capture the lead into the database (the CRM's single source of truth).
+    // Non-fatal: the lead already emailed through, so never fail the form here.
+    if (dbConfigured()) {
       try {
-        await fetch(leadsWebhook, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({ name, email, phone, address, product, message, source }),
-        });
+        const date = new Intl.DateTimeFormat("en-CA", {
+          timeZone: "America/Toronto",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        }).format(new Date());
+        await insertLead({ name, email, phone, address, product, notes: message, source, status: "New", date });
       } catch {
-        // The lead already emailed through — don't fail the form over the sheet.
+        // Don't fail the form over the database write.
       }
     }
 

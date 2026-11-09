@@ -198,6 +198,8 @@ export default function ManagePage() {
   const [month, setMonth] = useState('')
   const [adding, setAdding] = useState(false)
   const [view, setView] = useState<'leads' | 'week' | 'reports'>('leads')
+  const [canImport, setCanImport] = useState(false)
+  const [importing, setImporting] = useState(false)
 
   const load = async () => {
     setLoading(true)
@@ -212,6 +214,7 @@ export default function ManagePage() {
       if (!json?.ok) throw new Error(json?.error || 'Could not load')
       const all: Lead[] = Array.isArray(json.leads) ? json.leads : []
       setLeads(all.filter(isRealLead))
+      setCanImport(!!json.canImport)
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Could not load leads')
     } finally {
@@ -306,6 +309,20 @@ export default function ManagePage() {
     setSelected((s) => (s && s.row === row ? { ...s, ...patch } : s))
   }
 
+  const runImport = async () => {
+    setImporting(true)
+    try {
+      const res = await fetch('/manage/api/migrate', { method: 'POST' })
+      const json = await res.json()
+      if (!json?.ok) throw new Error(json?.error || 'Import failed')
+      await load()
+    } catch (e) {
+      alert('Import failed: ' + (e instanceof Error ? e.message : 'unknown error'))
+    } finally {
+      setImporting(false)
+    }
+  }
+
   const logout = async () => {
     try {
       await fetch('/manage/api/logout', { method: 'POST' })
@@ -349,6 +366,21 @@ export default function ManagePage() {
       </header>
 
       <div className="max-w-3xl mx-auto px-4 py-5">
+        {/* One-time import from the old Google Sheet */}
+        {canImport && (
+          <div className="bg-gold/10 border border-gold/40 rounded-xl p-4 mb-4">
+            <p className="text-sm text-charcoal font-semibold mb-1">Import your existing leads</p>
+            <p className="text-xs text-warm-grey mb-3">Your database is empty. Bring over everything from your old Google Sheet — one time, nothing is deleted from the sheet.</p>
+            <button
+              onClick={runImport}
+              disabled={importing}
+              className="bg-gold text-white font-semibold px-4 py-2 rounded hover:bg-gold-dark transition-colors disabled:opacity-50 text-sm"
+            >
+              {importing ? 'Importing…' : 'Import from Google Sheet'}
+            </button>
+          </div>
+        )}
+
         {/* View switch */}
         <div className="flex gap-2 mb-4">
           <button onClick={() => setView('leads')} className={segCls(view === 'leads')}>📋 Leads</button>

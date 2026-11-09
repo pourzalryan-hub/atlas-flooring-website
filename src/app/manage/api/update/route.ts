@@ -1,16 +1,16 @@
 import { NextResponse } from "next/server";
+import { dbConfigured, updateLead } from "@/lib/db";
 
-// Updates one Pipeline row (status / notes / value / booked date) in the sheet
-// via the Apps Script. Behind Basic Auth (middleware) + secret key.
+// Updates one lead in the database (merges the provided fields). New fields
+// added in future need no changes here — they just flow through. Behind auth.
 export const dynamic = "force-dynamic";
 
-export async function POST(req: Request) {
-  const webhook = process.env.LEADS_WEBHOOK;
-  const key = process.env.SHEET_API_KEY;
-  if (!webhook || !key) {
-    return NextResponse.json({ ok: false, error: "Not configured" }, { status: 500 });
-  }
+const FIELDS = [
+  "status", "notes", "value", "bookedDate", "installDate",
+  "material", "install", "deposit", "payment", "followUp", "tasks",
+] as const;
 
+export async function POST(req: Request) {
   let body: Record<string, unknown> = {};
   try {
     body = await req.json();
@@ -18,32 +18,21 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "Bad request" }, { status: 400 });
   }
 
-  const row = parseInt(String(body.row ?? ""), 10);
-  if (!row) return NextResponse.json({ ok: false, error: "Missing row" }, { status: 400 });
+  const id = parseInt(String(body.row ?? ""), 10);
+  if (!id) return NextResponse.json({ ok: false, error: "Missing row" }, { status: 400 });
+
+  if (!dbConfigured()) {
+    // Local preview: pretend it saved so the UI flow is testable.
+    if (process.env.NODE_ENV !== "production") return NextResponse.json({ ok: true, demo: true });
+    return NextResponse.json({ ok: false, error: "Database not configured" }, { status: 500 });
+  }
+
+  const patch: Record<string, unknown> = {};
+  for (const f of FIELDS) if (body[f] !== undefined) patch[f] = body[f];
 
   try {
-    const res = await fetch(webhook, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({
-        event: "pipeline_update",
-        key,
-        row,
-        status: body.status,
-        notes: body.notes,
-        value: body.value,
-        bookedDate: body.bookedDate,
-        installDate: body.installDate,
-        material: body.material,
-        install: body.install,
-        deposit: body.deposit,
-        payment: body.payment,
-        followUp: body.followUp,
-        tasks: body.tasks,
-      }),
-    });
-    const data = await res.json();
-    return NextResponse.json(data);
+    await updateLead(id, patch);
+    return NextResponse.json({ ok: true });
   } catch (err) {
     return NextResponse.json({ ok: false, error: String(err) }, { status: 502 });
   }
