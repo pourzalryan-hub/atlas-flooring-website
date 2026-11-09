@@ -145,7 +145,7 @@ const startOfWeek = (base: Date, offset: number) => {
 }
 
 const segCls = (active: boolean) =>
-  `flex-1 px-3 py-2 rounded-lg text-sm font-semibold border transition-colors ${
+  `flex-1 px-2 py-2 rounded-lg text-[13px] font-semibold border transition-colors whitespace-nowrap ${
     active ? 'bg-charcoal text-white border-charcoal' : 'bg-white text-charcoal border-stone-200'
   }`
 
@@ -241,7 +241,7 @@ export default function ManagePage() {
   const [selected, setSelected] = useState<Lead | null>(null)
   const [month, setMonth] = useState('')
   const [adding, setAdding] = useState(false)
-  const [view, setView] = useState<'leads' | 'week' | 'reports'>('leads')
+  const [view, setView] = useState<'leads' | 'board' | 'week' | 'reports'>('leads')
   const [canImport, setCanImport] = useState(false)
   const [importing, setImporting] = useState(false)
 
@@ -424,8 +424,9 @@ export default function ManagePage() {
         )}
 
         {/* View switch */}
-        <div className="flex gap-2 mb-4">
+        <div className="flex gap-1.5 mb-4">
           <button onClick={() => setView('leads')} className={segCls(view === 'leads')}>📋 Leads</button>
+          <button onClick={() => setView('board')} className={segCls(view === 'board')}>🗂️ Board</button>
           <button onClick={() => setView('week')} className={segCls(view === 'week')}>📅 Week</button>
           <button onClick={() => setView('reports')} className={segCls(view === 'reports')}>📊 Reports</button>
         </div>
@@ -434,6 +435,8 @@ export default function ManagePage() {
           <WeekView leads={leads} onOpen={(l) => setSelected(l)} />
         ) : view === 'reports' ? (
           <ReportsView leads={leads} />
+        ) : view === 'board' ? (
+          <BoardView leads={leads} onOpen={(l) => setSelected(l)} />
         ) : (
         <>
         {/* Dashboard KPIs */}
@@ -661,6 +664,81 @@ function WeekView({ leads, onOpen }: { leads: Lead[]; onOpen: (l: Lead) => void 
             )}
           </div>
         ))}
+      </div>
+    </div>
+  )
+}
+
+function BoardCard({ lead, sub, tone, onOpen }: { lead: Lead; sub: string; tone: 'indigo' | 'emerald'; onOpen: () => void }) {
+  const bar = tone === 'emerald' ? 'border-l-emerald-400' : 'border-l-indigo-400'
+  return (
+    <div
+      onClick={onOpen}
+      className={`bg-white rounded-lg border border-stone-100 border-l-4 ${bar} p-2.5 cursor-pointer hover:border-gold transition-colors`}
+    >
+      <p className="font-semibold text-sm text-charcoal truncate">{lead.name || '(no name)'}</p>
+      {lead.product && <p className="text-warm-grey text-[11px] truncate">{lead.product}</p>}
+      {sub && <p className={`text-[11px] mt-0.5 truncate ${tone === 'emerald' ? 'text-emerald-700' : 'text-gold'}`}>{sub}</p>}
+      {num(lead.value) > 0 && <p className="text-[11px] font-semibold text-charcoal mt-0.5">{dollars(num(lead.value))}</p>}
+    </div>
+  )
+}
+
+function BoardView({ leads, onOpen }: { leads: Lead[]; onOpen: (l: Lead) => void }) {
+  const start = startOfWeek(new Date(), 0)
+  const end = new Date(start)
+  end.setDate(start.getDate() + 6)
+  const startISO = toISO(start)
+  const endISO = toISO(end)
+  const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+
+  // Left: sold deals not yet booked (need an install scheduled).
+  const sold = leads
+    .filter((l) => normalize(l.status) === 'Sold')
+    .sort((a, b) => (a.date < b.date ? -1 : 1))
+
+  // Right: booked jobs with something scheduled in the current week.
+  const booked = leads
+    .filter((l) => normalize(l.status) === 'Booked')
+    .map((l) => ({ lead: l, ev: leadEvents(l).filter((e) => e.date >= startISO && e.date <= endISO).sort((a, b) => (a.date < b.date ? -1 : 1))[0] }))
+    .filter((x) => x.ev)
+    .sort((a, b) => (a.ev!.date < b.ev!.date ? -1 : 1))
+
+  const soldSub = (l: Lead) => (l.installDate ? `📅 ${fmtApptDate(String(l.installDate))}` : '📅 Needs install date')
+
+  return (
+    <div>
+      <p className="text-center text-[11px] text-warm-grey mb-3">Week of {fmt(start)} – {fmt(end)}</p>
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <div className="flex items-center gap-1.5 mb-2">
+            <span className="w-2 h-2 rounded-full bg-indigo-400" />
+            <p className="text-xs font-semibold text-charcoal">To schedule <span className="text-warm-grey">({sold.length})</span></p>
+          </div>
+          <div className="space-y-2">
+            {sold.length === 0 ? (
+              <p className="text-stone-300 text-xs">Nothing waiting</p>
+            ) : (
+              sold.map((l) => <BoardCard key={l.row} lead={l} sub={soldSub(l)} tone="indigo" onOpen={() => onOpen(l)} />)
+            )}
+          </div>
+        </div>
+        <div>
+          <div className="flex items-center gap-1.5 mb-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            <p className="text-xs font-semibold text-charcoal">Booked this week <span className="text-warm-grey">({booked.length})</span></p>
+          </div>
+          <div className="space-y-2">
+            {booked.length === 0 ? (
+              <p className="text-stone-300 text-xs">Nothing booked</p>
+            ) : (
+              booked.map((x) => (
+                <BoardCard key={x.lead.row} lead={x.lead} tone="emerald" onOpen={() => onOpen(x.lead)}
+                  sub={`${x.ev!.kind === 'install' ? '🔧' : '📅'} ${fmtApptDate(x.ev!.date)}`} />
+              ))
+            )}
+          </div>
+        </div>
       </div>
     </div>
   )
