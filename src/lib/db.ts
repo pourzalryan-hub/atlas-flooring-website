@@ -5,7 +5,15 @@ import postgres from "postgres";
 // new field never needs a schema change / migration — just include it when
 // saving. The app is the only interface; no spreadsheet, no Apps Script.
 
-const url = process.env.DATABASE_URL || process.env.POSTGRES_URL || "";
+// Accept whatever name Vercel/Neon used for the pooled connection string.
+const url = (
+  process.env.DATABASE_URL ||
+  process.env.POSTGRES_URL ||
+  process.env.DATABASE_URL_UNPOOLED ||
+  process.env.POSTGRES_URL_NON_POOLING ||
+  process.env.POSTGRES_PRISMA_URL ||
+  ""
+).trim();
 export const dbConfigured = () => !!url;
 
 type Sql = ReturnType<typeof postgres>;
