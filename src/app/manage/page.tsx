@@ -21,7 +21,19 @@ type Lead = {
   notes: string
   source?: string
   installDate?: string
+  tasks?: string
 }
+
+// Post-sale operational to-dos — independent of the pipeline stage. A job can
+// need several at once (ordered + binding + unpaid). Stored comma-separated.
+const JOB_TASKS = [
+  { key: 'order', label: 'Order carpet', short: 'To order', icon: '📦' },
+  { key: 'pickup', label: 'Pick up carpet', short: 'Pick up', icon: '🚚' },
+  { key: 'binding', label: 'Send to binding', short: 'Binding', icon: '🧵' },
+  { key: 'unpaid', label: 'Awaiting payment', short: 'Unpaid', icon: '💰' },
+] as const
+const taskSet = (l: Lead): Set<string> =>
+  new Set(String(l.tasks || '').split(',').map((s) => s.trim()).filter(Boolean))
 
 const STAGES = ['New', 'Appointment', 'Sold', 'Booked', 'Completed', 'Lost'] as const
 type Stage = (typeof STAGES)[number]
@@ -180,7 +192,7 @@ export default function ManagePage() {
   const [leads, setLeads] = useState<Lead[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [filter, setFilter] = useState<'All' | Stage | 'Needs follow-up'>('All')
+  const [filter, setFilter] = useState<string>('All') // 'All' | Stage | 'Needs follow-up' | `task:<key>`
   const [search, setSearch] = useState('')
   const [selected, setSelected] = useState<Lead | null>(null)
   const [month, setMonth] = useState('')
@@ -238,21 +250,22 @@ export default function ManagePage() {
     return c
   }, [monthLeads])
 
-  // Short label for the period the stat cards describe (follows the Month filter).
-  const periodShort = !month || month === 'all' ? 'all time' : monthLabel(month).replace(/ \d{4}$/, '')
-
-  const stats = useMemo(() => {
-    const inStage = (s: Stage) => monthLeads.filter((l) => normalize(l.status) === s).length
-    const revenue = monthLeads
-      .filter((l) => WON.includes(normalize(l.status)))
-      .reduce((sum, l) => sum + num(l.value), 0)
-    return {
-      revenue,
-      newCount: inStage('New'),
-      appointments: inStage('Appointment'),
-      sold: monthLeads.filter((l) => ['Sold', 'Booked'].includes(normalize(l.status))).length,
-    }
-  }, [monthLeads])
+  // Operational dashboard KPIs — current state, across all leads (not month-filtered).
+  const kpis = useMemo(() => {
+    const todayIso = toISO(new Date())
+    const active = leads.filter((l) => !['Completed', 'Lost'].includes(normalize(l.status))).length
+    const quotesPending = leads.filter(
+      (l) => num(l.value) > 0 && ['New', 'Appointment'].includes(normalize(l.status))
+    ).length
+    const upcomingInstalls = leads.filter((l) => {
+      const d = String(l.installDate || '').slice(0, 10)
+      return /^\d{4}-\d{2}-\d{2}$/.test(d) && d >= todayIso
+    }).length
+    const outstanding = leads
+      .filter((l) => ['Sold', 'Booked', 'Completed'].includes(normalize(l.status)))
+      .reduce((s, l) => s + Math.max(0, num(l.value) - num(l.deposit)), 0)
+    return { active, quotesPending, upcomingInstalls, outstanding }
+  }, [leads])
 
   // Leads needing a nudge — computed across ALL leads (not month-filtered),
   // sorted most-urgent first, so time-sensitive follow-ups are never hidden.
@@ -266,16 +279,27 @@ export default function ManagePage() {
     [leads]
   )
 
+  // Job to-do rollup (across all leads).
+  const todoChips = useMemo(() => {
+    const counts: Record<string, number> = {}
+    leads.forEach((l) => taskSet(l).forEach((k) => (counts[k] = (counts[k] || 0) + 1)))
+    return JOB_TASKS.filter((t) => counts[t.key]).map((t) => ({ ...t, count: counts[t.key] }))
+  }, [leads])
+
   const visible = useMemo(() => {
     const q = search.trim().toLowerCase()
     const bySearch = (l: Lead) =>
       !q || `${l.name} ${l.phone} ${l.email} ${l.product} ${l.address}`.toLowerCase().includes(q)
     if (filter === 'Needs follow-up') return followUpLeads.filter(bySearch)
+    if (filter.startsWith('task:')) {
+      const key = filter.slice(5)
+      return leads.filter((l) => taskSet(l).has(key)).filter(bySearch).sort((a, b) => (a.date < b.date ? 1 : -1))
+    }
     return monthLeads
       .filter((l) => filter === 'All' || normalize(l.status) === filter)
       .filter(bySearch)
       .sort((a, b) => (a.date < b.date ? 1 : -1))
-  }, [monthLeads, followUpLeads, filter, search])
+  }, [monthLeads, leads, followUpLeads, filter, search])
 
   const onSaved = (row: number, patch: Partial<Lead>) => {
     setLeads((ls) => ls.map((l) => (l.row === row ? { ...l, ...patch } : l)))
@@ -338,6 +362,31 @@ export default function ManagePage() {
           <ReportsView leads={leads} />
         ) : (
         <>
+        {/* Dashboard KPIs */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-3">
+          <KpiTile label="Active leads" value={String(kpis.active)} onClick={() => { setMonth('all'); setFilter('All') }} />
+          <KpiTile label="Quotes pending" value={String(kpis.quotesPending)} onClick={() => { setMonth('all'); setFilter('Appointment') }} />
+          <KpiTile label="Upcoming installs" value={String(kpis.upcomingInstalls)} onClick={() => setView('week')} />
+          <KpiTile label="Outstanding" value={dollars(kpis.outstanding)} accent onClick={() => { setMonth('all'); setFilter('Sold') }} />
+        </div>
+
+        {/* To-do rollup */}
+        {todoChips.length > 0 && (
+          <div className="flex gap-2 overflow-x-auto pb-2 mb-3 -mx-1 px-1">
+            {todoChips.map((t) => (
+              <button
+                key={t.key}
+                onClick={() => { setMonth('all'); setFilter(`task:${t.key}`) }}
+                className={`shrink-0 px-3 py-1.5 rounded-full text-sm border transition-colors ${
+                  filter === `task:${t.key}` ? 'bg-charcoal text-white border-charcoal' : 'bg-white text-charcoal border-stone-200'
+                }`}
+              >
+                {t.icon} {t.short} <span className="text-xs opacity-60">{t.count}</span>
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* Today's appointments */}
         <div className="bg-white rounded-xl border border-gold/40 p-4 mb-5">
           <div className="flex items-center justify-between mb-2">
@@ -355,14 +404,6 @@ export default function ManagePage() {
               ))}
             </div>
           )}
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-5">
-          <Stat label={`Revenue · ${periodShort}`} value={dollars(stats.revenue)} highlight />
-          <Stat label="New leads" value={String(stats.newCount)} />
-          <Stat label="Appointments" value={String(stats.appointments)} />
-          <Stat label="Sold" value={String(stats.sold)} />
         </div>
 
         {/* Month filter */}
@@ -564,6 +605,18 @@ function Stat({ label, value, highlight }: { label: string; value: string; highl
   )
 }
 
+function KpiTile({ label, value, onClick, accent }: { label: string; value: string; onClick?: () => void; accent?: boolean }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`text-left rounded-xl border p-3 transition-colors ${accent ? 'bg-charcoal border-charcoal' : 'bg-white border-stone-100 hover:border-gold'}`}
+    >
+      <p className={`font-playfair text-2xl leading-none ${accent ? 'text-gold' : 'text-charcoal'}`}>{value}</p>
+      <p className={`text-[11px] leading-tight mt-1 ${accent ? 'text-white/70' : 'text-warm-grey'}`}>{label}</p>
+    </button>
+  )
+}
+
 function Row({ lead, onOpen, reason }: { lead: Lead; onOpen: () => void; reason?: string }) {
   const stage = normalize(lead.status)
   const appt = parseAppt(String(lead.bookedDate || ''))
@@ -592,6 +645,16 @@ function Row({ lead, onOpen, reason }: { lead: Lead; onOpen: () => void; reason?
         </div>
         {reason && <p className="text-red-600 text-xs mt-0.5 truncate">⚠ {reason}</p>}
         <p className="text-warm-grey text-xs mt-0.5 truncate">{sub || lead.date}</p>
+        {(() => {
+          const ts = JOB_TASKS.filter((t) => taskSet(lead).has(t.key))
+          return ts.length > 0 ? (
+            <div className="flex flex-wrap gap-1 mt-1">
+              {ts.map((t) => (
+                <span key={t.key} className="text-[10px] bg-stone-100 text-charcoal rounded px-1.5 py-0.5">{t.icon} {t.short}</span>
+              ))}
+            </div>
+          ) : null
+        })()}
       </div>
       {hasPhone && (
         <>
@@ -619,6 +682,8 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
   const [deposit, setDeposit] = useState(String(lead.deposit ?? ''))
   const [payment, setPayment] = useState(lead.payment ?? '')
   const [notes, setNotes] = useState(lead.notes ?? '')
+  const [tasks, setTasks] = useState<string[]>(() => Array.from(taskSet(lead)))
+  const toggleTask = (k: string) => setTasks((ts) => (ts.includes(k) ? ts.filter((x) => x !== k) : [...ts, k]))
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [reviewAsked, setReviewAsked] = useState<string | null>(null)
@@ -645,11 +710,11 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
       const res = await fetch('/manage/api/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ row: lead.row, status, followUp, bookedDate, installDate, value, material, install, deposit, payment, notes }),
+        body: JSON.stringify({ row: lead.row, status, followUp, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(',') }),
       })
       const json = await res.json()
       if (!json?.ok) throw new Error(json?.error || 'Save failed')
-      onSaved(lead.row, { status, followUp, bookedDate, installDate, value, material, install, deposit, payment, notes })
+      onSaved(lead.row, { status, followUp, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(',') })
       setSaved(true)
       setTimeout(() => setSaved(false), 2500)
     } catch {
@@ -767,6 +832,28 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
             <label className="block text-xs text-warm-grey">Notes
               <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} placeholder="Notes…" className={`${fieldCls} w-full mt-1`} />
             </label>
+          </div>
+
+          {/* Job to-do — parallel operational steps, independent of stage */}
+          <div className="bg-white rounded-xl border border-stone-100 p-4 space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey">To-do</p>
+            <div className="flex flex-wrap gap-2">
+              {JOB_TASKS.map((t) => {
+                const on = tasks.includes(t.key)
+                return (
+                  <button
+                    key={t.key}
+                    type="button"
+                    onClick={() => toggleTask(t.key)}
+                    className={`px-3 py-1.5 rounded-full text-sm border transition-colors ${
+                      on ? 'bg-gold text-white border-gold' : 'bg-white text-charcoal border-stone-200'
+                    }`}
+                  >
+                    {on ? '✓ ' : ''}{t.icon} {t.label}
+                  </button>
+                )
+              })}
+            </div>
           </div>
 
           {/* Money — revenue -> costs -> gross profit; deposit -> balance due */}

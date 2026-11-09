@@ -39,6 +39,7 @@ export async function POST(req: Request) {
         deposit: body.deposit,
         payment: body.payment,
         followUp: body.followUp,
+        tasks: body.tasks,
       }),
     });
     const data = await res.json();
