@@ -938,6 +938,14 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
     onClose()
   }
 
+  // Auto-save: ~0.9s after you stop changing something, save it.
+  useEffect(() => {
+    if (!dirty) return
+    const t = setTimeout(() => { void save() }, 900)
+    return () => clearTimeout(t)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dirty, status, followUp, apptDate, apptWindow, installDate, value, material, install, deposit, payment, notes, tasks, quote])
+
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
       <div className="absolute inset-0 bg-black/40" onClick={handleClose} />
@@ -1235,7 +1243,13 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
 
         {/* Sticky save */}
         <div className="sticky bottom-0 bg-white border-t border-stone-200 px-4 py-3 flex items-center justify-between gap-3">
-          {saved ? <span className="text-emerald-600 text-sm">Saved ✓</span> : <span className="text-warm-grey text-xs">{dirty ? 'Saves when you close' : 'Up to date'}</span>}
+          {saving ? (
+            <span className="text-warm-grey text-xs">Saving…</span>
+          ) : saved ? (
+            <span className="text-emerald-600 text-sm">Saved ✓</span>
+          ) : (
+            <span className="text-warm-grey text-xs">{dirty ? 'Autosaving…' : 'All changes saved'}</span>
+          )}
           <button onClick={save} disabled={saving}
             className="bg-gold text-white font-semibold px-6 py-2.5 rounded hover:bg-gold-dark transition-colors disabled:opacity-50">
             {saving ? 'Saving…' : 'Save'}
