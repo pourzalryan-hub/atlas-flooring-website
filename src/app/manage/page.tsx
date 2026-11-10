@@ -78,6 +78,10 @@ const QUOTE_PRESETS: { desc: string; unit: string }[] = [
   { desc: 'Binding', unit: 'each' },
   { desc: 'Item', unit: '' },
 ]
+// Ideal measure slots — 2 bookings/day; the Schedule view shows which are open.
+const IDEAL_SLOTS = ['9–10 AM', '4–5 PM']
+const firstName = (n: string) => String(n || '').trim().split(/\s+/)[0] || '(lead)'
+
 const emptyQuote = (): QuoteData => ({ items: [], taxRate: DEFAULT_TAX })
 const quoteItemAmount = (it: QuoteItem) => num(it.qty || '0') * num(it.price || '0')
 const quoteTotals = (q: QuoteData) => {
@@ -615,6 +619,42 @@ function ScheduleView({ leads, onOpen }: { leads: Lead[]; onOpen: (l: Lead) => v
         </div>
         <button onClick={() => setOffset((o) => o + 1)} aria-label="Next week"
           className="w-10 h-10 rounded-full bg-white border border-stone-200 text-charcoal text-xl leading-none hover:border-gold">›</button>
+      </div>
+
+      {/* Open slots — ideal 2-a-day windows, Mon–Sat */}
+      <div className="bg-white rounded-xl border border-stone-100 p-4 mb-3">
+        <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey mb-2">Open slots</p>
+        <div className="grid grid-cols-[auto_1fr_1fr] gap-x-2 gap-y-1.5 items-center">
+          <span />
+          {IDEAL_SLOTS.map((s) => (
+            <span key={s} className="text-[11px] text-warm-grey text-center">{s}</span>
+          ))}
+          {Array.from({ length: 6 }, (_, i) => {
+            const d = new Date(start)
+            d.setDate(start.getDate() + i)
+            const diso = toISO(d)
+            const label = d.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric' })
+            return (
+              <div key={diso} className="contents">
+                <span className={`text-xs ${diso === todayISO ? 'text-gold font-semibold' : 'text-charcoal'}`}>{label}</span>
+                {IDEAL_SLOTS.map((slot) => {
+                  const taken = events.find((e) => e.kind === 'measure' && e.date === diso && e.badge === slot)
+                  return taken ? (
+                    <button key={slot} onClick={() => onOpen(taken.lead)}
+                      className="text-[11px] rounded-md bg-stone-100 text-charcoal px-2 py-1 truncate text-center hover:bg-stone-200">
+                      {firstName(taken.lead.name)}
+                    </button>
+                  ) : (
+                    <span key={slot} className="text-[11px] rounded-md bg-emerald-50 text-emerald-700 px-2 py-1 text-center font-semibold">
+                      Open
+                    </span>
+                  )
+                })}
+              </div>
+            )
+          })}
+        </div>
+        <p className="text-[11px] text-stone-400 mt-2">Green = open. Tap a name to open that lead. Add other times on a lead as needed.</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
