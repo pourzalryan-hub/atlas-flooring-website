@@ -241,7 +241,7 @@ export default function ManagePage() {
   const [selected, setSelected] = useState<Lead | null>(null)
   const [month, setMonth] = useState('')
   const [adding, setAdding] = useState(false)
-  const [view, setView] = useState<'leads' | 'board' | 'week' | 'reports'>('leads')
+  const [view, setView] = useState<'today' | 'leads' | 'schedule' | 'reports'>('today')
   const [canImport, setCanImport] = useState(false)
   const [importing, setImporting] = useState(false)
 
@@ -425,66 +425,33 @@ export default function ManagePage() {
 
         {/* View switch */}
         <div className="flex gap-1.5 mb-4">
+          <button onClick={() => setView('today')} className={segCls(view === 'today')}>🏠 Today</button>
           <button onClick={() => setView('leads')} className={segCls(view === 'leads')}>📋 Leads</button>
-          <button onClick={() => setView('board')} className={segCls(view === 'board')}>🗂️ Board</button>
-          <button onClick={() => setView('week')} className={segCls(view === 'week')}>📅 Week</button>
-          <button onClick={() => setView('reports')} className={segCls(view === 'reports')}>📊 Reports</button>
+          <button onClick={() => setView('schedule')} className={segCls(view === 'schedule')}>📅 Schedule</button>
         </div>
 
-        {view === 'week' ? (
-          <WeekView leads={leads} onOpen={(l) => setSelected(l)} />
+        {view === 'today' ? (
+          <TodayView
+            date={today}
+            todaysAppts={todaysAppts}
+            followUpLeads={followUpLeads}
+            todoChips={todoChips}
+            kpis={kpis}
+            onOpen={(l) => setSelected(l)}
+            goToFilter={(f) => { setMonth('all'); setFilter(f); setView('leads') }}
+            goToReports={() => setView('reports')}
+          />
+        ) : view === 'schedule' ? (
+          <ScheduleView leads={leads} onOpen={(l) => setSelected(l)} />
         ) : view === 'reports' ? (
-          <ReportsView leads={leads} />
-        ) : view === 'board' ? (
-          <BoardView leads={leads} onOpen={(l) => setSelected(l)} />
+          <>
+            <button onClick={() => setView('today')} className="text-sm text-warm-grey mb-3 hover:text-charcoal">‹ Back to Today</button>
+            <ReportsView leads={leads} />
+          </>
         ) : (
         <>
-        {/* Dashboard KPIs */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-3">
-          <KpiTile label="Active leads" value={String(kpis.active)} onClick={() => { setMonth('all'); setFilter('All') }} />
-          <KpiTile label="Quotes pending" value={String(kpis.quotesPending)} onClick={() => { setMonth('all'); setFilter('Quoted') }} />
-          <KpiTile label="Upcoming installs" value={String(kpis.upcomingInstalls)} onClick={() => setView('week')} />
-          <KpiTile label="Outstanding" value={dollars(kpis.outstanding)} accent onClick={() => { setMonth('all'); setFilter('Sold') }} />
-        </div>
-
-        {/* To-do rollup */}
-        {todoChips.length > 0 && (
-          <div className="flex gap-2 overflow-x-auto pb-2 mb-3 -mx-1 px-1">
-            {todoChips.map((t) => (
-              <button
-                key={t.key}
-                onClick={() => { setMonth('all'); setFilter(`task:${t.key}`) }}
-                className={`shrink-0 px-3 py-1.5 rounded-full text-sm border transition-colors ${
-                  filter === `task:${t.key}` ? 'bg-charcoal text-white border-charcoal' : 'bg-white text-charcoal border-stone-200'
-                }`}
-              >
-                {t.icon} {t.short} <span className="text-xs opacity-60">{t.count}</span>
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Today's appointments */}
-        <div className="bg-white rounded-xl border border-gold/40 p-4 mb-5">
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey">
-              📅 Today&apos;s appointments
-            </p>
-            <span className="text-[11px] text-warm-grey">{fmtApptDate(today)}</span>
-          </div>
-          {todaysAppts.length === 0 ? (
-            <p className="text-warm-grey text-sm">No appointments today.</p>
-          ) : (
-            <div className="space-y-2">
-              {todaysAppts.map((a) => (
-                <ApptRow key={`${a.lead.row}-${a.kind}`} lead={a.lead} badge={a.badge} kind={a.kind} onOpen={() => setSelected(a.lead)} />
-              ))}
-            </div>
-          )}
-        </div>
-
         {/* Month filter */}
-        {filter !== 'Needs follow-up' && (
+        {filter !== 'Needs follow-up' && !filter.startsWith('task:') && (
           <div className="flex items-center gap-2 mb-3">
             <span className="text-sm text-warm-grey shrink-0">Month</span>
             <select value={month} onChange={(e) => setMonth(e.target.value)} className={`${fieldCls} flex-1`}>
@@ -496,6 +463,15 @@ export default function ManagePage() {
               ))}
             </select>
           </div>
+        )}
+
+        {/* Active task filter banner */}
+        {filter.startsWith('task:') && (
+          <button onClick={() => setFilter('All')}
+            className="w-full mb-3 flex items-center justify-between rounded-lg bg-charcoal text-white px-3 py-2 text-sm">
+            <span>Showing: {JOB_TASKS.find((t) => t.key === filter.slice(5))?.label ?? 'Tasks'}</span>
+            <span className="opacity-70">Clear ✕</span>
+          </button>
         )}
 
         {/* Filters */}
@@ -603,67 +579,73 @@ function ApptRow({ lead, badge, kind, onOpen }: { lead: Lead; badge: string; kin
   )
 }
 
-function WeekView({ leads, onOpen }: { leads: Lead[]; onOpen: (l: Lead) => void }) {
+function ScheduleView({ leads, onOpen }: { leads: Lead[]; onOpen: (l: Lead) => void }) {
   const [offset, setOffset] = useState(0)
   const todayISO = toISO(new Date())
-  // Measures + installs, never filtered by stage (completed/paid still show).
-  const events = useMemo(() => leads.flatMap((l) => leadEvents(l)), [leads])
-
   const start = startOfWeek(new Date(), offset)
-  const days = Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(start)
-    d.setDate(start.getDate() + i)
-    const diso = toISO(d)
-    return {
-      iso: diso,
-      label: d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
-      isToday: diso === todayISO,
-      events: events.filter((e) => e.date === diso).sort((a, b) => a.sort - b.sort),
-    }
-  })
   const end = new Date(start)
   end.setDate(start.getDate() + 6)
+  const startISO = toISO(start)
+  const endISO = toISO(end)
   const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-  const total = days.reduce((s, d) => s + d.events.length, 0)
+  const shortDay = (iso: string) => {
+    const d = new Date(iso + 'T00:00:00')
+    return isNaN(d.getTime()) ? iso : d.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric' })
+  }
+
+  // Left: sold deals not yet booked (need an install scheduled).
+  const sold = leads.filter((l) => normalize(l.status) === 'Sold').sort((a, b) => (a.date < b.date ? -1 : 1))
+  const soldSub = (l: Lead) => (l.installDate ? `📅 ${fmtApptDate(String(l.installDate))}` : '📅 Needs date')
+
+  // Right: everything scheduled this week (measures + installs), any stage.
+  const events = leads
+    .flatMap((l) => leadEvents(l))
+    .filter((e) => e.date >= startISO && e.date <= endISO)
+    .sort((a, b) => (a.date !== b.date ? (a.date < b.date ? -1 : 1) : a.sort - b.sort))
 
   return (
     <div>
-      {/* Week nav */}
       <div className="flex items-center justify-between mb-3">
         <button onClick={() => setOffset((o) => o - 1)} aria-label="Previous week"
           className="w-10 h-10 rounded-full bg-white border border-stone-200 text-charcoal text-xl leading-none hover:border-gold">‹</button>
         <div className="text-center">
           <p className="font-playfair text-lg text-charcoal">{fmt(start)} – {fmt(end)}</p>
-          <p className="text-[11px] text-warm-grey">
-            {total} scheduled{total === 1 ? '' : ''}
-            {offset !== 0 && <> · <button onClick={() => setOffset(0)} className="underline">This week</button></>}
-          </p>
+          {offset !== 0 && <button onClick={() => setOffset(0)} className="text-[11px] text-warm-grey underline">This week</button>}
         </div>
         <button onClick={() => setOffset((o) => o + 1)} aria-label="Next week"
           className="w-10 h-10 rounded-full bg-white border border-stone-200 text-charcoal text-xl leading-none hover:border-gold">›</button>
       </div>
 
-      {/* Days */}
-      <div className="space-y-2">
-        {days.map((day) => (
-          <div key={day.iso} className={`rounded-xl border p-3 ${day.isToday ? 'border-gold bg-white' : 'border-stone-100 bg-white'}`}>
-            <div className="flex items-center justify-between mb-1.5">
-              <p className={`text-sm font-semibold ${day.isToday ? 'text-gold' : 'text-charcoal'}`}>
-                {day.label}{day.isToday ? ' · Today' : ''}
-              </p>
-              {day.events.length > 0 && <span className="text-[11px] text-warm-grey">{day.events.length}</span>}
-            </div>
-            {day.events.length === 0 ? (
-              <p className="text-stone-300 text-xs">Nothing scheduled</p>
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <div className="flex items-center gap-1.5 mb-2">
+            <span className="w-2 h-2 rounded-full bg-indigo-400" />
+            <p className="text-xs font-semibold text-charcoal">To schedule <span className="text-warm-grey">({sold.length})</span></p>
+          </div>
+          <div className="space-y-2">
+            {sold.length === 0 ? (
+              <p className="text-stone-300 text-xs">Nothing waiting</p>
             ) : (
-              <div className="space-y-2">
-                {day.events.map((e) => (
-                  <ApptRow key={`${e.lead.row}-${e.kind}`} lead={e.lead} badge={e.badge} kind={e.kind} onOpen={() => onOpen(e.lead)} />
-                ))}
-              </div>
+              sold.map((l) => <BoardCard key={l.row} lead={l} sub={soldSub(l)} tone="indigo" onOpen={() => onOpen(l)} />)
             )}
           </div>
-        ))}
+        </div>
+        <div>
+          <div className="flex items-center gap-1.5 mb-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            <p className="text-xs font-semibold text-charcoal">This week <span className="text-warm-grey">({events.length})</span></p>
+          </div>
+          <div className="space-y-2">
+            {events.length === 0 ? (
+              <p className="text-stone-300 text-xs">Nothing scheduled</p>
+            ) : (
+              events.map((e) => (
+                <BoardCard key={`${e.lead.row}-${e.kind}`} lead={e.lead} tone="emerald" onOpen={() => onOpen(e.lead)}
+                  sub={`${e.kind === 'install' ? '🔧 Install' : e.badge} · ${shortDay(e.date)}${e.date === todayISO ? ' · Today' : ''}`} />
+              ))
+            )}
+          </div>
+        </div>
       </div>
     </div>
   )
@@ -684,62 +666,84 @@ function BoardCard({ lead, sub, tone, onOpen }: { lead: Lead; sub: string; tone:
   )
 }
 
-function BoardView({ leads, onOpen }: { leads: Lead[]; onOpen: (l: Lead) => void }) {
-  const start = startOfWeek(new Date(), 0)
-  const end = new Date(start)
-  end.setDate(start.getDate() + 6)
-  const startISO = toISO(start)
-  const endISO = toISO(end)
-  const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-
-  // Left: sold deals not yet booked (need an install scheduled).
-  const sold = leads
-    .filter((l) => normalize(l.status) === 'Sold')
-    .sort((a, b) => (a.date < b.date ? -1 : 1))
-
-  // Right: booked jobs with something scheduled in the current week.
-  const booked = leads
-    .filter((l) => normalize(l.status) === 'Booked')
-    .map((l) => ({ lead: l, ev: leadEvents(l).filter((e) => e.date >= startISO && e.date <= endISO).sort((a, b) => (a.date < b.date ? -1 : 1))[0] }))
-    .filter((x) => x.ev)
-    .sort((a, b) => (a.ev!.date < b.ev!.date ? -1 : 1))
-
-  const soldSub = (l: Lead) => (l.installDate ? `📅 ${fmtApptDate(String(l.installDate))}` : '📅 Needs install date')
-
+function TodayView({
+  date, todaysAppts, followUpLeads, todoChips, kpis, onOpen, goToFilter, goToReports,
+}: {
+  date: string
+  todaysAppts: SchedEvent[]
+  followUpLeads: Lead[]
+  todoChips: { key: string; label: string; short: string; icon: string; count: number }[]
+  kpis: { active: number; quotesPending: number; upcomingInstalls: number; outstanding: number }
+  onOpen: (l: Lead) => void
+  goToFilter: (f: string) => void
+  goToReports: () => void
+}) {
+  const niceDate = (() => {
+    const d = new Date(date + 'T00:00:00')
+    return isNaN(d.getTime()) ? date : d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
+  })()
   return (
-    <div>
-      <p className="text-center text-[11px] text-warm-grey mb-3">Week of {fmt(start)} – {fmt(end)}</p>
-      <div className="grid grid-cols-2 gap-3">
-        <div>
-          <div className="flex items-center gap-1.5 mb-2">
-            <span className="w-2 h-2 rounded-full bg-indigo-400" />
-            <p className="text-xs font-semibold text-charcoal">To schedule <span className="text-warm-grey">({sold.length})</span></p>
-          </div>
+    <div className="space-y-4">
+      <p className="text-sm text-warm-grey -mt-1">{niceDate}</p>
+
+      {/* Today's schedule */}
+      <section className="bg-white rounded-xl border border-gold/40 p-4">
+        <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey mb-2">📅 Today&apos;s schedule</p>
+        {todaysAppts.length === 0 ? (
+          <p className="text-warm-grey text-sm">Nothing scheduled today.</p>
+        ) : (
           <div className="space-y-2">
-            {sold.length === 0 ? (
-              <p className="text-stone-300 text-xs">Nothing waiting</p>
-            ) : (
-              sold.map((l) => <BoardCard key={l.row} lead={l} sub={soldSub(l)} tone="indigo" onOpen={() => onOpen(l)} />)
-            )}
+            {todaysAppts.map((a) => (
+              <ApptRow key={`${a.lead.row}-${a.kind}`} lead={a.lead} badge={a.badge} kind={a.kind} onOpen={() => onOpen(a.lead)} />
+            ))}
           </div>
-        </div>
+        )}
+      </section>
+
+      {/* Needs follow-up */}
+      {followUpLeads.length > 0 && (
+        <section className="bg-white rounded-xl border border-red-200 p-4">
+          <div className="flex items-center justify-between mb-1">
+            <p className="text-xs font-semibold uppercase tracking-wide text-red-700">⚠ Needs follow-up ({followUpLeads.length})</p>
+            {followUpLeads.length > 4 && <button onClick={() => goToFilter('Needs follow-up')} className="text-[11px] text-warm-grey underline">See all</button>}
+          </div>
+          <div>
+            {followUpLeads.slice(0, 4).map((l) => (
+              <button key={l.row} onClick={() => onOpen(l)} className="w-full text-left flex items-center justify-between gap-2 rounded-lg hover:bg-off-white px-2 py-1.5">
+                <span className="min-w-0">
+                  <span className="font-semibold text-sm text-charcoal">{l.name || '(no name)'}</span>
+                  <span className="block text-[11px] text-red-600 truncate">{followUpInfo(l).reason}</span>
+                </span>
+                <span className="text-stone-300">›</span>
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Jobs to-do */}
+      {todoChips.length > 0 && (
+        <section className="bg-white rounded-xl border border-stone-100 p-4">
+          <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey mb-2">🧰 Jobs to-do</p>
+          <div className="flex flex-wrap gap-2">
+            {todoChips.map((t) => (
+              <button key={t.key} onClick={() => goToFilter(`task:${t.key}`)}
+                className="text-sm border border-stone-200 rounded-full px-3 py-1.5 hover:border-gold transition-colors">
+                {t.icon} {t.short} <span className="text-xs text-warm-grey">{t.count}</span>
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Money glance */}
+      <button onClick={goToReports} className="w-full bg-charcoal rounded-xl p-4 flex items-center justify-between text-left">
         <div>
-          <div className="flex items-center gap-1.5 mb-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500" />
-            <p className="text-xs font-semibold text-charcoal">Booked this week <span className="text-warm-grey">({booked.length})</span></p>
-          </div>
-          <div className="space-y-2">
-            {booked.length === 0 ? (
-              <p className="text-stone-300 text-xs">Nothing booked</p>
-            ) : (
-              booked.map((x) => (
-                <BoardCard key={x.lead.row} lead={x.lead} tone="emerald" onOpen={() => onOpen(x.lead)}
-                  sub={`${x.ev!.kind === 'install' ? '🔧' : '📅'} ${fmtApptDate(x.ev!.date)}`} />
-              ))
-            )}
-          </div>
+          <p className="text-gold font-playfair text-2xl leading-none">{dollars(kpis.outstanding)}</p>
+          <p className="text-white/70 text-[11px] mt-1">Outstanding · {kpis.upcomingInstalls} upcoming install{kpis.upcomingInstalls === 1 ? '' : 's'}</p>
         </div>
-      </div>
+        <span className="text-white/60 text-sm">Reports ›</span>
+      </button>
     </div>
   )
 }
@@ -750,18 +754,6 @@ function Stat({ label, value, highlight }: { label: string; value: string; highl
       <p className={`text-[11px] leading-tight ${highlight ? 'text-white/70' : 'text-warm-grey'}`}>{label}</p>
       <p className={`font-playfair text-xl mt-0.5 ${highlight ? 'text-gold' : 'text-charcoal'}`}>{value}</p>
     </div>
-  )
-}
-
-function KpiTile({ label, value, onClick, accent }: { label: string; value: string; onClick?: () => void; accent?: boolean }) {
-  return (
-    <button
-      onClick={onClick}
-      className={`text-left rounded-xl border p-3 transition-colors ${accent ? 'bg-charcoal border-charcoal' : 'bg-white border-stone-100 hover:border-gold'}`}
-    >
-      <p className={`font-playfair text-2xl leading-none ${accent ? 'text-gold' : 'text-charcoal'}`}>{value}</p>
-      <p className={`text-[11px] leading-tight mt-1 ${accent ? 'text-white/70' : 'text-warm-grey'}`}>{label}</p>
-    </button>
   )
 }
 
@@ -837,6 +829,8 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
     return q && Array.isArray(q.items) ? { items: q.items.map((it) => ({ ...it })), taxRate: q.taxRate ?? DEFAULT_TAX } : emptyQuote()
   })
   const [quoteOpen, setQuoteOpen] = useState(false)
+  const [todoOpen, setTodoOpen] = useState(false)
+  const [reviewOpen, setReviewOpen] = useState(false)
   const qTotals = quoteTotals(quote)
   const addQuoteItem = (preset: { desc: string; unit: string }) =>
     setQuote((q) => ({ ...q, items: [...q.items, { desc: preset.desc, qty: '', unit: preset.unit, price: '' }] }))
@@ -1035,39 +1029,50 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
           </div>
 
           {/* Job to-do — parallel operational steps, independent of stage */}
-          <div className="bg-white rounded-xl border border-stone-100 p-4 space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey">To-do</p>
-            <div className="flex flex-wrap gap-2">
-              {JOB_TASKS.map((t) => {
-                const on = tasks.includes(t.key)
-                return (
-                  <button
-                    key={t.key}
-                    type="button"
-                    onClick={() => toggleTask(t.key)}
-                    className={`px-3 py-1.5 rounded-full text-sm border transition-colors ${
-                      on ? 'bg-gold text-white border-gold' : 'bg-white text-charcoal border-stone-200'
-                    }`}
-                  >
-                    {on ? '✓ ' : ''}{t.icon} {t.label}
-                  </button>
-                )
-              })}
-            </div>
-            <label className="block text-xs text-warm-grey">Install / job date
-              <input
-                type="date"
-                value={installDate}
-                onChange={(e) => setInstallDate(e.target.value)}
-                className={`${fieldCls} w-full mt-1`}
-              />
-            </label>
-            {installDate && (
-              <div className="flex items-center justify-between">
-                <p className="text-[11px] text-emerald-700">🔧 Install {fmtApptDate(installDate)}</p>
-                <button type="button" onClick={() => setInstallDate('')} className="text-[11px] text-warm-grey underline">
-                  Clear
-                </button>
+          <div className="bg-white rounded-xl border border-stone-100 p-4">
+            <button type="button" onClick={() => setTodoOpen((o) => !o)} className="w-full flex items-center justify-between">
+              <span className="text-xs font-semibold uppercase tracking-wide text-warm-grey">To-do</span>
+              <span className="text-sm text-charcoal">
+                {tasks.length ? `${tasks.length} active` : 'None'}
+                {installDate ? ` · 🔧 ${fmtApptDate(installDate)}` : ''}
+                <span className="text-stone-400 ml-1">{todoOpen ? '▲' : '▼'}</span>
+              </span>
+            </button>
+            {todoOpen && (
+              <div className="mt-3 space-y-3">
+                <div className="flex flex-wrap gap-2">
+                  {JOB_TASKS.map((t) => {
+                    const on = tasks.includes(t.key)
+                    return (
+                      <button
+                        key={t.key}
+                        type="button"
+                        onClick={() => toggleTask(t.key)}
+                        className={`px-3 py-1.5 rounded-full text-sm border transition-colors ${
+                          on ? 'bg-gold text-white border-gold' : 'bg-white text-charcoal border-stone-200'
+                        }`}
+                      >
+                        {on ? '✓ ' : ''}{t.icon} {t.label}
+                      </button>
+                    )
+                  })}
+                </div>
+                <label className="block text-xs text-warm-grey">Install / job date
+                  <input
+                    type="date"
+                    value={installDate}
+                    onChange={(e) => setInstallDate(e.target.value)}
+                    className={`${fieldCls} w-full mt-1`}
+                  />
+                </label>
+                {installDate && (
+                  <div className="flex items-center justify-between">
+                    <p className="text-[11px] text-emerald-700">🔧 Install {fmtApptDate(installDate)}</p>
+                    <button type="button" onClick={() => setInstallDate('')} className="text-[11px] text-warm-grey underline">
+                      Clear
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -1181,8 +1186,16 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
           </div>
 
           {/* Reviews */}
-          <div className={`rounded-xl border p-4 space-y-2 ${status === 'Completed' && !reviewAsked ? 'bg-gold/5 border-gold/40' : 'bg-white border-stone-100'}`}>
-            <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey">Review</p>
+          <div className={`rounded-xl border p-4 ${status === 'Completed' && !reviewAsked ? 'bg-gold/5 border-gold/40' : 'bg-white border-stone-100'}`}>
+            <button type="button" onClick={() => setReviewOpen((o) => !o)} className="w-full flex items-center justify-between">
+              <span className="text-xs font-semibold uppercase tracking-wide text-warm-grey">Review</span>
+              <span className="text-sm text-charcoal">
+                {reviewAsked ? '✓ Requested' : 'Request'}
+                <span className="text-stone-400 ml-1">{reviewOpen ? '▲' : '▼'}</span>
+              </span>
+            </button>
+            {reviewOpen && (
+            <div className="mt-3 space-y-2">
             {reviewAsked ? (
               <p className="text-sm text-emerald-700">✓ Review requested · {fmtApptDate(reviewAsked)}</p>
             ) : status === 'Completed' ? (
@@ -1213,6 +1226,8 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
               </div>
             ) : (
               <p className="text-xs text-stone-400">Add a phone or email to send a request.</p>
+            )}
+            </div>
             )}
           </div>
         </div>
