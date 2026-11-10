@@ -356,6 +356,21 @@ export default function ManagePage() {
     setSelected((s) => (s && s.row === row ? { ...s, ...patch } : s))
   }
 
+  // Book a lead's measure into an open slot from the Schedule availability grid.
+  const bookSlot = async (lead: Lead, dateISO: string, slot: string) => {
+    const bookedDate = `${dateISO} ${slot}`
+    onSaved(lead.row, { bookedDate }) // optimistic
+    try {
+      await fetch('/manage/api/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ row: lead.row, bookedDate }),
+      })
+    } catch {
+      /* optimistic; a refresh reconciles */
+    }
+  }
+
   const runImport = async () => {
     setImporting(true)
     try {
@@ -389,6 +404,12 @@ export default function ManagePage() {
         .sort((a, b) => a.sort - b.sort),
     [leads, today]
   )
+
+  // How many ideal measure slots are still open today.
+  const openToday = useMemo(() => {
+    const measuresToday = leads.flatMap((l) => leadEvents(l)).filter((e) => e.kind === 'measure' && e.date === today)
+    return IDEAL_SLOTS.filter((slot) => !measuresToday.some((e) => e.badge === slot)).length
+  }, [leads, today])
 
   return (
     <main className="min-h-screen bg-off-white font-lato">
@@ -442,12 +463,14 @@ export default function ManagePage() {
             followUpLeads={followUpLeads}
             todoChips={todoChips}
             kpis={kpis}
+            openToday={openToday}
             onOpen={(l) => setSelected(l)}
             goToFilter={(f) => { setMonth('all'); setFilter(f); setView('leads') }}
             goToReports={() => setView('reports')}
+            goToSchedule={() => setView('schedule')}
           />
         ) : view === 'schedule' ? (
-          <ScheduleView leads={leads} onOpen={(l) => setSelected(l)} />
+          <ScheduleView leads={leads} onOpen={(l) => setSelected(l)} onBook={bookSlot} />
         ) : view === 'reports' ? (
           <>
             <button onClick={() => setView('today')} className="text-sm text-warm-grey mb-3 hover:text-charcoal">‹ Back to Today</button>
@@ -584,8 +607,9 @@ function ApptRow({ lead, badge, kind, onOpen }: { lead: Lead; badge: string; kin
   )
 }
 
-function ScheduleView({ leads, onOpen }: { leads: Lead[]; onOpen: (l: Lead) => void }) {
+function ScheduleView({ leads, onOpen, onBook }: { leads: Lead[]; onOpen: (l: Lead) => void; onBook: (lead: Lead, dateISO: string, slot: string) => void }) {
   const [offset, setOffset] = useState(0)
+  const [booking, setBooking] = useState<{ date: string; slot: string } | null>(null)
   const todayISO = toISO(new Date())
   const start = startOfWeek(new Date(), offset)
   const end = new Date(start)
@@ -645,16 +669,17 @@ function ScheduleView({ leads, onOpen }: { leads: Lead[]; onOpen: (l: Lead) => v
                       {firstName(taken.lead.name)}
                     </button>
                   ) : (
-                    <span key={slot} className="text-[11px] rounded-md bg-emerald-50 text-emerald-700 px-2 py-1 text-center font-semibold">
-                      Open
-                    </span>
+                    <button key={slot} onClick={() => setBooking({ date: diso, slot })}
+                      className="text-[11px] rounded-md bg-emerald-50 text-emerald-700 px-2 py-1 text-center font-semibold hover:bg-emerald-100">
+                      Open +
+                    </button>
                   )
                 })}
               </div>
             )
           })}
         </div>
-        <p className="text-[11px] text-stone-400 mt-2">Green = open. Tap a name to open that lead. Add other times on a lead as needed.</p>
+        <p className="text-[11px] text-stone-400 mt-2">Tap <span className="text-emerald-700 font-semibold">Open +</span> to book a lead into that slot, or a name to open that lead.</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
@@ -681,43 +706,123 @@ function ScheduleView({ leads, onOpen }: { leads: Lead[]; onOpen: (l: Lead) => v
               <p className="text-stone-300 text-xs">Nothing scheduled</p>
             ) : (
               events.map((e) => (
-                <BoardCard key={`${e.lead.row}-${e.kind}`} lead={e.lead} tone="emerald" onOpen={() => onOpen(e.lead)}
-                  sub={`${e.kind === 'install' ? '🔧 Install' : e.badge} · ${shortDay(e.date)}${e.date === todayISO ? ' · Today' : ''}`} />
+                <BoardCard key={`${e.lead.row}-${e.kind}`} lead={e.lead} tone={e.kind === 'install' ? 'emerald' : 'amber'} onOpen={() => onOpen(e.lead)}
+                  sub={`${e.kind === 'install' ? '🔧 Install' : `📅 ${e.badge}`} · ${shortDay(e.date)}${e.date === todayISO ? ' · Today' : ''}`} />
               ))
             )}
           </div>
+          <div className="flex gap-3 mt-2 text-[11px] text-warm-grey">
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-amber-400" /> Measure</span>
+            <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-emerald-600" /> Install</span>
+          </div>
+        </div>
+      </div>
+
+      {booking && (
+        <SlotBooker
+          leads={leads}
+          date={booking.date}
+          slot={booking.slot}
+          onPick={(l) => { onBook(l, booking.date, booking.slot); setBooking(null) }}
+          onClose={() => setBooking(null)}
+        />
+      )}
+    </div>
+  )
+}
+
+const CARD_TONE: Record<string, { bar: string; text: string }> = {
+  indigo: { bar: 'border-l-indigo-400', text: 'text-gold' }, // to schedule
+  amber: { bar: 'border-l-amber-400', text: 'text-amber-700' }, // measure appointment
+  emerald: { bar: 'border-l-emerald-600', text: 'text-emerald-700' }, // install
+}
+function BoardCard({ lead, sub, tone, onOpen }: { lead: Lead; sub: string; tone: 'indigo' | 'amber' | 'emerald'; onOpen: () => void }) {
+  const t = CARD_TONE[tone]
+  return (
+    <div
+      onClick={onOpen}
+      className={`bg-white rounded-lg border border-stone-100 border-l-4 ${t.bar} p-2.5 cursor-pointer hover:border-gold transition-colors`}
+    >
+      <p className="font-semibold text-sm text-charcoal truncate">{lead.name || '(no name)'}</p>
+      {lead.product && <p className="text-warm-grey text-[11px] truncate">{lead.product}</p>}
+      {sub && <p className={`text-[11px] mt-0.5 truncate ${t.text}`}>{sub}</p>}
+      {num(lead.value) > 0 && <p className="text-[11px] font-semibold text-charcoal mt-0.5">{dollars(num(lead.value))}</p>}
+    </div>
+  )
+}
+
+function SlotBooker({ leads, date, slot, onPick, onClose }: {
+  leads: Lead[]
+  date: string
+  slot: string
+  onPick: (l: Lead) => void
+  onClose: () => void
+}) {
+  const [q, setQ] = useState('')
+  const niceDay = (() => {
+    const d = new Date(date + 'T00:00:00')
+    return isNaN(d.getTime()) ? date : d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })
+  })()
+  const list = leads
+    .filter((l) => !['Completed', 'Paid', 'Lost'].includes(normalize(l.status)))
+    .filter((l) => {
+      const s = q.trim().toLowerCase()
+      return !s || `${l.name} ${l.phone} ${l.product} ${l.address}`.toLowerCase().includes(s)
+    })
+    .sort((a, b) => (a.date < b.date ? 1 : -1))
+
+  return (
+    <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center">
+      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+      <div className="relative bg-off-white w-full sm:max-w-md max-h-[82vh] rounded-t-2xl sm:rounded-2xl overflow-hidden flex flex-col shadow-2xl">
+        <div className="bg-charcoal text-white px-4 py-3 flex items-center gap-3">
+          <button onClick={onClose} aria-label="Close" className="text-2xl leading-none">×</button>
+          <div>
+            <p className="font-semibold">Book {slot}</p>
+            <p className="text-white/60 text-[11px]">{niceDay} · pick a lead</p>
+          </div>
+        </div>
+        <div className="p-3">
+          <input value={q} onChange={(e) => setQ(e.target.value)} autoFocus placeholder="Search leads…" className={`${fieldCls} w-full`} />
+        </div>
+        <div className="overflow-y-auto px-3 pb-3 space-y-1.5">
+          {list.length === 0 ? (
+            <p className="text-warm-grey text-sm text-center py-6">No leads to book.</p>
+          ) : (
+            list.map((l) => {
+              const appt = parseAppt(String(l.bookedDate || ''))
+              const cur = appt.date ? `now ${fmtApptDate(appt.date)}${appt.window ? ` · ${appt.window}` : ''}` : null
+              return (
+                <button key={l.row} onClick={() => onPick(l)}
+                  className="w-full text-left bg-white rounded-lg border border-stone-100 p-2.5 hover:border-gold flex items-center justify-between gap-2">
+                  <span className="min-w-0">
+                    <span className="font-semibold text-sm text-charcoal">{l.name || '(no name)'}</span>
+                    <span className="block text-[11px] text-warm-grey truncate">{[l.product, cur].filter(Boolean).join(' · ')}</span>
+                  </span>
+                  <span className={`shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full ${STAGE_STYLE[normalize(l.status)]}`}>{normalize(l.status)}</span>
+                </button>
+              )
+            })
+          )}
         </div>
       </div>
     </div>
   )
 }
 
-function BoardCard({ lead, sub, tone, onOpen }: { lead: Lead; sub: string; tone: 'indigo' | 'emerald'; onOpen: () => void }) {
-  const bar = tone === 'emerald' ? 'border-l-emerald-400' : 'border-l-indigo-400'
-  return (
-    <div
-      onClick={onOpen}
-      className={`bg-white rounded-lg border border-stone-100 border-l-4 ${bar} p-2.5 cursor-pointer hover:border-gold transition-colors`}
-    >
-      <p className="font-semibold text-sm text-charcoal truncate">{lead.name || '(no name)'}</p>
-      {lead.product && <p className="text-warm-grey text-[11px] truncate">{lead.product}</p>}
-      {sub && <p className={`text-[11px] mt-0.5 truncate ${tone === 'emerald' ? 'text-emerald-700' : 'text-gold'}`}>{sub}</p>}
-      {num(lead.value) > 0 && <p className="text-[11px] font-semibold text-charcoal mt-0.5">{dollars(num(lead.value))}</p>}
-    </div>
-  )
-}
-
 function TodayView({
-  date, todaysAppts, followUpLeads, todoChips, kpis, onOpen, goToFilter, goToReports,
+  date, todaysAppts, followUpLeads, todoChips, kpis, openToday, onOpen, goToFilter, goToReports, goToSchedule,
 }: {
   date: string
   todaysAppts: SchedEvent[]
   followUpLeads: Lead[]
   todoChips: { key: string; label: string; short: string; icon: string; count: number }[]
   kpis: { active: number; quotesPending: number; upcomingInstalls: number; outstanding: number }
+  openToday: number
   onOpen: (l: Lead) => void
   goToFilter: (f: string) => void
   goToReports: () => void
+  goToSchedule: () => void
 }) {
   const niceDate = (() => {
     const d = new Date(date + 'T00:00:00')
@@ -729,7 +834,14 @@ function TodayView({
 
       {/* Today's schedule */}
       <section className="bg-white rounded-xl border border-gold/40 p-4">
-        <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey mb-2">📅 Today&apos;s schedule</p>
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey">📅 Today&apos;s schedule</p>
+          {openToday > 0 && (
+            <button onClick={goToSchedule} className="text-[11px] text-emerald-700 font-semibold hover:underline">
+              {openToday} ideal slot{openToday === 1 ? '' : 's'} open ›
+            </button>
+          )}
+        </div>
         {todaysAppts.length === 0 ? (
           <p className="text-warm-grey text-sm">Nothing scheduled today.</p>
         ) : (
