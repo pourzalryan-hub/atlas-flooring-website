@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 type QuoteItem = { desc: string; qty: string; unit: string; price: string }
 type QuoteData = { items: QuoteItem[]; taxRate: string }
@@ -250,8 +250,8 @@ export default function ManagePage() {
   const [canImport, setCanImport] = useState(false)
   const [importing, setImporting] = useState(false)
 
-  const load = async () => {
-    setLoading(true)
+  const load = async (silent = false) => {
+    if (!silent) setLoading(true)
     setError('')
     try {
       const res = await fetch('/manage/api/leads', { cache: 'no-store' })
@@ -265,13 +265,33 @@ export default function ManagePage() {
       setLeads(all.filter(isRealLead))
       setCanImport(!!json.canImport)
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Could not load leads')
+      if (!silent) setError(e instanceof Error ? e.message : 'Could not load leads')
     } finally {
-      setLoading(false)
+      if (!silent) setLoading(false)
     }
   }
   useEffect(() => {
     load()
+  }, [])
+
+  // Keep the data fresh: silently refetch when you return to the app and on a
+  // light interval, so the schedule never shows stale info. Skip while a lead
+  // panel is open so an in-progress edit isn't disturbed.
+  const editingRef = useRef(false)
+  editingRef.current = selected !== null || adding
+  useEffect(() => {
+    const refresh = () => {
+      if (document.visibilityState === 'visible' && !editingRef.current) load(true)
+    }
+    document.addEventListener('visibilitychange', refresh)
+    window.addEventListener('focus', refresh)
+    const id = setInterval(refresh, 60000)
+    return () => {
+      document.removeEventListener('visibilitychange', refresh)
+      window.removeEventListener('focus', refresh)
+      clearInterval(id)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const monthLeads = useMemo(
@@ -426,7 +446,7 @@ export default function ManagePage() {
             >
               + Add lead
             </button>
-            <button onClick={load} aria-label="Refresh" className="text-sm bg-white/10 hover:bg-white/20 px-3 py-2 rounded transition-colors">
+            <button onClick={() => load()} aria-label="Refresh" className="text-sm bg-white/10 hover:bg-white/20 px-3 py-2 rounded transition-colors">
               ↻
             </button>
           </div>
