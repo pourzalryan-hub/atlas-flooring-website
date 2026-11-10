@@ -31,6 +31,7 @@ type Lead = {
 // Post-sale operational to-dos — independent of the pipeline stage. A job can
 // need several at once (ordered + binding + unpaid). Stored comma-separated.
 const JOB_TASKS = [
+  { key: 'sendquote', label: 'Send quote', short: 'Send quote', icon: '📝' },
   { key: 'schedule', label: 'Schedule install', short: 'Schedule', icon: '📅' },
   { key: 'order', label: 'Order carpet', short: 'To order', icon: '📦' },
   { key: 'pickup', label: 'Pick up carpet', short: 'Pick up', icon: '🚚' },
