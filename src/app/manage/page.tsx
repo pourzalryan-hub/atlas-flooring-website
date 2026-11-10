@@ -99,7 +99,7 @@ const monthLabel = (k: string) => {
 // Stored in the existing "booked date" sheet column as "YYYY-MM-DD <window>"
 // (e.g. "2026-11-10 9–10 AM"), so no new columns / Apps Script redeploy needed.
 const APPT_WINDOWS = [
-  '9–10 AM', '10–11 AM', '11 AM–12 PM', '12–1 PM', '1–2 PM',
+  '8–9 AM', '9–10 AM', '10–11 AM', '11 AM–12 PM', '12–1 PM', '1–2 PM',
   '2–3 PM', '3–4 PM', '4–5 PM', '5–6 PM', 'Morning (9–12)', 'Afternoon (12–4)',
 ]
 const pad2 = (n: number) => String(n).padStart(2, '0')
