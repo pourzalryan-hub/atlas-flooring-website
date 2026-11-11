@@ -651,6 +651,9 @@ function ScheduleView({ leads, onOpen, onBook }: { leads: Lead[]; onOpen: (l: Le
     .flatMap((l) => leadEvents(l))
     .filter((e) => e.date >= startISO && e.date <= endISO)
     .sort((a, b) => (a.date !== b.date ? (a.date < b.date ? -1 : 1) : a.sort - b.sort))
+  // Today-and-upcoming first; already-passed days drop to the bottom.
+  const upcoming = events.filter((e) => e.date >= todayISO)
+  const past = events.filter((e) => e.date < todayISO)
 
   return (
     <div>
@@ -725,10 +728,23 @@ function ScheduleView({ leads, onOpen, onBook }: { leads: Lead[]; onOpen: (l: Le
             {events.length === 0 ? (
               <p className="text-stone-300 text-xs">Nothing scheduled</p>
             ) : (
-              events.map((e) => (
-                <BoardCard key={`${e.lead.row}-${e.kind}`} lead={e.lead} tone={e.kind === 'install' ? 'emerald' : 'amber'} onOpen={() => onOpen(e.lead)}
-                  sub={`${e.kind === 'install' ? '🔧 Install' : `📅 ${e.badge}`} · ${shortDay(e.date)}${e.date === todayISO ? ' · Today' : ''}`} />
-              ))
+              <>
+                {upcoming.map((e) => (
+                  <BoardCard key={`${e.lead.row}-${e.kind}`} lead={e.lead} tone={e.kind === 'install' ? 'emerald' : 'amber'} onOpen={() => onOpen(e.lead)}
+                    sub={`${e.kind === 'install' ? '🔧 Install' : `📅 ${e.badge}`} · ${shortDay(e.date)}${e.date === todayISO ? ' · Today' : ''}`} />
+                ))}
+                {past.length > 0 && (
+                  <>
+                    <p className="text-[11px] text-stone-400 pt-2 border-t border-stone-100">Earlier this week</p>
+                    {past.map((e) => (
+                      <div key={`${e.lead.row}-${e.kind}`} className="opacity-60">
+                        <BoardCard lead={e.lead} tone={e.kind === 'install' ? 'emerald' : 'amber'} onOpen={() => onOpen(e.lead)}
+                          sub={`${e.kind === 'install' ? '🔧 Install' : `📅 ${e.badge}`} · ${shortDay(e.date)}`} />
+                      </div>
+                    ))}
+                  </>
+                )}
+              </>
             )}
           </div>
           <div className="flex gap-3 mt-2 text-[11px] text-warm-grey">
