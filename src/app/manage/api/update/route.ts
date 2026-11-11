@@ -6,7 +6,7 @@ import { dbConfigured, updateLead } from "@/lib/db";
 export const dynamic = "force-dynamic";
 
 const FIELDS = [
-  "status", "notes", "value", "bookedDate", "installDate",
+  "status", "notes", "value", "bookedDate", "installDate", "address",
   "material", "install", "deposit", "payment", "followUp", "tasks", "quote",
 ] as const;
 

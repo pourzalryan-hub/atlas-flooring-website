@@ -1002,6 +1002,7 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
   const appt0 = parseAppt(String(lead.bookedDate ?? ''))
   const [status, setStatus] = useState<Stage>(normalize(lead.status))
   const [followUp, setFollowUp] = useState(lead.followUp ?? '')
+  const [address, setAddress] = useState(lead.address ?? '')
   const [apptDate, setApptDate] = useState(appt0.date)
   const [apptWindow, setApptWindow] = useState(appt0.window)
   const [installDate, setInstallDate] = useState(String(lead.installDate ?? ''))
@@ -1085,11 +1086,11 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
       const res = await fetch('/manage/api/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ row: lead.row, status, followUp, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(','), quote }),
+        body: JSON.stringify({ row: lead.row, status, followUp, address, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(','), quote }),
       })
       const json = await res.json()
       if (!json?.ok) throw new Error(json?.error || 'Save failed')
-      onSaved(lead.row, { status, followUp, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(','), quote })
+      onSaved(lead.row, { status, followUp, address, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(','), quote })
       setSaved(true)
       setTimeout(() => setSaved(false), 2500)
       return true
@@ -1105,6 +1106,7 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
   const dirty =
     status !== normalize(lead.status) ||
     followUp !== (lead.followUp ?? '') ||
+    address !== (lead.address ?? '') ||
     joinAppt(apptDate, apptWindow) !== String(lead.bookedDate ?? '') ||
     installDate !== String(lead.installDate ?? '') ||
     value !== String(lead.value ?? '') ||
@@ -1132,7 +1134,7 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
     const t = setTimeout(() => { void save() }, 900)
     return () => clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dirty, status, followUp, apptDate, apptWindow, installDate, value, material, install, deposit, payment, notes, tasks, quote])
+  }, [dirty, status, followUp, address, apptDate, apptWindow, installDate, value, material, install, deposit, payment, notes, tasks, quote])
 
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
@@ -1163,9 +1165,9 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
           <div className="text-sm text-warm-grey space-y-0.5">
             {hasPhone && <p>📞 {phone}</p>}
             {lead.email && <p className="break-all">✉️ {lead.email}</p>}
-            {lead.address && (
+            {address && (
               <p>
-                <MapLink address={lead.address} className="text-gold underline" />
+                <MapLink address={address} className="text-gold underline" />
                 <span className="text-warm-grey"> — tap for directions</span>
               </p>
             )}
@@ -1216,6 +1218,10 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
                 </div>
               )}
             </div>
+
+            <label className="block text-xs text-warm-grey">Job address
+              <input value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Street, city" className={`${fieldCls} w-full mt-1`} />
+            </label>
 
             <label className="block text-xs text-warm-grey">Next follow-up
               <input value={followUp} onChange={(e) => setFollowUp(e.target.value)} placeholder="e.g. Nov 20" className={`${fieldCls} w-full mt-1`} />
