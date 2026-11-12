@@ -83,7 +83,9 @@ export async function POST(req: Request) {
   // A clean, pre-filled email to the customer — opens a fresh message with
   // nothing quoted, so the internal alert is never shown to them.
   const customerSubject = "Thanks for reaching out — Atlas Rug & Design Centre";
-  const customerBody = `Hi ${name},\n\nThanks for reaching out to Atlas Rug & Design Centre${product ? ` about ${product}` : ""}. I'd be glad to help — what's a good time for a quick call, or we can set up a free in-home measure at your convenience.\n\nTalk soon,\nRyan\nAtlas Rug & Design Centre\n(416) 533-3366`;
+  // First name only, and CRLF line breaks so phone mail apps keep the paragraphs.
+  const firstName = String(name || "").trim().split(/\s+/)[0] || "there";
+  const customerBody = `Hi ${firstName},\r\n\r\nThanks for reaching out to Atlas Rug & Design Centre${product ? ` about ${product}` : ""}.\r\n\r\nI'd be glad to help. What's a good time for a quick call?\r\n\r\nTalk soon,\r\nRyan Atlas Rug & Design Centre\r\nCell: 647 895 9393\r\nOff: 416 533 3366`;
   const customerMailto = `mailto:${email}?subject=${encodeURIComponent(customerSubject)}&amp;body=${encodeURIComponent(customerBody)}`;
   const notifyHtml = `
     <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#1C1C1C;max-width:600px;">

@@ -245,7 +245,8 @@ const reviewMessage = (name: string) => {
 }
 const smsHref = (phone: string, body: string) => `sms:${phone}?&body=${encodeURIComponent(body)}`
 const mailtoHref = (email: string, subject: string, body: string) =>
-  `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+  // CRLF line breaks so phone mail apps keep the paragraphs instead of collapsing them.
+  `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body.replace(/\r?\n/g, '\r\n'))}`
 
 // First-reply email — opens the mail app pre-filled with Ryan's template.
 const REPLY_SUBJECT = 'Thanks for reaching out — Atlas Rug & Design Centre'
