@@ -90,6 +90,12 @@ const num = (v: string | number) => {
 const dollars = (n: number) => (n ? '$' + Math.round(n).toLocaleString('en-US') : '—')
 const money2 = (n: number) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
+// --- App settings (targets + monthly ad spend / overhead / reviews) --------
+type MonthCfg = { adSpend?: number; overhead?: number; reviews?: number }
+type Settings = { targets?: Record<string, number>; months?: Record<string, MonthCfg> }
+// Targets carried over from the old Command Center; each is editable in the app.
+const DEFAULT_TARGETS: Record<string, number> = { bookingRate: 0.4, closeRate: 0.45, avgTicket: 3000, netProfit: 0.18, reviews: 5 }
+
 // --- Quote builder --------------------------------------------------------
 const DEFAULT_TAX = '13' // Ontario HST
 const QUOTE_PRESETS: { desc: string; unit: string }[] = [
@@ -1687,9 +1693,37 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
   const [askedCount, setAskedCount] = useState(0)
   const [scriptsOpen, setScriptsOpen] = useState(false)
   const [copied, setCopied] = useState('')
+  const [settings, setSettings] = useState<Settings>({})
+  const [editTargets, setEditTargets] = useState(false)
+  const [editMonth, setEditMonth] = useState('') // which month row is expanded for editing
+  const dirty = useRef(false)
   useEffect(() => {
     setAskedCount(Object.keys(readAsked()).length)
+    fetch('/manage/api/settings')
+      .then((r) => r.json())
+      .then((j) => { if (j?.ok && j.settings) setSettings(j.settings) })
+      .catch(() => {})
   }, [])
+  // Persist settings a beat after they change (only once the user has edited).
+  useEffect(() => {
+    if (!dirty.current) return
+    const t = setTimeout(() => {
+      fetch('/manage/api/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ settings }),
+      }).catch(() => {})
+    }, 700)
+    return () => clearTimeout(t)
+  }, [settings])
+  const setTarget = (key: string, v: number) => {
+    dirty.current = true
+    setSettings((s) => ({ ...s, targets: { ...(s.targets || {}), [key]: v } }))
+  }
+  const setMonthCfg = (mk: string, key: keyof MonthCfg, v: number) => {
+    dirty.current = true
+    setSettings((s) => ({ ...s, months: { ...(s.months || {}), [mk]: { ...(s.months?.[mk] || {}), [key]: v } } }))
+  }
   const copyScript = (when: string, text: string) => {
     try { navigator.clipboard?.writeText(text) } catch { /* clipboard may be blocked */ }
     setCopied(when)
@@ -1697,6 +1731,7 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
   }
 
   const thisMonth = toISO(new Date()).slice(0, 7)
+  const T = useMemo(() => ({ ...DEFAULT_TARGETS, ...(settings.targets || {}) }), [settings.targets])
   const scoped = useMemo(
     () => (period === 'all' ? leads : leads.filter((l) => monthKey(l.date) === thisMonth)),
     [leads, period, thisMonth]
@@ -1758,43 +1793,66 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
 
   const completed = scoped.filter((l) => normalize(l.status) === 'Completed').length
 
-  // Scorecard — key ratios for the period vs the Command Center's targets.
+  // Month keys covered by the current period (this month, or all configured months).
+  const monthsCfg = settings.months || {}
+  const scopeKeys = useMemo(
+    () => (period === 'month' ? [thisMonth] : Array.from(new Set(leads.map((l) => monthKey(l.date)).filter((k) => k !== 'other')))),
+    [period, thisMonth, leads]
+  )
+  const periodSpend = scopeKeys.reduce((s, k) => s + (monthsCfg[k]?.adSpend || 0), 0)
+  const periodOverhead = scopeKeys.reduce((s, k) => s + (monthsCfg[k]?.overhead || 0), 0)
+  const periodReviews = scopeKeys.reduce((s, k) => s + (monthsCfg[k]?.reviews || 0), 0)
+
+  // Ad spend & return on ad spend for the period.
+  const adStats = useMemo(() => {
+    const won = scoped.filter((l) => WON.includes(normalize(l.status)))
+    const revenue = won.reduce((s, l) => s + num(l.value), 0)
+    return {
+      spend: periodSpend,
+      costPerLead: scoped.length ? periodSpend / scoped.length : 0,
+      costPerJob: won.length ? periodSpend / won.length : 0,
+      roas: periodSpend ? revenue / periodSpend : 0,
+      leads: scoped.length,
+      jobs: won.length,
+    }
+  }, [scoped, periodSpend])
+
+  // Scorecard — key metrics for the period vs editable targets.
   const scorecard = useMemo(() => {
     const won = scoped.filter((l) => WON.includes(normalize(l.status)))
     const revenue = won.reduce((s, l) => s + num(l.value), 0)
     const material = won.reduce((s, l) => s + num(l.material), 0)
     const install = won.reduce((s, l) => s + num(l.install), 0)
-    const grossProfit = revenue - material - install
+    const netProfit = revenue - material - install - periodOverhead
     // "Quotes" = leads that got a number on them or moved past the appointment stage.
     const quoted = scoped.filter(
       (l) => num(l.value) > 0 || ['Quoted', 'Sold', 'Booked', 'Completed', 'Paid'].includes(normalize(l.status))
     ).length
-    const bookingRate = scoped.length ? won.length / scoped.length : 0
-    const closeRate = quoted ? won.length / quoted : 0
-    const avgTicket = won.length ? revenue / won.length : 0
-    const profitPct = revenue ? grossProfit / revenue : 0
     return [
-      { label: 'Booking rate', help: 'jobs ÷ leads', value: bookingRate, target: 0.4, pct: true },
-      { label: 'Close rate', help: 'jobs ÷ quotes', value: closeRate, target: 0.45, pct: true },
-      { label: 'Avg ticket', help: 'revenue ÷ jobs', value: avgTicket, target: 3000, pct: false },
-      { label: 'Gross profit', help: 'after material + install', value: profitPct, target: 0.18, pct: true },
+      { key: 'bookingRate', label: 'Booking rate', help: 'jobs ÷ leads', value: scoped.length ? won.length / scoped.length : 0, kind: 'pct' as const },
+      { key: 'closeRate', label: 'Close rate', help: 'jobs ÷ quotes', value: quoted ? won.length / quoted : 0, kind: 'pct' as const },
+      { key: 'avgTicket', label: 'Avg ticket', help: 'revenue ÷ jobs', value: won.length ? revenue / won.length : 0, kind: 'money' as const },
+      { key: 'netProfit', label: 'Net profit', help: 'after material, install & overhead', value: revenue ? netProfit / revenue : 0, kind: 'pct' as const },
+      { key: 'reviews', label: 'Reviews', help: 'new this period', value: periodReviews, kind: 'count' as const },
     ]
-  }, [scoped])
+  }, [scoped, periodOverhead, periodReviews])
 
   // Monthly trends — every month with activity, newest first.
   const monthly = useMemo(() => {
-    const m: Record<string, { leads: number; jobs: number; revenue: number }> = {}
+    const m: Record<string, { leads: number; jobs: number; revenue: number; material: number; install: number }> = {}
     leads.forEach((l) => {
       const k = monthKey(l.date)
       if (k === 'other') return
-      const e = (m[k] = m[k] || { leads: 0, jobs: 0, revenue: 0 })
+      const e = (m[k] = m[k] || { leads: 0, jobs: 0, revenue: 0, material: 0, install: 0 })
       e.leads += 1
       if (WON.includes(normalize(l.status))) {
         e.jobs += 1
         e.revenue += num(l.value)
+        e.material += num(l.material)
+        e.install += num(l.install)
       }
     })
-    return Object.entries(m).sort((a, b) => (a[0] < b[0] ? 1 : -1)).slice(0, 6)
+    return Object.entries(m).sort((a, b) => (a[0] < b[0] ? 1 : -1)).slice(0, 12)
   }, [leads])
 
   return (
@@ -1813,29 +1871,84 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
 
       {/* Scorecard — ratios vs targets */}
       <div className="bg-white rounded-xl border border-stone-100 p-4">
-        <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey mb-2">🎯 Scorecard · vs targets</p>
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey">🎯 Scorecard · vs targets</p>
+          <button onClick={() => setEditTargets((v) => !v)} className="text-[11px] font-semibold text-gold hover:text-gold-dark">
+            {editTargets ? 'Done' : 'Edit targets'}
+          </button>
+        </div>
         <div className="divide-y divide-stone-100">
           {scorecard.map((m) => {
-            const ok = m.value >= m.target
-            const show = m.pct ? `${Math.round(m.value * 100)}%` : dollars(m.value)
-            const tgt = m.pct ? `${Math.round(m.target * 100)}%` : dollars(m.target)
+            const target = T[m.key] ?? 0
+            const ok = m.value >= target
+            const show = m.kind === 'pct' ? `${Math.round(m.value * 100)}%` : m.kind === 'money' ? dollars(m.value) : String(Math.round(m.value))
+            const tgt = m.kind === 'pct' ? `${Math.round(target * 100)}%` : m.kind === 'money' ? dollars(target) : String(Math.round(target))
             return (
-              <div key={m.label} className="flex items-center justify-between gap-2 py-2">
+              <div key={m.key} className="flex items-center justify-between gap-2 py-2">
                 <span className="min-w-0">
                   <span className="text-sm text-charcoal">{m.label}</span>
                   <span className="text-[11px] text-stone-400"> · {m.help}</span>
                 </span>
-                <span className="flex items-center gap-2 shrink-0">
-                  <span className="text-sm font-semibold text-charcoal tabular-nums">{show}</span>
-                  <span className={`text-[11px] font-semibold rounded-full px-2 py-0.5 ${ok ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}`}>
-                    {ok ? '✓' : '↓'} {tgt}
+                {editTargets ? (
+                  <span className="flex items-center gap-1 shrink-0">
+                    <span className="text-[11px] text-stone-400">target</span>
+                    {m.kind === 'money' && <span className="text-xs text-warm-grey">$</span>}
+                    <input
+                      type="number" inputMode="decimal"
+                      value={m.kind === 'pct' ? Math.round(target * 100) : target}
+                      onChange={(e) => setTarget(m.key, m.kind === 'pct' ? (Number(e.target.value) || 0) / 100 : Number(e.target.value) || 0)}
+                      className="w-16 text-right text-sm border border-stone-200 rounded px-2 py-1"
+                    />
+                    {m.kind === 'pct' && <span className="text-xs text-warm-grey">%</span>}
                   </span>
-                </span>
+                ) : (
+                  <span className="flex items-center gap-2 shrink-0">
+                    <span className="text-sm font-semibold text-charcoal tabular-nums">{show}</span>
+                    <span className={`text-[11px] font-semibold rounded-full px-2 py-0.5 ${ok ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}`}>
+                      {ok ? '✓' : '↓'} {tgt}
+                    </span>
+                  </span>
+                )}
               </div>
             )
           })}
         </div>
-        <p className="text-[11px] text-stone-400 mt-2">Targets from the old Command Center · {period === 'all' ? 'all time' : 'this month'}.</p>
+        <p className="text-[11px] text-stone-400 mt-2">{editTargets ? 'Set your targets — saved automatically.' : `Showing ${period === 'all' ? 'all time' : 'this month'}.`}</p>
+      </div>
+
+      {/* Ad spend */}
+      <div className="bg-white rounded-xl border border-stone-100 p-4">
+        <div className="flex items-center justify-between mb-1">
+          <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey">💸 Ad spend · {period === 'all' ? 'all time' : 'this month'}</p>
+          <p className="font-playfair text-lg text-charcoal">{money2(adStats.spend)}</p>
+        </div>
+        <div className="grid grid-cols-3 gap-2 mt-2">
+          <div className="rounded-lg bg-off-white p-2 text-center">
+            <p className="text-sm font-semibold text-charcoal tabular-nums">{adStats.spend ? dollars(adStats.costPerLead) : '—'}</p>
+            <p className="text-[11px] text-warm-grey">per lead</p>
+          </div>
+          <div className="rounded-lg bg-off-white p-2 text-center">
+            <p className="text-sm font-semibold text-charcoal tabular-nums">{adStats.spend ? dollars(adStats.costPerJob) : '—'}</p>
+            <p className="text-[11px] text-warm-grey">per job</p>
+          </div>
+          <div className="rounded-lg bg-off-white p-2 text-center">
+            <p className={`text-sm font-semibold tabular-nums ${adStats.roas >= 1 ? 'text-emerald-700' : 'text-charcoal'}`}>{adStats.spend ? `${adStats.roas.toFixed(1)}×` : '—'}</p>
+            <p className="text-[11px] text-warm-grey">return</p>
+          </div>
+        </div>
+        <label className="block text-xs text-warm-grey mt-3">
+          {monthLabel(thisMonth)} ad spend
+          <div className="flex items-center gap-1 mt-1">
+            <span className="text-sm text-warm-grey">$</span>
+            <input
+              type="number" inputMode="decimal" placeholder="0.00"
+              value={monthsCfg[thisMonth]?.adSpend ?? ''}
+              onChange={(e) => setMonthCfg(thisMonth, 'adSpend', Number(e.target.value) || 0)}
+              className="w-full text-sm border border-stone-200 rounded px-2 py-1.5"
+            />
+          </div>
+        </label>
+        <p className="text-[11px] text-stone-400 mt-2">Return = revenue ÷ ad spend. Set overhead &amp; reviews per month under Monthly trends below.</p>
       </div>
 
       {/* Collected */}
@@ -1892,21 +2005,52 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
       <GroupTable title="By source" col="Source" rows={bySource} />
       <GroupTable title="By product" col="Product" rows={byProduct} />
 
-      {/* Monthly trends */}
+      {/* Monthly trends — tap a month to log ad spend, overhead & reviews */}
       {monthly.length > 0 && (
         <div className="bg-white rounded-xl border border-stone-100 p-4">
           <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey mb-2">📈 Monthly trends</p>
           <div className="divide-y divide-stone-100">
-            {monthly.map(([k, v]) => (
-              <div key={k} className="flex items-center justify-between gap-2 py-2 text-sm">
-                <span className="text-charcoal w-24 shrink-0">{monthLabel(k)}</span>
-                <span className="text-xs text-warm-grey flex-1 text-center tabular-nums">
-                  {v.leads} {v.leads === 1 ? 'lead' : 'leads'} · {v.jobs} {v.jobs === 1 ? 'job' : 'jobs'}
-                </span>
-                <span className="font-semibold text-charcoal tabular-nums shrink-0">{dollars(v.revenue)}</span>
-              </div>
-            ))}
+            {monthly.map(([k, v]) => {
+              const cfg = monthsCfg[k] || {}
+              const spend = cfg.adSpend || 0
+              const netProfit = v.revenue - v.material - v.install - (cfg.overhead || 0)
+              const open = editMonth === k
+              return (
+                <div key={k} className="py-1">
+                  <button onClick={() => setEditMonth(open ? '' : k)} className="w-full flex items-center justify-between gap-2 py-1.5 text-sm text-left hover:bg-off-white rounded">
+                    <span className="text-charcoal w-24 shrink-0">{monthLabel(k)} <span className="text-stone-400">{open ? '▾' : '▸'}</span></span>
+                    <span className="text-xs text-warm-grey flex-1 text-center tabular-nums">
+                      {v.leads} {v.leads === 1 ? 'lead' : 'leads'} · {v.jobs} {v.jobs === 1 ? 'job' : 'jobs'}
+                      {spend > 0 && <span className="text-stone-400"> · ad {dollars(spend)}</span>}
+                    </span>
+                    <span className="font-semibold text-charcoal tabular-nums shrink-0">{dollars(v.revenue)}</span>
+                  </button>
+                  {open && (
+                    <div className="mt-1 mb-2 rounded-lg bg-off-white p-3 space-y-2">
+                      <div className="grid grid-cols-3 gap-2">
+                        {([['adSpend', 'Ad spend'], ['overhead', 'Overhead'], ['reviews', 'New reviews']] as [keyof MonthCfg, string][]).map(([field, label]) => (
+                          <label key={field} className="block text-[11px] text-warm-grey">
+                            {label}
+                            <input
+                              type="number" inputMode="decimal" placeholder="0"
+                              value={cfg[field] ?? ''}
+                              onChange={(e) => setMonthCfg(k, field, Number(e.target.value) || 0)}
+                              className="w-full text-sm border border-stone-200 rounded px-2 py-1.5 mt-0.5"
+                            />
+                          </label>
+                        ))}
+                      </div>
+                      <div className="flex items-center justify-between text-[11px] text-warm-grey">
+                        <span>Cost / lead: <span className="font-semibold text-charcoal">{spend && v.leads ? dollars(spend / v.leads) : '—'}</span></span>
+                        <span>Net profit: <span className="font-semibold text-charcoal">{v.revenue ? `${dollars(netProfit)} (${Math.round((netProfit / v.revenue) * 100)}%)` : '—'}</span></span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
           </div>
+          <p className="text-[11px] text-stone-400 mt-2">Tap a month to enter ad spend, overhead and new reviews — they feed the scorecard.</p>
         </div>
       )}
 
@@ -1930,7 +2074,7 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
       <div className="bg-white rounded-xl border border-stone-100 p-4">
         <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey mb-1">Reviews</p>
         <p className="text-sm text-charcoal">
-          {completed} completed {completed === 1 ? 'job' : 'jobs'} this period · {askedCount} review {askedCount === 1 ? 'request' : 'requests'} sent
+          {periodReviews} new {periodReviews === 1 ? 'review' : 'reviews'} logged · {completed} completed {completed === 1 ? 'job' : 'jobs'} · {askedCount} {askedCount === 1 ? 'request' : 'requests'} sent
         </p>
         <p className="text-[11px] text-warm-grey mt-1">
           Open a completed job to text its Google review link. (Counted on this device.)

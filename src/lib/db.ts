@@ -37,6 +37,13 @@ async function ensureSchema() {
     updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     data JSONB NOT NULL DEFAULT '{}'::jsonb
   )`;
+  // Small key/value store for app-wide settings (targets, monthly ad spend,
+  // overhead, review counts). One JSON blob — new settings need no migration.
+  await db()`CREATE TABLE IF NOT EXISTS settings (
+    id TEXT PRIMARY KEY,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    data JSONB NOT NULL DEFAULT '{}'::jsonb
+  )`;
   schemaReady = true;
 }
 
@@ -76,4 +83,21 @@ export async function updateLead(id: number, patch: LeadData): Promise<void> {
     UPDATE leads
     SET data = data || ${sql.json(patch as postgres.JSONValue)}, updated_at = now()
     WHERE id = ${id}`;
+}
+
+/** The whole app-settings blob (targets, monthly ad spend/overhead/reviews). */
+export async function getSettings(): Promise<Record<string, unknown>> {
+  await ensureSchema();
+  const rows = await db()<{ data: Record<string, unknown> }[]>`
+    SELECT data FROM settings WHERE id = 'app'`;
+  return rows[0]?.data ?? {};
+}
+
+/** Replace the whole app-settings blob (client sends the merged object). */
+export async function saveSettings(data: Record<string, unknown>): Promise<void> {
+  await ensureSchema();
+  const sql = db();
+  await sql`
+    INSERT INTO settings (id, data) VALUES ('app', ${sql.json(data as postgres.JSONValue)})
+    ON CONFLICT (id) DO UPDATE SET data = ${sql.json(data as postgres.JSONValue)}, updated_at = now()`;
 }
