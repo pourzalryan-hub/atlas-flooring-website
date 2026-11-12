@@ -29,6 +29,16 @@ type Lead = {
   lostReason?: string
 }
 
+// Objection / follow-up scripts (from the old Command Center).
+const FOLLOWUP_SCRIPTS: { when: string; text: string }[] = [
+  { when: 'No response to quote', text: "Hi [Name], it's Ryan at Atlas Rug & Design Centre. Just checking you got the quote for your [product] — happy to answer questions or tweak anything. When works for a quick call?" },
+  { when: '"Need to think about it"', text: "Totally fair — big decision. Can I ask what's giving you pause, the budget or the product? I'd rather help you get it right than rush you." },
+  { when: '"Getting other quotes"', text: "Smart — you should compare. One tip: make sure each quote is itemized so you're comparing apples to apples. Ours spells out carpet, underpad, labour and removal separately. Happy to walk through ours." },
+  { when: '"It\'s too expensive"', text: "I hear you. We can look at a different grade or do just the main rooms to hit your budget — or I can show you what each line buys. What number were you hoping to land near?" },
+  { when: 'Went silent after measure', text: "Hi [Name], Ryan at Atlas. Don't want to pester you — if timing changed, no problem. If you're still deciding, I'm here. Want me to hold the quote as-is for now?" },
+  { when: 'After the job — get the review', text: "Hi [Name], hope you're loving the new floors! If you have 30 seconds, a quick Google review really helps our family business: https://atlasrugflooring.com/review. Thank you!" },
+]
+
 const LOST_REASONS = [
   'Too expensive',
   'Timing / not ready',
@@ -1675,9 +1685,16 @@ function PaymentDialog({ lead, onClose, onRecorded }: { lead: Lead; onClose: () 
 function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead) => void; onPay: (l: Lead) => void }) {
   const [period, setPeriod] = useState<'month' | 'all'>('month')
   const [askedCount, setAskedCount] = useState(0)
+  const [scriptsOpen, setScriptsOpen] = useState(false)
+  const [copied, setCopied] = useState('')
   useEffect(() => {
     setAskedCount(Object.keys(readAsked()).length)
   }, [])
+  const copyScript = (when: string, text: string) => {
+    try { navigator.clipboard?.writeText(text) } catch { /* clipboard may be blocked */ }
+    setCopied(when)
+    setTimeout(() => setCopied(''), 1500)
+  }
 
   const thisMonth = toISO(new Date()).slice(0, 7)
   const scoped = useMemo(
@@ -1741,6 +1758,45 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
 
   const completed = scoped.filter((l) => normalize(l.status) === 'Completed').length
 
+  // Scorecard — key ratios for the period vs the Command Center's targets.
+  const scorecard = useMemo(() => {
+    const won = scoped.filter((l) => WON.includes(normalize(l.status)))
+    const revenue = won.reduce((s, l) => s + num(l.value), 0)
+    const material = won.reduce((s, l) => s + num(l.material), 0)
+    const install = won.reduce((s, l) => s + num(l.install), 0)
+    const grossProfit = revenue - material - install
+    // "Quotes" = leads that got a number on them or moved past the appointment stage.
+    const quoted = scoped.filter(
+      (l) => num(l.value) > 0 || ['Quoted', 'Sold', 'Booked', 'Completed', 'Paid'].includes(normalize(l.status))
+    ).length
+    const bookingRate = scoped.length ? won.length / scoped.length : 0
+    const closeRate = quoted ? won.length / quoted : 0
+    const avgTicket = won.length ? revenue / won.length : 0
+    const profitPct = revenue ? grossProfit / revenue : 0
+    return [
+      { label: 'Booking rate', help: 'jobs ÷ leads', value: bookingRate, target: 0.4, pct: true },
+      { label: 'Close rate', help: 'jobs ÷ quotes', value: closeRate, target: 0.45, pct: true },
+      { label: 'Avg ticket', help: 'revenue ÷ jobs', value: avgTicket, target: 3000, pct: false },
+      { label: 'Gross profit', help: 'after material + install', value: profitPct, target: 0.18, pct: true },
+    ]
+  }, [scoped])
+
+  // Monthly trends — every month with activity, newest first.
+  const monthly = useMemo(() => {
+    const m: Record<string, { leads: number; jobs: number; revenue: number }> = {}
+    leads.forEach((l) => {
+      const k = monthKey(l.date)
+      if (k === 'other') return
+      const e = (m[k] = m[k] || { leads: 0, jobs: 0, revenue: 0 })
+      e.leads += 1
+      if (WON.includes(normalize(l.status))) {
+        e.jobs += 1
+        e.revenue += num(l.value)
+      }
+    })
+    return Object.entries(m).sort((a, b) => (a[0] < b[0] ? 1 : -1)).slice(0, 6)
+  }, [leads])
+
   return (
     <div className="space-y-4">
       <div className="flex gap-2">
@@ -1753,6 +1809,33 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
         <Stat label="Leads" value={String(stats.leads)} />
         <Stat label="Booked" value={String(stats.booked)} />
         <Stat label="Win rate" value={stats.winRate ? `${stats.winRate}%` : '—'} />
+      </div>
+
+      {/* Scorecard — ratios vs targets */}
+      <div className="bg-white rounded-xl border border-stone-100 p-4">
+        <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey mb-2">🎯 Scorecard · vs targets</p>
+        <div className="divide-y divide-stone-100">
+          {scorecard.map((m) => {
+            const ok = m.value >= m.target
+            const show = m.pct ? `${Math.round(m.value * 100)}%` : dollars(m.value)
+            const tgt = m.pct ? `${Math.round(m.target * 100)}%` : dollars(m.target)
+            return (
+              <div key={m.label} className="flex items-center justify-between gap-2 py-2">
+                <span className="min-w-0">
+                  <span className="text-sm text-charcoal">{m.label}</span>
+                  <span className="text-[11px] text-stone-400"> · {m.help}</span>
+                </span>
+                <span className="flex items-center gap-2 shrink-0">
+                  <span className="text-sm font-semibold text-charcoal tabular-nums">{show}</span>
+                  <span className={`text-[11px] font-semibold rounded-full px-2 py-0.5 ${ok ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}`}>
+                    {ok ? '✓' : '↓'} {tgt}
+                  </span>
+                </span>
+              </div>
+            )
+          })}
+        </div>
+        <p className="text-[11px] text-stone-400 mt-2">Targets from the old Command Center · {period === 'all' ? 'all time' : 'this month'}.</p>
       </div>
 
       {/* Collected */}
@@ -1809,6 +1892,24 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
       <GroupTable title="By source" col="Source" rows={bySource} />
       <GroupTable title="By product" col="Product" rows={byProduct} />
 
+      {/* Monthly trends */}
+      {monthly.length > 0 && (
+        <div className="bg-white rounded-xl border border-stone-100 p-4">
+          <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey mb-2">📈 Monthly trends</p>
+          <div className="divide-y divide-stone-100">
+            {monthly.map(([k, v]) => (
+              <div key={k} className="flex items-center justify-between gap-2 py-2 text-sm">
+                <span className="text-charcoal w-24 shrink-0">{monthLabel(k)}</span>
+                <span className="text-xs text-warm-grey flex-1 text-center tabular-nums">
+                  {v.leads} {v.leads === 1 ? 'lead' : 'leads'} · {v.jobs} {v.jobs === 1 ? 'job' : 'jobs'}
+                </span>
+                <span className="font-semibold text-charcoal tabular-nums shrink-0">{dollars(v.revenue)}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {lostTotal > 0 && (
         <div className="bg-white rounded-xl border border-stone-100 p-4">
           <div className="flex items-center justify-between mb-2">
@@ -1834,6 +1935,30 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
         <p className="text-[11px] text-warm-grey mt-1">
           Open a completed job to text its Google review link. (Counted on this device.)
         </p>
+      </div>
+
+      {/* Follow-up scripts */}
+      <div className="bg-white rounded-xl border border-stone-100 p-4">
+        <button onClick={() => setScriptsOpen((v) => !v)} className="w-full flex items-center justify-between">
+          <span className="text-xs font-semibold uppercase tracking-wide text-warm-grey">💬 Follow-up scripts</span>
+          <span className="text-warm-grey text-sm">{scriptsOpen ? '▾' : '▸'}</span>
+        </button>
+        {scriptsOpen && (
+          <div className="mt-3 space-y-2.5">
+            {FOLLOWUP_SCRIPTS.map((s) => (
+              <div key={s.when} className="rounded-lg bg-off-white border border-stone-100 p-3">
+                <div className="flex items-start justify-between gap-2 mb-1">
+                  <p className="text-sm font-semibold text-charcoal">{s.when}</p>
+                  <button onClick={() => copyScript(s.when, s.text)} className="shrink-0 text-[11px] font-semibold text-gold hover:text-gold-dark">
+                    {copied === s.when ? 'Copied ✓' : 'Copy'}
+                  </button>
+                </div>
+                <p className="text-sm text-warm-grey leading-snug">{s.text}</p>
+              </div>
+            ))}
+            <p className="text-[11px] text-stone-400">Swap in the lead&rsquo;s name and product before sending.</p>
+          </div>
+        )}
       </div>
     </div>
   )
