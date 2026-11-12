@@ -334,7 +334,7 @@ export default function ManagePage() {
     }).length
     const outstanding = leads
       .filter((l) => ['Sold', 'Booked', 'Completed'].includes(normalize(l.status)))
-      .reduce((s, l) => s + Math.max(0, num(l.value) - num(l.deposit)), 0)
+      .reduce((s, l) => s + Math.max(0, Math.round(num(l.value) - num(l.deposit))), 0)
     return { active, quotesPending, upcomingInstalls, outstanding }
   }, [leads])
 
@@ -1618,7 +1618,7 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
   const owed = useMemo(() => {
     const rows = leads
       .filter((l) => ['Sold', 'Booked', 'Completed'].includes(normalize(l.status)))
-      .map((l) => ({ l, amt: Math.max(0, num(l.value) - num(l.deposit)) }))
+      .map((l) => ({ l, amt: Math.max(0, Math.round(num(l.value) - num(l.deposit))) }))
       .filter((x) => x.amt > 0)
       .sort((a, b) => b.amt - a.amt)
     return { rows, total: rows.reduce((s, x) => s + x.amt, 0) }
