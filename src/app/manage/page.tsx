@@ -247,6 +247,23 @@ const smsHref = (phone: string, body: string) => `sms:${phone}?&body=${encodeURI
 const mailtoHref = (email: string, subject: string, body: string) =>
   `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
 
+// First-reply email — opens the mail app pre-filled with Ryan's template.
+const REPLY_SUBJECT = 'Thanks for reaching out — Atlas Rug & Design Centre'
+const replyMessage = (name: string, product: string) => {
+  const first = String(name || '').trim().split(/\s+/)[0]
+  const about = String(product || '').trim() ? ` about ${String(product).trim()}` : ''
+  return `Hi ${first || 'there'},
+
+Thanks for reaching out to Atlas Rug & Design Centre${about}.
+
+I'd be glad to help. What's a good time for a quick call?
+
+Talk soon,
+Ryan Atlas Rug & Design Centre
+Cell: 647 895 9393
+Off: 416 533 3366`
+}
+
 // Remember which leads we've asked for a review (per-device).
 const REVIEW_KEY = 'atlas_reviews_asked'
 const readAsked = (): Record<string, string> => {
@@ -1360,7 +1377,7 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
               className={`text-center rounded-lg py-2.5 text-sm font-semibold ${hasPhone ? 'bg-gold text-white' : 'bg-stone-100 text-stone-400 pointer-events-none'}`}>📞 Call</a>
             <a href={hasPhone ? `sms:${phone}` : undefined}
               className={`text-center rounded-lg py-2.5 text-sm font-semibold ${hasPhone ? 'bg-white border border-stone-300 text-charcoal' : 'bg-stone-100 text-stone-400 pointer-events-none'}`}>💬 Text</a>
-            <a href={lead.email ? `mailto:${lead.email}` : undefined}
+            <a href={lead.email ? mailtoHref(lead.email, REPLY_SUBJECT, replyMessage(lead.name, String(lead.product || ''))) : undefined}
               className={`text-center rounded-lg py-2.5 text-sm font-semibold ${lead.email ? 'bg-white border border-stone-300 text-charcoal' : 'bg-stone-100 text-stone-400 pointer-events-none'}`}>✉️ Email</a>
           </div>
           <div className="text-sm text-warm-grey space-y-0.5">
