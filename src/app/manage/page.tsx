@@ -92,7 +92,7 @@ const money2 = (n: number) => '$' + n.toLocaleString('en-US', { minimumFractionD
 
 // --- App settings (targets + monthly ad spend / overhead / reviews) --------
 type MonthCfg = { adSpend?: number; overhead?: number; reviews?: number }
-type Settings = { targets?: Record<string, number>; months?: Record<string, MonthCfg> }
+type Settings = { targets?: Record<string, number>; months?: Record<string, MonthCfg>; lastAdSync?: string }
 // Targets carried over from the old Command Center; each is editable in the app.
 const DEFAULT_TARGETS: Record<string, number> = { bookingRate: 0.4, closeRate: 0.45, avgTicket: 3000, netProfit: 0.18, reviews: 5 }
 
@@ -188,6 +188,18 @@ const segCls = (active: boolean) =>
 const daysSince = (d: string) => {
   const t = new Date(d).getTime()
   return isNaN(t) ? 0 : Math.floor((Date.now() - t) / 864e5)
+}
+
+// Short "time ago" label for a timestamp (e.g. "3h ago"); '' if unparseable.
+const relTime = (iso?: string) => {
+  if (!iso) return ''
+  const t = new Date(iso).getTime()
+  if (isNaN(t)) return ''
+  const s = Math.max(0, Math.floor((Date.now() - t) / 1000))
+  if (s < 60) return 'just now'
+  if (s < 3600) return `${Math.floor(s / 60)}m ago`
+  if (s < 86400) return `${Math.floor(s / 3600)}h ago`
+  return `${Math.floor(s / 86400)}d ago`
 }
 
 // Does this lead need a follow-up nudge, and why?
@@ -1696,14 +1708,34 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
   const [settings, setSettings] = useState<Settings>({})
   const [editTargets, setEditTargets] = useState(false)
   const [editMonth, setEditMonth] = useState('') // which month row is expanded for editing
+  const [adSyncOn, setAdSyncOn] = useState(false) // Google Ads credentials present on the server
+  const [syncing, setSyncing] = useState(false)
+  const [syncNote, setSyncNote] = useState('')
   const dirty = useRef(false)
-  useEffect(() => {
-    setAskedCount(Object.keys(readAsked()).length)
+  const loadSettings = () =>
     fetch('/manage/api/settings')
       .then((r) => r.json())
-      .then((j) => { if (j?.ok && j.settings) setSettings(j.settings) })
+      .then((j) => { if (j?.ok) { if (j.settings) setSettings(j.settings); setAdSyncOn(!!j.adSyncConfigured) } })
       .catch(() => {})
+  useEffect(() => {
+    setAskedCount(Object.keys(readAsked()).length)
+    loadSettings()
   }, [])
+  const syncNow = async () => {
+    setSyncing(true)
+    setSyncNote('')
+    try {
+      const res = await fetch('/manage/api/adspend/sync', { method: 'POST' })
+      const j = await res.json()
+      if (j?.ok) { await loadSettings(); setSyncNote('Synced ✓') }
+      else setSyncNote(j?.error || 'Sync failed')
+    } catch {
+      setSyncNote('Sync failed')
+    } finally {
+      setSyncing(false)
+      setTimeout(() => setSyncNote(''), 4000)
+    }
+  }
   // Persist settings a beat after they change (only once the user has edited).
   useEffect(() => {
     if (!dirty.current) return
@@ -1936,19 +1968,36 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
             <p className="text-[11px] text-warm-grey">return</p>
           </div>
         </div>
-        <label className="block text-xs text-warm-grey mt-3">
-          {monthLabel(thisMonth)} ad spend
-          <div className="flex items-center gap-1 mt-1">
-            <span className="text-sm text-warm-grey">$</span>
-            <input
-              type="number" inputMode="decimal" placeholder="0.00"
-              value={monthsCfg[thisMonth]?.adSpend ?? ''}
-              onChange={(e) => setMonthCfg(thisMonth, 'adSpend', Number(e.target.value) || 0)}
-              className="w-full text-sm border border-stone-200 rounded px-2 py-1.5"
-            />
+        {adSyncOn ? (
+          <div className="mt-3 flex items-center justify-between gap-2 rounded-lg bg-emerald-50 px-3 py-2">
+            <span className="min-w-0">
+              <span className="text-xs font-semibold text-emerald-800">⚡ Auto-synced from Google Ads</span>
+              <span className="block text-[11px] text-emerald-700/80">
+                {syncNote || (settings.lastAdSync ? `Last synced ${relTime(settings.lastAdSync)}` : 'Updates daily')}
+              </span>
+            </span>
+            <button onClick={syncNow} disabled={syncing} className="shrink-0 text-xs font-semibold bg-emerald-700 text-white rounded-full px-3 py-1 hover:bg-emerald-800 disabled:opacity-60">
+              {syncing ? 'Syncing…' : 'Sync now'}
+            </button>
           </div>
-        </label>
-        <p className="text-[11px] text-stone-400 mt-2">Return = revenue ÷ ad spend. Set overhead &amp; reviews per month under Monthly trends below.</p>
+        ) : (
+          <>
+            <label className="block text-xs text-warm-grey mt-3">
+              {monthLabel(thisMonth)} ad spend
+              <div className="flex items-center gap-1 mt-1">
+                <span className="text-sm text-warm-grey">$</span>
+                <input
+                  type="number" inputMode="decimal" placeholder="0.00"
+                  value={monthsCfg[thisMonth]?.adSpend ?? ''}
+                  onChange={(e) => setMonthCfg(thisMonth, 'adSpend', Number(e.target.value) || 0)}
+                  className="w-full text-sm border border-stone-200 rounded px-2 py-1.5"
+                />
+              </div>
+            </label>
+            <p className="text-[11px] text-stone-400 mt-2">Enter spend by hand for now — it switches to automatic Google Ads sync once your API access is connected.</p>
+          </>
+        )}
+        {adSyncOn && <p className="text-[11px] text-stone-400 mt-2">Return = revenue ÷ ad spend. Pulled from Google Ads daily.</p>}
       </div>
 
       {/* Collected */}
@@ -2030,13 +2079,17 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
                       <div className="grid grid-cols-3 gap-2">
                         {([['adSpend', 'Ad spend'], ['overhead', 'Overhead'], ['reviews', 'New reviews']] as [keyof MonthCfg, string][]).map(([field, label]) => (
                           <label key={field} className="block text-[11px] text-warm-grey">
-                            {label}
-                            <input
-                              type="number" inputMode="decimal" placeholder="0"
-                              value={cfg[field] ?? ''}
-                              onChange={(e) => setMonthCfg(k, field, Number(e.target.value) || 0)}
-                              className="w-full text-sm border border-stone-200 rounded px-2 py-1.5 mt-0.5"
-                            />
+                            {field === 'adSpend' && adSyncOn ? 'Ad spend ⚡' : label}
+                            {field === 'adSpend' && adSyncOn ? (
+                              <div className="w-full text-sm border border-stone-200 bg-stone-50 text-charcoal rounded px-2 py-1.5 mt-0.5 tabular-nums">{cfg.adSpend ? dollars(cfg.adSpend) : '—'}</div>
+                            ) : (
+                              <input
+                                type="number" inputMode="decimal" placeholder="0"
+                                value={cfg[field] ?? ''}
+                                onChange={(e) => setMonthCfg(k, field, Number(e.target.value) || 0)}
+                                className="w-full text-sm border border-stone-200 rounded px-2 py-1.5 mt-0.5"
+                              />
+                            )}
                           </label>
                         ))}
                       </div>
@@ -2050,7 +2103,7 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
               )
             })}
           </div>
-          <p className="text-[11px] text-stone-400 mt-2">Tap a month to enter ad spend, overhead and new reviews — they feed the scorecard.</p>
+          <p className="text-[11px] text-stone-400 mt-2">Tap a month to enter {adSyncOn ? 'overhead and new reviews' : 'ad spend, overhead and new reviews'} — they feed the scorecard.{adSyncOn ? ' Ad spend syncs from Google Ads.' : ''}</p>
         </div>
       )}
 

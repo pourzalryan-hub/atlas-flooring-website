@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { dbConfigured, getSettings, saveSettings } from "@/lib/db";
+import { googleAdsConfigured } from "@/lib/googleAds";
 
 // App-wide settings (scorecard targets, monthly ad spend / overhead / reviews).
 // One JSON blob the client reads on load and writes back when edited. Behind
@@ -11,13 +12,14 @@ export const dynamic = "force-dynamic";
 let devSettings: Record<string, unknown> = {};
 
 export async function GET() {
+  const adSyncConfigured = googleAdsConfigured();
   if (!dbConfigured()) {
-    if (process.env.NODE_ENV !== "production") return NextResponse.json({ ok: true, settings: devSettings });
+    if (process.env.NODE_ENV !== "production") return NextResponse.json({ ok: true, settings: devSettings, adSyncConfigured });
     return NextResponse.json({ ok: false, error: "Database not configured" }, { status: 500 });
   }
   try {
     const settings = await getSettings();
-    return NextResponse.json({ ok: true, settings });
+    return NextResponse.json({ ok: true, settings, adSyncConfigured });
   } catch (err) {
     return NextResponse.json({ ok: false, error: String(err) }, { status: 502 });
   }
