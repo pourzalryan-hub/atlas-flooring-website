@@ -26,7 +26,21 @@ type Lead = {
   installDate?: string
   tasks?: string
   quote?: QuoteData
+  lostReason?: string
 }
+
+const LOST_REASONS = [
+  'Too expensive',
+  'Timing / not ready',
+  'Went with competitor',
+  'Too far / distance',
+  "Didn't like the products",
+  "We didn't carry it",
+  'Difficult customer',
+  'No response / ghosted',
+  'Changed their mind',
+  'Other',
+]
 
 // Post-sale operational to-dos — independent of the pipeline stage. A job can
 // need several at once (ordered + binding + unpaid). Stored comma-separated.
@@ -457,6 +471,12 @@ export default function ManagePage() {
     [leads, today]
   )
 
+  // Leads that came in today and haven't been contacted yet — call now.
+  const newToday = useMemo(
+    () => leads.filter((l) => String(l.date) === today && normalize(l.status) === 'New'),
+    [leads, today]
+  )
+
   // How many ideal measure slots are still open today.
   const openToday = useMemo(() => {
     const measuresToday = leads.flatMap((l) => leadEvents(l)).filter((e) => e.kind === 'measure' && e.date === today)
@@ -512,6 +532,7 @@ export default function ManagePage() {
           <TodayView
             date={today}
             todaysAppts={todaysAppts}
+            newToday={newToday}
             followUpLeads={followUpLeads}
             todoChips={todoChips}
             kpis={kpis}
@@ -902,10 +923,11 @@ function SlotBooker({ leads, date, slot, onPick, onClose }: {
 }
 
 function TodayView({
-  date, todaysAppts, followUpLeads, todoChips, kpis, openToday, onOpen, goToFilter, goToReports, goToSchedule,
+  date, todaysAppts, newToday, followUpLeads, todoChips, kpis, openToday, onOpen, goToFilter, goToReports, goToSchedule,
 }: {
   date: string
   todaysAppts: SchedEvent[]
+  newToday: Lead[]
   followUpLeads: Lead[]
   todoChips: { key: string; label: string; short: string; icon: string; count: number }[]
   kpis: { active: number; quotesPending: number; upcomingInstalls: number; outstanding: number }
@@ -943,6 +965,35 @@ function TodayView({
           </div>
         )}
       </section>
+
+      {/* New today — call now (speed to lead) */}
+      {newToday.length > 0 && (
+        <section className="bg-white rounded-xl border border-blue-200 p-4">
+          <p className="text-xs font-semibold uppercase tracking-wide text-blue-700 mb-1">🆕 New today ({newToday.length}) · call now</p>
+          <div>
+            {newToday.map((l) => {
+              const phone = String(l.phone ?? '')
+              const hasPhone = /\d/.test(phone)
+              return (
+                <div key={l.row} className="flex items-center gap-2 py-1.5 border-t border-stone-100 first:border-0">
+                  <button onClick={() => onOpen(l)} className="min-w-0 flex-1 text-left">
+                    <span className="font-semibold text-sm text-charcoal">{l.name || '(no name)'}</span>
+                    <span className="block text-[11px] text-warm-grey truncate">{[l.product, l.source].filter(Boolean).join(' · ') || 'New inquiry'}</span>
+                  </button>
+                  {hasPhone && (
+                    <>
+                      <a href={`tel:${phone}`} onClick={(e) => e.stopPropagation()} aria-label="Call"
+                        className="shrink-0 w-9 h-9 rounded-full bg-gold/10 text-gold flex items-center justify-center hover:bg-gold/20">📞</a>
+                      <a href={`sms:${phone}`} onClick={(e) => e.stopPropagation()} aria-label="Text"
+                        className="shrink-0 w-9 h-9 rounded-full bg-stone-100 text-charcoal flex items-center justify-center hover:bg-stone-200">💬</a>
+                    </>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Needs follow-up */}
       {followUpLeads.length > 0 && (
@@ -1058,6 +1109,7 @@ function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; o
   const [status, setStatus] = useState<Stage>(normalize(lead.status))
   const [followUp, setFollowUp] = useState(lead.followUp ?? '')
   const [address, setAddress] = useState(lead.address ?? '')
+  const [lostReason, setLostReason] = useState(lead.lostReason ?? '')
   const [apptDate, setApptDate] = useState(appt0.date)
   const [apptWindow, setApptWindow] = useState(appt0.window)
   const [installDate, setInstallDate] = useState(String(lead.installDate ?? ''))
@@ -1141,11 +1193,11 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
       const res = await fetch('/manage/api/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ row: lead.row, status, followUp, address, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(','), quote }),
+        body: JSON.stringify({ row: lead.row, status, followUp, address, lostReason, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(','), quote }),
       })
       const json = await res.json()
       if (!json?.ok) throw new Error(json?.error || 'Save failed')
-      onSaved(lead.row, { status, followUp, address, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(','), quote })
+      onSaved(lead.row, { status, followUp, address, lostReason, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(','), quote })
       setSaved(true)
       setTimeout(() => setSaved(false), 2500)
       return true
@@ -1162,6 +1214,7 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
     status !== normalize(lead.status) ||
     followUp !== (lead.followUp ?? '') ||
     address !== (lead.address ?? '') ||
+    lostReason !== (lead.lostReason ?? '') ||
     joinAppt(apptDate, apptWindow) !== String(lead.bookedDate ?? '') ||
     installDate !== String(lead.installDate ?? '') ||
     value !== String(lead.value ?? '') ||
@@ -1189,7 +1242,7 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
     const t = setTimeout(() => { void save() }, 900)
     return () => clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dirty, status, followUp, address, apptDate, apptWindow, installDate, value, material, install, deposit, payment, notes, tasks, quote])
+  }, [dirty, status, followUp, address, lostReason, apptDate, apptWindow, installDate, value, material, install, deposit, payment, notes, tasks, quote])
 
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
@@ -1243,6 +1296,16 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
                 {STAGES.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
             </label>
+
+            {status === 'Lost' && (
+              <label className="block text-xs text-warm-grey">Why did we lose it?
+                <select value={lostReason} onChange={(e) => setLostReason(e.target.value)} className={`${fieldCls} w-full mt-1`}>
+                  <option value="">Pick a reason…</option>
+                  {LOST_REASONS.map((r) => <option key={r} value={r}>{r}</option>)}
+                  {lostReason && !LOST_REASONS.includes(lostReason) && <option value={lostReason}>{lostReason}</option>}
+                </select>
+              </label>
+            )}
 
             {/* Appointment: day first, then time window */}
             <div>
@@ -1666,6 +1729,16 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
   const bySource = useMemo(() => group((l) => (l.source && String(l.source).trim()) || 'Unknown'), [scoped]) // eslint-disable-line react-hooks/exhaustive-deps
   const byProduct = useMemo(() => group((l) => productBucket(String(l.product))), [scoped]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const lostReasons = useMemo(() => {
+    const m: Record<string, number> = {}
+    scoped.filter((l) => normalize(l.status) === 'Lost').forEach((l) => {
+      const r = (l.lostReason && String(l.lostReason).trim()) || 'Not noted'
+      m[r] = (m[r] || 0) + 1
+    })
+    return Object.entries(m).sort((a, b) => b[1] - a[1])
+  }, [scoped])
+  const lostTotal = lostReasons.reduce((s, [, n]) => s + n, 0)
+
   const completed = scoped.filter((l) => normalize(l.status) === 'Completed').length
 
   return (
@@ -1735,6 +1808,23 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
 
       <GroupTable title="By source" col="Source" rows={bySource} />
       <GroupTable title="By product" col="Product" rows={byProduct} />
+
+      {lostTotal > 0 && (
+        <div className="bg-white rounded-xl border border-stone-100 p-4">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey">Why we lose</p>
+            <p className="text-sm text-warm-grey">{lostTotal} lost</p>
+          </div>
+          <div className="divide-y divide-stone-100">
+            {lostReasons.map(([r, n]) => (
+              <div key={r} className="flex items-center justify-between py-1.5 text-sm">
+                <span className="text-charcoal">{r}</span>
+                <span className="font-semibold text-charcoal tabular-nums">{n}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="bg-white rounded-xl border border-stone-100 p-4">
         <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey mb-1">Reviews</p>
