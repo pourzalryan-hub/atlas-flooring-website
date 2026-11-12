@@ -92,7 +92,7 @@ const money2 = (n: number) => '$' + n.toLocaleString('en-US', { minimumFractionD
 
 // --- App settings (targets + monthly ad spend / overhead / reviews) --------
 type MonthCfg = { adSpend?: number; overhead?: number; reviews?: number }
-type Settings = { targets?: Record<string, number>; months?: Record<string, MonthCfg>; lastAdSync?: string }
+type Settings = { targets?: Record<string, number>; months?: Record<string, MonthCfg>; lastAdSync?: string; defaultOverhead?: number }
 // Targets carried over from the old Command Center; each is editable in the app.
 const DEFAULT_TARGETS: Record<string, number> = { bookingRate: 0.4, closeRate: 0.45, avgTicket: 3000, netProfit: 0.18, reviews: 5 }
 
@@ -1752,6 +1752,10 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
     dirty.current = true
     setSettings((s) => ({ ...s, targets: { ...(s.targets || {}), [key]: v } }))
   }
+  const setDefaultOverhead = (v: number) => {
+    dirty.current = true
+    setSettings((s) => ({ ...s, defaultOverhead: v }))
+  }
   const setMonthCfg = (mk: string, key: keyof MonthCfg, v: number) => {
     dirty.current = true
     setSettings((s) => ({ ...s, months: { ...(s.months || {}), [mk]: { ...(s.months?.[mk] || {}), [key]: v } } }))
@@ -1831,8 +1835,11 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
     () => (period === 'month' ? [thisMonth] : Array.from(new Set(leads.map((l) => monthKey(l.date)).filter((k) => k !== 'other')))),
     [period, thisMonth, leads]
   )
+  const defaultOverhead = settings.defaultOverhead || 0
+  // A month with no overhead entered inherits the default; an explicit 0 stays 0.
+  const effOverhead = (k: string) => monthsCfg[k]?.overhead ?? defaultOverhead
   const periodSpend = scopeKeys.reduce((s, k) => s + (monthsCfg[k]?.adSpend || 0), 0)
-  const periodOverhead = scopeKeys.reduce((s, k) => s + (monthsCfg[k]?.overhead || 0), 0)
+  const periodOverhead = scopeKeys.reduce((s, k) => s + effOverhead(k), 0)
   const periodReviews = scopeKeys.reduce((s, k) => s + (monthsCfg[k]?.reviews || 0), 0)
 
   // Ad spend & return on ad spend for the period.
@@ -1945,7 +1952,24 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
             )
           })}
         </div>
-        <p className="text-[11px] text-stone-400 mt-2">{editTargets ? 'Set your targets — saved automatically.' : `Showing ${period === 'all' ? 'all time' : 'this month'}.`}</p>
+        {editTargets && (
+          <div className="flex items-center justify-between gap-2 py-2 mt-1 border-t border-stone-100">
+            <span className="min-w-0">
+              <span className="text-sm text-charcoal">Monthly overhead</span>
+              <span className="text-[11px] text-stone-400"> · applies to every month</span>
+            </span>
+            <span className="flex items-center gap-1 shrink-0">
+              <span className="text-xs text-warm-grey">$</span>
+              <input
+                type="number" inputMode="decimal" placeholder="0"
+                value={settings.defaultOverhead ?? ''}
+                onChange={(e) => setDefaultOverhead(Number(e.target.value) || 0)}
+                className="w-20 text-right text-sm border border-stone-200 rounded px-2 py-1"
+              />
+            </span>
+          </div>
+        )}
+        <p className="text-[11px] text-stone-400 mt-2">{editTargets ? 'Set your targets & overhead — saved automatically.' : `Showing ${period === 'all' ? 'all time' : 'this month'}.`}</p>
       </div>
 
       {/* Ad spend */}
@@ -2062,7 +2086,7 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
             {monthly.map(([k, v]) => {
               const cfg = monthsCfg[k] || {}
               const spend = cfg.adSpend || 0
-              const netProfit = v.revenue - v.material - v.install - (cfg.overhead || 0)
+              const netProfit = v.revenue - v.material - v.install - effOverhead(k)
               const open = editMonth === k
               return (
                 <div key={k} className="py-1">
@@ -2084,7 +2108,8 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
                               <div className="w-full text-sm border border-stone-200 bg-stone-50 text-charcoal rounded px-2 py-1.5 mt-0.5 tabular-nums">{cfg.adSpend ? dollars(cfg.adSpend) : '—'}</div>
                             ) : (
                               <input
-                                type="number" inputMode="decimal" placeholder="0"
+                                type="number" inputMode="decimal"
+                                placeholder={field === 'overhead' && defaultOverhead ? String(defaultOverhead) : '0'}
                                 value={cfg[field] ?? ''}
                                 onChange={(e) => setMonthCfg(k, field, Number(e.target.value) || 0)}
                                 className="w-full text-sm border border-stone-200 rounded px-2 py-1.5 mt-0.5"
