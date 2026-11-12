@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { googleAdsConfigured, syncAdSpend } from "@/lib/googleAds";
+import { placesConfigured, syncReviews } from "@/lib/places";
 
-// Daily automatic ad-spend sync, called by Vercel Cron (see vercel.json).
-// This route lives outside /manage so the auth middleware does not guard it;
-// instead it requires the Bearer CRON_SECRET that Vercel attaches to cron
-// requests, so it cannot be triggered by just anyone.
+// Daily automatic sync (ad spend + Google reviews), called by Vercel Cron (see
+// vercel.json). This route lives outside /manage so the auth middleware does
+// not guard it; instead it requires the Bearer CRON_SECRET that Vercel attaches
+// to cron requests, so it cannot be triggered by just anyone. Each sync runs
+// only if its own credentials are present.
 export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
@@ -15,9 +17,7 @@ export async function GET(req: Request) {
   if (req.headers.get("authorization") !== `Bearer ${secret}`) {
     return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
   }
-  if (!googleAdsConfigured()) {
-    return NextResponse.json({ ok: false, error: "Google Ads is not configured" }, { status: 400 });
-  }
-  const result = await syncAdSpend();
-  return NextResponse.json(result, { status: result.ok ? 200 : 502 });
+  const adSpend = googleAdsConfigured() ? await syncAdSpend() : { ok: false, error: "not configured" };
+  const reviews = placesConfigured() ? await syncReviews() : { ok: false, error: "not configured" };
+  return NextResponse.json({ ok: true, adSpend, reviews });
 }

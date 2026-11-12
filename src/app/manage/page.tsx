@@ -27,6 +27,10 @@ type Lead = {
   tasks?: string
   quote?: QuoteData
   lostReason?: string
+  reviewAsked?: string      // ISO date the review was first requested
+  reviewLastAsked?: string  // ISO date of the most recent nudge
+  reviewDone?: string       // ISO date we confirmed they left a review
+  reviewStop?: string       // ISO date we stopped asking (declined / not interested)
 }
 
 // Objection / follow-up scripts (from the old Command Center).
@@ -93,6 +97,7 @@ const money2 = (n: number) => '$' + n.toLocaleString('en-US', { minimumFractionD
 // --- App settings (targets + monthly ad spend / overhead / reviews) --------
 type MonthCfg = { adSpend?: number; overhead?: number; reviews?: number }
 type Settings = { targets?: Record<string, number>; months?: Record<string, MonthCfg>; lastAdSync?: string; defaultOverhead?: number }
+type ReviewState = { total: number; rating: number; syncedAt: string; baselines: Record<string, number> }
 // Targets carried over from the old Command Center; each is editable in the app.
 const DEFAULT_TARGETS: Record<string, number> = { bookingRate: 0.4, closeRate: 0.45, avgTicket: 3000, netProfit: 0.18, reviews: 5 }
 
@@ -261,6 +266,24 @@ const markAsked = (row: number) => {
   }
 }
 
+// Review follow-up queue. A finished job (Completed/Paid) that hasn't left a
+// review yet moves To ask → Waiting → Follow up as the days pass.
+const REVIEW_FOLLOWUP_DAYS = 4
+const reviewBuckets = (leads: Lead[]) => {
+  const toAsk: Lead[] = []
+  const waiting: Lead[] = []
+  const followUp: Lead[] = []
+  const got = leads.filter((l) => !!l.reviewDone)
+  leads
+    .filter((l) => ['Completed', 'Paid'].includes(normalize(l.status)) && !l.reviewDone && !l.reviewStop)
+    .forEach((l) => {
+      if (!l.reviewAsked) { toAsk.push(l); return }
+      const since = daysSince(String(l.reviewLastAsked || l.reviewAsked))
+      ;(since >= REVIEW_FOLLOWUP_DAYS ? followUp : waiting).push(l)
+    })
+  return { toAsk, waiting, followUp, got }
+}
+
 const isRealLead = (l: Lead) => {
   const validDate = /\d{4}/.test(String(l.date)) && !isNaN(new Date(l.date).getTime())
   return validDate || /\d/.test(String(l.phone ?? '')) || /@/.test(String(l.email ?? ''))
@@ -288,7 +311,7 @@ export default function ManagePage() {
   const [selected, setSelected] = useState<Lead | null>(null)
   const [month, setMonth] = useState('')
   const [adding, setAdding] = useState(false)
-  const [view, setView] = useState<'today' | 'leads' | 'schedule' | 'reports'>('today')
+  const [view, setView] = useState<'today' | 'leads' | 'schedule' | 'reports' | 'reviews'>('today')
   const [canImport, setCanImport] = useState(false)
   const [importing, setImporting] = useState(false)
   const [paying, setPaying] = useState<Lead | null>(null)
@@ -436,6 +459,20 @@ export default function ManagePage() {
     setSelected((s) => (s && s.row === row ? { ...s, ...patch } : s))
   }
 
+  // Optimistically patch a lead and persist it (used by the review queue).
+  const saveLead = async (lead: Lead, patch: Partial<Lead>) => {
+    onSaved(lead.row, patch)
+    try {
+      await fetch('/manage/api/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ row: lead.row, ...patch }),
+      })
+    } catch {
+      /* optimistic; a refresh reconciles */
+    }
+  }
+
   // Record a payment on a lead (bumps collected, may mark Paid).
   const recordPayment = async (lead: Lead, patch: Partial<Lead>) => {
     onSaved(lead.row, patch) // optimistic
@@ -464,6 +501,8 @@ export default function ManagePage() {
       /* optimistic; a refresh reconciles */
     }
   }
+
+  const reviewQ = useMemo(() => reviewBuckets(leads), [leads])
 
   const runImport = async () => {
     setImporting(true)
@@ -569,6 +608,8 @@ export default function ManagePage() {
             goToFilter={(f) => { setMonth('all'); setFilter(f); setView('leads') }}
             goToReports={() => setView('reports')}
             goToSchedule={() => setView('schedule')}
+            goToReviews={() => setView('reviews')}
+            reviewPending={reviewQ.toAsk.length + reviewQ.followUp.length}
           />
         ) : view === 'schedule' ? (
           <ScheduleView leads={leads} onOpen={(l) => setSelected(l)} onBook={bookSlot} />
@@ -576,6 +617,11 @@ export default function ManagePage() {
           <>
             <button onClick={() => setView('today')} className="text-sm text-warm-grey mb-3 hover:text-charcoal">‹ Back to Today</button>
             <ReportsView leads={leads} onOpen={(l) => setSelected(l)} onPay={(l) => setPaying(l)} />
+          </>
+        ) : view === 'reviews' ? (
+          <>
+            <button onClick={() => setView('today')} className="text-sm text-warm-grey mb-3 hover:text-charcoal">‹ Back to Today</button>
+            <ReviewsView leads={leads} onOpen={(l) => setSelected(l)} saveLead={saveLead} />
           </>
         ) : (
         <>
@@ -951,7 +997,7 @@ function SlotBooker({ leads, date, slot, onPick, onClose }: {
 }
 
 function TodayView({
-  date, todaysAppts, newToday, followUpLeads, todoChips, kpis, openToday, onOpen, goToFilter, goToReports, goToSchedule,
+  date, todaysAppts, newToday, followUpLeads, todoChips, kpis, openToday, onOpen, goToFilter, goToReports, goToSchedule, goToReviews, reviewPending,
 }: {
   date: string
   todaysAppts: SchedEvent[]
@@ -964,6 +1010,8 @@ function TodayView({
   goToFilter: (f: string) => void
   goToReports: () => void
   goToSchedule: () => void
+  goToReviews: () => void
+  reviewPending: number
 }) {
   const niceDate = (() => {
     const d = new Date(date + 'T00:00:00')
@@ -1058,6 +1106,15 @@ function TodayView({
           </div>
         </section>
       )}
+
+      {/* Reviews nudge */}
+      <button onClick={goToReviews} className={`w-full rounded-xl p-4 flex items-center justify-between text-left transition-colors ${reviewPending > 0 ? 'bg-gold/10 border border-gold/40 hover:border-gold' : 'bg-white border border-stone-100 hover:border-gold'}`}>
+        <div className="min-w-0">
+          <p className="text-sm font-semibold text-charcoal">⭐ Reviews</p>
+          <p className="text-[11px] text-warm-grey mt-0.5">{reviewPending > 0 ? `${reviewPending} to ask or follow up` : 'All caught up'}</p>
+        </div>
+        <span className={`shrink-0 text-sm font-semibold ${reviewPending > 0 ? 'text-gold' : 'text-warm-grey'}`}>{reviewPending > 0 ? `${reviewPending} →` : 'Open ›'}</span>
+      </button>
 
       {/* Money glance */}
       <button onClick={goToReports} className="w-full bg-charcoal rounded-xl p-4 flex items-center justify-between text-left">
@@ -1199,11 +1256,19 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
   const [saved, setSaved] = useState(false)
   const [reviewAsked, setReviewAsked] = useState<string | null>(null)
   useEffect(() => {
-    setReviewAsked(readAsked()[String(lead.row)] || null)
-  }, [lead.row])
+    setReviewAsked(lead.reviewAsked || readAsked()[String(lead.row)] || null)
+  }, [lead.row, lead.reviewAsked])
   const onAskReview = () => {
+    const now = toISO(new Date())
     markAsked(lead.row)
-    setReviewAsked(toISO(new Date()))
+    setReviewAsked(now)
+    const patch: Partial<Lead> = { reviewAsked: lead.reviewAsked || now, reviewLastAsked: now }
+    onSaved(lead.row, patch)
+    fetch('/manage/api/update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ row: lead.row, ...patch }),
+    }).catch(() => {})
   }
 
   const grossProfit = num(value) - num(material) - num(install)
@@ -1702,7 +1767,6 @@ function PaymentDialog({ lead, onClose, onRecorded }: { lead: Lead; onClose: () 
 
 function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead) => void; onPay: (l: Lead) => void }) {
   const [period, setPeriod] = useState<'month' | 'all'>('month')
-  const [askedCount, setAskedCount] = useState(0)
   const [scriptsOpen, setScriptsOpen] = useState(false)
   const [copied, setCopied] = useState('')
   const [settings, setSettings] = useState<Settings>({})
@@ -1718,7 +1782,6 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
       .then((j) => { if (j?.ok) { if (j.settings) setSettings(j.settings); setAdSyncOn(!!j.adSyncConfigured) } })
       .catch(() => {})
   useEffect(() => {
-    setAskedCount(Object.keys(readAsked()).length)
     loadSettings()
   }, [])
   const syncNow = async () => {
@@ -1728,7 +1791,7 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
       const res = await fetch('/manage/api/adspend/sync', { method: 'POST' })
       const j = await res.json()
       if (j?.ok) { await loadSettings(); setSyncNote('Synced ✓') }
-      else setSyncNote(j?.error || 'Sync failed')
+      else setSyncNote(String(j?.error || 'Sync failed').slice(0, 160))
     } catch {
       setSyncNote('Sync failed')
     } finally {
@@ -1827,7 +1890,8 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
   }, [scoped])
   const lostTotal = lostReasons.reduce((s, [, n]) => s + n, 0)
 
-  const completed = scoped.filter((l) => normalize(l.status) === 'Completed').length
+  const reviewGot = leads.filter((l) => l.reviewDone).length
+  const reviewReq = leads.filter((l) => l.reviewAsked || l.reviewDone).length
 
   // Month keys covered by the current period (this month, or all configured months).
   const monthsCfg = settings.months || {}
@@ -2152,10 +2216,10 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
       <div className="bg-white rounded-xl border border-stone-100 p-4">
         <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey mb-1">Reviews</p>
         <p className="text-sm text-charcoal">
-          {periodReviews} new {periodReviews === 1 ? 'review' : 'reviews'} logged · {completed} completed {completed === 1 ? 'job' : 'jobs'} · {askedCount} {askedCount === 1 ? 'request' : 'requests'} sent
+          {periodReviews} new {periodReviews === 1 ? 'review' : 'reviews'} logged · {reviewGot} received · {reviewReq} requested
         </p>
         <p className="text-[11px] text-warm-grey mt-1">
-          Open a completed job to text its Google review link. (Counted on this device.)
+          Manage the full ask &amp; follow-up queue under ⭐ Reviews on the Today page.
         </p>
       </div>
 
@@ -2181,6 +2245,138 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
             <p className="text-[11px] text-stone-400">Swap in the lead&rsquo;s name and product before sending.</p>
           </div>
         )}
+      </div>
+    </div>
+  )
+}
+
+function ReviewsView({ leads, onOpen, saveLead }: { leads: Lead[]; onOpen: (l: Lead) => void; saveLead: (l: Lead, p: Partial<Lead>) => void }) {
+  const [rs, setRs] = useState<ReviewState | null>(null)
+  const [configured, setConfigured] = useState(false)
+  const [syncing, setSyncing] = useState(false)
+  const [note, setNote] = useState('')
+  const loadReview = () =>
+    fetch('/manage/api/settings')
+      .then((r) => r.json())
+      .then((j) => { if (j?.ok) { setRs((j.settings?.reviewState as ReviewState) || null); setConfigured(!!j.reviewSyncConfigured) } })
+      .catch(() => {})
+  useEffect(() => { loadReview() }, [])
+  const syncNow = async () => {
+    setSyncing(true); setNote('')
+    try {
+      const res = await fetch('/manage/api/reviews/sync', { method: 'POST' })
+      const j = await res.json()
+      if (j?.ok) { await loadReview(); setNote('Synced ✓') } else setNote(String(j?.error || 'Sync failed').slice(0, 160))
+    } catch { setNote('Sync failed') } finally { setSyncing(false); setTimeout(() => setNote(''), 4000) }
+  }
+
+  const { toAsk, waiting, followUp, got } = reviewBuckets(leads)
+  const now = toISO(new Date())
+  const ask = (l: Lead) => saveLead(l, { reviewAsked: l.reviewAsked || now, reviewLastAsked: now })
+  const gotIt = (l: Lead) => saveLead(l, { reviewDone: now })
+  const stop = (l: Lead) => saveLead(l, { reviewStop: now })
+
+  const mk = now.slice(0, 7)
+  const newThis = rs?.baselines && rs.baselines[mk] != null ? Math.max(0, rs.total - rs.baselines[mk]) : undefined
+
+  return (
+    <div className="space-y-4">
+      {/* Live rating + sync */}
+      <div className="bg-white rounded-xl border border-stone-100 p-4">
+        {configured ? (
+          <div>
+            <div className="flex items-start justify-between gap-2">
+              <div className="min-w-0">
+                <p className="font-playfair text-2xl text-charcoal leading-none">{rs?.rating ? rs.rating.toFixed(1) : '—'} <span className="text-gold">★</span></p>
+                <p className="text-[11px] text-warm-grey mt-1">{rs ? `${rs.total} Google review${rs.total === 1 ? '' : 's'}${newThis != null ? ` · ${newThis} new this month` : ''}` : 'Tap Sync now to pull your live rating.'}</p>
+              </div>
+              <button onClick={syncNow} disabled={syncing} className="shrink-0 text-xs font-semibold bg-emerald-700 text-white rounded-full px-3 py-1 hover:bg-emerald-800 disabled:opacity-60">{syncing ? 'Syncing…' : 'Sync now'}</button>
+            </div>
+            <p className="text-[11px] text-warm-grey mt-2 break-words">{note || (rs?.syncedAt ? `Synced ${relTime(rs.syncedAt)}` : 'Updates daily')}</p>
+          </div>
+        ) : (
+          <p className="text-xs text-warm-grey">Connect Google reviews to show your live star rating and count here (see <span className="font-semibold">REVIEWS_SETUP.md</span>). The follow-up queue below works either way.</p>
+        )}
+      </div>
+
+      {/* Ask for a review */}
+      <section>
+        <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey mb-2">⭐ Ask for a review · {toAsk.length}</p>
+        {toAsk.length === 0 ? (
+          <p className="text-warm-grey text-sm">No finished jobs waiting to be asked. 🎉</p>
+        ) : (
+          <div className="space-y-2">
+            {toAsk.map((l) => (
+              <div key={l.row} className="bg-white rounded-xl border border-gold/40 p-3">
+                <button onClick={() => onOpen(l)} className="w-full min-w-0 text-left">
+                  <span className="text-sm font-semibold text-charcoal">{l.name || '(no name)'}</span>
+                  <span className="block text-[11px] text-warm-grey truncate">{[String(l.product || ''), normalize(l.status)].filter(Boolean).join(' · ')}</span>
+                </button>
+                <div className="flex items-center gap-2 mt-2">
+                  <a href={smsHref(String(l.phone || ''), reviewMessage(l.name))} onClick={() => ask(l)} className="flex-1 text-center text-xs font-semibold bg-gold text-white rounded-full px-3 py-2 hover:bg-gold-dark">⭐ Text review link</a>
+                  {/@/.test(String(l.email || '')) && (
+                    <a href={mailtoHref(String(l.email), 'A quick review for Atlas Rug & Design Centre?', reviewMessage(l.name))} onClick={() => ask(l)} className="text-xs font-semibold border border-stone-200 rounded-full px-3 py-2 hover:border-gold">Email</a>
+                  )}
+                  <button onClick={() => stop(l)} className="text-xs text-warm-grey px-1 hover:text-charcoal">Skip</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* Follow up */}
+      {followUp.length > 0 && (
+        <section>
+          <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey mb-2">🔔 Follow up · {followUp.length}</p>
+          <div className="space-y-2">
+            {followUp.map((l) => {
+              const since = daysSince(String(l.reviewLastAsked || l.reviewAsked))
+              return (
+                <div key={l.row} className="bg-white rounded-xl border border-amber-300 p-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <button onClick={() => onOpen(l)} className="min-w-0 text-left">
+                      <span className="text-sm font-semibold text-charcoal">{l.name || '(no name)'}</span>
+                      <span className="block text-[11px] text-amber-700">Asked {since}d ago · no review yet</span>
+                    </button>
+                    <button onClick={() => gotIt(l)} className="shrink-0 text-xs font-semibold text-emerald-700 hover:text-emerald-800">✓ Got it</button>
+                  </div>
+                  <div className="flex items-center gap-2 mt-2">
+                    <a href={smsHref(String(l.phone || ''), reviewMessage(l.name))} onClick={() => ask(l)} className="flex-1 text-center text-xs font-semibold bg-amber-500 text-white rounded-full px-3 py-2 hover:bg-amber-600">Text again</a>
+                    <button onClick={() => stop(l)} className="text-xs text-warm-grey px-1 hover:text-charcoal">Stop asking</button>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </section>
+      )}
+
+      {/* Waiting to hear back */}
+      {waiting.length > 0 && (
+        <section>
+          <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey mb-2">Waiting to hear back · {waiting.length}</p>
+          <div className="bg-white rounded-xl border border-stone-100 divide-y divide-stone-100">
+            {waiting.map((l) => {
+              const since = daysSince(String(l.reviewLastAsked || l.reviewAsked))
+              return (
+                <div key={l.row} className="flex items-center justify-between gap-2 p-3">
+                  <button onClick={() => onOpen(l)} className="min-w-0 text-left">
+                    <span className="text-sm text-charcoal">{l.name || '(no name)'}</span>
+                    <span className="text-[11px] text-warm-grey"> · asked {since === 0 ? 'today' : `${since}d ago`}</span>
+                  </button>
+                  <button onClick={() => gotIt(l)} className="shrink-0 text-xs font-semibold text-emerald-700 hover:text-emerald-800">✓ Got it</button>
+                </div>
+              )
+            })}
+          </div>
+        </section>
+      )}
+
+      {/* Got reviews */}
+      <div className="bg-white rounded-xl border border-stone-100 p-4">
+        <p className="text-sm text-charcoal"><span className="font-semibold">{got.length}</span> {got.length === 1 ? 'customer has' : 'customers have'} left a review 🎉</p>
+        <p className="text-[11px] text-warm-grey mt-1">Jobs show up here once they&apos;re Completed or Paid. We flag a follow-up after {REVIEW_FOLLOWUP_DAYS} days with no review.</p>
       </div>
     </div>
   )
