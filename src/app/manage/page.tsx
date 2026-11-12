@@ -267,7 +267,7 @@ export default function ManagePage() {
       const fixRows: number[] = []
       const swept = all.filter(isRealLead).map((l) => {
         const st = normalize(l.status)
-        if ((st === 'Booked' || st === 'Completed') && num(l.value) > 0 && num(l.deposit) >= num(l.value)) {
+        if ((st === 'Booked' || st === 'Completed') && num(l.value) > 0 && num(l.value) - num(l.deposit) < 0.01) {
           fixRows.push(l.row)
           return { ...l, status: 'Paid' }
         }
@@ -351,7 +351,7 @@ export default function ManagePage() {
     }).length
     const outstanding = leads
       .filter((l) => ['Sold', 'Booked', 'Completed'].includes(normalize(l.status)))
-      .reduce((s, l) => s + Math.max(0, Math.round(num(l.value) - num(l.deposit))), 0)
+      .reduce((s, l) => s + Math.max(0, num(l.value) - num(l.deposit)), 0)
     return { active, quotesPending, upcomingInstalls, outstanding }
   }, [leads])
 
@@ -983,7 +983,7 @@ function TodayView({
       {/* Money glance */}
       <button onClick={goToReports} className="w-full bg-charcoal rounded-xl p-4 flex items-center justify-between text-left">
         <div>
-          <p className="text-gold font-playfair text-2xl leading-none">{dollars(kpis.outstanding)}</p>
+          <p className="text-gold font-playfair text-2xl leading-none">{money2(kpis.outstanding)}</p>
           <p className="text-white/70 text-[11px] mt-1">Outstanding · {kpis.upcomingInstalls} upcoming install{kpis.upcomingInstalls === 1 ? '' : 's'}</p>
         </div>
         <span className="text-white/60 text-sm">Reports ›</span>
@@ -1423,7 +1423,7 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
             {hasValue && hasCosts && (
               <div className="flex justify-between items-center rounded-lg bg-emerald-50 text-emerald-800 px-3 py-2 text-sm">
                 <span>Gross profit <span className="opacity-70">(value − costs)</span></span>
-                <strong>{dollars(grossProfit)}</strong>
+                <strong>{money2(grossProfit)}</strong>
               </div>
             )}
 
@@ -1438,7 +1438,7 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
             {hasValue && (
               <div className="flex justify-between items-center rounded-lg bg-off-white border border-stone-100 px-3 py-2 text-sm">
                 <span className="text-warm-grey">Balance due <span className="opacity-70">(value − deposit)</span></span>
-                <strong className="text-charcoal">{dollars(balanceDue)}</strong>
+                <strong className="text-charcoal">{money2(balanceDue)}</strong>
               </div>
             )}
             {hasValue && balanceDue > 0 && (
@@ -1447,7 +1447,7 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
                 onClick={() => { setDeposit(String(num(value))); if (status !== 'Paid') setStatus('Paid') }}
                 className="w-full text-sm bg-emerald-600 text-white rounded-lg py-2 font-semibold hover:bg-emerald-700 transition-colors"
               >
-                Mark paid in full ({dollars(balanceDue)} received)
+                Mark paid in full ({money2(balanceDue)} received)
               </button>
             )}
           </div>
@@ -1550,7 +1550,7 @@ function PaymentDialog({ lead, onClose, onRecorded }: { lead: Lead; onClose: () 
   const value = num(lead.value)
   const already = num(lead.deposit)
   const balance = Math.max(0, value - already)
-  const [amount, setAmount] = useState(balance > 0 ? String(Math.round(balance)) : '')
+  const [amount, setAmount] = useState(balance > 0 ? balance.toFixed(2) : '')
   const [method, setMethod] = useState(lead.payment || PAY_METHODS[0])
 
   const amt = num(amount)
@@ -1573,7 +1573,7 @@ function PaymentDialog({ lead, onClose, onRecorded }: { lead: Lead; onClose: () 
           <button onClick={onClose} aria-label="Close" className="text-2xl leading-none">×</button>
           <div className="min-w-0">
             <p className="font-semibold truncate">{lead.name || '(no name)'}</p>
-            <p className="text-white/60 text-[11px]">{balance > 0 ? `Balance ${dollars(balance)}` : value > 0 ? 'Fully collected' : 'No job value set'}</p>
+            <p className="text-white/60 text-[11px]">{balance > 0 ? `Balance ${money2(balance)}` : value > 0 ? 'Fully collected' : 'No job value set'}</p>
           </div>
         </div>
         <div className="p-4 space-y-3">
@@ -1581,8 +1581,8 @@ function PaymentDialog({ lead, onClose, onRecorded }: { lead: Lead; onClose: () 
             <div className="flex items-center gap-2 mt-1">
               <input value={amount} onChange={(e) => setAmount(e.target.value)} inputMode="decimal" placeholder="$" autoFocus className={`${fieldCls} flex-1`} />
               {balance > 0 && (
-                <button type="button" onClick={() => setAmount(String(Math.round(balance)))} className="shrink-0 text-xs text-gold font-semibold underline">
-                  Full ({dollars(balance)})
+                <button type="button" onClick={() => setAmount(balance.toFixed(2))} className="shrink-0 text-xs text-gold font-semibold underline">
+                  Full ({money2(balance)})
                 </button>
               )}
             </div>
@@ -1601,7 +1601,7 @@ function PaymentDialog({ lead, onClose, onRecorded }: { lead: Lead; onClose: () 
           {willBePaid && <p className="text-[11px] text-emerald-700">✓ Covers the balance — job will be marked Paid.</p>}
           <button onClick={save} disabled={amt <= 0}
             className="w-full bg-gold text-white font-semibold py-3 rounded-lg hover:bg-gold-dark transition-colors disabled:opacity-50">
-            Record {amt > 0 ? dollars(amt) : 'payment'}
+            Record {amt > 0 ? money2(amt) : 'payment'}
           </button>
         </div>
       </div>
@@ -1635,8 +1635,8 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
   const owed = useMemo(() => {
     const rows = leads
       .filter((l) => ['Sold', 'Booked', 'Completed'].includes(normalize(l.status)))
-      .map((l) => ({ l, amt: Math.max(0, Math.round(num(l.value) - num(l.deposit))) }))
-      .filter((x) => x.amt > 0)
+      .map((l) => ({ l, amt: Math.max(0, num(l.value) - num(l.deposit)) }))
+      .filter((x) => x.amt >= 0.01) // hide sub-penny leftovers, keep real cents
       .sort((a, b) => b.amt - a.amt)
     return { rows, total: rows.reduce((s, x) => s + x.amt, 0) }
   }, [leads])
@@ -1686,7 +1686,7 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
       <div className="bg-white rounded-xl border border-stone-100 p-4">
         <div className="flex items-center justify-between mb-2">
           <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey">💵 Collected · {period === 'all' ? 'all time' : 'this month'}</p>
-          <p className="font-playfair text-lg text-emerald-700">{dollars(collected.total)}</p>
+          <p className="font-playfair text-lg text-emerald-700">{money2(collected.total)}</p>
         </div>
         {collected.rows.length === 0 ? (
           <p className="text-warm-grey text-sm">Nothing collected yet.</p>
@@ -1699,7 +1699,7 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
                   {x.l.payment && <span className="text-[11px] text-warm-grey"> · {x.l.payment}</span>}
                   {normalize(x.l.status) === 'Paid' && <span className="text-[11px] text-emerald-700"> · paid in full</span>}
                 </span>
-                <span className="text-sm font-semibold text-charcoal tabular-nums">{dollars(x.amt)}</span>
+                <span className="text-sm font-semibold text-charcoal tabular-nums">{money2(x.amt)}</span>
               </button>
             ))}
           </div>
@@ -1710,7 +1710,7 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
       <div className="bg-white rounded-xl border border-stone-100 p-4">
         <div className="flex items-center justify-between mb-2">
           <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey">📥 Owed to you <span className="text-stone-400 normal-case font-normal">(all open jobs)</span></p>
-          <p className="font-playfair text-lg text-charcoal">{dollars(owed.total)}</p>
+          <p className="font-playfair text-lg text-charcoal">{money2(owed.total)}</p>
         </div>
         {owed.rows.length === 0 ? (
           <p className="text-warm-grey text-sm">Nothing outstanding. 🎉</p>
@@ -1722,7 +1722,7 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
                   <span className="text-sm text-charcoal">{x.l.name || '(no name)'}</span>
                   <span className="text-[11px] text-warm-grey"> · {normalize(x.l.status)}</span>
                 </button>
-                <span className="text-sm font-semibold text-red-600 tabular-nums">{dollars(x.amt)}</span>
+                <span className="text-sm font-semibold text-red-600 tabular-nums">{money2(x.amt)}</span>
                 <button onClick={() => onPay(x.l)} className="shrink-0 text-xs font-semibold bg-gold text-white rounded-full px-3 py-1 hover:bg-gold-dark">
                   Record
                 </button>
