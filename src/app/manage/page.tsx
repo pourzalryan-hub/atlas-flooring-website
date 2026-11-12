@@ -249,6 +249,7 @@ export default function ManagePage() {
   const [view, setView] = useState<'today' | 'leads' | 'schedule' | 'reports'>('today')
   const [canImport, setCanImport] = useState(false)
   const [importing, setImporting] = useState(false)
+  const [paying, setPaying] = useState<Lead | null>(null)
 
   const load = async (silent = false) => {
     if (!silent) setLoading(true)
@@ -376,6 +377,20 @@ export default function ManagePage() {
     setSelected((s) => (s && s.row === row ? { ...s, ...patch } : s))
   }
 
+  // Record a payment on a lead (bumps collected, may mark Paid).
+  const recordPayment = async (lead: Lead, patch: Partial<Lead>) => {
+    onSaved(lead.row, patch) // optimistic
+    try {
+      await fetch('/manage/api/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ row: lead.row, ...patch }),
+      })
+    } catch {
+      /* optimistic; a refresh reconciles */
+    }
+  }
+
   // Book a lead's measure into an open slot from the Schedule availability grid.
   const bookSlot = async (lead: Lead, dateISO: string, slot: string) => {
     const bookedDate = `${dateISO} ${slot}`
@@ -494,7 +509,7 @@ export default function ManagePage() {
         ) : view === 'reports' ? (
           <>
             <button onClick={() => setView('today')} className="text-sm text-warm-grey mb-3 hover:text-charcoal">‹ Back to Today</button>
-            <ReportsView leads={leads} onOpen={(l) => setSelected(l)} />
+            <ReportsView leads={leads} onOpen={(l) => setSelected(l)} onPay={(l) => setPaying(l)} />
           </>
         ) : (
         <>
@@ -583,6 +598,13 @@ export default function ManagePage() {
 
       {selected && <Detail lead={selected} onClose={() => setSelected(null)} onSaved={onSaved} />}
       {adding && <AddLead onClose={() => setAdding(false)} onAdded={load} />}
+      {paying && (
+        <PaymentDialog
+          lead={paying}
+          onClose={() => setPaying(null)}
+          onRecorded={(patch) => recordPayment(paying, patch)}
+        />
+      )}
     </main>
   )
 }
@@ -1402,6 +1424,15 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
                 <strong className="text-charcoal">{dollars(balanceDue)}</strong>
               </div>
             )}
+            {hasValue && balanceDue > 0 && (
+              <button
+                type="button"
+                onClick={() => { setDeposit(String(num(value))); if (status !== 'Paid') setStatus('Paid') }}
+                className="w-full text-sm bg-emerald-600 text-white rounded-lg py-2 font-semibold hover:bg-emerald-700 transition-colors"
+              >
+                Mark paid in full ({dollars(balanceDue)} received)
+              </button>
+            )}
           </div>
 
           {/* Reviews */}
@@ -1497,7 +1528,71 @@ function GroupTable({ title, col, rows }: { title: string; col: string; rows: Gr
   )
 }
 
-function ReportsView({ leads, onOpen }: { leads: Lead[]; onOpen: (l: Lead) => void }) {
+const PAY_METHODS = ['e-transfer', 'Cash', 'Credit', 'Debit', 'Cheque']
+function PaymentDialog({ lead, onClose, onRecorded }: { lead: Lead; onClose: () => void; onRecorded: (patch: Partial<Lead>) => void }) {
+  const value = num(lead.value)
+  const already = num(lead.deposit)
+  const balance = Math.max(0, value - already)
+  const [amount, setAmount] = useState(balance > 0 ? String(Math.round(balance)) : '')
+  const [method, setMethod] = useState(lead.payment || PAY_METHODS[0])
+
+  const amt = num(amount)
+  const newCollected = already + amt
+  const willBePaid = value > 0 && newCollected >= value
+
+  const save = () => {
+    if (amt <= 0) return
+    const patch: Partial<Lead> = { deposit: String(newCollected), payment: method }
+    if (willBePaid) patch.status = 'Paid'
+    onRecorded(patch)
+    onClose()
+  }
+
+  return (
+    <div className="fixed inset-0 z-[70] flex items-end sm:items-center justify-center">
+      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+      <div className="relative bg-off-white w-full sm:max-w-sm rounded-t-2xl sm:rounded-2xl overflow-hidden flex flex-col shadow-2xl">
+        <div className="bg-charcoal text-white px-4 py-3 flex items-center gap-3">
+          <button onClick={onClose} aria-label="Close" className="text-2xl leading-none">×</button>
+          <div className="min-w-0">
+            <p className="font-semibold truncate">{lead.name || '(no name)'}</p>
+            <p className="text-white/60 text-[11px]">{balance > 0 ? `Balance ${dollars(balance)}` : value > 0 ? 'Fully collected' : 'No job value set'}</p>
+          </div>
+        </div>
+        <div className="p-4 space-y-3">
+          <label className="block text-xs text-warm-grey">Amount received
+            <div className="flex items-center gap-2 mt-1">
+              <input value={amount} onChange={(e) => setAmount(e.target.value)} inputMode="decimal" placeholder="$" autoFocus className={`${fieldCls} flex-1`} />
+              {balance > 0 && (
+                <button type="button" onClick={() => setAmount(String(Math.round(balance)))} className="shrink-0 text-xs text-gold font-semibold underline">
+                  Full ({dollars(balance)})
+                </button>
+              )}
+            </div>
+          </label>
+          <div>
+            <p className="text-xs text-warm-grey mb-1">How</p>
+            <div className="flex flex-wrap gap-2">
+              {PAY_METHODS.map((m) => (
+                <button key={m} type="button" onClick={() => setMethod(m)}
+                  className={`px-3 py-1.5 rounded-full text-sm border transition-colors ${method === m ? 'bg-gold text-white border-gold' : 'bg-white text-charcoal border-stone-200'}`}>
+                  {m}
+                </button>
+              ))}
+            </div>
+          </div>
+          {willBePaid && <p className="text-[11px] text-emerald-700">✓ Covers the balance — job will be marked Paid.</p>}
+          <button onClick={save} disabled={amt <= 0}
+            className="w-full bg-gold text-white font-semibold py-3 rounded-lg hover:bg-gold-dark transition-colors disabled:opacity-50">
+            Record {amt > 0 ? dollars(amt) : 'payment'}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead) => void; onPay: (l: Lead) => void }) {
   const [period, setPeriod] = useState<'month' | 'all'>('month')
   const [askedCount, setAskedCount] = useState(0)
   useEffect(() => {
@@ -1605,16 +1700,20 @@ function ReportsView({ leads, onOpen }: { leads: Lead[]; onOpen: (l: Lead) => vo
         ) : (
           <div className="divide-y divide-stone-100">
             {owed.rows.map((x) => (
-              <button key={x.l.row} onClick={() => onOpen(x.l)} className="w-full flex items-center justify-between gap-2 py-2 text-left hover:bg-off-white rounded">
-                <span className="min-w-0">
+              <div key={x.l.row} className="flex items-center justify-between gap-2 py-2">
+                <button onClick={() => onOpen(x.l)} className="min-w-0 text-left flex-1">
                   <span className="text-sm text-charcoal">{x.l.name || '(no name)'}</span>
                   <span className="text-[11px] text-warm-grey"> · {normalize(x.l.status)}</span>
-                </span>
+                </button>
                 <span className="text-sm font-semibold text-red-600 tabular-nums">{dollars(x.amt)}</span>
-              </button>
+                <button onClick={() => onPay(x.l)} className="shrink-0 text-xs font-semibold bg-gold text-white rounded-full px-3 py-1 hover:bg-gold-dark">
+                  Record
+                </button>
+              </div>
             ))}
           </div>
         )}
+        {owed.rows.length > 0 && <p className="text-[11px] text-stone-400 mt-2">Tap a name to open the lead, or <span className="text-gold font-semibold">Record</span> to log a payment.</p>}
       </div>
 
       <GroupTable title="By source" col="Source" rows={bySource} />
