@@ -494,7 +494,7 @@ export default function ManagePage() {
         ) : view === 'reports' ? (
           <>
             <button onClick={() => setView('today')} className="text-sm text-warm-grey mb-3 hover:text-charcoal">‹ Back to Today</button>
-            <ReportsView leads={leads} />
+            <ReportsView leads={leads} onOpen={(l) => setSelected(l)} />
           </>
         ) : (
         <>
@@ -1497,7 +1497,7 @@ function GroupTable({ title, col, rows }: { title: string; col: string; rows: Gr
   )
 }
 
-function ReportsView({ leads }: { leads: Lead[] }) {
+function ReportsView({ leads, onOpen }: { leads: Lead[]; onOpen: (l: Lead) => void }) {
   const [period, setPeriod] = useState<'month' | 'all'>('month')
   const [askedCount, setAskedCount] = useState(0)
   useEffect(() => {
@@ -1509,6 +1509,25 @@ function ReportsView({ leads }: { leads: Lead[] }) {
     () => (period === 'all' ? leads : leads.filter((l) => monthKey(l.date) === thisMonth)),
     [leads, period, thisMonth]
   )
+
+  // Money collected (period): full value for Paid jobs, deposit for the rest.
+  const collected = useMemo(() => {
+    const rows = scoped
+      .map((l) => ({ l, amt: normalize(l.status) === 'Paid' ? num(l.value) : num(l.deposit) }))
+      .filter((x) => x.amt > 0)
+      .sort((a, b) => b.amt - a.amt)
+    return { rows, total: rows.reduce((s, x) => s + x.amt, 0) }
+  }, [scoped])
+
+  // Money owed (all open won jobs, any month): value minus deposit, if positive.
+  const owed = useMemo(() => {
+    const rows = leads
+      .filter((l) => ['Sold', 'Booked', 'Completed'].includes(normalize(l.status)))
+      .map((l) => ({ l, amt: Math.max(0, num(l.value) - num(l.deposit)) }))
+      .filter((x) => x.amt > 0)
+      .sort((a, b) => b.amt - a.amt)
+    return { rows, total: rows.reduce((s, x) => s + x.amt, 0) }
+  }, [leads])
 
   const stats = useMemo(() => {
     const won = scoped.filter((l) => WON.includes(normalize(l.status)))
@@ -1549,6 +1568,53 @@ function ReportsView({ leads }: { leads: Lead[] }) {
         <Stat label="Leads" value={String(stats.leads)} />
         <Stat label="Booked" value={String(stats.booked)} />
         <Stat label="Win rate" value={stats.winRate ? `${stats.winRate}%` : '—'} />
+      </div>
+
+      {/* Collected */}
+      <div className="bg-white rounded-xl border border-stone-100 p-4">
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey">💵 Collected · {period === 'all' ? 'all time' : 'this month'}</p>
+          <p className="font-playfair text-lg text-emerald-700">{dollars(collected.total)}</p>
+        </div>
+        {collected.rows.length === 0 ? (
+          <p className="text-warm-grey text-sm">Nothing collected yet.</p>
+        ) : (
+          <div className="divide-y divide-stone-100">
+            {collected.rows.map((x) => (
+              <button key={x.l.row} onClick={() => onOpen(x.l)} className="w-full flex items-center justify-between gap-2 py-2 text-left hover:bg-off-white rounded">
+                <span className="min-w-0">
+                  <span className="text-sm text-charcoal">{x.l.name || '(no name)'}</span>
+                  {x.l.payment && <span className="text-[11px] text-warm-grey"> · {x.l.payment}</span>}
+                  {normalize(x.l.status) === 'Paid' && <span className="text-[11px] text-emerald-700"> · paid in full</span>}
+                </span>
+                <span className="text-sm font-semibold text-charcoal tabular-nums">{dollars(x.amt)}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Owed */}
+      <div className="bg-white rounded-xl border border-stone-100 p-4">
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey">📥 Owed to you <span className="text-stone-400 normal-case font-normal">(all open jobs)</span></p>
+          <p className="font-playfair text-lg text-charcoal">{dollars(owed.total)}</p>
+        </div>
+        {owed.rows.length === 0 ? (
+          <p className="text-warm-grey text-sm">Nothing outstanding. 🎉</p>
+        ) : (
+          <div className="divide-y divide-stone-100">
+            {owed.rows.map((x) => (
+              <button key={x.l.row} onClick={() => onOpen(x.l)} className="w-full flex items-center justify-between gap-2 py-2 text-left hover:bg-off-white rounded">
+                <span className="min-w-0">
+                  <span className="text-sm text-charcoal">{x.l.name || '(no name)'}</span>
+                  <span className="text-[11px] text-warm-grey"> · {normalize(x.l.status)}</span>
+                </span>
+                <span className="text-sm font-semibold text-red-600 tabular-nums">{dollars(x.amt)}</span>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <GroupTable title="By source" col="Source" rows={bySource} />
