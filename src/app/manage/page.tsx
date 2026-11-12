@@ -1210,6 +1210,11 @@ function Row({ lead, onOpen, reason }: { lead: Lead; onOpen: () => void; reason?
 function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; onSaved: (row: number, patch: Partial<Lead>) => void }) {
   const appt0 = parseAppt(String(lead.bookedDate ?? ''))
   const [status, setStatus] = useState<Stage>(normalize(lead.status))
+  const [name, setName] = useState(lead.name ?? '')
+  const [phone, setPhone] = useState(String(lead.phone ?? ''))
+  const [email, setEmail] = useState(lead.email ?? '')
+  const [product, setProduct] = useState(lead.product ?? '')
+  const hasPhone = /\d/.test(phone)
   const [followUp, setFollowUp] = useState(lead.followUp ?? '')
   const [address, setAddress] = useState(lead.address ?? '')
   const [lostReason, setLostReason] = useState(lead.lostReason ?? '')
@@ -1293,8 +1298,6 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
   const balanceDue = num(value) - num(deposit)
   const hasValue = num(value) > 0
   const hasCosts = num(material) > 0 || num(install) > 0
-  const phone = String(lead.phone ?? '')
-  const hasPhone = /\d/.test(phone)
 
   const save = async (): Promise<boolean> => {
     setSaving(true)
@@ -1304,11 +1307,11 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
       const res = await fetch('/manage/api/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ row: lead.row, status, followUp, address, lostReason, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(','), quote }),
+        body: JSON.stringify({ row: lead.row, name, phone, email, product, status, followUp, address, lostReason, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(','), quote }),
       })
       const json = await res.json()
       if (!json?.ok) throw new Error(json?.error || 'Save failed')
-      onSaved(lead.row, { status, followUp, address, lostReason, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(','), quote })
+      onSaved(lead.row, { name, phone, email, product, status, followUp, address, lostReason, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(','), quote })
       setSaved(true)
       setTimeout(() => setSaved(false), 2500)
       return true
@@ -1323,6 +1326,10 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
   // Have any fields been edited since the lead was opened?
   const dirty =
     status !== normalize(lead.status) ||
+    name !== (lead.name ?? '') ||
+    phone !== String(lead.phone ?? '') ||
+    email !== (lead.email ?? '') ||
+    product !== (lead.product ?? '') ||
     followUp !== (lead.followUp ?? '') ||
     address !== (lead.address ?? '') ||
     lostReason !== (lead.lostReason ?? '') ||
@@ -1353,7 +1360,7 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
     const t = setTimeout(() => { void save() }, 900)
     return () => clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dirty, status, followUp, address, lostReason, apptDate, apptWindow, installDate, value, material, install, deposit, payment, notes, tasks, quote])
+  }, [dirty, name, phone, email, product, status, followUp, address, lostReason, apptDate, apptWindow, installDate, value, material, install, deposit, payment, notes, tasks, quote])
 
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
@@ -1363,8 +1370,8 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
         <div className="sticky top-0 bg-charcoal text-white px-4 py-3 flex items-center gap-3 z-10">
           <button onClick={handleClose} aria-label="Close" className="text-2xl leading-none">×</button>
           <div className="min-w-0 flex-1">
-            <p className="font-semibold truncate">{lead.name || '(no name)'}</p>
-            <p className="text-white/60 text-[11px] truncate">{[lead.date, lead.product].filter(Boolean).join(' · ')}</p>
+            <p className="font-semibold truncate">{name || '(no name)'}</p>
+            <p className="text-white/60 text-[11px] truncate">{[lead.date, product].filter(Boolean).join(' · ')}</p>
           </div>
           <span className={`shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full ${STAGE_STYLE[normalize(lead.status)]}`}>
             {normalize(lead.status)}
@@ -1378,20 +1385,37 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
               className={`text-center rounded-lg py-2.5 text-sm font-semibold ${hasPhone ? 'bg-gold text-white' : 'bg-stone-100 text-stone-400 pointer-events-none'}`}>📞 Call</a>
             <a href={hasPhone ? `sms:${phone}` : undefined}
               className={`text-center rounded-lg py-2.5 text-sm font-semibold ${hasPhone ? 'bg-white border border-stone-300 text-charcoal' : 'bg-stone-100 text-stone-400 pointer-events-none'}`}>💬 Text</a>
-            <a href={lead.email ? mailtoHref(lead.email, REPLY_SUBJECT, replyMessage(lead.name, String(lead.product || ''))) : undefined}
-              className={`text-center rounded-lg py-2.5 text-sm font-semibold ${lead.email ? 'bg-white border border-stone-300 text-charcoal' : 'bg-stone-100 text-stone-400 pointer-events-none'}`}>✉️ Email</a>
+            <a href={email ? mailtoHref(email, REPLY_SUBJECT, replyMessage(name, product)) : undefined}
+              className={`text-center rounded-lg py-2.5 text-sm font-semibold ${email ? 'bg-white border border-stone-300 text-charcoal' : 'bg-stone-100 text-stone-400 pointer-events-none'}`}>✉️ Email</a>
           </div>
-          <div className="text-sm text-warm-grey space-y-0.5">
-            {hasPhone && <p>📞 {phone}</p>}
-            {lead.email && <p className="break-all">✉️ {lead.email}</p>}
+          {/* Contact — editable */}
+          <div className="bg-white rounded-xl border border-stone-100 p-4 space-y-2.5">
+            <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey">Contact</p>
+            <label className="block text-xs text-warm-grey">Name
+              <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Full name" className={`${fieldCls} w-full mt-1`} />
+            </label>
+            <div className="grid grid-cols-2 gap-2">
+              <label className="block text-xs text-warm-grey">Phone
+                <input value={phone} onChange={(e) => setPhone(e.target.value)} type="tel" inputMode="tel" placeholder="(416) …" className={`${fieldCls} w-full mt-1`} />
+              </label>
+              <label className="block text-xs text-warm-grey">Email
+                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" inputMode="email" placeholder="name@…" className={`${fieldCls} w-full mt-1`} />
+              </label>
+            </div>
+            <label className="block text-xs text-warm-grey">Product / interest
+              <input value={product} onChange={(e) => setProduct(e.target.value)} placeholder="e.g. Carpet & Broadloom" className={`${fieldCls} w-full mt-1`} />
+            </label>
+            <label className="block text-xs text-warm-grey">Address
+              <input value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Street, city" className={`${fieldCls} w-full mt-1`} />
+            </label>
             {address && (
-              <p>
+              <p className="text-xs">
                 <MapLink address={address} className="text-gold underline" />
                 <span className="text-warm-grey"> — tap for directions</span>
               </p>
             )}
             {lead.source && (
-              <p className="pt-1">
+              <p>
                 <span className="inline-block text-[11px] font-semibold text-charcoal bg-stone-100 rounded-full px-2 py-0.5">
                   🔗 {lead.source}
                 </span>
@@ -1447,10 +1471,6 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
                 </div>
               )}
             </div>
-
-            <label className="block text-xs text-warm-grey">Job address
-              <input value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Street, city" className={`${fieldCls} w-full mt-1`} />
-            </label>
 
             <label className="block text-xs text-warm-grey">Next follow-up
               <input value={followUp} onChange={(e) => setFollowUp(e.target.value)} placeholder="e.g. Nov 20" className={`${fieldCls} w-full mt-1`} />
