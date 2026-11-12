@@ -263,8 +263,25 @@ export default function ManagePage() {
       const json = await res.json()
       if (!json?.ok) throw new Error(json?.error || 'Could not load')
       const all: Lead[] = Array.isArray(json.leads) ? json.leads : []
-      setLeads(all.filter(isRealLead))
+      // Auto-categorize fully-collected won jobs as "Paid".
+      const fixRows: number[] = []
+      const swept = all.filter(isRealLead).map((l) => {
+        const st = normalize(l.status)
+        if ((st === 'Booked' || st === 'Completed') && num(l.value) > 0 && num(l.deposit) >= num(l.value)) {
+          fixRows.push(l.row)
+          return { ...l, status: 'Paid' }
+        }
+        return l
+      })
+      setLeads(swept)
       setCanImport(!!json.canImport)
+      fixRows.forEach((row) => {
+        fetch('/manage/api/update', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ row, status: 'Paid' }),
+        }).catch(() => {})
+      })
     } catch (e) {
       if (!silent) setError(e instanceof Error ? e.message : 'Could not load leads')
     } finally {
