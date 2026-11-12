@@ -668,41 +668,57 @@ function ScheduleView({ leads, onOpen, onBook }: { leads: Lead[]; onOpen: (l: Le
           className="w-10 h-10 rounded-full bg-white border border-stone-200 text-charcoal text-xl leading-none hover:border-gold">›</button>
       </div>
 
-      {/* Open slots — ideal 2-a-day windows, Mon–Sat */}
+      {/* Open slots — ideal 2-a-day windows + any other booked times, Mon–Sat */}
       <div className="bg-white rounded-xl border border-stone-100 p-4 mb-3">
         <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey mb-2">Open slots</p>
-        <div className="grid grid-cols-[auto_1fr_1fr] gap-x-2 gap-y-1.5 items-center">
+        <div className="grid grid-cols-[3.2rem_1fr_1fr] gap-x-2 mb-1">
           <span />
           {IDEAL_SLOTS.map((s) => (
             <span key={s} className="text-[11px] text-warm-grey text-center">{s}</span>
           ))}
+        </div>
+        <div className="space-y-1.5">
           {Array.from({ length: 6 }, (_, i) => {
             const d = new Date(start)
             d.setDate(start.getDate() + i)
             const diso = toISO(d)
             const label = d.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric' })
+            const dayMeasures = events.filter((e) => e.kind === 'measure' && e.date === diso)
+            const extra = dayMeasures.filter((e) => !IDEAL_SLOTS.includes(e.badge))
             return (
-              <div key={diso} className="contents">
-                <span className={`text-xs ${diso === todayISO ? 'text-gold font-semibold' : 'text-charcoal'}`}>{label}</span>
-                {IDEAL_SLOTS.map((slot) => {
-                  const taken = events.find((e) => e.kind === 'measure' && e.date === diso && e.badge === slot)
-                  return taken ? (
-                    <button key={slot} onClick={() => onOpen(taken.lead)}
-                      className="text-[11px] rounded-md bg-stone-100 text-charcoal px-2 py-1 truncate text-center hover:bg-stone-200">
-                      {firstName(taken.lead.name)}
-                    </button>
-                  ) : (
-                    <button key={slot} onClick={() => setBooking({ date: diso, slot })}
-                      className="text-[11px] rounded-md bg-emerald-50 text-emerald-700 px-2 py-1 text-center font-semibold hover:bg-emerald-100">
-                      Open +
-                    </button>
-                  )
-                })}
+              <div key={diso}>
+                <div className="grid grid-cols-[3.2rem_1fr_1fr] gap-x-2 items-center">
+                  <span className={`text-xs ${diso === todayISO ? 'text-gold font-semibold' : 'text-charcoal'}`}>{label}</span>
+                  {IDEAL_SLOTS.map((slot) => {
+                    const taken = dayMeasures.find((e) => e.badge === slot)
+                    return taken ? (
+                      <button key={slot} onClick={() => onOpen(taken.lead)}
+                        className="text-[11px] rounded-md bg-stone-100 text-charcoal px-2 py-1 truncate text-center hover:bg-stone-200">
+                        {firstName(taken.lead.name)}
+                      </button>
+                    ) : (
+                      <button key={slot} onClick={() => setBooking({ date: diso, slot })}
+                        className="text-[11px] rounded-md bg-emerald-50 text-emerald-700 px-2 py-1 text-center font-semibold hover:bg-emerald-100">
+                        Open +
+                      </button>
+                    )
+                  })}
+                </div>
+                {extra.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-1 pl-[3.7rem]">
+                    {extra.map((e, idx) => (
+                      <button key={idx} onClick={() => onOpen(e.lead)}
+                        className="text-[10px] font-semibold rounded px-2 py-0.5 bg-amber-100 text-amber-800 hover:bg-amber-200">
+                        {e.badge} · {firstName(e.lead.name)}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             )
           })}
         </div>
-        <p className="text-[11px] text-stone-400 mt-2">Tap <span className="text-emerald-700 font-semibold">Open +</span> to book a lead into that slot, or a name to open that lead.</p>
+        <p className="text-[11px] text-stone-400 mt-2">Tap <span className="text-emerald-700 font-semibold">Open +</span> to book a lead in, or a name to open it. Other booked times show in amber.</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
