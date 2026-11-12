@@ -8,7 +8,7 @@ const products = [
   { label: "Engineered Hardwood", href: "/engineered-hardwood" },
   { label: "Carpet & Broadloom", href: "/carpet" },
   { label: "Carpet Samples", href: "/carpet/samples" },
-  { label: "Instant Carpet Estimate", href: "/carpet-estimate" },
+  { label: "Book a Free Measure", href: "/carpet-estimate" },
   { label: "Stair Runners", href: "/stair-runners" },
   { label: "Luxury Vinyl", href: "/vinyl" },
   { label: "Laminate Flooring", href: "/laminate" },

@@ -7,7 +7,7 @@ import FAQAccordion from "@/components/FAQAccordion";
 import ProcessSteps from "@/components/ProcessSteps";
 import ReviewsSection from "@/components/ReviewsSection";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
-import CarpetEstimator from "@/components/CarpetEstimator";
+import LeadForm from "@/components/LeadForm";
 import FaqSchema from "@/components/FaqSchema";
 import { carpetAreas } from "@/lib/carpet-areas";
 
@@ -482,23 +482,29 @@ export default function CarpetPage() {
         </div>
       </section>
 
-      {/* Instant Estimate — optional, offered lower on the page */}
+      {/* Book a free in-home measure */}
       <section id="estimate" className="bg-charcoal py-16 px-4 scroll-mt-24">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-xl mx-auto">
           <div className="text-center mb-8">
             <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gold mb-3 font-lato">
-              Prefer a Ballpark First?
+              Your Exact Price, Free
             </p>
             <h2 className="font-playfair text-4xl text-white">
-              Get an Instant Estimate
+              Book a Free In-Home Measure
             </h2>
             <p className="text-stone-300 mt-4 max-w-2xl mx-auto">
-              Not ready to book? Answer a few quick questions and see three prices right away — then
-              request your free in-home measure to lock it in. No obligation.
+              We bring the samples, measure your rooms and stairs, and hand you a detailed written
+              quote on the spot. No obligation.
             </p>
           </div>
           <div className="bg-white rounded-2xl shadow-sm p-5 sm:p-8">
-            <CarpetEstimator />
+            <LeadForm
+              product="Carpet"
+              source="Carpet Page"
+              heading="Book your free measure"
+              subheading="We bring the samples and your exact price to you. No obligation."
+              ctaLabel="Book My Free Measure →"
+            />
           </div>
         </div>
       </section>
