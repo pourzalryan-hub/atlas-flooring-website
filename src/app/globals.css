@@ -16,6 +16,28 @@
   }
 }
 
+/* iOS Safari auto-zooms the page when you focus a form field whose text is
+   under 16px. Keep controls at 16px on phones so tapping a field never zooms. */
+@media (max-width: 767px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* Stop the double-tap-to-zoom gesture on controls (pinch-zoom still works),
+   so pressing buttons and links never zooms the page. */
+button,
+a,
+label,
+input,
+select,
+textarea,
+[role="button"] {
+  touch-action: manipulation;
+}
+
 @layer components {
   .btn-gold {
     @apply inline-flex items-center gap-2 px-8 py-4 bg-gold text-white font-lato font-semibold rounded hover:bg-gold-dark transition-colors duration-200;
