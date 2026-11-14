@@ -590,7 +590,7 @@ export default function ManagePage() {
         </div>
       </header>
 
-      <div className="max-w-3xl mx-auto px-4 py-5">
+      <div className="max-w-3xl mx-auto px-4 pt-5 pb-28">
         {/* One-time import from the old Google Sheet */}
         {canImport && (
           <div className="bg-gold/10 border border-gold/40 rounded-xl p-4 mb-4">
@@ -605,13 +605,6 @@ export default function ManagePage() {
             </button>
           </div>
         )}
-
-        {/* View switch */}
-        <div className="flex gap-1.5 mb-4">
-          <button onClick={() => setView('today')} className={segCls(view === 'today')}>🏠 Today</button>
-          <button onClick={() => setView('leads')} className={segCls(view === 'leads')}>📋 Leads</button>
-          <button onClick={() => setView('schedule')} className={segCls(view === 'schedule')}>📅 Schedule</button>
-        </div>
 
         {view === 'today' ? (
           <TodayView
@@ -632,15 +625,9 @@ export default function ManagePage() {
         ) : view === 'schedule' ? (
           <ScheduleView leads={leads} onOpen={(l) => setSelected(l)} onBook={bookSlot} />
         ) : view === 'reports' ? (
-          <>
-            <button onClick={() => setView('today')} className="text-sm text-warm-grey mb-3 hover:text-charcoal">‹ Back to Today</button>
-            <ReportsView leads={leads} onOpen={(l) => setSelected(l)} onPay={(l) => setPaying(l)} />
-          </>
+          <ReportsView leads={leads} onOpen={(l) => setSelected(l)} onPay={(l) => setPaying(l)} />
         ) : view === 'reviews' ? (
-          <>
-            <button onClick={() => setView('today')} className="text-sm text-warm-grey mb-3 hover:text-charcoal">‹ Back to Today</button>
-            <ReviewsView leads={leads} onOpen={(l) => setSelected(l)} saveLead={saveLead} />
-          </>
+          <ReviewsView leads={leads} onOpen={(l) => setSelected(l)} saveLead={saveLead} />
         ) : (
         <>
         {/* Month filter */}
@@ -725,6 +712,28 @@ export default function ManagePage() {
           </button>
         </div>
       </div>
+
+      {/* Bottom navigation — every screen one tap */}
+      <nav className="fixed bottom-0 inset-x-0 z-40 bg-white border-t border-stone-200 shadow-[0_-2px_12px_rgba(0,0,0,0.05)]" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
+        <div className="max-w-3xl mx-auto flex">
+          {([
+            { key: 'today', icon: '🏠', label: 'Today' },
+            { key: 'leads', icon: '📋', label: 'Leads' },
+            { key: 'schedule', icon: '📅', label: 'Schedule' },
+            { key: 'reports', icon: '💵', label: 'Money' },
+            { key: 'reviews', icon: '⭐', label: 'Reviews' },
+          ] as const).map((n) => (
+            <button
+              key={n.key}
+              onClick={() => { setView(n.key); window.scrollTo({ top: 0 }) }}
+              className={`flex-1 flex flex-col items-center gap-0.5 py-2 text-[10.5px] font-semibold transition-colors ${view === n.key ? 'text-gold-dark' : 'text-warm-grey hover:text-charcoal'}`}
+            >
+              <span className="text-xl leading-none">{n.icon}</span>
+              {n.label}
+            </button>
+          ))}
+        </div>
+      </nav>
 
       {selected && <Detail lead={selected} onClose={() => setSelected(null)} onSaved={onSaved} />}
       {adding && <AddLead onClose={() => setAdding(false)} onAdded={load} />}
@@ -1035,9 +1044,24 @@ function TodayView({
     const d = new Date(date + 'T00:00:00')
     return isNaN(d.getTime()) ? date : d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
   })()
+  const tile = (onClick: () => void, icon: string, label: string, metric: string) => (
+    <button onClick={onClick} className="bg-white border border-stone-100 rounded-2xl p-4 text-left hover:border-gold transition-colors">
+      <div className="w-9 h-9 rounded-xl bg-gold/10 flex items-center justify-center text-lg mb-2">{icon}</div>
+      <p className="text-sm font-semibold text-charcoal">{label}</p>
+      <p className="text-[11px] text-warm-grey mt-0.5 truncate">{metric}</p>
+    </button>
+  )
   return (
     <div className="space-y-4">
-      <p className="text-sm text-warm-grey -mt-1">{niceDate}</p>
+      {/* Launcher — jump anywhere in one tap */}
+      <div className="grid grid-cols-2 gap-3">
+        {tile(() => goToFilter('All'), '📋', 'Leads', `${kpis.active} active`)}
+        {tile(goToSchedule, '📅', 'Schedule', 'This week')}
+        {tile(goToReports, '💵', 'Money', `${money2(kpis.outstanding)} owed`)}
+        {tile(goToReviews, '⭐', 'Reviews', reviewPending > 0 ? `${reviewPending} to ask` : 'All caught up')}
+      </div>
+
+      <p className="text-sm text-warm-grey">{niceDate}</p>
 
       {/* Today's schedule */}
       <section className="bg-white rounded-xl border border-gold/40 p-4">
@@ -1125,23 +1149,6 @@ function TodayView({
         </section>
       )}
 
-      {/* Reviews nudge */}
-      <button onClick={goToReviews} className={`w-full rounded-xl p-4 flex items-center justify-between text-left transition-colors ${reviewPending > 0 ? 'bg-gold/10 border border-gold/40 hover:border-gold' : 'bg-white border border-stone-100 hover:border-gold'}`}>
-        <div className="min-w-0">
-          <p className="text-sm font-semibold text-charcoal">⭐ Reviews</p>
-          <p className="text-[11px] text-warm-grey mt-0.5">{reviewPending > 0 ? `${reviewPending} to ask or follow up` : 'All caught up'}</p>
-        </div>
-        <span className={`shrink-0 text-sm font-semibold ${reviewPending > 0 ? 'text-gold' : 'text-warm-grey'}`}>{reviewPending > 0 ? `${reviewPending} →` : 'Open ›'}</span>
-      </button>
-
-      {/* Money glance */}
-      <button onClick={goToReports} className="w-full bg-charcoal rounded-xl p-4 flex items-center justify-between text-left">
-        <div>
-          <p className="text-gold font-playfair text-2xl leading-none">{money2(kpis.outstanding)}</p>
-          <p className="text-white/70 text-[11px] mt-1">Outstanding · {kpis.upcomingInstalls} upcoming install{kpis.upcomingInstalls === 1 ? '' : 's'}</p>
-        </div>
-        <span className="text-white/60 text-sm">Reports ›</span>
-      </button>
     </div>
   )
 }
