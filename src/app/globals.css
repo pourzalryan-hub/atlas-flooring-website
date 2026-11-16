@@ -26,6 +26,19 @@
   }
 }
 
+/* Lead Manager dropdowns: a white field with our own chevron, instead of the
+   grey native control (which reads as disabled on phones). */
+.crm-select {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236B6B6B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  background-size: 1.05rem;
+  padding-right: 2.25rem;
+}
+
 /* Stop the double-tap-to-zoom gesture on controls (pinch-zoom still works),
    so pressing buttons and links never zooms the page. */
 button,
