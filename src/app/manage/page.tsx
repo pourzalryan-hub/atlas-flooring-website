@@ -861,6 +861,7 @@ function ApptRow({ lead, badge, kind, onOpen }: { lead: Lead; badge: string; kin
 function ScheduleView({ leads, onOpen, onBook }: { leads: Lead[]; onOpen: (l: Lead) => void; onBook: (lead: Lead, dateISO: string, slot: string) => void }) {
   const [offset, setOffset] = useState(0)
   const [booking, setBooking] = useState<{ date: string; slot: string } | null>(null)
+  const [mode, setMode] = useState<'week' | 'month'>('week')
   const todayISO = toISO(new Date())
   const start = startOfWeek(new Date(), offset)
   const end = new Date(start)
@@ -888,6 +889,12 @@ function ScheduleView({ leads, onOpen, onBook }: { leads: Lead[]; onOpen: (l: Le
 
   return (
     <div>
+      <div className="flex gap-2 mb-4">
+        <button onClick={() => setMode('week')} className={segCls(mode === 'week')}>Week</button>
+        <button onClick={() => setMode('month')} className={segCls(mode === 'month')}>Month</button>
+      </div>
+
+      {mode === 'month' ? <MonthCalendar leads={leads} onOpen={onOpen} /> : (<>
       <div className="flex items-center justify-between mb-3">
         <button onClick={() => setOffset((o) => o - 1)} aria-label="Previous week"
           className="w-10 h-10 rounded-full bg-white border border-stone-200 text-charcoal flex items-center justify-center hover:border-gold"><Icon name="chevron-left" className="w-4 h-4" /></button>
@@ -1000,6 +1007,7 @@ function ScheduleView({ leads, onOpen, onBook }: { leads: Lead[]; onOpen: (l: Le
           </div>
         </div>
       </div>
+      </>)}
 
       {booking && (
         <SlotBooker
@@ -1010,6 +1018,141 @@ function ScheduleView({ leads, onOpen, onBook }: { leads: Lead[]; onOpen: (l: Le
           onClose={() => setBooking(null)}
         />
       )}
+    </div>
+  )
+}
+
+// Month at a glance: every measure, install and new lead on one calendar.
+// Tap a day to see its full list underneath.
+function MonthCalendar({ leads, onOpen }: { leads: Lead[]; onOpen: (l: Lead) => void }) {
+  const todayISO = toISO(new Date())
+  const [offset, setOffset] = useState(0)
+  const [picked, setPicked] = useState(todayISO)
+
+  const base = new Date()
+  const first = new Date(base.getFullYear(), base.getMonth() + offset, 1)
+  const monthPrefix = toISO(first).slice(0, 7)
+  const gridStart = startOfWeek(first, 0)
+  const lastDay = new Date(first.getFullYear(), first.getMonth() + 1, 0)
+  const weeks = Math.ceil(((lastDay.getTime() - gridStart.getTime()) / 864e5 + 1) / 7)
+  const days = Array.from({ length: weeks * 7 }, (_, i) => {
+    const d = new Date(gridStart)
+    d.setDate(gridStart.getDate() + i)
+    return d
+  })
+
+  const { byDay, newByDay } = useMemo(() => {
+    const byDay: Record<string, SchedEvent[]> = {}
+    const newByDay: Record<string, Lead[]> = {}
+    leads.forEach((l) => {
+      leadEvents(l).forEach((e) => { (byDay[e.date] = byDay[e.date] || []).push(e) })
+      const d = String(l.date || '').slice(0, 10)
+      if (/^\d{4}-\d{2}-\d{2}$/.test(d)) (newByDay[d] = newByDay[d] || []).push(l)
+    })
+    Object.values(byDay).forEach((list) => list.sort((a, b) => a.sort - b.sort))
+    return { byDay, newByDay }
+  }, [leads])
+
+  const inMonth = (iso: string) => iso.startsWith(monthPrefix)
+  const monthKeys = (m: Record<string, unknown[]>) => Object.keys(m).filter(inMonth)
+  const measures = monthKeys(byDay).reduce((s, k) => s + byDay[k].filter((e) => e.kind === 'measure').length, 0)
+  const installs = monthKeys(byDay).reduce((s, k) => s + byDay[k].filter((e) => e.kind === 'install').length, 0)
+  const newCount = monthKeys(newByDay).reduce((s, k) => s + newByDay[k].length, 0)
+
+  const pickedEvents = byDay[picked] || []
+  const pickedNew = newByDay[picked] || []
+  const pickedLabel = (() => {
+    const d = new Date(picked + 'T00:00:00')
+    return isNaN(d.getTime()) ? picked : d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
+  })()
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-3">
+        <button onClick={() => setOffset((o) => o - 1)} aria-label="Previous month"
+          className="w-10 h-10 rounded-full bg-white border border-stone-200 text-charcoal flex items-center justify-center hover:border-gold"><Icon name="chevron-left" className="w-4 h-4" /></button>
+        <div className="text-center">
+          <p className="font-playfair text-lg text-charcoal">{first.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
+          {offset !== 0 && <button onClick={() => { setOffset(0); setPicked(todayISO) }} className="text-[11px] text-warm-grey underline">Back to this month</button>}
+        </div>
+        <button onClick={() => setOffset((o) => o + 1)} aria-label="Next month"
+          className="w-10 h-10 rounded-full bg-white border border-stone-200 text-charcoal flex items-center justify-center hover:border-gold"><Icon name="chevron-right" className="w-4 h-4" /></button>
+      </div>
+
+      <div className="bg-white rounded-2xl border border-stone-200/70 overflow-hidden">
+        <div className="grid grid-cols-7 border-b border-stone-100">
+          {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => (
+            <span key={d} className="py-2 text-center text-[10px] font-bold uppercase tracking-[0.08em] text-warm-grey">{d}</span>
+          ))}
+        </div>
+        <div className="grid grid-cols-7">
+          {days.map((d, i) => {
+            const iso = toISO(d)
+            const evs = byDay[iso] || []
+            const fresh = (newByDay[iso] || []).length
+            const chips = [
+              ...evs.map((e) => ({
+                key: `${e.lead.row}-${e.kind}`,
+                cls: e.kind === 'install' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800',
+                text: firstName(e.lead.name),
+              })),
+              ...(fresh > 0 ? [{ key: 'new', cls: 'bg-blue-100 text-blue-800', text: `${fresh} new` }] : []),
+            ]
+            const shown = chips.slice(0, 2)
+            const isToday = iso === todayISO
+            const isPicked = iso === picked
+            return (
+              <button key={iso} onClick={() => setPicked(iso)}
+                className={`min-h-[4.6rem] sm:min-h-[6.5rem] p-1 text-left align-top flex flex-col gap-0.5 border-stone-100 transition-colors ${
+                  i % 7 !== 6 ? 'border-r' : ''} ${i < days.length - 7 ? 'border-b' : ''} ${
+                  isPicked ? 'bg-gold/10 ring-1 ring-inset ring-gold' : 'hover:bg-off-white'} ${inMonth(iso) ? '' : 'opacity-40'}`}>
+                <span className={`self-start text-[11px] font-semibold tabular-nums w-5 h-5 flex items-center justify-center rounded-full ${
+                  isToday ? 'bg-charcoal text-white' : 'text-charcoal'}`}>{d.getDate()}</span>
+                {shown.map((c) => (
+                  <span key={c.key} className={`block w-full truncate rounded px-1 py-px text-[9px] sm:text-[11px] font-semibold leading-tight ${c.cls}`}>{c.text}</span>
+                ))}
+                {chips.length > shown.length && <span className="text-[9px] text-warm-grey px-1">+{chips.length - shown.length} more</span>}
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2.5 text-[11px] text-warm-grey">
+        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-amber-400" /> {measures} measure{measures === 1 ? '' : 's'}</span>
+        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-emerald-600" /> {installs} install{installs === 1 ? '' : 's'}</span>
+        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm bg-blue-500" /> {newCount} new lead{newCount === 1 ? '' : 's'}</span>
+      </div>
+
+      {/* The picked day, in full */}
+      <div className="bg-white rounded-2xl border border-stone-200/70 p-4 mt-4">
+        <p className={`${sectionLabel} mb-3`}>{pickedLabel}{picked === todayISO ? ' · Today' : ''}</p>
+        {pickedEvents.length === 0 && pickedNew.length === 0 ? (
+          <p className="text-warm-grey text-sm">Nothing on this day.</p>
+        ) : (
+          <div className="space-y-2">
+            {pickedEvents.map((e) => (
+              <ApptRow key={`${e.lead.row}-${e.kind}`} lead={e.lead} badge={e.badge} kind={e.kind} onOpen={() => onOpen(e.lead)} />
+            ))}
+            {pickedNew.length > 0 && (
+              <div className={pickedEvents.length > 0 ? 'pt-2' : ''}>
+                <p className="text-[11px] font-bold uppercase tracking-[0.08em] text-blue-700 mb-1">New leads that day</p>
+                <div className="divide-y divide-stone-100">
+                  {pickedNew.map((l) => (
+                    <button key={l.row} onClick={() => onOpen(l)} className="w-full flex items-center justify-between gap-2 py-2 text-left">
+                      <span className="min-w-0">
+                        <span className="font-semibold text-sm text-charcoal">{l.name || '(no name)'}</span>
+                        <span className="block text-[11px] text-warm-grey truncate">{l.product || 'New inquiry'}</span>
+                      </span>
+                      <span className={`shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full ${STAGE_STYLE[normalize(l.status)]}`}>{normalize(l.status)}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
