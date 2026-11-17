@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: "Flooring Tips, Trends & Advice | Atlas Rug & Design Centre",
     description:
       "Expert flooring guides from Toronto's Atlas Rug & Design Centre — hardwood, carpet, vinyl, laminate, stair runners, and more.",
-    url: "https://atlasrugflooring.com/blog",
+    url: "https://www.atlasrugflooring.com/blog",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

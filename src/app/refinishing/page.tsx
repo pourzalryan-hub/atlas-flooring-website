@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: "Hardwood Floor Refinishing Toronto | Atlas Rug & Design Centre",
     description:
       "Professional hardwood floor refinishing and restoration in Toronto since 1959.",
-    url: "https://atlasrugflooring.com/refinishing",
+    url: "https://www.atlasrugflooring.com/refinishing",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

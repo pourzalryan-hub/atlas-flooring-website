@@ -40,7 +40,7 @@ const FOLLOWUP_SCRIPTS: { when: string; text: string }[] = [
   { when: '"Getting other quotes"', text: "Smart — you should compare. One tip: make sure each quote is itemized so you're comparing apples to apples. Ours spells out carpet, underpad, labour and removal separately. Happy to walk through ours." },
   { when: '"It\'s too expensive"', text: "I hear you. We can look at a different grade or do just the main rooms to hit your budget — or I can show you what each line buys. What number were you hoping to land near?" },
   { when: 'Went silent after measure', text: "Hi [Name], Ryan at Atlas. Don't want to pester you — if timing changed, no problem. If you're still deciding, I'm here. Want me to hold the quote as-is for now?" },
-  { when: 'After the job — get the review', text: "Hi [Name], hope you're loving the new floors! If you have 30 seconds, a quick Google review really helps our family business: https://atlasrugflooring.com/review. Thank you!" },
+  { when: 'After the job — get the review', text: "Hi [Name], hope you're loving the new floors! If you have 30 seconds, a quick Google review really helps our family business: https://www.atlasrugflooring.com/review. Thank you!" },
 ]
 
 const LOST_REASONS = [
@@ -238,7 +238,7 @@ const productBucket = (p: string): string => {
 const WON = ['Sold', 'Booked', 'Completed', 'Paid']
 
 // Review request (texts the branded /review link).
-const REVIEW_URL = 'https://atlasrugflooring.com/review'
+const REVIEW_URL = 'https://www.atlasrugflooring.com/review'
 const reviewMessage = (name: string) => {
   const first = (name || '').trim().split(/\s+/)[0]
   return `Hi${first ? ' ' + first : ''}, thanks again for choosing Atlas Rug & Design Centre! If you have 30 seconds, we'd really appreciate a quick review — it means a lot to our family business: ${REVIEW_URL}`

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: "Vinyl vs Laminate Flooring Toronto | Which Should You Choose?",
     description:
       "A contractor's comparison of luxury vinyl plank and laminate for Toronto homes — water resistance, cost, durability and where each belongs.",
-    url: "https://atlasrugflooring.com/compare/vinyl-vs-laminate",
+    url: "https://www.atlasrugflooring.com/compare/vinyl-vs-laminate",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

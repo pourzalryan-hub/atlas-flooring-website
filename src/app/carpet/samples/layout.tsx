@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Carpet Samples Toronto | In-Stock Broadloom",
     description:
       "Browse 63+ in-stock carpet samples — nylon, wool & polyester in every colour family. Visit our Toronto showroom at 978 Bathurst St.",
-    url: "https://atlasrugflooring.com/carpet/samples",
+    url: "https://www.atlasrugflooring.com/carpet/samples",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },
@@ -27,7 +27,7 @@ const itemListSchema = {
     "@type": "ListItem",
     position: i + 1,
     name: `Carpet Sample ${s.code} — ${s.family}`,
-    url: `https://atlasrugflooring.com/carpet/samples`,
+    url: `https://www.atlasrugflooring.com/carpet/samples`,
   })),
 };
 

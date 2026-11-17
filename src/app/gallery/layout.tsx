@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: "Project Gallery | Atlas Rug & Design Centre Toronto",
     description:
       "Real flooring installs from Toronto homes — hardwood, carpet, vinyl, laminate, stair runners, and refinishing by Atlas Rug & Design Centre.",
-    url: "https://atlasrugflooring.com/gallery",
+    url: "https://www.atlasrugflooring.com/gallery",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
     images: [

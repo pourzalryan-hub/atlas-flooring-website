@@ -4,7 +4,7 @@ import { projects } from "@/lib/projects";
 import { articles } from "@/lib/blog";
 import { carpetAreas } from "@/lib/carpet-areas";
 
-const BASE_URL = "https://atlasrugflooring.com";
+const BASE_URL = "https://www.atlasrugflooring.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     title: "Carpet Store Toronto | Carpet & Broadloom | Atlas Rug & Design Centre",
     description:
       "Toronto's carpet store since 1959. Hundreds of carpet and broadloom styles in stock at 978 Bathurst St. Family-owned.",
-    url: "https://atlasrugflooring.com/carpet",
+    url: "https://www.atlasrugflooring.com/carpet",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

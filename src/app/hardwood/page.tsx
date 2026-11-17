@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: "Hardwood Flooring Toronto | Atlas Rug & Design Centre",
     description:
       "Premium solid and engineered hardwood supply and installation in Toronto since 1959.",
-    url: "https://atlasrugflooring.com/hardwood",
+    url: "https://www.atlasrugflooring.com/hardwood",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

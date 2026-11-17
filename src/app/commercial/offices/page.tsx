@@ -18,7 +18,7 @@ export const metadata: Metadata = {
       "Office Flooring Toronto | Commercial Carpet & LVP | Atlas Rug & Design Centre",
     description:
       "Commercial carpet tile, broadloom and LVP for Toronto offices. Acoustic performance and phased installs that keep your team working.",
-    url: "https://atlasrugflooring.com/commercial/offices",
+    url: "https://www.atlasrugflooring.com/commercial/offices",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

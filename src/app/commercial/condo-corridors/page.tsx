@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     title: "Condo Corridor Flooring Toronto | Atlas Rug & Design Centre",
     description:
       "Acoustic-rated corridor and common area flooring for Toronto condos. Commercial carpet and LVP, board-approval support, minimal resident disruption.",
-    url: "https://atlasrugflooring.com/commercial/condo-corridors",
+    url: "https://www.atlasrugflooring.com/commercial/condo-corridors",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: "Engineered Hardwood Flooring Toronto | Atlas Rug & Design Centre",
     description:
       "Engineered hardwood flooring in Toronto — real wood over a dimensionally stable core, ideal for basements, condos, and radiant heat. Supplied and installed by Atlas Rug & Design Centre.",
-    url: "https://atlasrugflooring.com/engineered-hardwood",
+    url: "https://www.atlasrugflooring.com/engineered-hardwood",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

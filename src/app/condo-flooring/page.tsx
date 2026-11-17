@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     title: "Condo Flooring Toronto | Flooring for Condos & Apartments",
     description:
       "Sound-rated, board-approved condo flooring in Toronto. Luxury vinyl plank, engineered hardwood and carpet installed with proper acoustic underlay by Atlas Rug & Design Centre.",
-    url: "https://atlasrugflooring.com/condo-flooring",
+    url: "https://www.atlasrugflooring.com/condo-flooring",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

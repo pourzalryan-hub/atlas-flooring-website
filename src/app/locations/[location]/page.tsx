@@ -26,7 +26,7 @@ export function generateMetadata({
     openGraph: {
       title: loc.seoTitle,
       description: loc.metaDescription,
-      url: `https://atlasrugflooring.com/locations/${loc.slug}`,
+      url: `https://www.atlasrugflooring.com/locations/${loc.slug}`,
       siteName: "Atlas Rug & Design Centre",
       type: "website",
     },

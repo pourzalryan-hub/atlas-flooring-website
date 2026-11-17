@@ -135,7 +135,7 @@ export function generateMetadata({
     openGraph: {
       title: `${project.title} | Atlas Rug & Design Centre`,
       description,
-      url: `https://atlasrugflooring.com/projects/${project.slug}`,
+      url: `https://www.atlasrugflooring.com/projects/${project.slug}`,
       siteName: "Atlas Rug & Design Centre",
       type: "article",
     },

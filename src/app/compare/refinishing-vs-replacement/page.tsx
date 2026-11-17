@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: "Floor Refinishing vs Replacement Toronto | Cost & Value Guide",
     description:
       "When to refinish and when to replace your floors in Toronto — cost, condition checks, timelines and resale value from a flooring contractor.",
-    url: "https://atlasrugflooring.com/compare/refinishing-vs-replacement",
+    url: "https://www.atlasrugflooring.com/compare/refinishing-vs-replacement",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

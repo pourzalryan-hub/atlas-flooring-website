@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: "Carpet vs Hardwood Flooring Toronto | Which Is Right for You?",
     description:
       "An honest, contractor's comparison of carpet and hardwood flooring for Toronto homes — cost, lifespan, resale, comfort and the best rooms for each.",
-    url: "https://atlasrugflooring.com/compare/carpet-vs-hardwood",
+    url: "https://www.atlasrugflooring.com/compare/carpet-vs-hardwood",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

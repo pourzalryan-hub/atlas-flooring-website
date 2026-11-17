@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: "Stair Runners Toronto | Atlas Rug & Design Centre",
     description:
       "Custom stair runners designed and installed in Toronto for beauty and safety.",
-    url: "https://atlasrugflooring.com/stair-runners",
+    url: "https://www.atlasrugflooring.com/stair-runners",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

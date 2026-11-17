@@ -18,7 +18,7 @@ export const metadata: Metadata = {
       "Basement Flooring Toronto | Waterproof & Moisture-Resistant Options",
     description:
       "Waterproof and moisture-resistant basement flooring in Toronto — LVP, laminate and properly underpadded carpet, installed over a prepared slab. Atlas Rug & Design Centre since 1959.",
-    url: "https://atlasrugflooring.com/basement-flooring",
+    url: "https://www.atlasrugflooring.com/basement-flooring",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

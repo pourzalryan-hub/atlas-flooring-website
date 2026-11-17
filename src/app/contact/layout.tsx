@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: "Contact Us | Atlas Rug & Design Centre Toronto",
     description:
       "Book a free flooring consultation with Atlas Rug & Design Centre. Showroom at 978 Bathurst St, Toronto. Call (416) 533-3366 or fill out our form.",
-    url: "https://atlasrugflooring.com/contact",
+    url: "https://www.atlasrugflooring.com/contact",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

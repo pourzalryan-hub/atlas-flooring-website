@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: "Engineered vs Solid Hardwood Toronto | Which Is Better?",
     description:
       "A contractor's comparison of engineered and solid hardwood for Toronto homes, condos and basements — stability, refinishing, cost and where each belongs.",
-    url: "https://atlasrugflooring.com/compare/engineered-vs-solid-hardwood",
+    url: "https://www.atlasrugflooring.com/compare/engineered-vs-solid-hardwood",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

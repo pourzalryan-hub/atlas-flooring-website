@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     title: "Custom Area Rugs Toronto | Atlas Rug & Design Centre",
     description:
       "Custom-sized, custom-bound area rugs in Toronto. Wool, nylon and natural fibres from Atlas Rug & Design Centre.",
-    url: "https://atlasrugflooring.com/area-rugs",
+    url: "https://www.atlasrugflooring.com/area-rugs",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

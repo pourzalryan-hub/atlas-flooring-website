@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     title: "Medical & Healthcare Flooring Toronto | Atlas Rug & Design Centre",
     description:
       "Infection-control flooring for Toronto clinics, dental and medical suites. Commercial LVT and durable, easy-clean surfaces.",
-    url: "https://atlasrugflooring.com/commercial/medical-clinics",
+    url: "https://www.atlasrugflooring.com/commercial/medical-clinics",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

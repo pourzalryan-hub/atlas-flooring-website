@@ -25,7 +25,7 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://atlasrugflooring.com"),
+  metadataBase: new URL("https://www.atlasrugflooring.com"),
   title: {
     default: "Atlas Rug & Design Centre | Premium Flooring Toronto",
     template: "%s | Atlas Rug & Design Centre",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_CA",
-    url: "https://atlasrugflooring.com",
+    url: "https://www.atlasrugflooring.com",
     siteName: "Atlas Rug & Design Centre",
     title: "Atlas Rug & Design Centre | Premium Flooring Toronto",
     description:
@@ -79,8 +79,8 @@ const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": ["LocalBusiness", "FlooringContractor", "CarpetStore", "HomeGoodsStore"],
   name: "Atlas Rug & Design Centre",
-  image: "https://atlasrugflooring.com/images/hero.jpg",
-  url: "https://atlasrugflooring.com",
+  image: "https://www.atlasrugflooring.com/images/hero.jpg",
+  url: "https://www.atlasrugflooring.com",
   telephone: "+1-416-533-3366",
   priceRange: "$$",
   address: {
@@ -160,7 +160,7 @@ const webSiteSchema = {
   "@type": "WebSite",
   name: "Atlas Rug & Design Centre",
   alternateName: "Atlas Rugs",
-  url: "https://atlasrugflooring.com",
+  url: "https://www.atlasrugflooring.com",
 };
 
 export default function RootLayout({

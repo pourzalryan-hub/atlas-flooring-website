@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     title: "Property Management Flooring Toronto | Multi-Unit Specialists",
     description:
       "Volume pricing, fast suite turns and consistent sourcing for Toronto property managers and multi-unit buildings.",
-    url: "https://atlasrugflooring.com/commercial/property-management",
+    url: "https://www.atlasrugflooring.com/commercial/property-management",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

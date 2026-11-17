@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     title: "Retail Store Flooring Toronto | Atlas Rug & Design Centre",
     description:
       "Durable, on-brand retail flooring for Toronto stores. Hardwood for boutiques, LVP for high traffic, tile for entrances — installed fast.",
-    url: "https://atlasrugflooring.com/commercial/retail",
+    url: "https://www.atlasrugflooring.com/commercial/retail",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

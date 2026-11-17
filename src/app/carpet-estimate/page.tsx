@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title: "Book a Free Carpet Measure | Atlas Rug & Design Centre",
     description:
       "Free in-home carpet & stairs measure in Toronto. Samples brought to you, exact written quote, no obligation.",
-    url: "https://atlasrugflooring.com/carpet-estimate",
+    url: "https://www.atlasrugflooring.com/carpet-estimate",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

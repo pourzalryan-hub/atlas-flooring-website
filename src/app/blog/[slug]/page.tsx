@@ -22,7 +22,7 @@ export function generateMetadata({
     openGraph: {
       title: article.title,
       description: article.description,
-      url: `https://atlasrugflooring.com/blog/${article.slug}`,
+      url: `https://www.atlasrugflooring.com/blog/${article.slug}`,
       siteName: "Atlas Rug & Design Centre",
       type: "article",
       publishedTime: article.date,
@@ -57,24 +57,24 @@ export default function BlogArticlePage({
     "@type": "BlogPosting",
     headline: article.title,
     description: article.description,
-    image: `https://atlasrugflooring.com${article.image}`,
+    image: `https://www.atlasrugflooring.com${article.image}`,
     datePublished: article.date,
     author: {
       "@type": "Organization",
       name: "Atlas Rug & Design Centre",
-      url: "https://atlasrugflooring.com",
+      url: "https://www.atlasrugflooring.com",
     },
     publisher: {
       "@type": "Organization",
       name: "Atlas Rug & Design Centre",
       logo: {
         "@type": "ImageObject",
-        url: "https://atlasrugflooring.com/favicon.ico",
+        url: "https://www.atlasrugflooring.com/favicon.ico",
       },
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://atlasrugflooring.com/blog/${article.slug}`,
+      "@id": `https://www.atlasrugflooring.com/blog/${article.slug}`,
     },
   };
 

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     title: "Flooring Comparison Guides Toronto | Atlas Rug & Design Centre",
     description:
       "Side-by-side flooring comparison guides for Toronto homes, with real installed pricing and honest contractor advice.",
-    url: "https://atlasrugflooring.com/compare",
+    url: "https://www.atlasrugflooring.com/compare",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

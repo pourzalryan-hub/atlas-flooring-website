@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     title: "Commercial Flooring Toronto | Atlas Rug & Design Centre",
     description:
       "Durable commercial flooring for Toronto offices, retail, restaurants and condos. Commercial-grade LVP, LVT, carpet tile and hardwood from Atlas Rug & Design Centre.",
-    url: "https://atlasrugflooring.com/commercial",
+    url: "https://www.atlasrugflooring.com/commercial",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

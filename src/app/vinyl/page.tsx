@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     title: "Luxury Vinyl Flooring Toronto | LVP & LVT | Atlas Rug & Design Centre",
     description:
       "Luxury vinyl plank and tile in Toronto. 100% waterproof, pet-friendly, and realistic.",
-    url: "https://atlasrugflooring.com/vinyl",
+    url: "https://www.atlasrugflooring.com/vinyl",
     siteName: "Atlas Rug & Design Centre",
     type: "website",
   },

@@ -19,14 +19,14 @@ export default function PageHero({ title, subtitle, breadcrumb, breadcrumbHref, 
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://atlasrugflooring.com",
+        item: "https://www.atlasrugflooring.com",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: breadcrumb,
         item: breadcrumbHref
-          ? `https://atlasrugflooring.com${breadcrumbHref}`
+          ? `https://www.atlasrugflooring.com${breadcrumbHref}`
           : undefined,
       },
     ],
