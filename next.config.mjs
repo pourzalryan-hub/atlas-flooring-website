@@ -42,6 +42,11 @@ const nextConfig = {
         destination: "/refinishing",
         permanent: true,
       },
+      {
+        source: "/repairs",
+        destination: "/refinishing",
+        permanent: true,
+      },
       // Catch-all: any other leftover /post/* URL from the old site -> blog.
       {
         source: "/post/:slug*",
