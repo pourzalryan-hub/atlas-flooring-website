@@ -307,6 +307,44 @@ const isRealLead = (l: Lead) => {
   return validDate || /\d/.test(String(l.phone ?? '')) || /@/.test(String(l.email ?? ''))
 }
 
+// Ways to order the Leads list. The choice is remembered on this device.
+const SORT_OPTIONS = [
+  { key: 'newest', label: 'Newest first' },
+  { key: 'oldest', label: 'Oldest first' },
+  { key: 'value', label: 'Highest value' },
+  { key: 'name', label: 'Name A–Z' },
+  { key: 'appt', label: 'Next appointment' },
+  { key: 'stage', label: 'Stage' },
+  { key: 'owed', label: 'Most owed' },
+] as const
+type SortKey = (typeof SORT_OPTIONS)[number]['key']
+const sortLeads = (list: Lead[], sort: SortKey): Lead[] => {
+  const byDateDesc = (a: Lead, b: Lead) => String(b.date).localeCompare(String(a.date))
+  const out = [...list]
+  switch (sort) {
+    case 'oldest':
+      return out.sort((a, b) => String(a.date).localeCompare(String(b.date)))
+    case 'value':
+      return out.sort((a, b) => num(b.value) - num(a.value) || byDateDesc(a, b))
+    case 'name':
+      return out.sort((a, b) => String(a.name || '').localeCompare(String(b.name || ''), undefined, { sensitivity: 'base' }))
+    case 'appt': {
+      // Soonest upcoming measure or install first; no date goes to the bottom.
+      const today = toISO(new Date())
+      const next = (l: Lead) => leadEvents(l).map((e) => e.date).filter((d) => d >= today).sort()[0] || '9999'
+      return out.sort((a, b) => next(a).localeCompare(next(b)) || byDateDesc(a, b))
+    }
+    case 'stage':
+      return out.sort((a, b) => STAGES.indexOf(normalize(a.status)) - STAGES.indexOf(normalize(b.status)) || byDateDesc(a, b))
+    case 'owed': {
+      const owed = (l: Lead) => (['Sold', 'Booked', 'Completed'].includes(normalize(l.status)) ? Math.max(0, num(l.value) - num(l.deposit)) : 0)
+      return out.sort((a, b) => owed(b) - owed(a) || byDateDesc(a, b))
+    }
+    default:
+      return out.sort(byDateDesc)
+  }
+}
+
 const STAGE_STYLE: Record<Stage, string> = {
   New: 'bg-blue-100 text-blue-800',
   Appointment: 'bg-amber-100 text-amber-800',
@@ -382,6 +420,17 @@ export default function ManagePage() {
   const [error, setError] = useState('')
   const [filter, setFilter] = useState<string>('All') // 'All' | Stage | 'Needs follow-up' | `task:<key>`
   const [search, setSearch] = useState('')
+  const [sort, setSortState] = useState<SortKey>('newest')
+  useEffect(() => {
+    try {
+      const s = localStorage.getItem('atlas_sort') as SortKey | null
+      if (s && SORT_OPTIONS.some((o) => o.key === s)) setSortState(s)
+    } catch { /* ignore */ }
+  }, [])
+  const setSort = (s: SortKey) => {
+    setSortState(s)
+    try { localStorage.setItem('atlas_sort', s) } catch { /* ignore */ }
+  }
   const [selected, setSelected] = useState<Lead | null>(null)
   const [month, setMonth] = useState('')
   const [adding, setAdding] = useState(false)
@@ -517,16 +566,16 @@ export default function ManagePage() {
     const q = search.trim().toLowerCase()
     const bySearch = (l: Lead) =>
       !q || `${l.name} ${l.phone} ${l.email} ${l.product} ${l.address}`.toLowerCase().includes(q)
-    if (filter === 'Needs follow-up') return followUpLeads.filter(bySearch)
-    if (filter.startsWith('task:')) {
+    let list: Lead[]
+    if (filter === 'Needs follow-up') list = followUpLeads.filter(bySearch)
+    else if (filter.startsWith('task:')) {
       const key = filter.slice(5)
-      return leads.filter((l) => taskSet(l).has(key)).filter(bySearch).sort((a, b) => (a.date < b.date ? 1 : -1))
+      list = leads.filter((l) => taskSet(l).has(key)).filter(bySearch)
+    } else {
+      list = monthLeads.filter((l) => filter === 'All' || normalize(l.status) === filter).filter(bySearch)
     }
-    return monthLeads
-      .filter((l) => filter === 'All' || normalize(l.status) === filter)
-      .filter(bySearch)
-      .sort((a, b) => (a.date < b.date ? 1 : -1))
-  }, [monthLeads, leads, followUpLeads, filter, search])
+    return sortLeads(list, sort)
+  }, [monthLeads, leads, followUpLeads, filter, search, sort])
 
   const onSaved = (row: number, patch: Partial<Lead>) => {
     setLeads((ls) => ls.map((l) => (l.row === row ? { ...l, ...patch } : l)))
@@ -746,6 +795,20 @@ export default function ManagePage() {
           ))}
         </div>
 
+        {/* Count + sort */}
+        <div className="flex items-center justify-between gap-3 mb-3">
+          <p className="text-xs text-warm-grey">
+            <span className="font-semibold text-charcoal">{visible.length}</span> lead{visible.length === 1 ? '' : 's'}
+          </p>
+          <label className="flex items-center gap-2 text-xs text-warm-grey">
+            Sort
+            <select value={sort} onChange={(e) => setSort(e.target.value as SortKey)}
+              className={`${fieldCls} crm-select !min-h-0 !py-1.5 w-[11rem]`}>
+              {SORT_OPTIONS.map((o) => <option key={o.key} value={o.key}>{o.label}</option>)}
+            </select>
+          </label>
+        </div>
+
         {loading && <p className="text-warm-grey text-sm py-10 text-center">Loading…</p>}
         {error && <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg p-4 text-sm">{error}</div>}
         {!loading && !error && visible.length === 0 && (
@@ -760,6 +823,11 @@ export default function ManagePage() {
               lead={l}
               onOpen={() => setSelected(l)}
               reason={filter === 'Needs follow-up' ? followUpInfo(l).reason : ''}
+              stat={
+                sort === 'value' ? (num(l.value) > 0 ? dollars(num(l.value)) : undefined)
+                : sort === 'owed' && ['Sold', 'Booked', 'Completed'].includes(normalize(l.status)) && num(l.value) - num(l.deposit) >= 0.01
+                  ? `${money2(num(l.value) - num(l.deposit))} owed` : undefined
+              }
             />
           ))}
         </div>
@@ -1393,7 +1461,7 @@ function Stat({ label, value, highlight }: { label: string; value: string; highl
   )
 }
 
-function Row({ lead, onOpen, reason }: { lead: Lead; onOpen: () => void; reason?: string }) {
+function Row({ lead, onOpen, reason, stat }: { lead: Lead; onOpen: () => void; reason?: string; stat?: string }) {
   const stage = normalize(lead.status)
   const appt = parseAppt(String(lead.bookedDate || ''))
   const apptText = appt.date ? `${fmtApptDate(appt.date)}${appt.window ? ` · ${appt.window}` : ''}` : null
@@ -1418,6 +1486,7 @@ function Row({ lead, onOpen, reason }: { lead: Lead; onOpen: () => void; reason?
         <div className="flex items-center gap-2">
           <span className="font-semibold text-[15px] text-charcoal truncate">{lead.name || '(no name)'}</span>
           <span className={`shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full ${STAGE_STYLE[stage]}`}>{stage}</span>
+          {stat && <span className="ml-auto shrink-0 text-sm font-bold text-charcoal tabular-nums">{stat}</span>}
         </div>
         {reason && (
           <p className="flex items-center gap-1 text-red-600 text-xs mt-0.5">
