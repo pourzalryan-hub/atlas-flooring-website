@@ -595,6 +595,85 @@ export const articles: BlogArticle[] = [
 <p>Call <a href="tel:4165333366">(416) 533-3366</a> or <a href="/contact">book your free consultation online</a>.</p>
 `,
   },
+  {
+    slug: "stair-runner-vs-carpeted-stairs",
+    title: "Stair Runner vs Full Carpet on Stairs: Which Is Right for Your Home?",
+    description:
+      "Stair runner or wall-to-wall stair carpet? An honest Toronto guide to looks, safety, noise, cleaning, cost and resale — and how to decide for your staircase.",
+    category: "Stair Runners",
+    excerpt:
+      "A runner shows off your wood; full stair carpet covers every inch. Both are good choices — for different homes. Here's how to decide which suits your staircase and the people who use it.",
+    date: "2026-11-20",
+    image: "/images/project-carpet-forest-hill-stairs-hall.jpeg",
+    body: `
+<p>It's one of the questions we hear most often in our Bathurst Street showroom: "Should we put a runner on the stairs, or just carpet them wall to wall?" Both options cover the treads, soften footsteps and make stairs safer than bare wood. But they look very different, they suit different staircases, and they live differently day to day. At <a href="/about">Atlas Rug &amp; Design Centre</a> we've been carpeting Toronto staircases since 1959, and we install both every week — so here's an honest side-by-side to help you choose.</p>
+
+<h2>First, What's the Difference?</h2>
+<p>A <strong>stair runner</strong> is a strip of carpet that runs down the centre of the staircase, leaving a few inches of the tread exposed on each side. The wood (or painted tread) frames the carpet, and the runner becomes a design feature in its own right.</p>
+<p><strong>Full stair carpet</strong> — sometimes called wall-to-wall or "fully carpeted" stairs — covers each tread and riser completely, from wall to wall or wall to spindle. It's usually cut from the same broadloom as the upstairs hallway, so the stairs and landing read as one continuous floor.</p>
+
+<h2>Looks: Showpiece vs Seamless</h2>
+<p>This is where most people start, and it's usually the deciding factor.</p>
+<ul>
+<li><strong>A runner</strong> puts the staircase on display. You keep the character of the wood and add colour or pattern down the middle — a classic Persian-inspired design, a bold stripe, or a quiet herringbone weave. In older Toronto homes with original oak stairs — think the Victorians and Edwardians of <a href="/locations/the-annex">the Annex</a> or the centre-hall homes of Leaside — a runner is often the obvious choice because it celebrates what's already there.</li>
+<li><strong>Full carpet</strong> creates a calm, unbroken look. It's ideal when the stairs are plain construction-grade treads that were never meant to be seen, when the wood is badly worn, or when you want the stairs to blend quietly into a carpeted upper floor rather than draw attention.</li>
+</ul>
+<p>A simple test: if you'd be proud to show off your stair treads, a runner makes sense. If you'd rather nobody looked at them, carpet them fully.</p>
+
+<h2>Safety and Grip</h2>
+<p>Both options are a big safety step up from bare, polished wood, which can be slippery in socks. The difference is coverage.</p>
+<p>Full stair carpet gives you grip across the entire width of every tread, including the edges where small children tend to scramble and where an older family member might step when holding the railing. That's why we often recommend wall-to-wall carpet for households with toddlers, aging parents or anyone a little unsteady on their feet.</p>
+<p>A well-fitted runner still covers the main walking line — most people naturally walk down the middle — and is perfectly safe for most families. The key word is <em>well-fitted</em>: a runner that's loose, poorly stretched or held with the wrong hardware can shift, and that's when accidents happen. Proper tack strips, a firm underpad and professional stretching matter more than which option you pick.</p>
+
+<h2>Noise</h2>
+<p>If the staircase sits next to a bedroom or runs up the middle of an open-plan home, sound is worth considering. Full stair carpet over a good underpad is the quietest option, because every surface is cushioned. A runner absorbs most footfall noise too, but the exposed edges of the tread can still clack under hard-soled shoes or a dog's nails.</p>
+
+<h2>Pets</h2>
+<p>Dogs and stairs are a common combination in Toronto homes. Claws on bare wood edges can scratch and slip, so families with large or older dogs often lean toward full coverage for the grip. Either way, fibre choice matters more than coverage: we usually recommend a tightly constructed <strong>nylon</strong> for pet households because it stands up to claws and cleans up well, and we steer away from natural sisal or jute where accidents are likely. Our guide to <a href="/blog/best-flooring-pets">flooring for families with pets</a> goes deeper.</p>
+
+<h2>Cleaning and Upkeep</h2>
+<ul>
+<li><strong>Runners</strong> leave the side margins of each tread exposed, so you'll be dusting or wiping those edges as well as vacuuming the carpet. On the plus side, the wood margins are easy to clean, and the runner itself is a narrower area to spot-treat.</li>
+<li><strong>Full carpet</strong> is simply vacuumed edge to edge — no wood to wipe. Dust can collect in the corners where carpet meets the wall, so a crevice tool helps.</li>
+</ul>
+<p>Stairs are the highest-wear area in any home, so whichever you choose, pick a carpet built for traffic. Our article on <a href="/blog/best-stair-runner-materials">wool vs nylon vs polyester</a> explains how each fibre holds up on stairs.</p>
+
+<h2>Cost: What Changes the Price</h2>
+<p>We won't quote numbers in a blog post, because every staircase is different — but we can tell you what moves the price either way.</p>
+<ul>
+<li><strong>Material quantity.</strong> A runner uses less carpet than covering the full width, but runners are often woven or bound products, and patterned or wool runners can cost more per foot than plain broadloom.</li>
+<li><strong>Binding and finishing.</strong> Runners cut from broadloom need their edges bound or serged; full carpet is tucked against the wall instead.</li>
+<li><strong>Installation style.</strong> A waterfall install is generally faster than a Hollywood (wrapped) install, and decorative stair rods add a further cost.</li>
+<li><strong>The staircase itself.</strong> Landings, winders, pie-shaped steps and curved stairs all take more cutting and fitting time, for either option.</li>
+</ul>
+<p>For a fuller picture, read <a href="/blog/stair-runner-cost-toronto">how much stair runners cost in Toronto</a>. The only way to get an exact figure for your stairs is a free in-home measure, where we'll price both options side by side if you're undecided.</p>
+
+<h2>Resale and Long-Term Flexibility</h2>
+<p>Buyers in older Toronto neighbourhoods tend to love visible hardwood, and a runner keeps it on show. A runner can also be removed later without much trace: tack strips sit at the back of each tread rather than in the visible face, so small nail holes are easily filled. That makes a runner a flexible choice if you might refinish the stairs or change styles down the road.</p>
+<p>Full stair carpet is the more practical long-term choice when the wood underneath isn't worth showing, or when the stairs connect to a carpeted upper floor you plan to keep. Replacing it later is straightforward, and it hides wear on the treads completely.</p>
+
+<h2>Quick Guide: Which Should You Choose?</h2>
+<p><strong>Choose a stair runner if:</strong></p>
+<ul>
+<li>Your treads are good-quality hardwood you'd like to show off.</li>
+<li>You want the staircase to be a design feature, with pattern or colour.</li>
+<li>Your home has heritage character you want to keep.</li>
+<li>You'd like the option to go back to bare wood later.</li>
+</ul>
+<p><strong>Choose full stair carpet if:</strong></p>
+<ul>
+<li>You have young children, older family members or large dogs and want maximum grip.</li>
+<li>Quiet matters — the stairs run past bedrooms or through an open space.</li>
+<li>The treads are plain, damaged or were never meant to be seen.</li>
+<li>Your upstairs hallway is carpeted and you want one continuous look.</li>
+</ul>
+<p>And if you're stuck between the two? Many families start by looking at runner samples on their own stairs and decide from there. Seeing the pattern against your actual wood, in your own light, usually settles it.</p>
+
+<h2>Let Us Bring the Samples to You</h2>
+<p>We'd be glad to help you decide. Browse our <a href="/stair-runners">stair runner collection</a> and <a href="/carpet">carpet and broadloom</a> range, visit the showroom at 978 Bathurst Street, or <a href="/contact">book a free in-home measure</a>. We'll measure your staircase, bring runner and broadloom samples so you can compare both looks on your own stairs, and leave you with a clear written quote. We serve homeowners across <a href="/locations/toronto">Toronto</a> and the GTA.</p>
+<p>Call <a href="tel:4165333366">(416) 533-3366</a> or <a href="/contact">book your free consultation online</a>.</p>
+`,
+  },
 ];
 
 export function getArticle(slug: string): BlogArticle | undefined {
