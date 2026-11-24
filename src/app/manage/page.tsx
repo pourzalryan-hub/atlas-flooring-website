@@ -31,6 +31,7 @@ type Lead = {
   reviewLastAsked?: string  // ISO date of the most recent nudge
   reviewDone?: string       // ISO date we confirmed they left a review
   reviewStop?: string       // ISO date we stopped asking (declined / not interested)
+  deleted?: boolean         // soft-deleted (hidden everywhere; can be undone)
 }
 
 // Objection / follow-up scripts (from the old Command Center).
@@ -345,6 +346,31 @@ const sortLeads = (list: Lead[], sort: SortKey): Lead[] => {
   }
 }
 
+// Same person entered twice? Match on phone digits (last 10) or email.
+const phoneKey = (p: unknown) => String(p ?? '').replace(/\D/g, '').slice(-10)
+const findDuplicates = (leads: Lead[]): Record<number, Lead[]> => {
+  const groups: Record<string, Lead[]> = {}
+  leads.forEach((l) => {
+    const keys = new Set<string>()
+    const ph = phoneKey(l.phone)
+    if (ph.length >= 7) keys.add('p:' + ph)
+    const em = String(l.email ?? '').trim().toLowerCase()
+    if (/@/.test(em)) keys.add('e:' + em)
+    keys.forEach((k) => (groups[k] = groups[k] || []).push(l))
+  })
+  const out: Record<number, Lead[]> = {}
+  Object.values(groups).forEach((g) => {
+    if (g.length < 2) return
+    g.forEach((l) => {
+      const others = g.filter((o) => o.row !== l.row)
+      const cur = out[l.row] || []
+      others.forEach((o) => { if (!cur.some((c) => c.row === o.row)) cur.push(o) })
+      out[l.row] = cur
+    })
+  })
+  return out
+}
+
 const STAGE_STYLE: Record<Stage, string> = {
   New: 'bg-blue-100 text-blue-800',
   Appointment: 'bg-amber-100 text-amber-800',
@@ -453,7 +479,7 @@ export default function ManagePage() {
       const all: Lead[] = Array.isArray(json.leads) ? json.leads : []
       // Auto-categorize fully-collected won jobs as "Paid".
       const fixRows: number[] = []
-      const swept = all.filter(isRealLead).map((l) => {
+      const swept = all.filter((l) => isRealLead(l) && !l.deleted).map((l) => {
         const st = normalize(l.status)
         if ((st === 'Booked' || st === 'Completed') && num(l.value) > 0 && num(l.value) - num(l.deposit) < 0.01) {
           fixRows.push(l.row)
@@ -555,6 +581,14 @@ export default function ManagePage() {
     [leads]
   )
 
+  // Leads that share a phone or email with another lead.
+  const dupMap = useMemo(() => findDuplicates(leads), [leads])
+  const dupCount = Object.keys(dupMap).length
+  // Once the last duplicate is cleaned up, leave the (now empty) Duplicates view.
+  useEffect(() => {
+    if (filter === 'Duplicates' && dupCount === 0) setFilter('All')
+  }, [filter, dupCount])
+
   // Job to-do rollup (across all leads).
   const todoChips = useMemo(() => {
     const counts: Record<string, number> = {}
@@ -568,18 +602,48 @@ export default function ManagePage() {
       !q || `${l.name} ${l.phone} ${l.email} ${l.product} ${l.address}`.toLowerCase().includes(q)
     let list: Lead[]
     if (filter === 'Needs follow-up') list = followUpLeads.filter(bySearch)
-    else if (filter.startsWith('task:')) {
+    else if (filter === 'Duplicates') {
+      // Keep each duplicate group together: sort by phone/email key, then date.
+      const key = (l: Lead) => phoneKey(l.phone) || String(l.email ?? '').toLowerCase()
+      return leads.filter((l) => dupMap[l.row]).filter(bySearch)
+        .sort((a, b) => key(a).localeCompare(key(b)) || String(b.date).localeCompare(String(a.date)))
+    } else if (filter.startsWith('task:')) {
       const key = filter.slice(5)
       list = leads.filter((l) => taskSet(l).has(key)).filter(bySearch)
     } else {
       list = monthLeads.filter((l) => filter === 'All' || normalize(l.status) === filter).filter(bySearch)
     }
     return sortLeads(list, sort)
-  }, [monthLeads, leads, followUpLeads, filter, search, sort])
+  }, [monthLeads, leads, followUpLeads, filter, search, sort, dupMap])
 
   const onSaved = (row: number, patch: Partial<Lead>) => {
     setLeads((ls) => ls.map((l) => (l.row === row ? { ...l, ...patch } : l)))
     setSelected((s) => (s && s.row === row ? { ...s, ...patch } : s))
+  }
+
+  // Delete = hide the lead everywhere (soft delete), with a short Undo window.
+  const [undoLead, setUndoLead] = useState<Lead | null>(null)
+  const undoTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const persist = (row: number, patch: Partial<Lead>) =>
+    fetch('/manage/api/update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ row, ...patch }),
+    }).catch(() => {})
+  const deleteLead = (lead: Lead) => {
+    setSelected(null)
+    setLeads((ls) => ls.filter((l) => l.row !== lead.row))
+    persist(lead.row, { deleted: true })
+    setUndoLead(lead)
+    if (undoTimer.current) clearTimeout(undoTimer.current)
+    undoTimer.current = setTimeout(() => setUndoLead(null), 8000)
+  }
+  const undoDelete = () => {
+    if (!undoLead) return
+    const l = undoLead
+    setUndoLead(null)
+    setLeads((ls) => (ls.some((x) => x.row === l.row) ? ls : [...ls, { ...l, deleted: false }]))
+    persist(l.row, { deleted: false })
   }
 
   // Optimistically patch a lead and persist it (used by the review queue).
@@ -747,7 +811,7 @@ export default function ManagePage() {
               className={`${fieldCls} w-full pl-9`}
             />
           </div>
-          {filter !== 'Needs follow-up' && !filter.startsWith('task:') && (
+          {filter !== 'Needs follow-up' && filter !== 'Duplicates' && !filter.startsWith('task:') && (
             <select value={month} onChange={(e) => setMonth(e.target.value)} aria-label="Month"
               className={`${fieldCls} crm-select shrink-0 w-[9.5rem]`}>
               <option value="all">All months</option>
@@ -780,6 +844,17 @@ export default function ManagePage() {
             >
               <Icon name="alert" className="w-3.5 h-3.5" />
               Follow-ups <span className="text-xs opacity-80">{followUpLeads.length}</span>
+            </button>
+          )}
+          {dupCount > 0 && (
+            <button
+              onClick={() => setFilter('Duplicates')}
+              className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm border font-semibold transition-colors ${
+                filter === 'Duplicates' ? 'bg-amber-600 text-white border-amber-600' : 'bg-amber-50 text-amber-800 border-amber-200'
+              }`}
+            >
+              <Icon name="users" className="w-3.5 h-3.5" />
+              Duplicates <span className="text-xs opacity-80">{dupCount}</span>
             </button>
           )}
           {(['All', ...STAGES] as const).map((s) => (
@@ -875,7 +950,24 @@ export default function ManagePage() {
         </div>
       </nav>
 
-      {selected && <Detail lead={selected} onClose={() => setSelected(null)} onSaved={onSaved} />}
+      {selected && (
+        <Detail
+          key={selected.row}
+          lead={selected}
+          onClose={() => setSelected(null)}
+          onSaved={onSaved}
+          duplicates={dupMap[selected.row] || []}
+          onOpenLead={(l) => setSelected(l)}
+          onDelete={deleteLead}
+        />
+      )}
+      {undoLead && (
+        <div className="fixed left-1/2 -translate-x-1/2 z-[80] bottom-24 w-[calc(100%-2rem)] max-w-sm bg-charcoal text-white rounded-xl shadow-xl px-4 py-3 flex items-center justify-between gap-3"
+          style={{ marginBottom: 'env(safe-area-inset-bottom, 0px)' }}>
+          <span className="text-sm truncate">Deleted {undoLead.name || 'lead'}</span>
+          <button onClick={undoDelete} className="shrink-0 text-sm font-bold text-gold">Undo</button>
+        </div>
+      )}
       {adding && <AddLead onClose={() => setAdding(false)} onAdded={load} />}
       {paying && (
         <PaymentDialog
@@ -1520,7 +1612,15 @@ function Row({ lead, onOpen, reason, stat }: { lead: Lead; onOpen: () => void; r
   )
 }
 
-function Detail({ lead, onClose, onSaved }: { lead: Lead; onClose: () => void; onSaved: (row: number, patch: Partial<Lead>) => void }) {
+function Detail({ lead, onClose, onSaved, duplicates = [], onOpenLead, onDelete }: {
+  lead: Lead
+  onClose: () => void
+  onSaved: (row: number, patch: Partial<Lead>) => void
+  duplicates?: Lead[]
+  onOpenLead?: (l: Lead) => void
+  onDelete?: (l: Lead) => void
+}) {
+  const [confirmDelete, setConfirmDelete] = useState(false)
   const appt0 = parseAppt(String(lead.bookedDate ?? ''))
   const [status, setStatus] = useState<Stage>(normalize(lead.status))
   const [name, setName] = useState(lead.name ?? '')
@@ -1707,6 +1807,30 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
               <Icon name="mail" className="w-4 h-4" /> Email
             </a>
           </div>
+          {/* Possible duplicates — same phone or email as another lead */}
+          {duplicates.length > 0 && (
+            <div className="rounded-2xl border border-amber-300 bg-amber-50 p-4">
+              <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.08em] text-amber-800 mb-2">
+                <Icon name="users" className="w-4 h-4" />
+                Possible duplicate
+              </p>
+              <p className="text-xs text-amber-900 mb-2">Same phone or email as:</p>
+              <div className="space-y-1.5">
+                {duplicates.map((d) => (
+                  <button key={d.row} onClick={() => onOpenLead?.(d)}
+                    className="w-full flex items-center justify-between gap-2 rounded-xl bg-white border border-amber-200 px-3 py-2 text-left hover:border-amber-400">
+                    <span className="min-w-0">
+                      <span className="font-semibold text-sm text-charcoal">{d.name || '(no name)'}</span>
+                      <span className="block text-[11px] text-warm-grey truncate">{[d.date, d.product].filter(Boolean).join(' · ')}</span>
+                    </span>
+                    <span className={`shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full ${STAGE_STYLE[normalize(d.status)]}`}>{normalize(d.status)}</span>
+                  </button>
+                ))}
+              </div>
+              <p className="text-[11px] text-amber-900 mt-2">Keep the one with the most info and delete the extra copy (bottom of its panel).</p>
+            </div>
+          )}
+
           {/* Contact — editable */}
           <div className="bg-white rounded-2xl border border-stone-200/70 p-4 space-y-2.5">
             <p className="text-xs font-semibold uppercase tracking-wide text-warm-grey">Contact</p>
@@ -2021,6 +2145,26 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
             )}
           </div>
         </div>
+
+        {/* Delete */}
+        {onDelete && (
+          <div className="px-4 pb-6">
+            {confirmDelete ? (
+              <div ref={(el) => el?.scrollIntoView({ behavior: 'smooth', block: 'center' })} className="rounded-2xl border border-red-200 bg-red-50 p-4">
+                <p className="text-sm text-red-800 font-semibold">Delete {name || 'this lead'}?</p>
+                <p className="text-xs text-red-700 mt-0.5">It disappears from every screen and report. You&apos;ll get a few seconds to undo.</p>
+                <div className="flex gap-2 mt-3">
+                  <button onClick={() => onDelete(lead)} className="flex-1 bg-red-600 text-white text-sm font-semibold rounded-full py-2.5 hover:bg-red-700">Delete lead</button>
+                  <button onClick={() => setConfirmDelete(false)} className="flex-1 bg-white border border-stone-300 text-charcoal text-sm font-semibold rounded-full py-2.5">Cancel</button>
+                </div>
+              </div>
+            ) : (
+              <button onClick={() => setConfirmDelete(true)} className="w-full text-sm text-red-600 font-semibold py-2 hover:text-red-700">
+                Delete this lead
+              </button>
+            )}
+          </div>
+        )}
 
         {/* Sticky save */}
         <div className="sticky bottom-0 bg-white border-t border-stone-200 px-4 py-3 flex items-center justify-between gap-3">
