@@ -33,3 +33,9 @@ Never repeat a topic or target keyword listed here or already in `src/lib/blog.t
   - No `<Image>`/`<img>` missing alt text.
   - Fixed: `/privacy` was missing from the sitemap, so I added it at low priority.
   - Left as-is: `/review` is not in the sitemap. That's correct, because the page is `noindex`.
+
+### 2026-11-24
+- **Post:** How Long Does Carpet Installation Take? A Realistic Toronto Timeline
+- **Slug:** `how-long-does-carpet-installation-take`
+- **Target keyword:** how long does carpet installation take
+- **Technical fixes:** none. The monthly check already ran on 2026-11-20.

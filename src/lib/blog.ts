@@ -674,6 +674,80 @@ export const articles: BlogArticle[] = [
 <p>Call <a href="tel:4165333366">(416) 533-3366</a> or <a href="/contact">book your free consultation online</a>.</p>
 `,
   },
+  {
+    slug: "how-long-does-carpet-installation-take",
+    title: "How Long Does Carpet Installation Take? A Realistic Toronto Timeline",
+    description:
+      "From first measure to walking on new carpet: how long carpet installation takes in a Toronto home, room by room, plus how to prepare so install day goes smoothly.",
+    category: "Carpet",
+    excerpt:
+      "Most carpet installs take a single day — but there's a little more to the timeline than install day. Here's the realistic schedule from free measure to finished floor, and how to get ready.",
+    date: "2026-11-24",
+    image: "/images/project-carpet-beaches-bedroom.jpeg",
+    body: `
+<p>When you're planning new carpet, one of the first practical questions is: how long is this going to take? You want to know how many days the house will be disrupted, whether you need to take time off work, and when you can move the furniture back. The good news is that carpet is one of the fastest floors to install. At <a href="/about">Atlas Rug &amp; Design Centre</a> we've been installing <a href="/carpet">carpet and broadloom</a> in Toronto homes since 1959, so here's an honest look at the whole timeline — not just install day.</p>
+
+<h2>The Short Answer</h2>
+<p>For most homes, the installation itself is done in <strong>one day</strong>. A typical job of two to four rooms is usually finished in a single visit, and larger homes or jobs with complex seaming may take two days. Before that, there's a short wait to get on the schedule — usually <strong>one to two weeks</strong> from the time you approve your quote.</p>
+<p>So from "let's do it" to walking on new carpet, most Toronto homeowners are looking at a couple of weeks in total, with only one or two days of actual disruption at home.</p>
+
+<h2>The Full Timeline, Step by Step</h2>
+
+<h3>1. Choosing your carpet (a few days to a couple of weeks — your pace)</h3>
+<p>This part is up to you. Some people walk into our Bathurst Street showroom and know within twenty minutes; others like to take samples home and live with them for a week. Because we stock hundreds of carpet and broadloom styles in our own showroom, you're mostly choosing from carpet that's already on hand rather than waiting on a long special order. If you'd like a head start, <a href="/carpet/samples">browse our carpet samples online</a> to narrow the field first.</p>
+
+<h3>2. The free in-home measure (about an hour)</h3>
+<p>We come to your home, measure every room accurately, look at the subfloor, check doorways and transitions to other floors, and note anything that affects the job — stairs, closets, heating vents, tricky layouts. We can bring samples so you see colours in your own lighting. You'll get a clear, written, itemized quote.</p>
+
+<h3>3. Waiting for your install date (usually 1–2 weeks)</h3>
+<p>Once you approve the quote, we book your installation. One to two weeks is typical. During busier seasons — spring, and the run-up to the holidays when everyone wants new floors before guests arrive — it's worth booking early.</p>
+
+<h3>4. Install day (usually one day)</h3>
+<p>On the day, the crew removes the old carpet and underpad, prepares the floor, puts down the tack strip and new underpad, then lays, seams and power-stretches the carpet before trimming it neatly at the walls and transitions. Removing and disposing of the old carpet and underpad is included in our standard installation quotes, so you won't be left with a pile of old carpet in the driveway.</p>
+
+<h2>How Long Each Space Typically Takes</h2>
+<p>Every home is different, but here's a rough guide to how the time is spent:</p>
+<ul>
+<li><strong>A single bedroom</strong> — often just a few hours, including removing the old carpet.</li>
+<li><strong>Two to four rooms</strong> — the most common job, usually completed in one day.</li>
+<li><strong>A staircase</strong> — a standard straight staircase of 12 to 16 steps typically takes three to five hours on its own. Curved stairs, winders and landings take longer because every step is cut and fitted by hand. See our <a href="/stair-runners">stair runner and stair carpet</a> page for more.</li>
+<li><strong>A finished basement</strong> — usually a day, but the condition of the concrete matters. If there's any sign of moisture, we'll talk about the right underpad or alternative before we start. Our guide to <a href="/blog/best-flooring-basements">the best flooring for Toronto basements</a> explains why.</li>
+<li><strong>A whole floor or whole house</strong> — often two days, especially with a lot of seams, stairs, or rooms with unusual shapes.</li>
+</ul>
+
+<h2>What Can Make It Take Longer</h2>
+<p>Most installs run exactly as planned. When they don't, it's usually for one of these reasons, and we try to spot them all at the measure so there are no surprises:</p>
+<ul>
+<li><strong>Subfloor repairs.</strong> Squeaky or uneven plywood, water-damaged spots, or a rough concrete basement floor may need fixing or levelling before new carpet goes down.</li>
+<li><strong>What's underneath the old floor.</strong> Glued-down carpet, old tiles or layers from previous renovations take more time to remove than ordinary stretched-in carpet. If older tile might contain asbestos, it needs separate professional handling first.</li>
+<li><strong>Lots of furniture.</strong> Rooms need to be clear for the crew to work, so a house full of heavy furniture adds time. Please mention big items like pianos, aquariums or large wall units when we measure.</li>
+<li><strong>Complex layouts.</strong> Bay windows, angled walls, wide rooms that need seams, and older Toronto homes where nothing is quite square all take more careful fitting.</li>
+<li><strong>Access.</strong> Narrow staircases, tight parking downtown, or condo elevator booking windows can all affect timing. If you're in a condo, let us know your building's move-in rules early.</li>
+</ul>
+
+<h2>How to Get Ready for Install Day</h2>
+<p>A little preparation keeps the day short and smooth:</p>
+<ul>
+<li><strong>Clear the rooms.</strong> Take out small furniture, everything on the floor, and anything in closets that sits on the floor. Remove fragile items from shelves and walls nearby. Ask us at the measure about moving larger pieces.</li>
+<li><strong>Take down floor-length curtains</strong> or tie them up so they're out of the way.</li>
+<li><strong>Unplug electronics</strong> in the rooms being carpeted, and disconnect computers and TVs.</li>
+<li><strong>Plan for pets and kids.</strong> There will be tools, tack strip with sharp pins, and doors left open, so keep pets and little ones in another part of the house or out for the day.</li>
+<li><strong>Check your doors.</strong> New carpet and underpad may be thicker than what you had, so some interior doors may need trimming to swing freely. We'll point this out at the measure.</li>
+<li><strong>Clear a path and parking.</strong> Rolls of carpet are long and heavy; a clear route from the street to the rooms helps.</li>
+</ul>
+
+<h2>After the Install: When Can You Use the Room?</h2>
+<p>Straight away. Unlike floors that need finish or adhesive to cure, stretched-in carpet can be walked on as soon as the crew is done. You can move furniture back the same day — just lift rather than drag heavy pieces so you don't pull at the new seams.</p>
+<p>New carpet can have a slight "new" smell for a few days. Opening windows and running fans helps it clear faster. You may also see some loose fibres at first; that's normal for new cut-pile carpet and goes away after a few vacuums.</p>
+
+<h2>Thinking About Timing for a Deadline?</h2>
+<p>If you're working toward a date — a move-in, a home sale, a new baby, or guests for the holidays — tell us at the measure. Because we stock our own carpet rather than ordering everything in, we can often work with a tight timeline, and we'll give you a realistic schedule in your quote so you can plan around it. Curious about budget too? Our guide to <a href="/blog/carpet-installation-cost-toronto">what new carpet costs in Toronto</a> explains what drives the price.</p>
+
+<h2>Book Your Free In-Home Measure</h2>
+<p>The quickest way to get a real timeline for your home is a free measure. We'll look at your rooms, flag anything that could add time, bring samples to compare in your own light, and leave you with a written quote and a clear schedule. We install carpet across <a href="/locations/toronto">Toronto</a> and the GTA, from <a href="/locations/north-york">North York</a> to the east end.</p>
+<p>Call <a href="tel:4165333366">(416) 533-3366</a> or <a href="/contact">book your free in-home measure online</a>.</p>
+`,
+  },
 ];
 
 export function getArticle(slug: string): BlogArticle | undefined {
