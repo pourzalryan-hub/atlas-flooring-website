@@ -39,3 +39,10 @@ Never repeat a topic or target keyword listed here or already in `src/lib/blog.t
 - **Slug:** `how-long-does-carpet-installation-take`
 - **Target keyword:** how long does carpet installation take
 - **Technical fixes:** none. The monthly check already ran on 2026-11-20.
+
+### 2026-11-27
+- **Post:** What Size Area Rug for Your Living Room? A Simple Sizing Guide
+- **Slug:** `what-size-area-rug-living-room`
+- **Target keyword:** what size area rug for living room
+- **Category:** Area Rugs. A secondary topic to keep the mix at about 2 of every 3 posts on carpet or stair runners.
+- **Technical fixes:** none (not the first run of the month).

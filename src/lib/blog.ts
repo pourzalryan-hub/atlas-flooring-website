@@ -748,6 +748,80 @@ export const articles: BlogArticle[] = [
 <p>Call <a href="tel:4165333366">(416) 533-3366</a> or <a href="/contact">book your free in-home measure online</a>.</p>
 `,
   },
+  {
+    slug: "what-size-area-rug-living-room",
+    title: "What Size Area Rug for Your Living Room? A Simple Sizing Guide",
+    description:
+      "How to choose the right area rug size for your living room, with easy furniture-placement rules, common sizes, and when a custom-sized rug is the better answer.",
+    category: "Area Rugs",
+    excerpt:
+      "A rug that's too small is the most common decorating mistake we see. Here's how to size a living room rug properly — plus the dining room and bedroom rules while we're at it.",
+    date: "2026-11-27",
+    image: "/images/area-rugs-hero.jpg",
+    body: `
+<p>The single most common rug mistake we see in Toronto living rooms isn't the wrong colour or pattern — it's the wrong size. A rug that's too small floats in the middle of the room like a bath mat, makes the furniture look disconnected, and somehow makes the whole space feel smaller. Get the size right and the room suddenly looks finished. At <a href="/about">Atlas Rug &amp; Design Centre</a> we've been helping people choose and make <a href="/area-rugs">area rugs</a> since 1959, so here's the simple, practical way to size one.</p>
+
+<h2>The Golden Rule: Let the Furniture Decide</h2>
+<p>Forget the rug for a moment and look at how your furniture is arranged. A living room rug's job is to tie the seating area together, so its size should be set by the furniture grouping, not by the room's total floor area. There are three common approaches:</p>
+
+<h3>1. All legs on the rug (the most generous look)</h3>
+<p>Every piece of seating — sofa, chairs, side tables — sits fully on the rug, usually with 15–30 cm (6–12 inches) of rug showing behind the furniture. This creates a defined, luxurious "room within a room" and works best in larger living rooms or open-concept spaces where the rug needs to anchor the seating area.</p>
+
+<h3>2. Front legs on the rug (the most popular choice)</h3>
+<p>The front legs of the sofa and chairs sit on the rug and the back legs sit on the floor. This is the rule we recommend most often: it connects all the furniture visually, works in most Toronto living rooms, and doesn't need an enormous rug. For larger rooms that usually means an <strong>8×10</strong> or <strong>9×12</strong>.</p>
+
+<h3>3. No legs on the rug (only for small spaces)</h3>
+<p>The rug sits just in front of the sofa, under the coffee table, with no furniture on it. It can work in a very small room or a condo where floor space is tight, but the rug should still be wider than the coffee table by a good margin and close to the width of the sofa. If it's narrower than the sofa, it will almost always look too small.</p>
+
+<h2>Quick Measuring Method</h2>
+<p>You don't need special tools — just painter's tape and a tape measure:</p>
+<ol>
+<li><strong>Arrange the furniture</strong> the way you actually want it.</li>
+<li><strong>Tape out the rug</strong> on the floor at the size you're considering, using the rule you've chosen (all legs, front legs or none).</li>
+<li><strong>Leave a border of bare floor</strong> between the rug and the walls. In most living rooms, about 30–45 cm (12–18 inches) looks right; in a smaller room, a little less is fine.</li>
+<li><strong>Live with it for a day.</strong> Walk around it. Does it feel generous? Does it fit the walkways? Adjust the tape until it looks right, then measure.</li>
+</ol>
+<p>That taped outline is your ideal rug size. Very often it won't match a standard size exactly — which brings us to the next point.</p>
+
+<h2>Common Rug Sizes (and Where They Fit)</h2>
+<ul>
+<li><strong>5×8</strong> — small living rooms, condos, or under a coffee table in a "no legs" layout. Often too small for a full sofa grouping.</li>
+<li><strong>6×9</strong> — a compact living room with a loveseat and a chair or two.</li>
+<li><strong>8×10</strong> — the go-to size for most average living rooms using the front-legs rule.</li>
+<li><strong>9×12</strong> — larger living rooms, sectionals, or open-concept spaces.</li>
+<li><strong>10×14 and up</strong> — big rooms where you want all the furniture on the rug.</li>
+</ul>
+<p>When in doubt, go bigger. A rug that's a little too large almost always looks better than one that's a little too small.</p>
+
+<h2>When a Custom-Sized Rug Makes More Sense</h2>
+<p>Standard sizes are a compromise, and Toronto homes are not standard. Older homes in neighbourhoods like <a href="/locations/the-annex">the Annex</a> or Riverdale often have narrow living rooms, fireplaces, bay windows and radiators that eat into floor space, while condo living rooms come in every shape imaginable. Squeezing a 9×12 into a room that really needs a 7×11 means either too much rug or too little.</p>
+<p>A <strong>custom area rug</strong> solves that. We cut a rug from broadloom carpet to the exact dimensions your room needs, then finish the edges with binding — serged edges, cotton or synthetic tape, or a decorative border — so it looks tailored and won't fray. Because it's made from broadloom, you have the full range of carpet colours, textures and fibres to choose from, including materials that match or complement wall-to-wall <a href="/carpet">carpet</a> elsewhere in your home.</p>
+
+<h2>Choosing the Right Material for a Living Room Rug</h2>
+<p>Living rooms see a lot of life, so the fibre matters:</p>
+<ul>
+<li><strong>Wool</strong> — naturally resilient, soft, and stain resistant. It holds colour beautifully, resists crushing under furniture, and ages gracefully. The premium choice for a living room.</li>
+<li><strong>Solution-dyed nylon</strong> — excellent durability and stain resistance at a friendlier price. Ideal if you have kids or pets.</li>
+<li><strong>Natural fibres</strong> (sisal, jute, seagrass) — lovely texture and an organic look, but rougher underfoot and harder to clean, so better in lower-traffic spots.</li>
+</ul>
+<p>For a deeper comparison of fibres, see our guide to <a href="/blog/types-of-carpet-toronto">carpet types, piles and fibres</a> — the same principles apply to rugs.</p>
+
+<h2>Other Rooms: Quick Sizing Rules</h2>
+<ul>
+<li><strong>Dining room</strong> — the rug should extend about 60 cm (24 inches) beyond the table on all sides, so chairs stay on the rug when they're pulled out.</li>
+<li><strong>Bedroom</strong> — the rug should extend 45–75 cm (18–30 inches) past the sides and foot of the bed, so you step onto something soft when you get up.</li>
+<li><strong>Hallway runner</strong> — leave 10–15 cm (4–6 inches) of floor visible on each side, with a custom length to suit the hall.</li>
+<li><strong>Entryway</strong> — size it to the space and choose a durable, low-pile material that handles foot traffic and wet boots through a Toronto winter.</li>
+</ul>
+
+<h2>Don't Forget the Rug Pad</h2>
+<p>A good rug pad keeps the rug from sliding, protects hardwood or vinyl floors underneath, adds comfort, and helps the rug last longer. Size it slightly smaller than the rug so it stays hidden under the edges.</p>
+
+<h2>Let Us Help You Get the Size Right</h2>
+<p>If you'd rather not play with painter's tape, we're happy to help. Visit our Bathurst Street showroom to see materials and bindings in person, or <a href="/contact">book a free consultation</a>. We'll talk about your room and furniture layout, bring samples so you can see colours in your own light, and measure precisely for a rug that fits your space — not the other way around. We serve homeowners across <a href="/locations/toronto">Toronto</a> and the GTA.</p>
+<p>Call <a href="tel:4165333366">(416) 533-3366</a> or <a href="/contact">book your free consultation online</a>.</p>
+`,
+  },
 ];
 
 export function getArticle(slug: string): BlogArticle | undefined {
