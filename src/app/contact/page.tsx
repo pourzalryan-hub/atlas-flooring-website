@@ -120,6 +120,16 @@ export default function ContactPage() {
           product: form.product,
           message: form.message,
           contact_time: form.contact_time,
+          // Where the visitor came from (ad / search / referral), captured by
+          // AttributionTracker — so these leads don't all show as "Website".
+          source: (() => {
+            try {
+              const m = document.cookie.match(/(?:^|; )atlas_src=([^;]*)/)
+              return m ? decodeURIComponent(m[1]) : 'Website – Contact page'
+            } catch {
+              return 'Website – Contact page'
+            }
+          })(),
         }),
       })
 
