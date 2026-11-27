@@ -1627,6 +1627,7 @@ function Detail({ lead, onClose, onSaved, duplicates = [], onOpenLead, onDelete 
   const [phone, setPhone] = useState(String(lead.phone ?? ''))
   const [email, setEmail] = useState(lead.email ?? '')
   const [product, setProduct] = useState(lead.product ?? '')
+  const [source, setSource] = useState(lead.source ?? '')
   const hasPhone = /\d/.test(phone)
   const [followUp, setFollowUp] = useState(lead.followUp ?? '')
   const [address, setAddress] = useState(lead.address ?? '')
@@ -1720,11 +1721,11 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
       const res = await fetch('/manage/api/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ row: lead.row, name, phone, email, product, status, followUp, address, lostReason, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(','), quote }),
+        body: JSON.stringify({ row: lead.row, name, phone, email, product, source, status, followUp, address, lostReason, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(','), quote }),
       })
       const json = await res.json()
       if (!json?.ok) throw new Error(json?.error || 'Save failed')
-      onSaved(lead.row, { name, phone, email, product, status, followUp, address, lostReason, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(','), quote })
+      onSaved(lead.row, { name, phone, email, product, source, status, followUp, address, lostReason, bookedDate, installDate, value, material, install, deposit, payment, notes, tasks: tasks.join(','), quote })
       setSaved(true)
       setTimeout(() => setSaved(false), 2500)
       return true
@@ -1743,6 +1744,7 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
     phone !== String(lead.phone ?? '') ||
     email !== (lead.email ?? '') ||
     product !== (lead.product ?? '') ||
+    source !== (lead.source ?? '') ||
     followUp !== (lead.followUp ?? '') ||
     address !== (lead.address ?? '') ||
     lostReason !== (lead.lostReason ?? '') ||
@@ -1773,7 +1775,7 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
     const t = setTimeout(() => { void save() }, 900)
     return () => clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dirty, name, phone, email, product, status, followUp, address, lostReason, apptDate, apptWindow, installDate, value, material, install, deposit, payment, notes, tasks, quote])
+  }, [dirty, name, phone, email, product, source, status, followUp, address, lostReason, apptDate, apptWindow, installDate, value, material, install, deposit, payment, notes, tasks, quote])
 
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
@@ -1857,14 +1859,13 @@ ${lead.product ? `<div class="muted">${escHtml(String(lead.product))}</div>` : '
                 <span className="text-warm-grey"> — tap for directions</span>
               </p>
             )}
-            {lead.source && (
-              <p>
-                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-charcoal bg-stone-100 rounded-full px-2.5 py-1">
-                  <Icon name="link" className="w-3 h-3 text-warm-grey" />
-                  {lead.source}
-                </span>
-              </p>
-            )}
+            <label className="block text-xs text-warm-grey">How did they find us?
+              <select value={source} onChange={(e) => setSource(e.target.value)} className={`${fieldCls} crm-select w-full mt-1`}>
+                <option value="">Not recorded</option>
+                {SOURCE_OPTIONS.map((o) => <option key={o} value={o}>{o}</option>)}
+                {source && !SOURCE_OPTIONS.includes(source) && <option value={source}>{source}</option>}
+              </select>
+            </label>
           </div>
 
           {/* Pipeline */}
@@ -2601,6 +2602,8 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
         {adSyncOn && <p className="text-[11px] text-stone-400 mt-2">Return = revenue ÷ ad spend. Pulled from Google Ads daily.</p>}
       </div>
 
+      <GroupTable title="Where leads come from" col="Source" rows={bySource} />
+
       {/* Collected */}
       <div className="bg-white rounded-2xl border border-stone-200/70 p-4">
         <div className="flex items-center justify-between mb-2">
@@ -2652,7 +2655,6 @@ function ReportsView({ leads, onOpen, onPay }: { leads: Lead[]; onOpen: (l: Lead
         {owed.rows.length > 0 && <p className="text-[11px] text-stone-400 mt-2">Tap a name to open the lead, or <span className="text-gold font-semibold">Record</span> to log a payment.</p>}
       </div>
 
-      <GroupTable title="By source" col="Source" rows={bySource} />
       <GroupTable title="By product" col="Product" rows={byProduct} />
 
       {/* Monthly trends — tap a month to log ad spend, overhead & reviews */}
@@ -2895,6 +2897,21 @@ function ReviewsView({ leads, onOpen, saveLead }: { leads: Lead[]; onOpen: (l: L
   )
 }
 
+// "How did they find us?" — for leads added by hand (mostly phone calls), so
+// they count under the right source in Money → Where leads come from.
+const SOURCE_OPTIONS = [
+  'Google Ads – Carpet (call)',
+  'Google (not sure if ad)',
+  'Google Maps / Business Profile',
+  'Referral – past customer',
+  'Repeat customer',
+  'Walk-in / drove by',
+  'HomeStars',
+  'Facebook / Instagram',
+  'Realtor / designer / contractor',
+  'Other',
+]
+
 const PRODUCT_OPTIONS = [
   'Carpet & Broadloom', 'Stair Runners', 'Hardwood', 'Engineered Hardwood',
   'Laminate', 'Luxury Vinyl', 'Area Rugs', 'Refinishing', 'Commercial',
@@ -2907,6 +2924,9 @@ function AddLead({ onClose, onAdded }: { onClose: () => void; onAdded: () => voi
   const [address, setAddress] = useState('')
   const [product, setProduct] = useState('')
   const [notes, setNotes] = useState('')
+  const [source, setSource] = useState('')
+  const [apptDate, setApptDate] = useState('')
+  const [apptWindow, setApptWindow] = useState('')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
@@ -2923,7 +2943,7 @@ function AddLead({ onClose, onAdded }: { onClose: () => void; onAdded: () => voi
       const res = await fetch('/manage/api/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone, email, address, product, message: notes }),
+        body: JSON.stringify({ name, phone, email, address, product, message: notes, source, bookedDate: apptDate ? joinAppt(apptDate, apptWindow) : '' }),
       })
       const json = await res.json()
       if (!json?.ok) throw new Error(json?.error || 'Could not add')
@@ -2969,8 +2989,34 @@ function AddLead({ onClose, onAdded }: { onClose: () => void; onAdded: () => voi
           <label className="block text-xs text-warm-grey">Notes
             <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} placeholder="What do they need?" className={`${fieldCls} w-full mt-1`} />
           </label>
+          <div>
+            <p className="text-xs text-warm-grey mb-1.5">How did they find us?</p>
+            <div className="flex flex-wrap gap-1.5">
+              {SOURCE_OPTIONS.map((o) => (
+                <button key={o} type="button" onClick={() => setSource(source === o ? '' : o)}
+                  className={`px-3 py-1.5 rounded-full text-[13px] border transition-colors ${
+                    source === o ? 'bg-charcoal text-white border-charcoal' : 'bg-white text-charcoal border-stone-200 hover:border-gold'
+                  }`}>
+                  {o}
+                </button>
+              ))}
+            </div>
+            <p className="text-[11px] text-stone-400 mt-1">Ask on the phone — it&apos;s how you&apos;ll know if your ads pay off.</p>
+          </div>
+          <div>
+            <p className="text-xs text-warm-grey mb-1">Book their measure <span className="text-stone-400">(optional)</span></p>
+            <div className="grid grid-cols-2 gap-3">
+              <input type="date" value={apptDate} onChange={(e) => setApptDate(e.target.value)} aria-label="Appointment date" className={`${fieldCls} w-full`} />
+              <select value={apptWindow} onChange={(e) => setApptWindow(e.target.value)} aria-label="Time window" className={`${fieldCls} crm-select w-full`}>
+                <option value="">Time window…</option>
+                {APPT_WINDOWS.map((w) => <option key={w} value={w}>{w}</option>)}
+              </select>
+            </div>
+          </div>
           {error && <p className="text-red-600 text-sm">{error}</p>}
-          <p className="text-[11px] text-warm-grey">Starts as a <strong>New</strong> lead. Open it to book an appointment.</p>
+          <p className="text-[11px] text-warm-grey">
+            {apptDate ? <>Saves as an <strong>Appointment</strong> on {fmtApptDate(apptDate)}{apptWindow ? ` · ${apptWindow}` : ''}.</> : <>Starts as a <strong>New</strong> lead.</>}
+          </p>
         </div>
 
         <div className="sticky bottom-0 bg-white border-t border-stone-200 px-4 py-3 flex items-center justify-end gap-3">

@@ -9,7 +9,7 @@ const FIELDS = [
   "status", "notes", "value", "bookedDate", "installDate", "address", "lostReason",
   "material", "install", "deposit", "payment", "followUp", "tasks", "quote",
   "reviewAsked", "reviewLastAsked", "reviewDone", "reviewStop",
-  "name", "phone", "email", "product", "deleted",
+  "name", "phone", "email", "product", "deleted", "source",
 ] as const;
 
 export async function POST(req: Request) {

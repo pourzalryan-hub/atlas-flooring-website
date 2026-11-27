@@ -4,11 +4,10 @@ import { dbConfigured, insertLead } from "@/lib/db";
 // Manually add a lead to the database from the Lead Manager. Behind Basic Auth.
 export const dynamic = "force-dynamic";
 
-const todayISO = () => {
-  const d = new Date();
-  const p = (n: number) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
-};
+// Today's date in Toronto (the server runs on UTC, which would file evening
+// leads under tomorrow).
+const todayISO = () =>
+  new Intl.DateTimeFormat("en-CA", { timeZone: "America/Toronto", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
 
 export async function POST(req: Request) {
   let body: Record<string, unknown> = {};
@@ -30,6 +29,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "Database not configured" }, { status: 500 });
   }
 
+  // Where they found us (picked in the form), and an optional measure booking.
+  const source = String(body.source ?? "").trim().slice(0, 80) || "Not recorded";
+  const bookedDate = String(body.bookedDate ?? "").trim().slice(0, 40);
+  const hasAppt = /^\d{4}-\d{2}-\d{2}/.test(bookedDate);
+
   try {
     const id = await insertLead({
       name,
@@ -38,9 +42,10 @@ export async function POST(req: Request) {
       address: String(body.address ?? "").trim(),
       product: String(body.product ?? "").trim(),
       notes: String(body.message ?? "").trim(),
-      status: "New",
+      status: hasAppt ? "Appointment" : "New",
+      bookedDate: hasAppt ? bookedDate : "",
       date: todayISO(),
-      source: "Manual (Lead Manager)",
+      source,
     });
     return NextResponse.json({ ok: true, row: id });
   } catch (err) {
